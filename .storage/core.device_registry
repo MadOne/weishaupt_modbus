@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "minor_version": 5,
+  "key": "core.device_registry",
+  "data": {
+    "devices": [
+      {"area_id":null,"config_entries":["01J0GHJMKCN6YSPTARP6WE2T1Q"],"configuration_url":"https://www.met.no/en","connections":[],"disabled_by":null,"entry_type":"service","hw_version":null,"id":"7b28d7ba4855e653d9fba8b54b24e09e","identifiers":[["met","01J0GHJMKCN6YSPTARP6WE2T1Q"]],"labels":[],"manufacturer":"Met.no","model":"Forecast","name_by_user":null,"name":"Forecast","serial_number":null,"sw_version":null,"via_device_id":null},
+      {"area_id":null,"config_entries":["01J0GHJXFFRW9FF99T52KYZGK6"],"configuration_url":null,"connections":[],"disabled_by":null,"entry_type":"service","hw_version":null,"id":"b6f17d694e1ef6795682e8663a9e5db3","identifiers":[["sun","01J0GHJXFFRW9FF99T52KYZGK6"]],"labels":[],"manufacturer":null,"model":null,"name_by_user":null,"name":"Sun","serial_number":null,"sw_version":null,"via_device_id":null},
+      {"area_id":null,"config_entries":["01J1F82EX84XEZ07YK1426A06Z"],"configuration_url":null,"connections":[],"disabled_by":null,"entry_type":null,"hw_version":null,"id":"897fd5e5d5f5cb4ae7556830801919ea","identifiers":[["weishaupt_modbus","Warmwasser"]],"labels":[],"manufacturer":"Weishaupt","model":null,"name_by_user":null,"name":"Wärmepumpe-Warmwasser","serial_number":null,"sw_version":null,"via_device_id":null},
+      {"area_id":null,"config_entries":["01J1F82EX84XEZ07YK1426A06Z"],"configuration_url":null,"connections":[],"disabled_by":null,"entry_type":null,"hw_version":null,"id":"9a99703dbfeea86cd241188076dcd1b5","identifiers":[["weishaupt_modbus","System"]],"labels":[],"manufacturer":"Weishaupt","model":null,"name_by_user":null,"name":"Wärmepumpe-System","serial_number":null,"sw_version":null,"via_device_id":null},
+      {"area_id":null,"config_entries":["01J1F82EX84XEZ07YK1426A06Z"],"configuration_url":null,"connections":[],"disabled_by":null,"entry_type":null,"hw_version":null,"id":"af93bf5dfd51585774baef40928aee4e","identifiers":[["weishaupt_modbus","Heizkreis"]],"labels":[],"manufacturer":"Weishaupt","model":null,"name_by_user":null,"name":"Wärmepumpe-Heizkreis","serial_number":null,"sw_version":null,"via_device_id":null},
+      {"area_id":null,"config_entries":["01J1F82EX84XEZ07YK1426A06Z"],"configuration_url":null,"connections":[],"disabled_by":null,"entry_type":null,"hw_version":null,"id":"748ea180a84d30f091d4026af12838c4","identifiers":[["weishaupt_modbus","Statistics"]],"labels":[],"manufacturer":"Weishaupt","model":null,"name_by_user":null,"name":"Wärmepumpe-Statistics","serial_number":null,"sw_version":null,"via_device_id":null},
+      {"area_id":null,"config_entries":["01J1F82EX84XEZ07YK1426A06Z"],"configuration_url":null,"connections":[],"disabled_by":null,"entry_type":null,"hw_version":null,"id":"85883226af7ee578043e40e7fb225043","identifiers":[["weishaupt_modbus","Wärmepumpe"]],"labels":[],"manufacturer":"Weishaupt","model":null,"name_by_user":null,"name":"Wärmepumpe-Wärmepumpe","serial_number":null,"sw_version":null,"via_device_id":null},
+      {"area_id":null,"config_entries":["01J1MK32HZJ9XX2W0W8Q05TKAF"],"configuration_url":null,"connections":[],"disabled_by":null,"entry_type":null,"hw_version":null,"id":"36d1420dace58c5006aa5d315d87ab6e","identifiers":[["solarwatt_energymanager","ERC05-000004888"]],"labels":[],"manufacturer":"SOLARWATT","model":"ERC05","name_by_user":null,"name":"ERC05-000004888","serial_number":null,"sw_version":"7.46.9.0","via_device_id":null}
+    ],
+    "deleted_devices": [
+      {"config_entries":[],"connections":[],"identifiers":[["weishaupt_modbus","IDENTIFIER"]],"id":"790a3d5e9e3424eb551ab438c904a1ee","orphaned_timestamp":1719572436.7000744}
+    ]
+  }
+}

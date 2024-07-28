@@ -1,0 +1,11 @@
+automations.yaml
+configuration.yaml
+deps/
+home-assistant.log
+home-assistant_v2.db
+scenes.yaml
+secrets.yaml
+blueprints/
+home-assistant.log.1
+scripts.yaml
+tts/
