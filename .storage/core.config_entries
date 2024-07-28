@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "minor_version": 2,
+  "key": "core.config_entries",
+  "data": {
+    "entries": [
+      {
+        "data": {},
+        "disabled_by": null,
+        "domain": "shopping_list",
+        "entry_id": "01J0GHGVT31FA8BX8T9ED2Q0W0",
+        "minor_version": 1,
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "onboarding",
+        "title": "Shopping list",
+        "unique_id": "shopping_list",
+        "version": 1
+      },
+      {
+        "data": {
+          "track_home": true
+        },
+        "disabled_by": null,
+        "domain": "met",
+        "entry_id": "01J0GHJMKCN6YSPTARP6WE2T1Q",
+        "minor_version": 1,
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "onboarding",
+        "title": "Home",
+        "unique_id": null,
+        "version": 1
+      },
+      {
+        "data": {},
+        "disabled_by": null,
+        "domain": "radio_browser",
+        "entry_id": "01J0GHJQ1E4KF59HSDZ8X0VEYZ",
+        "minor_version": 1,
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "onboarding",
+        "title": "Radio Browser",
+        "unique_id": null,
+        "version": 1
+      },
+      {
+        "data": {},
+        "disabled_by": null,
+        "domain": "sun",
+        "entry_id": "01J0GHJXFFRW9FF99T52KYZGK6",
+        "minor_version": 1,
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "import",
+        "title": "Sun",
+        "unique_id": null,
+        "version": 1
+      },
+      {
+        "data": {
+          "host": "10.10.1.225",
+          "port": 502
+        },
+        "disabled_by": null,
+        "domain": "weishaupt_modbus",
+        "entry_id": "01J1F82EX84XEZ07YK1426A06Z",
+        "minor_version": 1,
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "user",
+        "title": "10.10.1.225",
+        "unique_id": null,
+        "version": 1
+      },
+      {
+        "data": {
+          "host": "10.10.1.129",
+          "poll_interval": 10
+        },
+        "disabled_by": null,
+        "domain": "solarwatt_energymanager",
+        "entry_id": "01J1MK32HZJ9XX2W0W8Q05TKAF",
+        "minor_version": 1,
+        "options": {},
+        "pref_disable_new_entities": false,
+        "pref_disable_polling": false,
+        "source": "user",
+        "title": "EnergyManager ERC05-000004888",
+        "unique_id": null,
+        "version": 1
+      }
+    ]
+  }
+}

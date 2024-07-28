@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "core.restore_state",
+  "data": [
+    {
+      "state": {"entity_id":"person.markus","state":"unknown","attributes":{"editable":true,"id":"markus","device_trackers":[],"source":"person.markus","user_id":"a5ead05a6c27450b9b06c7faa5e70168","friendly_name":"Markus"},"last_changed":"2024-07-28T11:52:45.776849+00:00","last_reported":"2024-07-28T11:52:45.776849+00:00","last_updated":"2024-07-28T11:52:45.776849+00:00","context":{"id":"01J3WJZ7EGRPE7T3P81G60EGDX","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2024-07-28T11:52:47.436093+00:00"
+    },
+    {
+      "state": {"entity_id":"conversation.home_assistant","state":"unknown","attributes":{"friendly_name":"Home Assistant"},"last_changed":"2024-07-28T11:52:46.362475+00:00","last_reported":"2024-07-28T11:52:46.362475+00:00","last_updated":"2024-07-28T11:52:46.362475+00:00","context":{"id":"01J3WJZ80T6R0XNE3JH86X1V09","parent_id":null,"user_id":null}},
+      "extra_data": null,
+      "last_seen": "2024-07-28T11:52:47.436093+00:00"
+    }
+  ]
+}
