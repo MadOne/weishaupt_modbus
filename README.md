@@ -12,7 +12,7 @@ This integration lets you monitor and controll your weishaupt heatpump through m
 
 Create a directory called `weishaupt_modbus` in the `<config directory>/custom_components/` directory on your Home Assistant
 instance. Install this component by copying all files in `/custom_components/weishaupt_modbus/` folder from this repo into the
-new `<config directory>/custom_components/wemportal/` directory you just created.
+new `<config directory>/custom_components/weishaupt-modbus/` directory you just created.
 
 This is how your custom_components directory should look like:
 
