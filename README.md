@@ -36,5 +36,5 @@ custom_components
 │   ├── ...
 │   └── wp.py  
 ```
-
+## Configuration
 
