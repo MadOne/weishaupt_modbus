@@ -4,9 +4,18 @@ This integration lets you monitor and controll your weishaupt heatpump through m
 
 ## Installation
 
-### HACS (preferred method)
+### Install through HACS 
 
 - Not working yet
+
+### HACS (manually add Repository)
+
+Add this repository to HACS.
+* In the HACS GUI, select "Custom repositories"
+* Enter the following repository URL: https://github.com/MadOne/weishaupt_modbus/releases
+* Category: Integration
+* After adding the integration, restart Home Assistant.
+* Now under Configuration -> Integrations, "Weishaupt Modbus Integration" should be available.
 
 ### Manual install
 
