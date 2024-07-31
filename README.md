@@ -1,6 +1,6 @@
 # Weishaupt_modbus
 
-This integration lets you monitor and controll your weishaupt heatpump through modbus
+This integration lets you monitor and controll your weishaupt heatpump through modbus.
 This is how it might look:
 ![Bildschirmfoto vom 2024-07-31 21-41-56](https://github.com/user-attachments/assets/3fde9b18-f9ea-4e75-94ee-25ef6f799dcf)
 
