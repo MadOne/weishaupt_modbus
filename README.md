@@ -38,3 +38,8 @@ custom_components
 ```
 ## Configuration
 
+![Bildschirmfoto vom 2024-07-31 21-46-18](https://github.com/user-attachments/assets/45ad403e-c721-40bd-b723-95fe05fca5c5)
+Just enter the IP of your Weishaupt heatpump. Port should be ok at default unless you changed it in the Heatpump configuration.
+
+You have to enable modbus in your heatpump settings. 
+ToDo: Pictures and explanation of how to enable modbus
