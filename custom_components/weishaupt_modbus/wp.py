@@ -186,6 +186,24 @@ class heat_pump:
             case 5:
                 return "2.WEZ"
 
+    @Sys_Betriebsart.setter
+    def Sys_Betriebsart(self, value):
+        match value:
+            case "AUTOMATIK":
+                return_value = 0
+            case "HEIZEN":
+                return_value = 1
+            case "KÜHLEN":
+                return_value = 2
+            case "SOMMER":
+                return_value = 3
+            case "STANDBY":
+                return_value = 4
+            case "2.WEZ":
+                return_value = 5
+
+        self.WWP.write_register(40001, return_value, slave=1)
+
     #####################
     #   Heizkreis       #
     #####################
@@ -300,6 +318,19 @@ class heat_pump:
     def WW_Soll_info(self):
         """Temperature of warm-water."""
         return self.WWP.read_input_registers(32101, slave=1).registers[0] / 10
+
+    @property
+    def WW_Konfiguration(self):
+        """WW_Konfiguration."""
+        val = self.WWP.read_holding_registers(42101, slave=1).registers[0]
+
+        match val:
+            case 0:
+                return "AUS"
+            case 1:
+                return "Umlenkventil"
+            case 8:
+                return "Pumpe"
 
     #####################
     #   Heatpump        #

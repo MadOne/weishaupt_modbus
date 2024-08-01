@@ -28,6 +28,9 @@ async def async_setup_entry(
     )
 
 
+#####################
+#   System          #
+#####################
 class Sys_Betriebsart(SelectEntity):
     """Representation of a WEM Portal Sensor."""
 
@@ -46,7 +49,9 @@ class Sys_Betriebsart(SelectEntity):
         """Call the API to change the parameter value."""
 
         self._attr_current_option = option
-
+        whp = wp.heat_pump("10.10.1.225", 502)
+        whp.connect()
+        whp.Sys_Betriebsart = option
         self.async_write_ha_state()
 
     async def async_update(self) -> None:
@@ -62,6 +67,11 @@ class Sys_Betriebsart(SelectEntity):
         return {
             "identifiers": {(DOMAIN, "System")},
         }
+
+
+#####################
+#   Heizkreis       #
+#####################
 
 
 class HK_Konfiguration(SelectEntity):
