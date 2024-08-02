@@ -267,6 +267,18 @@ class heat_pump:
             case 2:
                 return "KONSTANT"
 
+    @HK_AnforderungTyp.setter
+    # This one is read only?
+    def HK_AnforderungTyp(self, value):
+        match value:
+            case "AUS":
+                return_value = 0
+            case "WITTERUNGSGEFÜHRT":
+                return_value = 1
+            case "KONSTANT":
+                return_value = 2
+        self.WWP.write_register(41102, return_value, slave=1)
+
     @property
     def HK_Betriebsart(self):
         """Energy used today."""
@@ -296,6 +308,21 @@ class heat_pump:
         if val > 25:
             time = (val - 25) * 0.5
             return "Partyzeit " + val * 0.5 + "h"
+
+    @HK_Pause_Party.setter
+    def HK_Pause_Party(self, val):
+        party_pause = val.split(" ")[0]
+        time = val.split(" ")[1]
+        time_value = time[:-1]
+        if party_pause == "Automatik":
+            return_value = 25
+        if party_pause == "Pausenzeit":
+            return_value = 25 - (time_value * 0.5)
+
+        if val == "Partyzeit":
+            return_value = 25 + (time_value * 0.5)
+
+        self.WWP.write_register(41104, return_value, slave=1)
 
     #####################
     #   Warm Water      #

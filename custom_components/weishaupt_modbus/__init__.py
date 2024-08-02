@@ -5,7 +5,11 @@ from homeassistant.core import HomeAssistant
 
 from .const import DOMAIN
 
-PLATFORMS: list[str] = ["number", "select", "sensor"]
+PLATFORMS: list[str] = [
+    "number",
+    "select",
+    "sensor",
+]
 
 
 # Return boolean to indicate that initialization was successful.
