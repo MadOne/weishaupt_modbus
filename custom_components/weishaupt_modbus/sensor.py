@@ -492,7 +492,7 @@ class sensor_target_temp(SensorEntity):
 
         whp = wp.heat_pump(self._host, self._port)
         whp.connect()
-        self._attr_native_value = whp.WW_Soll_info
+        self._attr_native_value = whp.WW_Soll
 
     @property
     def device_info(self) -> DeviceInfo:

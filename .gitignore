@@ -1,7 +1,7 @@
 /*
 /*/
 !/custom_components/
-#/custom_components/__pycache__
+/custom_components/__pycache__
 !.github/workflows/
 !.gitignore
 !README.md

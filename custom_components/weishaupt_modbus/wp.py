@@ -329,22 +329,13 @@ class heat_pump:
     #####################
     @property
     def WW_Soll(self):
-        """Test."""
-        return self.WWP.read_holding_registers(42103, slave=1).registers[0] / 10
-
-    @WW_Soll.setter
-    def WW_Soll(self, value):
-        self.WWP.write_register(42103, value * 10, slave=1)
+        """Temperature of warm-water."""
+        return self.WWP.read_input_registers(32101, slave=1).registers[0] / 10
 
     @property
     def WW_Ist(self):
         """Temperature of warm-water."""
         return self.WWP.read_input_registers(32102, slave=1).registers[0] / 10
-
-    @property
-    def WW_Soll_info(self):
-        """Temperature of warm-water."""
-        return self.WWP.read_input_registers(32101, slave=1).registers[0] / 10
 
     @property
     def WW_Konfiguration(self):
@@ -358,6 +349,43 @@ class heat_pump:
                 return "Umlenkventil"
             case 8:
                 return "Pumpe"
+
+    @property
+    def WW_Push(self):
+        """WW Push."""
+        return self.WWP.read_holding_registers(32102, slave=1).registers[0]
+
+    @WW_Push.setter
+    def WW_Push(self, value):
+        self.WWP.write_register(42103, value, slave=1)
+
+    @property
+    def WW_Normal(self):
+        """Test."""
+        return self.WWP.read_holding_registers(42103, slave=1).registers[0] / 10
+
+    @WW_Normal.setter
+    def WW_Normal(self, value):
+        self.WWP.write_register(42103, value * 10, slave=1)
+
+    @property
+    def WW_Absenk(self):
+        """Test."""
+        return self.WWP.read_holding_registers(42104, slave=1).registers[0] / 10
+
+    @WW_Absenk.setter
+    def WW_Absenk(self, value):
+        self.WWP.write_register(42104, value * 10, slave=1)
+
+    @property
+    def WW_SGReady(self):
+        """Test."""
+        return self.WWP.read_holding_registers(42105, slave=1).registers[0]
+
+    @WW_SGReady.setter
+    # readonly?
+    def WW_SGReady(self, value):
+        self.WWP.write_register(42105, value)
 
     #####################
     #   Heatpump        #
@@ -530,22 +558,22 @@ class heat_pump:
 
     @property
     def Cooling_total_today(self):
-        """Energy used for cooling."""
+        """Energy used for cooling today."""
         return self.WWP.read_input_registers(36401, slave=1).registers[0]
 
     @property
     def Cooling_total_yesterday(self):
-        """Energy used for cooling."""
+        """Energy used for cooling yesterday."""
         return self.WWP.read_input_registers(36402, slave=1).registers[0]
 
     @property
     def Cooling_total_month(self):
-        """Energy used for cooling."""
+        """Energy used for cooling month."""
         return self.WWP.read_input_registers(36403, slave=1).registers[0]
 
     @property
     def Cooling_total_year(self):
-        """Energy used for cooling."""
+        """Energy used for cooling year."""
         return self.WWP.read_input_registers(36404, slave=1).registers[0]
 
 
