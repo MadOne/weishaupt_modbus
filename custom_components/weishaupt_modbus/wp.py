@@ -26,8 +26,8 @@ class heat_pump:
         """Test."""
         try:
             self.WWP = ModbusClient(host=self._ip, port=self._port)
-            return self.WWP.connected
-        except:
+            return self.WWP.connected  # noqa: TRY300
+        except:  # noqa: E722
             return None
 
     ##############################################################################################################################
@@ -43,7 +43,7 @@ class heat_pump:
         """Outer Temperature1."""
         try:
             return self.WWP.read_input_registers(30001, slave=1).registers[0] / 10
-        except:
+        except:  # noqa: E722
             return None
 
     @property
@@ -51,7 +51,7 @@ class heat_pump:
         """Outer Temperature2."""
         try:
             return self.WWP.read_input_registers(30002, slave=1).registers[0] / 10
-        except:
+        except:  # noqa: E722
             return None
 
     @property
@@ -62,7 +62,7 @@ class heat_pump:
             if val == 65535:
                 return "kein Fehler"
             return "Fehler: " + val
-        except:
+        except:  # noqa: E722
             return None
 
     @property
@@ -73,7 +73,7 @@ class heat_pump:
             if val == 65535:
                 return "kein Fehler"
             return "Fehler: " + val
-        except:
+        except:  # noqa: E722
             return None
 
     @property
@@ -83,8 +83,9 @@ class heat_pump:
             val = self.WWP.read_input_registers(30005, slave=1).registers[0]
             if val == 0:
                 return "Fehler aktiv"
-            return "Störungsfreier Betrieb"
-        except:
+            else:  # noqa: RET505
+                return "Störungsfreier Betrieb"
+        except:  # noqa: E722
             return None
 
     @property
@@ -165,7 +166,7 @@ class heat_pump:
                     return "HK Sperre"
                 case 35:
                     return "Absenk"
-        except:
+        except:  # noqa: E722
             return None
 
     @property
@@ -352,6 +353,15 @@ class heat_pump:
     @HK_RaumSoll_Absenk.setter
     def HK_RaumSoll_Absenk(self, value):
         self.WWP.write_register(41107, value * 10, slave=1)
+
+    @property
+    def HK_Heizkennlinie(self):
+        """Test."""
+        return self.WWP.read_holding_registers(41108, slave=1).registers[0] / 100
+
+    @HK_Heizkennlinie.setter
+    def HK_Heizkennlinie(self, value):
+        self.WWP.write_register(41108, int(value * 100), slave=1)
 
     #####################
     #   Warm Water      #

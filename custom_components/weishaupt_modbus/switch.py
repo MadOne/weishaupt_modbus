@@ -6,7 +6,7 @@ import logging
 
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_HOST, CONF_PORT, STATE_ON
+from homeassistant.const import CONF_HOST, CONF_PORT  # STATE_ON
 from homeassistant.core import HomeAssistant
 
 # from homeassistant.helpers import device_registry as dr
@@ -59,7 +59,7 @@ class WW_SGReady(SwitchEntity):
 
     async def async_turn_on(self):
         """Turn On method."""
-        # self._attr_state = "on"  # type: ignore
+        # self._attr_state = "on"
         # whp = wp.heat_pump(self._host, self._port)
         # whp.connect()
         # whp.WW_SGReady = 1
@@ -67,7 +67,7 @@ class WW_SGReady(SwitchEntity):
 
     async def async_turn_off(self):
         """Turn Off method."""
-        # self._attr_state = "off"  # type: ignore
+        # self._attr_state = "off"
         # whp = wp.heat_pump(self._host, self._port)
         # whp.connect()
         # whp.WW_SGReady = 0
