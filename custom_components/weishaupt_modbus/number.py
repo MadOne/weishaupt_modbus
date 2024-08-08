@@ -2,7 +2,7 @@
 
 from homeassistant.components.number import NumberEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_HOST, CONF_PORT, UnitOfTemperature
+from homeassistant.const import CONF_HOST, CONF_PORT, UnitOfTemperature, UnitOfTime
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -33,7 +33,13 @@ async def async_setup_entry(
     # host = "10.10.1.225"
     # port = "502"
     async_add_entities(
-        [WW_Normal(host, port), WW_Absenk(host, port)], update_before_add=True
+        [
+            WW_Normal(host, port),
+            WW_Absenk(host, port),
+            HK_Party(host, port),
+            HK_Pause(host, port),
+        ],
+        update_before_add=True,
     )
 
 
@@ -52,9 +58,9 @@ class WW_Normal(NumberEntity):
         """Init."""
         self._host = host
         self._port = port
-        whp = wp.heat_pump(host, port)
-        whp.connect()
-        self._attr_native_value = whp.WW_Normal
+        # whp = wp.heat_pump(host, port)
+        # whp.connect()
+        # self._attr_native_value = whp.WW_Normal
         # self.async_write_ha_state()
 
     async def async_set_native_value(self, value: float) -> None:
@@ -95,9 +101,9 @@ class WW_Absenk(NumberEntity):
         """Init."""
         self._host = host
         self._port = port
-        whp = wp.heat_pump(host, port)
-        whp.connect()
-        self._attr_native_value = whp.WW_Absenk
+        # whp = wp.heat_pump(host, port)
+        # whp.connect()
+        # self._attr_native_value = whp.WW_Absenk
         # self.async_write_ha_state()
 
     async def async_set_native_value(self, value: float) -> None:
@@ -120,4 +126,102 @@ class WW_Absenk(NumberEntity):
         """Information about this entity/device."""
         return {
             "identifiers": {(DOMAIN, "Warmwasser")},
+        }
+
+
+class HK_Party(NumberEntity):
+    """Representation of a WEM Portal number."""
+
+    _attr_name = "HK Party"
+    _attr_unique_id = DOMAIN + _attr_name
+    _attr_native_value = 0
+    _attr_should_poll = True
+    _attr_native_min_value = 0
+    _attr_native_max_value = 12
+    _attr_native_step = 0.5
+    _attr_native_unit_of_measurement = UnitOfTime.HOURS
+
+    def __init__(self, host, port) -> None:
+        """Init."""
+        self._host = host
+        self._port = port
+        # whp = wp.heat_pump(host, port)
+        # whp.connect()
+        # party_pause = whp.HK_Pause_Party
+        # if party_pause > 25:
+        #    self._attr_native_value = (party_pause - 25) * 0.5
+        # else:
+        #    self._attr_native_value = 0
+
+    async def async_set_native_value(self, value: float) -> None:
+        """Update the current value."""
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        whp.HK_Pause_Party = int(25 + (value / 0.5))
+        self.async_write_ha_state()
+
+    async def async_update(self) -> None:
+        """Update Entity Only used by the generic entity update service."""
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        party_pause = whp.HK_Pause_Party
+        if party_pause > 25:
+            self._attr_native_value = (party_pause - 25) * 0.5
+        else:
+            self._attr_native_value = 0
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Information about this entity/device."""
+        return {
+            "identifiers": {(DOMAIN, "Heizkreis")},
+        }
+
+
+class HK_Pause(NumberEntity):
+    """Representation of a WEM Portal number."""
+
+    _attr_name = "HK Pause"
+    _attr_unique_id = DOMAIN + _attr_name
+    _attr_native_value = 0
+    _attr_should_poll = True
+    _attr_native_min_value = 0
+    _attr_native_max_value = 12
+    _attr_native_step = 0.5
+    _attr_native_unit_of_measurement = UnitOfTime.HOURS
+
+    def __init__(self, host, port) -> None:
+        """Init."""
+        self._host = host
+        self._port = port
+        # whp = wp.heat_pump(host, port)
+        # whp.connect()
+        # party_pause = whp.HK_Pause_Party
+        # if party_pause < 25:
+        #    self._attr_native_value = (25 - party_pause) * 0.5
+        # else:
+        #    self._attr_native_value = 0
+
+    async def async_set_native_value(self, value: float) -> None:
+        """Update the current value."""
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        whp.HK_Pause_Party = int(25 - (value / 0.5))
+        self.async_write_ha_state()
+
+    async def async_update(self) -> None:
+        """Update Entity Only used by the generic entity update service."""
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        party_pause = whp.HK_Pause_Party
+        if party_pause < 25:
+            self._attr_native_value = (25 - party_pause) * 0.5
+        else:
+            self._attr_native_value = 0
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Information about this entity/device."""
+        return {
+            "identifiers": {(DOMAIN, "Heizkreis")},
         }

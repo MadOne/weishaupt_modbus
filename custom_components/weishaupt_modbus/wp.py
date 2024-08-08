@@ -299,30 +299,32 @@ class heat_pump:
     @property
     def HK_Pause_Party(self):
         """Energy used today."""
-        val = self.WWP.read_holding_registers(41104, slave=1).registers[0]
-        if val == 25:
-            return "Automatik"
-        if val < 25:
-            time = (25 - val) * 0.5
-            return "Pausenzeit " + time + "h"
-        if val > 25:
-            time = (val - 25) * 0.5
-            return "Partyzeit " + val * 0.5 + "h"
+        return self.WWP.read_holding_registers(41104, slave=1).registers[0]
+        # val = self.WWP.read_holding_registers(41104, slave=1).registers[0]
+        # if val == 25:
+        #    return "Automatik"
+        # if val < 25:
+        #    time = (25 - val) * 0.5
+        #    return "Pausenzeit " + time + "h"
+        # if val > 25:
+        #    time = (val - 25) * 0.5
+        #    return "Partyzeit " + val * 0.5 + "h"
 
     @HK_Pause_Party.setter
     def HK_Pause_Party(self, val):
-        party_pause = val.split(" ")[0]
-        time = val.split(" ")[1]
-        time_value = time[:-1]
-        if party_pause == "Automatik":
-            return_value = 25
-        if party_pause == "Pausenzeit":
-            return_value = 25 - (time_value * 0.5)
+        # party_pause = val.split(" ")[0]
+        # time = val.split(" ")[1]
+        # time_value = time[:-1]
+        # if party_pause == "Automatik":
+        #    return_value = 25
+        # if party_pause == "Pausenzeit":
+        #    return_value = 25 - (time_value * 0.5)
 
-        if val == "Partyzeit":
-            return_value = 25 + (time_value * 0.5)
+        # if val == "Partyzeit":
+        #    return_value = 25 + (time_value * 0.5)
 
-        self.WWP.write_register(41104, return_value, slave=1)
+        # self.WWP.write_register(41104, return_value, slave=1)
+        self.WWP.write_register(41104, val, slave=1)
 
     #####################
     #   Warm Water      #
