@@ -363,6 +363,15 @@ class heat_pump:
     def HK_Heizkennlinie(self, value):
         self.WWP.write_register(41108, int(value * 100), slave=1)
 
+    @property
+    def HK_SommerWinterUmschaltung(self):
+        """Test."""
+        return self.WWP.read_holding_registers(41109, slave=1).registers[0] / 10
+
+    @HK_SommerWinterUmschaltung.setter
+    def HK_SommerWinterUmschaltung(self, value):
+        self.WWP.write_register(41109, int(value * 10), slave=1)
+
     #####################
     #   Warm Water      #
     #####################
