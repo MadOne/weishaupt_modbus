@@ -38,6 +38,9 @@ async def async_setup_entry(
             WW_Absenk(host, port),
             HK_Party(host, port),
             HK_Pause(host, port),
+            HK_Raum_Soll_Komfort(host, port),
+            HK_Raum_Soll_Normal(host, port),
+            HK_Raum_Soll_Absenk(host, port),
         ],
         update_before_add=True,
     )
@@ -218,6 +221,132 @@ class HK_Pause(NumberEntity):
             self._attr_native_value = (25 - party_pause) * 0.5
         else:
             self._attr_native_value = 0
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Information about this entity/device."""
+        return {
+            "identifiers": {(DOMAIN, "Heizkreis")},
+        }
+
+
+class HK_Raum_Soll_Komfort(NumberEntity):
+    """Representation of a WEM Portal number."""
+
+    _attr_name = "HK Raumsollwert Komfort"
+    _attr_unique_id = DOMAIN + _attr_name
+    _attr_native_value = 0
+    _attr_should_poll = True
+    _attr_native_min_value = 20
+    _attr_native_max_value = 30
+    _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
+
+    def __init__(self, host, port) -> None:
+        """Init."""
+        self._host = host
+        self._port = port
+        # whp = wp.heat_pump(host, port)
+        # whp.connect()
+        # self._attr_native_value = whp.WW_Absenk
+        # self.async_write_ha_state()
+
+    async def async_set_native_value(self, value: float) -> None:
+        """Update the current value."""
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        whp.HK_RaumSoll_Komfort = int(value)
+        self._attr_native_value = whp.HK_RaumSoll_Komfort
+        self.async_write_ha_state()
+
+    async def async_update(self) -> None:
+        """Update Entity Only used by the generic entity update service."""
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        self._attr_native_value = whp.HK_RaumSoll_Komfort
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Information about this entity/device."""
+        return {
+            "identifiers": {(DOMAIN, "Heizkreis")},
+        }
+
+
+class HK_Raum_Soll_Normal(NumberEntity):
+    """Representation of a WEM Portal number."""
+
+    _attr_name = "HK Raumsollwert Normal"
+    _attr_unique_id = DOMAIN + _attr_name
+    _attr_native_value = 0
+    _attr_should_poll = True
+    _attr_native_min_value = 15
+    _attr_native_max_value = 25
+    _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
+
+    def __init__(self, host, port) -> None:
+        """Init."""
+        self._host = host
+        self._port = port
+        # whp = wp.heat_pump(host, port)
+        # whp.connect()
+        # self._attr_native_value = whp.WW_Absenk
+        # self.async_write_ha_state()
+
+    async def async_set_native_value(self, value: float) -> None:
+        """Update the current value."""
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        whp.HK_RaumSoll_Normal = int(value)
+        self._attr_native_value = whp.HK_RaumSoll_Normal
+        self.async_write_ha_state()
+
+    async def async_update(self) -> None:
+        """Update Entity Only used by the generic entity update service."""
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        self._attr_native_value = whp.HK_RaumSoll_Normal
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Information about this entity/device."""
+        return {
+            "identifiers": {(DOMAIN, "Heizkreis")},
+        }
+
+
+class HK_Raum_Soll_Absenk(NumberEntity):
+    """Representation of a WEM Portal number."""
+
+    _attr_name = "HK Raumsollwert Absenk"
+    _attr_unique_id = DOMAIN + _attr_name
+    _attr_native_value = 0
+    _attr_should_poll = True
+    _attr_native_min_value = 10
+    _attr_native_max_value = 20
+    _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
+
+    def __init__(self, host, port) -> None:
+        """Init."""
+        self._host = host
+        self._port = port
+        # whp = wp.heat_pump(host, port)
+        # whp.connect()
+        # self._attr_native_value = whp.WW_Absenk
+        # self.async_write_ha_state()
+
+    async def async_set_native_value(self, value: float) -> None:
+        """Update the current value."""
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        whp.HK_RaumSoll_Absenk = int(value)
+        self._attr_native_value = whp.HK_RaumSoll_Absenk
+        self.async_write_ha_state()
+
+    async def async_update(self) -> None:
+        """Update Entity Only used by the generic entity update service."""
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        self._attr_native_value = whp.HK_RaumSoll_Absenk
 
     @property
     def device_info(self) -> DeviceInfo:

@@ -326,6 +326,33 @@ class heat_pump:
         # self.WWP.write_register(41104, return_value, slave=1)
         self.WWP.write_register(41104, val, slave=1)
 
+    @property
+    def HK_RaumSoll_Komfort(self):
+        """Test."""
+        return self.WWP.read_holding_registers(41105, slave=1).registers[0] / 10
+
+    @HK_RaumSoll_Komfort.setter
+    def HK_RaumSoll_Komfort(self, value):
+        self.WWP.write_register(41105, value * 10, slave=1)
+
+    @property
+    def HK_RaumSoll_Normal(self):
+        """Test."""
+        return self.WWP.read_holding_registers(41106, slave=1).registers[0] / 10
+
+    @HK_RaumSoll_Normal.setter
+    def HK_RaumSoll_Normal(self, value):
+        self.WWP.write_register(41106, value * 10, slave=1)
+
+    @property
+    def HK_RaumSoll_Absenk(self):
+        """Test."""
+        return self.WWP.read_holding_registers(41107, slave=1).registers[0] / 10
+
+    @HK_RaumSoll_Absenk.setter
+    def HK_RaumSoll_Absenk(self, value):
+        self.WWP.write_register(41107, value * 10, slave=1)
+
     #####################
     #   Warm Water      #
     #####################
