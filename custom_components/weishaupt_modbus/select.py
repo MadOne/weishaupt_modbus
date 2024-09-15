@@ -236,7 +236,7 @@ class HK_Party_Select(SelectEntity):
         self._attr_current_option = option
         whp = wp.heat_pump(self._host, self._port)
         whp.connect()
-        whp.HK_Party_Pause = option
+        whp.HK_Pause_Party = option
         self.async_write_ha_state()
 
     async def async_update(
@@ -246,7 +246,7 @@ class HK_Party_Select(SelectEntity):
         # await self.coordinator.async_request_refresh()
         whp = wp.heat_pump(self._host, self._port)
         whp.connect()
-        self._attr_current_option = whp.HK_Party_Pause
+        self._attr_current_option = whp.HK_Pause_Party
 
     @property
     def device_info(self) -> DeviceInfo:
