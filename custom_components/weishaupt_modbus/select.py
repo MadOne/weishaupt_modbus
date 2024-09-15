@@ -169,7 +169,7 @@ class HK_Anforderung_Typ(SelectEntity):
 class HK_Party_Select(SelectEntity):
     """Representation of a WEM Portal Sensor."""
 
-    _attr_name = "Anforderung Typ"
+    _attr_name = "Pause_Party_Select"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
     options = [
