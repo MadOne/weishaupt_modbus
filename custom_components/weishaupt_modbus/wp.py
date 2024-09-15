@@ -313,7 +313,110 @@ class heat_pump:
     @property
     def HK_Pause_Party(self):
         """Energy used today."""
-        return self.WWP.read_holding_registers(41104, slave=1).registers[0]
+
+        val = self.WWP.read_holding_registers(41104, slave=1).registers[0]
+        match val:
+            case 1:
+                return "Pause 12.0h"
+            case 2:
+                return "Pause 11.5h"
+            case 3:
+                return "Pause 11.0h"
+            case 4:
+                return "Pause 10.5h"
+            case 5:
+                return "Pause 10.0h"
+            case 6:
+                return "Pause 9.5h"
+            case 7:
+                return "Pause 9.0h"
+            case 8:
+                return "Pause 8.5h"
+            case 9:
+                return "Pause 8.0h"
+            case 10:
+                return "Pause 7.5h"
+            case 11:
+                return "Pause 7.0h"
+            case 12:
+                return "Pause 6.5h"
+            case 13:
+                return "Pause 6.0h"
+            case 14:
+                return "Pause 5.5h"
+            case 15:
+                return "Pause 5.0h"
+            case 16:
+                return "Pause 4.5h"
+            case 17:
+                return "Pause 4.0h"
+            case 18:
+                return "Pause 3.5h"
+            case 19:
+                return "Pause 3.0h"
+            case 20:
+                return "Pause 2.5h"
+            case 21:
+                return "Pause 2.0h"
+            case 22:
+                return "Pause 1.5h"
+            case 23:
+                return "Pause 1.0h"
+            case 24:
+                return "Pause 0.5h"
+            case 25:
+                return "Automatik"
+            case 26:
+                return "Party 0.5h"
+            case 27:
+                return "Party 1.0h"
+            case 28:
+                return "Party 1.5h"
+            case 29:
+                return "Party 2.0h"
+            case 30:
+                return "Party 2.5h"
+            case 31:
+                return "Party 3.0h"
+            case 32:
+                return "Party 3.5h"
+            case 33:
+                return "Party 4.0h"
+            case 34:
+                return "Party 4.5h"
+            case 35:
+                return "Party 5.0h"
+            case 36:
+                return "Party 5.5h"
+            case 37:
+                return "Party 6.0h"
+            case 38:
+                return "Party 6.5h"
+            case 39:
+                return "Party 7.0h"
+            case 40:
+                return "Party 7.5h"
+            case 41:
+                return "Party 8.0h"
+            case 42:
+                return "Party 8.5h"
+            case 43:
+                return "Party 9.0h"
+            case 44:
+                return "Party 9.5h"
+            case 45:
+                return "Party 10.0h"
+            case 46:
+                return "Party 10.5h"
+            case 47:
+                return "Party 11.0h"
+            case 48:
+                return "Party 11.5h"
+            case 49:
+                return "Party 12.0h"
+
+        
+        # return self.WWP.read_holding_registers(41104, slave=1).registers[0]
         # val = self.WWP.read_holding_registers(41104, slave=1).registers[0]
         # if val == 25:
         #    return "Automatik"
@@ -338,7 +441,107 @@ class heat_pump:
         #    return_value = 25 + (time_value * 0.5)
 
         # self.WWP.write_register(41104, return_value, slave=1)
-        self.WWP.write_register(41104, val, slave=1)
+        match val:
+            case "Pause 12.0h":
+                return_value = 1
+            case "Pause 11.5h":
+                return_value = 2
+            case "Pause 11.0h":
+                return_value = 3
+            case "Pause 10.5h":
+                return_value = 4
+            case "Pause 10.0h":
+                return_value = 5
+            case "Pause 9.5h":
+                return_value = 6
+            case "Pause 9.0h":
+                return_value = 7
+            case "Pause 8.5h":
+                return_value = 8
+            case "Pause 8.0h":
+                return_value = 9
+            case "Pause 7.5h":
+                return_value = 10
+            case "Pause 7.0h":
+                return_value = 11
+            case "Pause 6.5h":
+                return_value = 12
+            case "Pause 6.0h":
+                return_value = 13
+            case "Pause 5.5h":
+                return_value = 14
+            case "Pause 5.0h":
+                return_value = 15
+            case "Pause 4.5h":
+                return_value = 16
+            case "Pause 4.0h":
+                return_value = 17
+            case "Pause 3.5h":
+                return_value = 18
+            case "Pause 3.0h":
+                return_value = 19
+            case "Pause 2.5h":
+                return_value = 20
+            case "Pause 2.0h":
+                return_value = 21
+            case "Pause 1.5h":
+                return_value = 22
+            case "Pause 1.0h":
+                return_value = 23
+            case "Pause 0.5h":
+                return_value = 24
+            case "Automatik":
+                return_value = 25
+            case "Party 0.5h":
+                return_value = 26
+            case "Party 1.0h":
+                return_value = 27
+            case "Party 1.5h":
+                return_value = 28
+            case "Party 2.0h":
+                return_value = 29
+            case "Party 2.5h":
+                return_value = 30
+            case "Party 3.0h":
+                return_value = 31
+            case "Party 3.5h":
+                return_value = 32
+            case "Party 4.0h":
+                return_value = 33
+            case "Party 4.5h":
+                return_value = 34
+            case "Party 5.0h":
+                return_value = 35
+            case "Party 5.5h":
+                return_value = 36
+            case "Party 6.0h":
+                return_value = 37
+            case "Party 6.5h":
+                return_value = 38
+            case "Party 7.0h":
+                return_value = 39
+            case "Party 7.5h":
+                return_value = 40
+            case "Party 8.0h":
+                return_value = 41
+            case "Party 8.5h":
+                return_value = 42
+            case "Party 9.0h":
+                return_value = 43
+            case "Party 9.5h":
+                return_value = 44
+            case "Party 10.0h":
+                return_value = 45
+            case "Party 10.5h":
+                return_value = 46
+            case "Party 11.0h":
+                return_value = 47
+            case "Party 11.5h":
+                return_value = 48
+            case "Party 12.0h":
+                return_value = 49
+        
+        self.WWP.write_register(41104, return_value, slave=1)
 
     @property
     def HK_RaumSoll_Komfort(self):
