@@ -67,7 +67,7 @@ class Sys_Aussentemperatur1(SensorEntity):
     """Representation of a Sensor."""
 
     _attr_name = "Temperatur Aussensensor"
-    _attr_unique_id = DOMAIN + "Aussentemperatur1"
+    _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
     _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
     _attr_device_class = SensorDeviceClass.TEMPERATURE
@@ -105,7 +105,7 @@ class Sys_Aussentemperatur2(SensorEntity):
     """Representation of a Sensor."""
 
     _attr_name = "Temperatur Lufteinlass"
-    _attr_unique_id = DOMAIN + "Aussentemperatur2"
+    _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
     _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
     _attr_device_class = SensorDeviceClass.TEMPERATURE
@@ -682,7 +682,7 @@ class Hp_Ruecklauftemperatur(SensorEntity):
 class Energy_today(SensorEntity):
     """Representation of a Sensor."""
 
-    _attr_name = "Energy Today"
+    _attr_name = "Total energy Today"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
     _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
@@ -716,7 +716,7 @@ class Energy_today(SensorEntity):
 class Energy_yesterday(SensorEntity):
     """Representation of a Sensor."""
 
-    _attr_name = "Energy yesterday"
+    _attr_name = "Total energy yesterday"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
     _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
@@ -748,7 +748,7 @@ class Energy_yesterday(SensorEntity):
 class Energy_month(SensorEntity):
     """Representation of a Sensor."""
 
-    _attr_name = "Energy month"
+    _attr_name = "Total energy month"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
     _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
@@ -780,7 +780,7 @@ class Energy_month(SensorEntity):
 class Energy_year(SensorEntity):
     """Representation of a Sensor."""
 
-    _attr_name = "Energy year"
+    _attr_name = "Total energy year"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
     _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
@@ -800,6 +800,264 @@ class Energy_year(SensorEntity):
         whp = wp.heat_pump(self._host, self._port)
         whp.connect()
         self._attr_native_value = whp.Energy_total_year
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Information about this entity/device."""
+        return {
+            "identifiers": {(DOMAIN, "Statistics")},
+        }
+
+class Heating_today(SensorEntity):
+    """Representation of a Sensor."""
+
+    _attr_name = "Heating energy Today"
+    _attr_unique_id = DOMAIN + _attr_name
+    _attr_should_poll = True
+    _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
+    _attr_device_class = SensorDeviceClass.ENERGY
+
+    def __init__(self, host, port) -> None:
+        """Init."""
+        self._host = host
+        self._port = port
+
+    async def async_update(self) -> None:
+        """Fetch new state data for the sensor.
+
+        This is the only method that should fetch new data for Home Assistant.
+        """
+
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        self._attr_native_value = whp.Heating_total_today
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Information about this entity/device."""
+        return {
+            "identifiers": {(DOMAIN, "Statistics")},
+            "name": "Wärmepumpe-Statistics",
+            "manufacturer": "Weishaupt",
+        }
+
+
+class Heating_yesterday(SensorEntity):
+    """Representation of a Sensor."""
+
+    _attr_name = "Heating energy yesterday"
+    _attr_unique_id = DOMAIN + _attr_name
+    _attr_should_poll = True
+    _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
+    _attr_device_class = SensorDeviceClass.ENERGY
+
+    def __init__(self, host, port) -> None:
+        """Init."""
+        self._host = host
+        self._port = port
+
+    async def async_update(self) -> None:
+        """Fetch new state data for the sensor.
+
+        This is the only method that should fetch new data for Home Assistant.
+        """
+
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        self._attr_native_value = whp.Heating_total_yesterday
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Information about this entity/device."""
+        return {
+            "identifiers": {(DOMAIN, "Statistics")},
+        }
+
+
+class Heating_month(SensorEntity):
+    """Representation of a Sensor."""
+
+    _attr_name = "Heating energy month"
+    _attr_unique_id = DOMAIN + _attr_name
+    _attr_should_poll = True
+    _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
+    _attr_device_class = SensorDeviceClass.ENERGY
+
+    def __init__(self, host, port) -> None:
+        """Init."""
+        self._host = host
+        self._port = port
+
+    async def async_update(self) -> None:
+        """Fetch new state data for the sensor.
+
+        This is the only method that should fetch new data for Home Assistant.
+        """
+
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        self._attr_native_value = whp.Heating_total_month
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Information about this entity/device."""
+        return {
+            "identifiers": {(DOMAIN, "Statistics")},
+        }
+
+
+class Heating_year(SensorEntity):
+    """Representation of a Sensor."""
+
+    _attr_name = "Heating energy year"
+    _attr_unique_id = DOMAIN + _attr_name
+    _attr_should_poll = True
+    _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
+    _attr_device_class = SensorDeviceClass.ENERGY
+
+    def __init__(self, host, port) -> None:
+        """Init."""
+        self._host = host
+        self._port = port
+
+    async def async_update(self) -> None:
+        """Fetch new state data for the sensor.
+
+        This is the only method that should fetch new data for Home Assistant.
+        """
+
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        self._attr_native_value = whp.Heating_total_year
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Information about this entity/device."""
+        return {
+            "identifiers": {(DOMAIN, "Statistics")},
+        }
+
+class Water_today(SensorEntity):
+    """Representation of a Sensor."""
+
+    _attr_name = "Water energy Today"
+    _attr_unique_id = DOMAIN + _attr_name
+    _attr_should_poll = True
+    _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
+    _attr_device_class = SensorDeviceClass.ENERGY
+
+    def __init__(self, host, port) -> None:
+        """Init."""
+        self._host = host
+        self._port = port
+
+    async def async_update(self) -> None:
+        """Fetch new state data for the sensor.
+
+        This is the only method that should fetch new data for Home Assistant.
+        """
+
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        self._attr_native_value = whp.Water_total_today
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Information about this entity/device."""
+        return {
+            "identifiers": {(DOMAIN, "Statistics")},
+            "name": "Wärmepumpe-Statistics",
+            "manufacturer": "Weishaupt",
+        }
+
+
+class Water_yesterday(SensorEntity):
+    """Representation of a Sensor."""
+
+    _attr_name = "Water energy yesterday"
+    _attr_unique_id = DOMAIN + _attr_name
+    _attr_should_poll = True
+    _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
+    _attr_device_class = SensorDeviceClass.ENERGY
+
+    def __init__(self, host, port) -> None:
+        """Init."""
+        self._host = host
+        self._port = port
+
+    async def async_update(self) -> None:
+        """Fetch new state data for the sensor.
+
+        This is the only method that should fetch new data for Home Assistant.
+        """
+
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        self._attr_native_value = whp.Water_total_yesterday
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Information about this entity/device."""
+        return {
+            "identifiers": {(DOMAIN, "Statistics")},
+        }
+
+
+class Water_month(SensorEntity):
+    """Representation of a Sensor."""
+
+    _attr_name = "Water energy month"
+    _attr_unique_id = DOMAIN + _attr_name
+    _attr_should_poll = True
+    _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
+    _attr_device_class = SensorDeviceClass.ENERGY
+
+    def __init__(self, host, port) -> None:
+        """Init."""
+        self._host = host
+        self._port = port
+
+    async def async_update(self) -> None:
+        """Fetch new state data for the sensor.
+
+        This is the only method that should fetch new data for Home Assistant.
+        """
+
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        self._attr_native_value = whp.Water_total_month
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Information about this entity/device."""
+        return {
+            "identifiers": {(DOMAIN, "Statistics")},
+        }
+
+
+class Water_year(SensorEntity):
+    """Representation of a Sensor."""
+
+    _attr_name = "Water energy year"
+    _attr_unique_id = DOMAIN + _attr_name
+    _attr_should_poll = True
+    _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
+    _attr_device_class = SensorDeviceClass.ENERGY
+
+    def __init__(self, host, port) -> None:
+        """Init."""
+        self._host = host
+        self._port = port
+
+    async def async_update(self) -> None:
+        """Fetch new state data for the sensor.
+
+        This is the only method that should fetch new data for Home Assistant.
+        """
+
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        self._attr_native_value = whp.Water_total_year
 
     @property
     def device_info(self) -> DeviceInfo:
