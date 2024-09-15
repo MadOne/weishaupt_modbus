@@ -151,7 +151,7 @@ class WW_Push(NumberEntity):
     _attr_unique_id = DOMAIN + _attr_name
     _attr_native_value = 0
     _attr_should_poll = True
-    _attr_native_min_value = 5
+    _attr_native_min_value = 0
     _attr_native_max_value = 240
     _attr_native_step = 1
     _attr_native_unit_of_measurement = "min"
@@ -162,7 +162,7 @@ class WW_Push(NumberEntity):
         self._port = port
         # whp = wp.heat_pump(host, port)
         # whp.connect()
-        # self._attr_native_value = whp.WW_Absenk
+        # self._attr_native_value = whp.WW_Push
         # self.async_write_ha_state()
 
     async def async_set_native_value(self, value: float) -> None:
