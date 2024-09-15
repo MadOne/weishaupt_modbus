@@ -169,7 +169,7 @@ class heat_pump:
                 case 43:
                     return "Ölrückführung"
                 case _:
-                    return "undefiniert (" val ")"                    
+                    return "undefiniert (" + val + ")"                    
         except:  # noqa: E722
             return None
 
@@ -528,7 +528,7 @@ class heat_pump:
             case 43:
                 return "Ölrückführung"
             case _:
-                return "undefiniert (" val ")"
+                return "undefiniert (" + val + ")"
                 
 
     @property
