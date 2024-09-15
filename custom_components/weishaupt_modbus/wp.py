@@ -40,7 +40,7 @@ class heat_pump:
     #####################
     @property
     def Sys_Aussentemperatur1(self):
-        """Outer Temperature1."""
+        """Outer Temperature1 - external sensor."""
         try:
             return self.WWP.read_input_registers(30001, slave=1).registers[0] / 10
         except:  # noqa: E722
@@ -48,7 +48,7 @@ class heat_pump:
 
     @property
     def Sys_Aussentemperatur2(self):
-        """Outer Temperature2."""
+        """Outer Temperature2 - air inlet temperature."""
         try:
             return self.WWP.read_input_registers(30002, slave=1).registers[0] / 10
         except:  # noqa: E722
@@ -56,9 +56,9 @@ class heat_pump:
 
     @property
     def Sys_Fehler(self):
-        """Outer Temperature2."""
+        """Error."""
         try:
-            val = self.WWP.read_input_registers(30004, slave=1).registers[0]
+            val = self.WWP.read_input_registers(30003, slave=1).registers[0]
             if val == 65535:
                 return "kein Fehler"
             return "Fehler: " + val
@@ -67,18 +67,18 @@ class heat_pump:
 
     @property
     def Sys_Warnung(self):
-        """Outer Temperature2."""
+        """Warning."""
         try:
             val = self.WWP.read_input_registers(30004, slave=1).registers[0]
             if val == 65535:
-                return "kein Fehler"
-            return "Fehler: " + val
+                return "keine Warnung"
+            return "Warnung: " + val
         except:  # noqa: E722
             return None
 
     @property
     def Sys_Fehlerfrei(self):
-        """Outer Temperature2."""
+        """Error free."""
         try:
             val = self.WWP.read_input_registers(30005, slave=1).registers[0]
             if val == 0:
@@ -166,6 +166,10 @@ class heat_pump:
                     return "HK Sperre"
                 case 35:
                     return "Absenk"
+                case 43:
+                    return "Ölrückführung"
+                case _:
+                    return "undefiniert (" val ")"                    
         except:  # noqa: E722
             return None
 
@@ -232,7 +236,13 @@ class heat_pump:
     @property
     def HK_Vorlaufsolltemperatur(self):
         """HK_Vorlaufsolltemperatur."""
-        return self.WWP.read_input_registers(31104, slave=1).registers[0] / 10
+        val = self.WWP.read_input_registers(31104, slave=1).registers[0] / 10
+        if val == -32768:
+            return "kein Sensor"
+        if val == -32767:
+            return "Sensor defekt"
+        return val / 10
+        
 
     @property
     def HK_Vorlauftemperatur(self):
@@ -515,6 +525,11 @@ class heat_pump:
                 return "HK Sperre"
             case 35:
                 return "Absenk"
+            case 43:
+                return "Ölrückführung"
+            case _:
+                return "undefiniert (" val ")"
+                
 
     @property
     def Hp_Stoermeldung(self):
@@ -546,22 +561,22 @@ class heat_pump:
     #####################
     @property
     def Energy_total_today(self):
-        """Energy used today."""
+        """Total energy used today."""
         return self.WWP.read_input_registers(36101, slave=1).registers[0]
 
     @property
     def Energy_total_yesterday(self):
-        """Energy used yesterday."""
+        """Total energy used yesterday."""
         return self.WWP.read_input_registers(36102, slave=1).registers[0]
 
     @property
     def Energy_total_month(self):
-        """Energy used month."""
+        """Total energy used month."""
         return self.WWP.read_input_registers(36103, slave=1).registers[0]
 
     @property
     def Energy_total_year(self):
-        """Energy used year."""
+        """Total energy used year."""
         return self.WWP.read_input_registers(36104, slave=1).registers[0]
 
     @property
