@@ -44,13 +44,15 @@ class Sys_Betriebsart(SelectEntity):
     def __init__(self, host, port) -> None:
         """Init."""
         self._host = host
+        self._port = port
         self.async_internal_will_remove_from_hass_port = port
 
     async def async_select_option(self, option: str) -> None:
         """Call the API to change the parameter value."""
 
         self._attr_current_option = option
-        whp = wp.heat_pump("10.10.1.225", 502)
+        # whp = wp.heat_pump("10.10.1.225", 502) #
+        whp = wp.heat_pump(self._host, self._port)
         whp.connect()
         whp.Sys_Betriebsart = option
         self.async_write_ha_state()
@@ -58,7 +60,8 @@ class Sys_Betriebsart(SelectEntity):
     async def async_update(self) -> None:
         """Update Entity Only used by the generic entity update service."""
         # await self.coordinator.async_request_refresh()
-        whp = wp.heat_pump("10.10.1.225", 502)
+        # whp = wp.heat_pump("10.10.1.225", 502) #
+        whp = wp.heat_pump(self._host, self._port)
         whp.connect()
         self._attr_current_option = whp.Sys_Betriebsart
 
