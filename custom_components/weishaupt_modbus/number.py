@@ -134,7 +134,8 @@ class WW_Absenk(NumberEntity):
         }
 
 
-class HK_Party(NumberEntity):
+
+class HK_Party_old(NumberEntity):
     """Representation of a WEM Portal number."""
 
     _attr_name = "HK Party"
@@ -183,7 +184,7 @@ class HK_Party(NumberEntity):
         }
 
 
-class HK_Pause(NumberEntity):
+class HK_Pause_old(NumberEntity):
     """Representation of a WEM Portal number."""
 
     _attr_name = "HK Pause"
@@ -230,7 +231,6 @@ class HK_Pause(NumberEntity):
         return {
             "identifiers": {(DOMAIN, "Heizkreis")},
         }
-
 
 class HK_Raum_Soll_Komfort(NumberEntity):
     """Representation of a WEM Portal number."""
