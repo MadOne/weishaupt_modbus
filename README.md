@@ -1,3 +1,5 @@
+This is a fork from MadOne: https://github.com/MadOne/weishaupt_modbus/
+
 # Weishaupt_modbus
 
 This integration lets you monitor and controll your weishaupt heatpump through modbus.
