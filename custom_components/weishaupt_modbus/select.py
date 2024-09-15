@@ -197,7 +197,7 @@ class HK_Party_Select(SelectEntity):
         "Pause 1.5h",
         "Pause 1.0h",
         "Pause 0.5h",
-        "Automatik"
+        "Automatik",
         "Party 0.5h",
         "Party 1.0h",
         "Party 1.5h",
