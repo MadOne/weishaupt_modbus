@@ -236,11 +236,11 @@ class heat_pump:
     @property
     def HK_Vorlaufsolltemperatur(self):
         """HK_Vorlaufsolltemperatur."""
-        val = self.WWP.read_input_registers(31104, slave=1).registers[0] / 10
+        val = self.WWP.read_input_registers(31104, slave=1).registers[0]
         if val == -32768:
-            return "kein Sensor"
+            return -1
         if val == -32767:
-            return "Sensor defekt"
+            return -2
         return val / 10
         
 
