@@ -66,7 +66,7 @@ async def async_setup_entry(
 class Sys_Aussentemperatur1(SensorEntity):
     """Representation of a Sensor."""
 
-    _attr_name = "Aussentemperatur1"
+    _attr_name = "Temperatur Aussensensor"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
     _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
@@ -104,7 +104,7 @@ class Sys_Aussentemperatur1(SensorEntity):
 class Sys_Aussentemperatur2(SensorEntity):
     """Representation of a Sensor."""
 
-    _attr_name = "Aussentemperatur2"
+    _attr_name = "Temperatur Lufteinlass"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
     _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
