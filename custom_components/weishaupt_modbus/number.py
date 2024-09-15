@@ -235,7 +235,7 @@ class HK_Pause(NumberEntity):
 class HK_Raum_Soll_Komfort(NumberEntity):
     """Representation of a WEM Portal number."""
 
-    _attr_name = "HK Raumsollwert Komfort"
+    _attr_name = "HK R-Soll Komfort"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_native_value = 0
     _attr_should_poll = True
@@ -277,7 +277,7 @@ class HK_Raum_Soll_Komfort(NumberEntity):
 class HK_Raum_Soll_Normal(NumberEntity):
     """Representation of a WEM Portal number."""
 
-    _attr_name = "HK Raumsollwert Normal"
+    _attr_name = "HK R-Soll Normal"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_native_value = 0
     _attr_should_poll = True
@@ -319,7 +319,7 @@ class HK_Raum_Soll_Normal(NumberEntity):
 class HK_Raum_Soll_Absenk(NumberEntity):
     """Representation of a WEM Portal number."""
 
-    _attr_name = "HK Raumsollwert Absenk"
+    _attr_name = "HK R-Soll Absenk"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_native_value = 0
     _attr_should_poll = True
@@ -368,7 +368,8 @@ class HK_Heizkennlinie(NumberEntity):
     _attr_native_min_value = 0
     _attr_native_max_value = 1.5
     _attr_native_step = 0.05
-    _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
+#    _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS #
+    _attr_native_unit_of_measurement = None
 
     def __init__(self, host, port) -> None:
         """Init."""
@@ -404,7 +405,7 @@ class HK_Heizkennlinie(NumberEntity):
 class HK_SommerWinterUmschaltung(NumberEntity):
     """Representation of a WEM Portal number."""
 
-    _attr_name = "HK Sommer Winter Umschaltung"
+    _attr_name = "HK So-Wi Umschaltung"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_native_value = 0
     _attr_should_poll = True
