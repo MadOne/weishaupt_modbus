@@ -67,7 +67,7 @@ class Sys_Aussentemperatur1(SensorEntity):
     """Representation of a Sensor."""
 
     _attr_name = "Temperatur Aussensensor"
-    _attr_unique_id = DOMAIN + _attr_name
+    _attr_unique_id = DOMAIN + "Aussentemperatur1"
     _attr_should_poll = True
     _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
     _attr_device_class = SensorDeviceClass.TEMPERATURE
@@ -105,7 +105,7 @@ class Sys_Aussentemperatur2(SensorEntity):
     """Representation of a Sensor."""
 
     _attr_name = "Temperatur Lufteinlass"
-    _attr_unique_id = DOMAIN + _attr_name
+    _attr_unique_id = DOMAIN + "Aussentemperatur2"
     _attr_should_poll = True
     _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
     _attr_device_class = SensorDeviceClass.TEMPERATURE
