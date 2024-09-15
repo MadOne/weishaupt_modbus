@@ -249,7 +249,10 @@ class heat_pump:
         """HK_Vorlauftemperatur."""
         val = self.WWP.read_input_registers(31105, slave=1).registers[0]
         if val == 32768:
-            return None
+            # Heatpump Vorlauf, wenn HK keinen Vorlaufsensor hat #
+            val = self.WWP.read_input_registers(33104, slave=1).registers[0]  
+            if val == 32768:
+                return None
         return val / 10
 
     @property
