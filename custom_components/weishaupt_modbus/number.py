@@ -36,6 +36,7 @@ async def async_setup_entry(
         [
             WW_Normal(host, port),
             WW_Absenk(host, port),
+            WW_Push(host, port),
             # HK_Party(host, port),
             # HK_Pause(host, port),
             HK_Raum_Soll_Komfort(host, port),
