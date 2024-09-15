@@ -135,6 +135,69 @@ class WW_Absenk(NumberEntity):
 
 
 
+
+
+
+
+
+
+
+
+class WW_Push(NumberEntity):
+    """Representation of a WEM Portal number."""
+
+    _attr_name = "WW Push"
+    _attr_unique_id = DOMAIN + _attr_name
+    _attr_native_value = 0
+    _attr_should_poll = True
+    _attr_native_min_value = 5
+    _attr_native_max_value = 240
+    _attr_native_step = 1
+    _attr_native_unit_of_measurement = "min"
+
+    def __init__(self, host, port) -> None:
+        """Init."""
+        self._host = host
+        self._port = port
+        # whp = wp.heat_pump(host, port)
+        # whp.connect()
+        # self._attr_native_value = whp.WW_Absenk
+        # self.async_write_ha_state()
+
+    async def async_set_native_value(self, value: float) -> None:
+        """Update the current value."""
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        whp.WW_Push= int(value)
+
+        self._attr_native_value = whp.WW_Push
+        self.async_write_ha_state()
+
+    async def async_update(self) -> None:
+        """Update Entity Only used by the generic entity update service."""
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        self._attr_native_value = whp.WW_Push
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Information about this entity/device."""
+        return {
+            "identifiers": {(DOMAIN, "Warmwasser")},
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 class HK_Party_old(NumberEntity):
     """Representation of a WEM Portal number."""
 
