@@ -31,13 +31,6 @@ class ModbusObject():
         except:  # noqa: E722
             return None
 
-    def calcTemperature(self,val):
-        if val == -32768:
-            return -1
-        if val == -32767:
-            return -2
-        return val / 10
-
     @property
     def value(self):
         try:
@@ -45,20 +38,9 @@ class ModbusObject():
             match self._ModbusItem.type:
                 case TYPES.SENSOR:
                     # Sensor entities are read-only
-                    val = self._ModbusClient.read_input_registers(self._ModbusItem.address, slave=1).registers[0]
+                    return self._ModbusClient.read_input_registers(self._ModbusItem.address, slave=1).registers[0]
                 case TYPES.SELECT | TYPES.NUMBER:
-                    val = self._ModbusClient.read_holding_registers(self._ModbusItem.address, slave=1).registers[0]
-            
-            match self._ModbusItem.format:
-                # logically, this belongs to the ModbusItem, but doing it here
-                # maybe adding a translate function in MyEntity?
-                # currently it saves a lot of code lines ;-)
-                case FORMATS.TEMPERATUR:
-                    return self.calcTemperature(val)
-                case FORMATS.STATUS:
-                    return self._ModbusItem.getTextFromNumber(val)
-                case _:
-                    return val
+                    return self._ModbusClient.read_holding_registers(self._ModbusItem.address, slave=1).registers[0]
         except:  # noqa: E722
             return None
 
@@ -68,18 +50,5 @@ class ModbusObject():
             # Sensor entities are read-only
             return
 
-        val = None
-
-        match self._ModbusItem.format:
-            # logically, this belongs to the ModbusItem, but doing it here
-            # maybe adding a translate function in MyEntity?
-            # currently it saves a lot of code lines ;-)
-            case FORMATS.TEMPERATUR:
-                val = value * 10
-            case FORMATS.STATUS:
-                val = self._ModbusItem.getNumberFromText(value)
-            case _:
-                val = value
-
         self.connect()
-        self._ModbusClient.write_register(self._ModbusItem.address, val, slave=1)
+        self._ModbusClient.write_register(self._ModbusItem.address, value, slave=1)
