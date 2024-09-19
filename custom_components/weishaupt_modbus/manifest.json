@@ -1,11 +1,11 @@
 {
-  "domain": "weishaupt_modbus",
-  "name": "Weishaupt Modbus Integration",
-  "codeowners": ["@MadOne"],
+  "domain": "weishaupt_integ",
+  "name": "Weishaupt Integ",
+  "codeowners": ["@OStrama"],
   "config_flow": true,
-  "documentation": "https://github.com/MadOne/weishaupt_modbus/",
+  "documentation": "https://github.com/OStrama/weishaupt_modbus/",
   "iot_class": "local_polling",
-  "issue_tracker": "https://github.com/MadOne/weishaupt_modbus/issues",
+  "issue_tracker": "https://github.com/OStrama/weishaupt_modbus/issues",
   "requirements": [],
   "version": "0.0.1"
 }
