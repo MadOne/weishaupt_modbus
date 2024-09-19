@@ -41,6 +41,13 @@ class MyEntity():
         self._attr_unique_id = CONST.DOMAIN + self._attr_name
         self._dev_device = self._modbus_item.device
 
+    def calcTemperature(self,val):
+        if val == -32768:
+            return -1
+        if val == -32767:
+            return -2
+        return val / 10
+    
     def my_device_info(self) -> DeviceInfo:
         # helper to build the device info 
         return {
