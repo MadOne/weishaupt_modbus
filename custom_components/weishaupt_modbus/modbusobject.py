@@ -50,6 +50,9 @@ class ModbusObject():
                     val = self._ModbusClient.read_holding_registers(self._ModbusItem.address, slave=1).registers[0]
             
             match self._ModbusItem.format:
+                # logically, this belongs to the ModbusItem, but doing it here
+                # maybe adding a translate function in MyEntity?
+                # currently it saves a lot of code lines ;-)
                 case FORMATS.TEMPERATUR:
                     return self.calcTemperature(val)
                 case FORMATS.STATUS:
@@ -68,6 +71,9 @@ class ModbusObject():
         val = None
 
         match self._ModbusItem.format:
+            # logically, this belongs to the ModbusItem, but doing it here
+            # maybe adding a translate function in MyEntity?
+            # currently it saves a lot of code lines ;-)
             case FORMATS.TEMPERATUR:
                 val = value * 10
             case FORMATS.STATUS:
