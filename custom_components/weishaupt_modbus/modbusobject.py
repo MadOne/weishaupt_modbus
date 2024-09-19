@@ -6,10 +6,10 @@ from .const import FORMATS, TYPES
 # log = logging.getLogger()
 # log.setLevel(logging.DEBUG)
 
-# Ein Modbus-Objekt, welches ein Modbus-Item enthält und mit dem Modbus kommuniziert
+# A Modbus object that contains a Modbus item and communicates with the Modbus
+# it contains a ModbusClient for setting and getting Modbus register values
 class ModbusObject():
     _ModbusItem = None
-#    _HeatPump = None
     _DataFormat = None
  
     _ip = None
@@ -44,6 +44,7 @@ class ModbusObject():
             self.connect()
             match self._ModbusItem.type:
                 case TYPES.SENSOR:
+                    # Sensor entities are read-only
                     val = self._ModbusClient.read_input_registers(self._ModbusItem.address, slave=1).registers[0]
                 case TYPES.SELECT | TYPES.NUMBER:
                     val = self._ModbusClient.read_holding_registers(self._ModbusItem.address, slave=1).registers[0]
