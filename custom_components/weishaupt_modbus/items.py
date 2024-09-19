@@ -1,8 +1,8 @@
 from .const import TYPES
 
-#Ein Item eines Zustandes, z.B. Fehlercode und Fehlertext nebst genauer Beschreibung
-# Hier wird absichtlich eine Classe definiert, weil die Zuordnung über Dictionaries am Ende nicht so elegant gehen täte, 
-# vor allem bei Rückwärtssuche. (Zumindest weiss ich nicht, wie..)
+# An item of a status, e.g. error code and error text along with a precise description
+# A class is intentionally defined here because the assignment via dictionaries would not work so elegantly in the end, 
+# especially when searching backwards. (At least I don't know how...)
 class StatusItem():
     _number = -1
     _text = ""
@@ -37,9 +37,12 @@ class StatusItem():
     def description(self, value) -> None:
         self._description = value
 
-#Ein Modbus-Item, bestehend aus Adresse, Name, Format (Temperatur, Status, ..),
-#                               Typ (Sensor, Number, ..) und
-#                               optionaler Resultliste aus Statusitems
+# A Modbus item, consisting of address, name, 
+#                              format (temperature, status, ..),
+#                              type (sensor, number, ..),
+#                              device (System, Heatpump, ..) and
+#                              optional result list from status items
+#                              (number entities: status = limits?
 class ModbusItem():
     _address = None
     _name = "empty"
