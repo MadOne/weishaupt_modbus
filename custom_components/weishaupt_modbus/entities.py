@@ -14,6 +14,7 @@ def BuildEntityList(entries, host, port, modbusitems, type):
     for index, item in enumerate(modbusitems):
         if item.type == type:
            match type:
+                # here the entities are created with the parameters provided by the ModbusItem object
                 case TYPES.SENSOR:
                     entries.append(MySensorEntity(host, port, modbusitems[index]))
                 case TYPES.SELECT:
