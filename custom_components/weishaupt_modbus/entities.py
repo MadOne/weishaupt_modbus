@@ -7,6 +7,10 @@ from .const import CONST, FORMATS, TYPES
 from .modbusobject import ModbusObject
 
 def BuildEntityList(entries, host, port, modbusitems, type):
+    # this builds a list of entities that can be used as parameter by async_setup_entry()
+    # type of list is defined by the ModbusItem's type flag
+    # so the app only holds one list of entities that is build from a list of ModbusItem 
+    # stored in hpconst.py so far, will be provided by an external file in future
     for index, item in enumerate(modbusitems):
         if item.type == type:
            match type:
@@ -20,6 +24,7 @@ def BuildEntityList(entries, host, port, modbusitems, type):
     return entries
 
 class MyEntity():
+    # The base class for entities that hold general parameters
     _host = None
     _port = None
     _modbus_item = None
@@ -37,6 +42,7 @@ class MyEntity():
         self._dev_device = self._modbus_item.device
 
     def my_device_info(self) -> DeviceInfo:
+        # helper to build the device info 
         return {
                 "identifiers": {(CONST.DOMAIN, self._dev_device)},
                 "name": self._dev_device,
@@ -46,6 +52,8 @@ class MyEntity():
         }
 
 class MySensorEntity(SensorEntity, MyEntity):
+    # class that represents a sensor entity derived from Sensorentity 
+    # and decorated with general parameters from MyEntity
     _attr_native_unit_of_measurement = None
     _attr_device_class =  None
     _attr_state_class =  None
@@ -53,6 +61,7 @@ class MySensorEntity(SensorEntity, MyEntity):
     def __init__(self, host, port, modbus_item) -> None:
         MyEntity.__init__(self, host, port, modbus_item)
 
+        # to be cleaed up --> provide this info by the ModbusItem?
         if self._modbus_item._format == FORMATS.TEMPERATUR:
             self._attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
             self._attr_device_class = SensorDeviceClass.TEMPERATURE
@@ -63,6 +72,7 @@ class MySensorEntity(SensorEntity, MyEntity):
 
 
     async def async_update(self) -> None:
+        # the synching is done by the ModbusObject of the entity
         mbo = ModbusObject(self._host, self._port, self._modbus_item)
         self._attr_native_value = mbo.value
 
@@ -71,6 +81,8 @@ class MySensorEntity(SensorEntity, MyEntity):
         return MyEntity.my_device_info(self)
 
 class MyNumberEntity(NumberEntity, MyEntity):
+    # class that represents a sensor entity derived from Sensorentity 
+    # and decorated with general parameters from MyEntity
     _attr_native_unit_of_measurement = None
     _attr_device_class =  None
     _attr_state_class =  None
@@ -78,6 +90,7 @@ class MyNumberEntity(NumberEntity, MyEntity):
     def __init__(self, host, port, modbus_item) -> None:
         MyEntity.__init__(self, host, port, modbus_item)
 
+        # to be cleaed up --> provide this info by the ModbusItem?
         if self._modbus_item._format == FORMATS.TEMPERATUR:
             self._attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
             self._attr_device_class = SensorDeviceClass.TEMPERATURE
@@ -88,6 +101,7 @@ class MyNumberEntity(NumberEntity, MyEntity):
 
 
     async def async_update(self) -> None:
+        # the synching is done by the ModbusObject of the entity
         mbo = ModbusObject(self._host, self._port, self._modbus_item)
         self._attr_native_value = mbo.value
 
@@ -97,23 +111,28 @@ class MyNumberEntity(NumberEntity, MyEntity):
 
 
 class MySelectEntity(SelectEntity, MyEntity):
+    # class that represents a sensor entity derived from Sensorentity 
+    # and decorated with general parameters from MyEntity
     options = []
     _attr_current_option = "FEHLER"
 
     def __init__(self, host, port, modbus_item) -> None:
         MyEntity.__init__(self, host, port, modbus_item)
         self.async_internal_will_remove_from_hass_port = self._port
+        # option list build from the status list of the ModbusItem
         self.options = []
         for index, item in enumerate(self._modbus_item._resultlist):
             self.options.append(item.text)
 
     async def async_select_option(self, option: str) -> None:
+        # the synching is done by the ModbusObject of the entity
         self._attr_current_option = option
         mbo = ModbusObject(self._host, self._port, self._modbus_item)
         mbo.value = option
         self.async_write_ha_state()
 
     async def async_update(self) -> None:
+        # the synching is done by the ModbusObject of the entity
         # await self.coordinator.async_request_refresh()
         mbo = ModbusObject(self._host, self._port, self._modbus_item)
         self._attr_current_option = mbo.value
