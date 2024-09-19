@@ -49,7 +49,7 @@ class MyEntity():
         return val / 10
 
     @property
-    def readModbusVal(self):
+    def translateVal(self):
         # reads an translates a value from the modbua
         mbo = ModbusObject(self._host, self._port, self._modbus_item)
         val = mbo.value
@@ -60,6 +60,23 @@ class MyEntity():
                 return self._modbus_item.getTextFromNumber(val)
             case _:
                 return val
+
+    @translateVal.setter
+    def translateVal(self,value):
+        # translates and writes a value to the modbus
+        mbo = ModbusObject(self._host, self._port, self._modbus_item)
+        val = None
+        match self._ModbusItem.format:
+            # logically, this belongs to the ModbusItem, but doing it here
+            # maybe adding a translate function in MyEntity?
+            # currently it saves a lot of code lines ;-)
+            case FORMATS.TEMPERATUR:
+                val = value * 10
+            case FORMATS.STATUS:
+                val = self._ModbusItem.getNumberFromText(value)
+            case _:
+                val = value
+        mbo.value = val
     
     def my_device_info(self) -> DeviceInfo:
         # helper to build the device info 
@@ -93,7 +110,7 @@ class MySensorEntity(SensorEntity, MyEntity):
 
     async def async_update(self) -> None:
         # the synching is done by the ModbusObject of the entity
-        self._attr_native_value = readModbusVal
+        self._attr_native_value = translateVal
 
     @property
     def device_info(self) -> DeviceInfo:
@@ -121,7 +138,7 @@ class MyNumberEntity(NumberEntity, MyEntity):
 
     async def async_update(self) -> None:
         # the synching is done by the ModbusObject of the entity
-        self._attr_native_value = readModbusVal
+        self._attr_native_value = translateVal
 
     @property
     def device_info(self) -> DeviceInfo:
@@ -145,14 +162,13 @@ class MySelectEntity(SelectEntity, MyEntity):
     async def async_select_option(self, option: str) -> None:
         # the synching is done by the ModbusObject of the entity
         self._attr_current_option = option
-        mbo = ModbusObject(self._host, self._port, self._modbus_item)
-        mbo.value = option
+        translateVal = option
         self.async_write_ha_state()
 
     async def async_update(self) -> None:
         # the synching is done by the ModbusObject of the entity
         # await self.coordinator.async_request_refresh()
-        self._attr_native_value = readModbusVal
+        self._attr_native_value = translateVal
 
     @property
     def device_info(self) -> DeviceInfo:
