@@ -1,3 +1,5 @@
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import CONF_HOST, CONF_PORT
 from pymodbus.client import ModbusTcpClient as ModbusClient
 from .const import FORMATS, TYPES
 
@@ -16,12 +18,12 @@ class ModbusObject():
     _port = None
     _ModbusClient = None
 
-    def __init__(self, hp_ip, hp_port, modbus_item):
+    def __init__(self, config_entry, modbus_item):
         self._ModbusItem = modbus_item
         #self._HeatPump = heatpump
         
-        self._ip = hp_ip
-        self._port = hp_port
+        self._ip = config_entry.data[CONF_HOST]
+        self._port = config_entry.data[CONF_PORT]
         self._ModbusClient = None
         
     def connect(self):
