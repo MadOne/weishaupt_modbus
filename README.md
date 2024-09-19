@@ -6,6 +6,9 @@ This allows generic setup of all entities and a more easy completion of messages
 
 #### not yet ready ####
 
+For production, please use https://github.com/MadOne/weishaupt_modbus/ for now
+When it's ready, I'll distribute this fork via HACS
+
 # Weishaupt_modbus
 
 This integration lets you monitor and controll your weishaupt heatpump through modbus.
