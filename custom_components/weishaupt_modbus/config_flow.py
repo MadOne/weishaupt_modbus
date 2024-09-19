@@ -1,28 +1,19 @@
-"""Weishaupt Modbus Integration."""
-
 from typing import Any
-
 import voluptuous as vol
-
 from homeassistant import config_entries, exceptions
 from homeassistant.const import CONF_HOST, CONF_PORT
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
 
 # from . import wp
-from .const import DOMAIN
+from .const import CONST
 
 # DATA_SCHEMA = vol.Schema({("host"): str, ("port"): cv.port})
 DATA_SCHEMA = vol.Schema(
     {vol.Required(CONF_HOST): str, vol.Optional(CONF_PORT, default="502"): cv.port}
 )
 
-
 async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
-    """Validate the user input allows us to connect.
-
-    Data has the keys from DATA_SCHEMA with values provided by the user.
-    """
     # Validate the data can be used to set up a connection.
 
     # This is a simple example to show an error in the UI for a short hostname
@@ -30,10 +21,6 @@ async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
     # `async_step_user` method below.
     if len(data["host"]) < 3:
         raise InvalidHost
-
-    # whp = wp.heat_pump("10.10.1.225", 502)
-    # if not whp:
-    #    raise ConnectionFailed
 
     # If your PyPI package is not built with async, pass your methods
     # to the executor:
@@ -53,9 +40,7 @@ async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
     return {"title": data["host"]}
 
 
-class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Hello World."""
-
+class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
     VERSION = 1
     # Pick one of the available connection classes in homeassistant/config_entries.py
     # This tells HA if it should be asking for updates, or it'll be notified of updates
@@ -64,7 +49,6 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_PUSH
 
     async def async_step_user(self, user_input=None):
-        """Handle the initial step."""
         # This goes through the steps to take the user through the setup process.
         # Using this it is possible to update the UI and prompt for additional
         # information. This example provides a single form (built from `DATA_SCHEMA`),
@@ -81,15 +65,13 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             except Exception:  # noqa: BLE001
                 errors["base"] = "unknown"
 
-        # If there is no user input or there were errors, show the form again, including any errors that were found with the input.
+# If there is no user input or there were errors, show the form again, including any errors that were found with the input.
         return self.async_show_form(
             step_id="user", data_schema=DATA_SCHEMA, errors=errors
         )
 
-
 class InvalidHost(exceptions.HomeAssistantError):
     """Error to indicate there is an invalid hostname."""
-
 
 class ConnectionFailed(exceptions.HomeAssistantError):
     """Error to indicate there is an invalid hostname."""
