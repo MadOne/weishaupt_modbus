@@ -1,5 +1,11 @@
 This is a fork from MadOne: https://github.com/MadOne/weishaupt_modbus/
 
+I started to build a structure that finally will allow loading of the modbus structure from a file. 
+As a first step, all modbus parameters will be concentrated in the file hpconst.py as a set of object lists.
+This allows generic setup of all entities and a more easy completion of messages and entity behavior
+
+#### not yet ready ####
+
 # Weishaupt_modbus
 
 This integration lets you monitor and controll your weishaupt heatpump through modbus.
