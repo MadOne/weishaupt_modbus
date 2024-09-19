@@ -47,6 +47,19 @@ class MyEntity():
         if val == -32767:
             return -2
         return val / 10
+
+    @property
+    def readModbusVal(self):
+        # reads an translates a value from the modbua
+        mbo = ModbusObject(self._host, self._port, self._modbus_item)
+        val = mbo.value
+        match self._modbus_item.format:
+            case FORMATS.TEMPERATUR:
+                return self.calcTemperature(val)
+            case FORMATS.STATUS:
+                return self._modbus_item.getTextFromNumber(val)
+            case _:
+                return val
     
     def my_device_info(self) -> DeviceInfo:
         # helper to build the device info 
@@ -80,8 +93,7 @@ class MySensorEntity(SensorEntity, MyEntity):
 
     async def async_update(self) -> None:
         # the synching is done by the ModbusObject of the entity
-        mbo = ModbusObject(self._host, self._port, self._modbus_item)
-        self._attr_native_value = mbo.value
+        self._attr_native_value = readModbusVal
 
     @property
     def device_info(self) -> DeviceInfo:
@@ -109,8 +121,7 @@ class MyNumberEntity(NumberEntity, MyEntity):
 
     async def async_update(self) -> None:
         # the synching is done by the ModbusObject of the entity
-        mbo = ModbusObject(self._host, self._port, self._modbus_item)
-        self._attr_native_value = mbo.value
+        self._attr_native_value = readModbusVal
 
     @property
     def device_info(self) -> DeviceInfo:
@@ -141,8 +152,7 @@ class MySelectEntity(SelectEntity, MyEntity):
     async def async_update(self) -> None:
         # the synching is done by the ModbusObject of the entity
         # await self.coordinator.async_request_refresh()
-        mbo = ModbusObject(self._host, self._port, self._modbus_item)
-        self._attr_current_option = mbo.value
+        self._attr_native_value = readModbusVal
 
     @property
     def device_info(self) -> DeviceInfo:
