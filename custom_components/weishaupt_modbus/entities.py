@@ -1,4 +1,5 @@
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import CONF_PORT
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity, SensorStateClass
 from homeassistant.components.select import SelectEntity
 from homeassistant.components.number import NumberEntity
@@ -66,14 +67,14 @@ class MyEntity():
         # translates and writes a value to the modbus
         mbo = ModbusObject(self._config_entry, self._modbus_item)
         val = None
-        match self._ModbusItem.format:
+        match self._modbus_item.format:
             # logically, this belongs to the ModbusItem, but doing it here
             # maybe adding a translate function in MyEntity?
             # currently it saves a lot of code lines ;-)
             case FORMATS.TEMPERATUR:
                 val = value * 10
             case FORMATS.STATUS:
-                val = self._ModbusItem.getNumberFromText(value)
+                val = self._modbus_item.getNumberFromText(value)
             case _:
                 val = value
         mbo.value = val
@@ -110,7 +111,7 @@ class MySensorEntity(SensorEntity, MyEntity):
 
     async def async_update(self) -> None:
         # the synching is done by the ModbusObject of the entity
-        self._attr_native_value = translateVal
+        self._attr_native_value = self.translateVal
 
     @property
     def device_info(self) -> DeviceInfo:
@@ -138,7 +139,7 @@ class MyNumberEntity(NumberEntity, MyEntity):
 
     async def async_update(self) -> None:
         # the synching is done by the ModbusObject of the entity
-        self._attr_native_value = translateVal
+        self._attr_native_value = self.translateVal
 
     @property
     def device_info(self) -> DeviceInfo:
@@ -153,7 +154,7 @@ class MySelectEntity(SelectEntity, MyEntity):
 
     def __init__(self, config_entry, modbus_item) -> None:
         MyEntity.__init__(self, config_entry, modbus_item)
-        self.async_internal_will_remove_from_hass_port = self._port
+        self.async_internal_will_remove_from_hass_port = self._config_entry.data[CONF_PORT]
         # option list build from the status list of the ModbusItem
         self.options = []
         for index, item in enumerate(self._modbus_item._resultlist):
@@ -162,13 +163,13 @@ class MySelectEntity(SelectEntity, MyEntity):
     async def async_select_option(self, option: str) -> None:
         # the synching is done by the ModbusObject of the entity
         self._attr_current_option = option
-        translateVal = option
+        self.translateVal = option
         self.async_write_ha_state()
 
     async def async_update(self) -> None:
         # the synching is done by the ModbusObject of the entity
         # await self.coordinator.async_request_refresh()
-        self._attr_native_value = translateVal
+        self._attr_native_value = self.translateVal
 
     @property
     def device_info(self) -> DeviceInfo:
