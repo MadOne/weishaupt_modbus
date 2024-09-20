@@ -137,8 +137,8 @@ HP_RUHEMODUS = [
 ##############################################################################################################################
 
 MODBUS_SYS_ITEMS = [
-    ModbusItem(30001,"Aussentemperatur 1",FORMATS.TEMPERATUR,TYPES.SENSOR,DEVICES.SYS),
-    ModbusItem(30002,"Aussentemperatur 2",FORMATS.TEMPERATUR,TYPES.SENSOR,DEVICES.SYS),
+    ModbusItem(30001,"Aussentemperatur",FORMATS.TEMPERATUR,TYPES.SENSOR,DEVICES.SYS),
+    ModbusItem(30002,"Luftansaugtemperatur",FORMATS.TEMPERATUR,TYPES.SENSOR,DEVICES.SYS),
     ModbusItem(30003,"Fehler",FORMATS.STATUS,TYPES.SENSOR,DEVICES.SYS, SYS_FEHLER),
     ModbusItem(30004,"Warnung",FORMATS.STATUS,TYPES.SENSOR,DEVICES.SYS, SYS_WARNUNG),
     ModbusItem(30005,"Fehlerfrei",FORMATS.STATUS,TYPES.SENSOR,DEVICES.SYS, SYS_FEHLERFREI),
@@ -153,11 +153,11 @@ MODBUS_SYS_ITEMS = [
     ModbusItem(43101,"Konfiguration ",FORMATS.NUMBER,TYPES.NUMBER,DEVICES.WP),
     ModbusItem(43102,"Ruhemodus",FORMATS.STATUS,TYPES.SELECT,DEVICES.WP,HP_RUHEMODUS),
     ModbusItem(43103,"Pumpe Einschaltart",FORMATS.NUMBER,TYPES.NUMBER,DEVICES.WP),
-    #ModbusItem(43104,"Pumpe Leistung Heizen",
-    #ModbusItem(43105,"Pumpe Leistung Kühlen",
-    #ModbusItem(43106,"Pumpe Leistung Warmwasser",
-    #ModbusItem(43107,"Pumpe Leistung Abtaubetrieb",
-    #ModbusItem(43108,"Volumenstrom Heizen",
-    #ModbusItem(43109,"Volumenstrom Kühlen",
-    #ModbusItem(43110,"Volumenstrom Warmwasser",
+    ModbusItem(43104,"Pumpe Leistung Heizen",FORMATS.PERCENTAGE,TYPES.NUMBER,DEVICES.WP),
+    ModbusItem(43105,"Pumpe Leistung Kühlen",FORMATS.PERCENTAGE,TYPES.NUMBER,DEVICES.WP),
+    ModbusItem(43106,"Pumpe Leistung Warmwasser",FORMATS.PERCENTAGE,TYPES.NUMBER,DEVICES.WP),
+    ModbusItem(43107,"Pumpe Leistung Abtaubetrieb",FORMATS.PERCENTAGE,TYPES.NUMBER,DEVICES.WP),
+    ModbusItem(43108,"Volumenstrom Heizen",FORMATS.VOLUMENSTROM,TYPES.NUMBER,DEVICES.WP),
+    ModbusItem(43109,"Volumenstrom Kühlen",FORMATS.VOLUMENSTROM,TYPES.NUMBER,DEVICES.WP),
+    ModbusItem(43110,"Volumenstrom Warmwasser",FORMATS.VOLUMENSTROM,TYPES.NUMBER,DEVICES.WP),
 ] 

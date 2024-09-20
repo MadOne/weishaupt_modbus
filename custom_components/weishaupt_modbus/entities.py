@@ -99,15 +99,13 @@ class MySensorEntity(SensorEntity, MyEntity):
     def __init__(self, config_entry, modbus_item) -> None:
         MyEntity.__init__(self, config_entry, modbus_item)
 
-        # to be cleaed up --> provide this info by the ModbusItem?
-        if self._modbus_item._format == FORMATS.TEMPERATUR:
-            self._attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
-            self._attr_device_class = SensorDeviceClass.TEMPERATURE
+        if self._modbus_item._format != FORMATS.STATUS:
+            self._attr_native_unit_of_measurement = self._modbus_item._format
             self._attr_state_class = SensorStateClass.MEASUREMENT
 
-        if self._modbus_item._format == FORMATS.PERCENTAGE:
-            self._attr_native_unit_of_measurement = "%"
-
+        # to be cleaed up --> provide this info by the ModbusItem?
+        if self._modbus_item._format == FORMATS.TEMPERATUR:
+            self._attr_device_class = SensorDeviceClass.TEMPERATURE
 
     async def async_update(self) -> None:
         # the synching is done by the ModbusObject of the entity
@@ -141,6 +139,10 @@ class MyNumberEntity(NumberEntity, MyEntity):
         # the synching is done by the ModbusObject of the entity
         self._attr_native_value = self.translateVal
 
+    async def async_set_native_value(self, value: float) -> None:
+        self._attr_native_value = self.translateVal
+        self.async_write_ha_state()
+
     @property
     def device_info(self) -> DeviceInfo:
         return MyEntity.my_device_info(self)
@@ -169,7 +171,7 @@ class MySelectEntity(SelectEntity, MyEntity):
     async def async_update(self) -> None:
         # the synching is done by the ModbusObject of the entity
         # await self.coordinator.async_request_refresh()
-        self._attr_native_value = self.translateVal
+        self._attr_current_option = self.translateVal
 
     @property
     def device_info(self) -> DeviceInfo:

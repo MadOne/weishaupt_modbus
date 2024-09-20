@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from datetime import timedelta
+from homeassistant.const import UnitOfEnergy, UnitOfTemperature
 
 @dataclass(frozen=True)
 class MainConstants:
@@ -12,10 +13,12 @@ CONST = MainConstants()
 
 @dataclass(frozen=True)
 class FormatConstants:
-    TEMPERATUR = "Temperatur"
-    PERCENTAGE = "Prozent"
-    NUMBER = "Nummer"
+    TEMPERATUR = UnitOfTemperature.CELSIUS
+    ENERGY = UnitOfEnergy.KILO_WATT_HOUR
+    PERCENTAGE = "%"
+    NUMBER = "Wert"
     STATUS = "Status"
+    VOLUMENSTROM = "m³/h"
 
 FORMATS = FormatConstants()
 
