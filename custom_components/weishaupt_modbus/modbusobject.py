@@ -52,4 +52,4 @@ class ModbusObject():
             # Sensor entities are read-only
             return
         self.connect()
-        self._ModbusClient.write_register(self._ModbusItem.address, value, slave=1)
+        self._ModbusClient.write_register(self._ModbusItem.address, int(value), slave=1)

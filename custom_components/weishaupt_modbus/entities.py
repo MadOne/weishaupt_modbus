@@ -42,12 +42,20 @@ class MyEntity():
         self._attr_unique_id = CONST.DOMAIN + self._attr_name
         self._dev_device = self._modbus_item.device
 
-    def calcTemperature(self,val):
+    def calcTemperature(self,val: float):
         if val == -32768:
             return -1
         if val == -32767:
             return -2
-        return val / 10
+        if val == 32768:
+            return None
+        return val / 10.0
+
+    def calcPercentage(self,val: float):
+        if val == 65535:
+            return None
+        return val
+
 
     @property
     def translateVal(self):
@@ -57,8 +65,12 @@ class MyEntity():
         match self._modbus_item.format:
             case FORMATS.TEMPERATUR:
                 return self.calcTemperature(val)
+            case FORMATS.PERCENTAGE:
+                return self.calcPercentage(val)
             case FORMATS.STATUS:
                 return self._modbus_item.getTextFromNumber(val)
+            case FORMATS.KENNLINIE:
+                return val / 100.0
             case _:
                 return val
 
@@ -73,6 +85,8 @@ class MyEntity():
             # currently it saves a lot of code lines ;-)
             case FORMATS.TEMPERATUR:
                 val = value * 10
+            case FORMATS.KENNLINIE:
+                val = value * 100
             case FORMATS.STATUS:
                 val = self._modbus_item.getNumberFromText(value)
             case _:
@@ -106,6 +120,11 @@ class MySensorEntity(SensorEntity, MyEntity):
         # to be cleaed up --> provide this info by the ModbusItem?
         if self._modbus_item._format == FORMATS.TEMPERATUR:
             self._attr_device_class = SensorDeviceClass.TEMPERATURE
+            self._attr_native_step = 0.5
+
+        if self._modbus_item._format == FORMATS.KENNLINIE:
+            self._attr_native_step = 0.05
+
 
     async def async_update(self) -> None:
         # the synching is done by the ModbusObject of the entity
@@ -121,27 +140,38 @@ class MyNumberEntity(NumberEntity, MyEntity):
     _attr_native_unit_of_measurement = None
     _attr_device_class =  None
     _attr_state_class =  None
+    _attr_native_min_value = 10
+    _attr_native_max_value = 60
+
 
     def __init__(self, config_entry, modbus_item) -> None:
         MyEntity.__init__(self, config_entry, modbus_item)
+
+        if self._modbus_item.resultlist != None:
+            self._attr_native_min_value = self._modbus_item.getNumberFromText("min")
+            self._attr_native_max_value = self._modbus_item.getNumberFromText("max")
 
         # to be cleaed up --> provide this info by the ModbusItem?
         if self._modbus_item._format == FORMATS.TEMPERATUR:
             self._attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
             self._attr_device_class = SensorDeviceClass.TEMPERATURE
             self._attr_state_class = SensorStateClass.MEASUREMENT
+            self._attr_native_step = 0.5
+
+        if self._modbus_item._format == FORMATS.KENNLINIE:
+            self._attr_native_step = 0.05
 
         if self._modbus_item._format == FORMATS.PERCENTAGE:
             self._attr_native_unit_of_measurement = "%"
 
+    async def async_set_native_value(self, value: float) -> None:
+        self.translateVal = value
+        self._attr_native_value =  self.translateVal
+        self.async_write_ha_state()
 
     async def async_update(self) -> None:
         # the synching is done by the ModbusObject of the entity
         self._attr_native_value = self.translateVal
-
-    async def async_set_native_value(self, value: float) -> None:
-        self._attr_native_value = self.translateVal
-        self.async_write_ha_state()
 
     @property
     def device_info(self) -> DeviceInfo:
@@ -164,8 +194,8 @@ class MySelectEntity(SelectEntity, MyEntity):
 
     async def async_select_option(self, option: str) -> None:
         # the synching is done by the ModbusObject of the entity
-        self._attr_current_option = option
         self.translateVal = option
+        self._attr_current_option =  self.translateVal
         self.async_write_ha_state()
 
     async def async_update(self) -> None:

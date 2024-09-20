@@ -19,6 +19,7 @@ class FormatConstants:
     NUMBER = "Wert"
     STATUS = "Status"
     VOLUMENSTROM = "m³/h"
+    KENNLINIE = ""
 
 FORMATS = FormatConstants()
 
