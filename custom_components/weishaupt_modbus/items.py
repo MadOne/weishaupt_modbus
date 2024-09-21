@@ -83,12 +83,16 @@ class ModbusItem():
         return self._resultlist
 
     def getTextFromNumber(self, val):
+        if self._resultlist == None:
+            return None
         for index, item in enumerate(self._resultlist):
             if val == item.number:
                 return item.text
         return "unbekannt <" + str(val) + ">"
 
     def getNumberFromText(self, val):
+        if self._resultlist == None:
+            return None
         for index, item in enumerate(self._resultlist):
             if val == item.text:
                 return item.number

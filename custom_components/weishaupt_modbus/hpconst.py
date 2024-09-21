@@ -8,6 +8,8 @@ class DeviceConstants:
     WP = "Wärmepumpe"
     WW = "Warmwasser"
     HZ = "Heizkreis"
+    W2 = "2. Wärmeerzeuger"
+    ST = "Statistik"
 
 DEVICES = DeviceConstants()
 
@@ -135,16 +137,44 @@ HP_RUHEMODUS = [
 RANGE_PERCENTAGE = [
     StatusItem(0,"min"),
     StatusItem(100,"max"),
+    StatusItem(1,"step"),
 ]
 
 TEMPRANGE_ROOM = [
     StatusItem(16,"min"),
     StatusItem(30,"max"),
+    StatusItem(0.5,"step"),
 ]
+
+TEMPRANGE_WATER = [
+    StatusItem(30,"min"),
+    StatusItem(60,"max"),
+    StatusItem(0.5,"step"),
+]
+
+TEMPRANGE_SGREADY = [
+    StatusItem(0,"min"),
+    StatusItem(10,"max"),
+    StatusItem(0.5,"step"),
+]
+
+TEMPRANGE_BIVALENZ = [
+    StatusItem(-20,"min"),
+    StatusItem(10,"max"),
+    StatusItem(0.5,"step"),
+]
+
 
 RANGE_HZKENNLINIE = [
     StatusItem(0,"min"),
     StatusItem(3,"max"),
+    StatusItem(0.05,"step"),
+]
+
+TIMERANGE_WWPUSH = [
+    StatusItem(0,"min"),
+    StatusItem(240,"max"),
+    StatusItem(5,"step"),
 ]
 
 HZ_KONFIGURATION = [
@@ -220,6 +250,21 @@ HZ_PARTY_PAUSE = [
     StatusItem(49,"Party 12.0h"),
 ]
 
+WW_KONFIGURATION = [
+    StatusItem(0,"aus"),
+    StatusItem(1,"Umlenkventil"),
+    StatusItem(2,"Pumpe"),
+]
+
+W2_STATUS = [
+    StatusItem(0,"aus"),
+    StatusItem(1,"ein"),
+]
+
+W2_KONFIG = [
+    StatusItem(0,"0"),
+    StatusItem(1,"1"),
+]
 
 
 ##############################################################################################################################
@@ -269,5 +314,25 @@ MODBUS_SYS_ITEMS = [
     ModbusItem(41110,"Heizen Konstanttemperatur",FORMATS.TEMPERATUR,TYPES.NUMBER,DEVICES.HZ,TEMPRANGE_ROOM),
     ModbusItem(41111,"Heizen Konstanttemp Absenk",FORMATS.TEMPERATUR,TYPES.NUMBER,DEVICES.HZ,TEMPRANGE_ROOM),
     ModbusItem(41112,"Kühlen Konstanttemperatur",FORMATS.TEMPERATUR,TYPES.NUMBER,DEVICES.HZ,TEMPRANGE_ROOM),
+
+    ModbusItem(32101,"Warmwassersolltemperatur",FORMATS.TEMPERATUR,TYPES.NUMBER,DEVICES.WW,TEMPRANGE_WATER),
+    ModbusItem(32102,"Warmwassertemepratur",FORMATS.TEMPERATUR,TYPES.NUMBER,DEVICES.WW,TEMPRANGE_WATER),
+    ModbusItem(42101,"WW_Konfiguration",FORMATS.STATUS,TYPES.SELECT,DEVICES.WW,WW_KONFIGURATION),
+    ModbusItem(42102,"Warmwasser Push",FORMATS.TIME_MIN,TYPES.NUMBER,DEVICES.WW,TIMERANGE_WWPUSH),
+    ModbusItem(42103,"Warmwasser Normal",FORMATS.TEMPERATUR,TYPES.NUMBER,DEVICES.WW,TEMPRANGE_WATER),
+    ModbusItem(42104,"Warmwasser Absenk",FORMATS.TEMPERATUR,TYPES.NUMBER,DEVICES.WW,TEMPRANGE_WATER),
+    ModbusItem(42105,"SG Ready Anhebung",FORMATS.TEMPERATUR,TYPES.NUMBER,DEVICES.WW,TEMPRANGE_SGREADY),
+
+    ModbusItem(34101,"Status 2. WEZ",FORMATS.STATUS,TYPES.SENSOR,DEVICES.W2,W2_STATUS),
+    ModbusItem(34102,"Betriebsstunden 2. WEZ",FORMATS.TIME_H,TYPES.SENSOR,DEVICES.W2),
+    ModbusItem(34103,"Schaltspiele 2. WEZ",FORMATS.NUMBER,TYPES.SENSOR,DEVICES.W2),
+    ModbusItem(34104,"Status E-Heizung 1",FORMATS.STATUS,TYPES.SENSOR,DEVICES.W2,W2_STATUS),
+    ModbusItem(34105,"Status E-Heizung 2",FORMATS.STATUS,TYPES.SENSOR,DEVICES.W2,W2_STATUS),
+    ModbusItem(34106,"Betriebsstunden E1",FORMATS.TIME_H,TYPES.SENSOR,DEVICES.W2),
+    ModbusItem(34107,"Betriebsstunden E2",FORMATS.TIME_H,TYPES.SENSOR,DEVICES.W2),
+    ModbusItem(44101,"W2_Konfiguration",FORMATS.STATUS,TYPES.SENSOR,DEVICES.W2,W2_KONFIG),
+    ModbusItem(44102,"Grenztemperatur",FORMATS.TEMPERATUR,TYPES.NUMBER,DEVICES.W2,TEMPRANGE_BIVALENZ),
+    ModbusItem(44103,"Bivalenztemperatur",FORMATS.TEMPERATUR,TYPES.NUMBER,DEVICES.W2,TEMPRANGE_BIVALENZ),
+    ModbusItem(44104,"Bivalenztemperatur WW",FORMATS.TEMPERATUR,TYPES.NUMBER,DEVICES.W2,TEMPRANGE_BIVALENZ),
 
 ] 

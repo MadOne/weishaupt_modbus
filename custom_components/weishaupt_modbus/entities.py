@@ -42,7 +42,21 @@ class MyEntity():
         self._attr_unique_id = CONST.DOMAIN + self._attr_name
         self._dev_device = self._modbus_item.device
 
+        if self._modbus_item._format != FORMATS.STATUS:
+            self._attr_native_unit_of_measurement = self._modbus_item._format
+            self._attr_state_class = SensorStateClass.MEASUREMENT
+            
+            if self._modbus_item.resultlist != None:
+                self._attr_native_min_value = self._modbus_item.getNumberFromText("min")
+                self._attr_native_max_value = self._modbus_item.getNumberFromText("max")
+                self._attr_native_step = self._modbus_item.getNumberFromText("step")
+
+        if self._modbus_item._format == FORMATS.TEMPERATUR:
+            self._attr_device_class = SensorDeviceClass.TEMPERATURE
+
     def calcTemperature(self,val: float):
+        if val == None:
+            return None
         if val == -32768:
             return -1
         if val == -32767:
@@ -55,7 +69,6 @@ class MyEntity():
         if val == 65535:
             return None
         return val
-
 
     @property
     def translateVal(self):
@@ -113,19 +126,6 @@ class MySensorEntity(SensorEntity, MyEntity):
     def __init__(self, config_entry, modbus_item) -> None:
         MyEntity.__init__(self, config_entry, modbus_item)
 
-        if self._modbus_item._format != FORMATS.STATUS:
-            self._attr_native_unit_of_measurement = self._modbus_item._format
-            self._attr_state_class = SensorStateClass.MEASUREMENT
-
-        # to be cleaed up --> provide this info by the ModbusItem?
-        if self._modbus_item._format == FORMATS.TEMPERATUR:
-            self._attr_device_class = SensorDeviceClass.TEMPERATURE
-            self._attr_native_step = 0.5
-
-        if self._modbus_item._format == FORMATS.KENNLINIE:
-            self._attr_native_step = 0.05
-
-
     async def async_update(self) -> None:
         # the synching is done by the ModbusObject of the entity
         self._attr_native_value = self.translateVal
@@ -150,19 +150,7 @@ class MyNumberEntity(NumberEntity, MyEntity):
         if self._modbus_item.resultlist != None:
             self._attr_native_min_value = self._modbus_item.getNumberFromText("min")
             self._attr_native_max_value = self._modbus_item.getNumberFromText("max")
-
-        # to be cleaed up --> provide this info by the ModbusItem?
-        if self._modbus_item._format == FORMATS.TEMPERATUR:
-            self._attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
-            self._attr_device_class = SensorDeviceClass.TEMPERATURE
-            self._attr_state_class = SensorStateClass.MEASUREMENT
-            self._attr_native_step = 0.5
-
-        if self._modbus_item._format == FORMATS.KENNLINIE:
-            self._attr_native_step = 0.05
-
-        if self._modbus_item._format == FORMATS.PERCENTAGE:
-            self._attr_native_unit_of_measurement = "%"
+            self._attr_native_step = self._modbus_item.getNumberFromText("step")
 
     async def async_set_native_value(self, value: float) -> None:
         self.translateVal = value
