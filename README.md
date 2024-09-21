@@ -45,4 +45,14 @@ Just enter the IP of your Weishaupt heatpump. Port should be ok at default unles
 You have to enable modbus in your heatpump settings. 
 
 
-ToDo: Pictures and explanation of how to enable modbus
+## Setting up the HeatPump
+
+In order to use this integration you have to enable modbus in your heatpump.
+Go to:
+User -> Settings (second Page) -> Modbus TCP
+
+Parameter: On
+Network: Here you have 2 options. Either you place the IP of your HomeAssistent to exclusively allow this ip to connect to the heatpump via ModBus or you place your network to allow all the IPs in that range.
+For example: 192.168.178.123 (Home Assistant IP) or 192.168.178.0 for all ips between 192.168.178.1 and 192.167.178.254.
+Option 1 is the savest but Option 2 enables you to connect to the heatpump from multiple devices(developing machine, or maybe my possibly upcomming dedicated android app?). I suggest to go for option 1 (HomeAssistant IP).
+Netmaks: Select the netmask of your network. This will be 255.255.255.000 for you otherwise you would know the correct one ;)
