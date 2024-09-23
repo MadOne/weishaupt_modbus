@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from .const import TYPES, FORMATS
 from .items import ModbusItem, StatusItem
+from homeassistant.components.sensor import SensorDeviceClass
 
 @dataclass(frozen=True)
 class DeviceConstants:
@@ -134,49 +135,6 @@ HP_RUHEMODUS = [
     StatusItem(3,"40 %"),
 ]
 
-RANGE_PERCENTAGE = [
-    StatusItem(0,"min"),
-    StatusItem(100,"max"),
-    StatusItem(1,"step"),
-]
-
-TEMPRANGE_ROOM = [
-    StatusItem(16,"min"),
-    StatusItem(30,"max"),
-    StatusItem(0.5,"step"),
-]
-
-TEMPRANGE_WATER = [
-    StatusItem(30,"min"),
-    StatusItem(60,"max"),
-    StatusItem(0.5,"step"),
-]
-
-TEMPRANGE_SGREADY = [
-    StatusItem(0,"min"),
-    StatusItem(10,"max"),
-    StatusItem(0.5,"step"),
-]
-
-TEMPRANGE_BIVALENZ = [
-    StatusItem(-20,"min"),
-    StatusItem(10,"max"),
-    StatusItem(0.5,"step"),
-]
-
-
-RANGE_HZKENNLINIE = [
-    StatusItem(0,"min"),
-    StatusItem(3,"max"),
-    StatusItem(0.05,"step"),
-]
-
-TIMERANGE_WWPUSH = [
-    StatusItem(0,"min"),
-    StatusItem(240,"max"),
-    StatusItem(5,"step"),
-]
-
 HZ_KONFIGURATION = [
     StatusItem(0,"aus"),
     StatusItem(1,"Pumpenkreis"),
@@ -266,6 +224,68 @@ W2_KONFIG = [
     StatusItem(1,"1"),
 ]
 
+#####################################################
+# Description of physical units via the status list #
+#####################################################
+
+RANGE_PERCENTAGE = [
+    StatusItem(0,"min"),
+    StatusItem(100,"max"),
+    StatusItem(1,"step"),
+    StatusItem(1,"divider"),
+]
+
+TEMPRANGE_ROOM = [
+    StatusItem(16,"min"),
+    StatusItem(30,"max"),
+    StatusItem(0.5,"step"),
+    StatusItem(10,"divider"),
+    StatusItem(-1,SensorDeviceClass.TEMPERATURE),
+]
+
+TEMPRANGE_WATER = [
+    StatusItem(30,"min"),
+    StatusItem(60,"max"),
+    StatusItem(0.5,"step"),
+    StatusItem(10,"divider"),
+    StatusItem(-1,SensorDeviceClass.TEMPERATURE),
+]
+
+TEMPRANGE_SGREADY = [
+    StatusItem(0,"min"),
+    StatusItem(10,"max"),
+    StatusItem(0.5,"step"),
+    StatusItem(10,"divider"),
+    StatusItem(-1,SensorDeviceClass.TEMPERATURE),
+]
+
+TEMPRANGE_BIVALENZ = [
+    StatusItem(-20,"min"),
+    StatusItem(10,"max"),
+    StatusItem(0.5,"step"),
+    StatusItem(10,"divider"),
+    StatusItem(-1,SensorDeviceClass.TEMPERATURE),
+]
+
+
+RANGE_HZKENNLINIE = [
+    StatusItem(0,"min"),
+    StatusItem(3,"max"),
+    StatusItem(0.05,"step"),
+    StatusItem(100,"divider"),
+]
+
+TIMERANGE_WWPUSH = [
+    StatusItem(0,"min"),
+    StatusItem(240,"max"),
+    StatusItem(5,"step"),
+]
+
+RANGE_ENERGY = [
+    StatusItem(-1,SensorDeviceClass.ENERGY),
+    StatusItem(1,"divider"),
+]
+
 
 ##############################################################################################################################
 # Modbus Register List:                                                                                                      #
@@ -335,4 +355,32 @@ MODBUS_SYS_ITEMS = [
     ModbusItem(44103,"Bivalenztemperatur",FORMATS.TEMPERATUR,TYPES.NUMBER,DEVICES.W2,TEMPRANGE_BIVALENZ),
     ModbusItem(44104,"Bivalenztemperatur WW",FORMATS.TEMPERATUR,TYPES.NUMBER,DEVICES.W2,TEMPRANGE_BIVALENZ),
 
-] 
+    ModbusItem(36101,"Gesamt Energie heute",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36102,"Gesamt Energie gestern",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36103,"Gesamt Energie Monat",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36104,"Gesamt Energie Jahr",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36201,"Heizen Energie heute",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36202,"Heizen Energie gestern",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36203,"Heizen Energie Monat",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36204,"Heizen Energie Jahr",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36301,"Warmwasser Energie heute",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36302,"Warmwasser Energie gestern",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36303,"Warmwasser Energie Monat",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36304,"Warmwasser Energie Jahr",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36401,"Kühlen Energie heute",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36402,"Kühlen Energie gestern",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36403,"Kühlen Energie Monat",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36404,"Kühlen Energie Jahr",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36501,"36501",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36502,"36502",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36503,"36503",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36504,"36504",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36601,"36601",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36602,"36602",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36603,"36603",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36604,"36604",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36701,"Elektr. Energie heute",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36702,"Elektr. Energie gestern",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36703,"Elektr. Energie Monat",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+    ModbusItem(36704,"Elektr. Energie Jahr",FORMATS.ENERGY,TYPES.SENSOR,DEVICES.ST,RANGE_ENERGY),
+]

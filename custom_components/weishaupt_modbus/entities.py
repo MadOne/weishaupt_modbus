@@ -30,6 +30,7 @@ class MyEntity():
     # The base class for entities that hold general parameters
     _config_entry = None
     _modbus_item = None
+    _divider = 1
     _attr_name = ""
     _attr_unique_id = ""
     _attr_should_poll = True
@@ -44,15 +45,18 @@ class MyEntity():
 
         if self._modbus_item._format != FORMATS.STATUS:
             self._attr_native_unit_of_measurement = self._modbus_item._format
-            self._attr_state_class = SensorStateClass.MEASUREMENT
+
+            if self._modbus_item._format == FORMATS.ENERGY:
+                self._attr_state_class = SensorStateClass.TOTAL_INCREASING
+            if self._modbus_item._format == FORMATS.TEMPERATUR:
+                self._attr_state_class = SensorStateClass.MEASUREMENT
             
             if self._modbus_item.resultlist != None:
                 self._attr_native_min_value = self._modbus_item.getNumberFromText("min")
                 self._attr_native_max_value = self._modbus_item.getNumberFromText("max")
                 self._attr_native_step = self._modbus_item.getNumberFromText("step")
-
-        if self._modbus_item._format == FORMATS.TEMPERATUR:
-            self._attr_device_class = SensorDeviceClass.TEMPERATURE
+                self._divider = self._modbus_item.getNumberFromText("divider")
+                self._attr_device_class = self._modbus_item.getTextFromNumber(-1)
 
     def calcTemperature(self,val: float):
         if val == None:
@@ -63,12 +67,12 @@ class MyEntity():
             return -2
         if val == 32768:
             return None
-        return val / 10.0
+        return val / self._divider
 
     def calcPercentage(self,val: float):
         if val == 65535:
             return None
-        return val
+        return val / self._divider
 
     @property
     def translateVal(self):
@@ -82,10 +86,10 @@ class MyEntity():
                 return self.calcPercentage(val)
             case FORMATS.STATUS:
                 return self._modbus_item.getTextFromNumber(val)
-            case FORMATS.KENNLINIE:
-                return val / 100.0
             case _:
-                return val
+                if val == None:
+                    return val
+                return val / self._divider
 
     @translateVal.setter
     def translateVal(self,value):
@@ -94,16 +98,10 @@ class MyEntity():
         val = None
         match self._modbus_item.format:
             # logically, this belongs to the ModbusItem, but doing it here
-            # maybe adding a translate function in MyEntity?
-            # currently it saves a lot of code lines ;-)
-            case FORMATS.TEMPERATUR:
-                val = value * 10
-            case FORMATS.KENNLINIE:
-                val = value * 100
             case FORMATS.STATUS:
                 val = self._modbus_item.getNumberFromText(value)
             case _:
-                val = value
+                val = value * self._divider
         mbo.value = val
     
     def my_device_info(self) -> DeviceInfo:

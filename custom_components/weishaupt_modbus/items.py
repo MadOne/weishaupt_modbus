@@ -4,9 +4,9 @@ from .const import TYPES
 # A class is intentionally defined here because the assignment via dictionaries would not work so elegantly in the end, 
 # especially when searching backwards. (At least I don't know how...)
 class StatusItem():
-    _number = -1
-    _text = ""
-    _description = ""
+    _number = None
+    _text = None
+    _description = None
 
     def __init__(self, number, text, description = None):
         self._number = number
