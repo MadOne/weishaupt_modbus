@@ -41,14 +41,14 @@ class ModbusObject():
                 case TYPES.SENSOR:
                     # Sensor entities are read-only
                     return self._ModbusClient.read_input_registers(self._ModbusItem.address, slave=1).registers[0]
-                case TYPES.SELECT | TYPES.NUMBER:
+                case TYPES.SELECT | TYPES.NUMBER | TYPES.NUMBER_RO:
                     return self._ModbusClient.read_holding_registers(self._ModbusItem.address, slave=1).registers[0]
         except:  # noqa: E722
             return None
 
     @value.setter
     def value(self,value) -> None:
-        if self._ModbusItem.type == TYPES.SENSOR:
+        if self._ModbusItem.type == TYPES.SENSOR | self._ModbusItem.type == TYPES.NUMBER_RO:
             # Sensor entities are read-only
             return
         self.connect()

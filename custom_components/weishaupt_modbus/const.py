@@ -4,7 +4,7 @@ from homeassistant.const import UnitOfEnergy, UnitOfTemperature, UnitOfTime, Uni
 
 @dataclass(frozen=True)
 class MainConstants:
-    DOMAIN = "weishaupt_integ"
+    DOMAIN = "weishaupt_wbb"
     SCAN_INTERVAL = timedelta(minutes=1)
     UNIQUE_ID = "unique_id"
     APPID = 100
@@ -16,10 +16,10 @@ class FormatConstants:
     TEMPERATUR = UnitOfTemperature.CELSIUS
     ENERGY = UnitOfEnergy.KILO_WATT_HOUR
     PERCENTAGE = PERCENTAGE
-    NUMBER = "Wert"
+    NUMBER = ""
     STATUS = "Status"
     VOLUMENSTROM = UnitOfVolumeFlowRate.CUBIC_METERS_PER_HOUR
-    KENNLINIE = ""
+    KENNLINIE = "Stg."
     TIME_MIN = UnitOfTime.MINUTES
     TIME_H = UnitOfTime.HOURS
 
@@ -30,6 +30,7 @@ class TypeConstants:
     SENSOR = "Sensor"
     SELECT = "Select"
     NUMBER = "Number"
+    NUMBER_RO = "Number_RO"
 
 TYPES = TypeConstants()
 

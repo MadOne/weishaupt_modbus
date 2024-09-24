@@ -17,7 +17,7 @@ def BuildEntityList(entries, config_entry, modbusitems, type):
         if item.type == type:
            match type:
                 # here the entities are created with the parameters provided by the ModbusItem object
-                case TYPES.SENSOR:
+                case TYPES.SENSOR | TYPES.NUMBER_RO:
                     entries.append(MySensorEntity(config_entry, modbusitems[index]))
                 case TYPES.SELECT:
                     entries.append(MySelectEntity(config_entry, modbusitems[index]))

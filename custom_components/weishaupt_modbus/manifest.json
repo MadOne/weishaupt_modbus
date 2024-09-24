@@ -1,6 +1,6 @@
 {
-  "domain": "weishaupt_integ",
-  "name": "Weishaupt Integ",
+  "domain": "weishaupt_wbb",
+  "name": "Weishaupt WBB",
   "codeowners": ["@OStrama"],
   "config_flow": true,
   "documentation": "https://github.com/OStrama/weishaupt_modbus/",

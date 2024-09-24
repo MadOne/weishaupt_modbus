@@ -19,4 +19,7 @@ async def async_setup_entry(
     """Set up the sensor platform."""
     Entries = []
 
+    Entries = BuildEntityList(Entries, config_entry, MODBUS_SYS_ITEMS, TYPES.NUMBER_RO)
+
     async_add_entities(BuildEntityList(Entries, config_entry, MODBUS_SYS_ITEMS,TYPES.SENSOR), update_before_add=True)
+
