@@ -287,7 +287,7 @@ TIMERANGE_WWPUSH = [
     StatusItem(0,"min"),
     StatusItem(240,"max"),
     StatusItem(5,"step"),
-    StatusItem(1,"divider")
+    StatusItem(1,"divider"),
 ]
 
 RANGE_FLOWRATE = [
