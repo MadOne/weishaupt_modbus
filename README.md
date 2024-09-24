@@ -25,7 +25,7 @@ This is how it might look:
 
 Add this repository to HACS.
 * In the HACS GUI, select "Custom repositories"
-* Enter the following repository URL: https://github.com/MadOne/weishaupt_modbus/releases
+* Enter the following repository URL: https://github.com/OStrama/weishaupt_modbus/releases
 * Category: Integration
 * After adding the integration, restart Home Assistant.
 * Now under Configuration -> Integrations, "Weishaupt Modbus Integration" should be available.
