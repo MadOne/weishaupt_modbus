@@ -1,3 +1,12 @@
+# THIS INTEGRATION IS NOT LONGER DEVELOPED.
+# There is a far superior approach at:
+# https://github.com/OStrama/weishaupt_modbus
+
+
+
+
+
+
 # Weishaupt_modbus
 
 This integration lets you monitor and controll your weishaupt heatpump through modbus.
