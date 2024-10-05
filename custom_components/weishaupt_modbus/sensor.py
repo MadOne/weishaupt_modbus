@@ -509,7 +509,7 @@ class sensor_target_temp(SensorEntity):
 class HP_Betrieb(SensorEntity):
     """Representation of a Sensor."""
 
-    _attr_name = "Wärmepumpe Betrieb"
+    _attr_name = "Betrieb"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
 
@@ -541,7 +541,7 @@ class HP_Betrieb(SensorEntity):
 class HP_Stoermeldung(SensorEntity):
     """Representation of a Sensor."""
 
-    _attr_name = "Wärmepumpe Störmeldung"
+    _attr_name = "Störmeldung"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
 
@@ -571,7 +571,7 @@ class HP_Stoermeldung(SensorEntity):
 class HP_Leistungsanforderung(SensorEntity):
     """Representation of a Sensor."""
 
-    _attr_name = "Wärmepumpe Leistungsanforderung"
+    _attr_name = "Leistungsanforderung"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_native_unit_of_measurement = "%"
     _attr_should_poll = True
@@ -602,7 +602,7 @@ class HP_Leistungsanforderung(SensorEntity):
 class Hp_Vorlauftemperatur(SensorEntity):
     """Representation of a Sensor."""
 
-    _attr_name = "Wärmepumpe Vorlauftemperatur"
+    _attr_name = "Vorlauftemperatur"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
     _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
@@ -635,7 +635,7 @@ class Hp_Vorlauftemperatur(SensorEntity):
 class Hp_Ruecklauftemperatur(SensorEntity):
     """Representation of a Sensor."""
 
-    _attr_name = "Wärmepumpe Rücklauftemperatur"
+    _attr_name = "Rücklauftemperatur"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
     _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
@@ -682,7 +682,7 @@ class Hp_Ruecklauftemperatur(SensorEntity):
 class Energy_today(SensorEntity):
     """Representation of a Sensor."""
 
-    _attr_name = "Energy Today"
+    _attr_name = "Energie heute"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
     _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
@@ -707,8 +707,8 @@ class Energy_today(SensorEntity):
     def device_info(self) -> DeviceInfo:
         """Information about this entity/device."""
         return {
-            "identifiers": {(DOMAIN, "Statistics")},
-            "name": "Wärmepumpe-Statistics",
+            "identifiers": {(DOMAIN, "Statistik")},
+            "name": "Wärmepumpe-Statistik",
             "manufacturer": "Weishaupt",
         }
 
@@ -716,7 +716,7 @@ class Energy_today(SensorEntity):
 class Energy_yesterday(SensorEntity):
     """Representation of a Sensor."""
 
-    _attr_name = "Energy yesterday"
+    _attr_name = "Energie gestern"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
     _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
@@ -741,14 +741,14 @@ class Energy_yesterday(SensorEntity):
     def device_info(self) -> DeviceInfo:
         """Information about this entity/device."""
         return {
-            "identifiers": {(DOMAIN, "Statistics")},
+            "identifiers": {(DOMAIN, "Statistik")},
         }
 
 
 class Energy_month(SensorEntity):
     """Representation of a Sensor."""
 
-    _attr_name = "Energy month"
+    _attr_name = "Energie Monat"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
     _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
@@ -773,14 +773,14 @@ class Energy_month(SensorEntity):
     def device_info(self) -> DeviceInfo:
         """Information about this entity/device."""
         return {
-            "identifiers": {(DOMAIN, "Statistics")},
+            "identifiers": {(DOMAIN, "Statistik")},
         }
 
 
 class Energy_year(SensorEntity):
     """Representation of a Sensor."""
 
-    _attr_name = "Energy year"
+    _attr_name = "Energie Jahr"
     _attr_unique_id = DOMAIN + _attr_name
     _attr_should_poll = True
     _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
@@ -805,5 +805,5 @@ class Energy_year(SensorEntity):
     def device_info(self) -> DeviceInfo:
         """Information about this entity/device."""
         return {
-            "identifiers": {(DOMAIN, "Statistics")},
+            "identifiers": {(DOMAIN, "Statistik")},
         }

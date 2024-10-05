@@ -372,6 +372,33 @@ class heat_pump:
     def HK_SommerWinterUmschaltung(self, value):
         self.WWP.write_register(41109, int(value * 10), slave=1)
 
+    @property
+    def HK_HeizenKonstanttemperatur(self):
+        """Test."""
+        return self.WWP.read_holding_registers(41110, slave=1).registers[0] / 10
+
+    @HK_HeizenKonstanttemperatur.setter
+    def HK_HeizenKonstanttemperatur(self, value):
+        self.WWP.write_register(41110, int(value * 10), slave=1)
+
+    @property
+    def HK_HeizenKonstanttemperaturAbsenk(self):
+        """Test."""
+        return self.WWP.read_holding_registers(41111, slave=1).registers[0] / 10
+
+    @HK_HeizenKonstanttemperaturAbsenk.setter
+    def HK_HeizenKonstanttemperaturAbsenk(self, value):
+        self.WWP.write_register(41111, int(value * 10), slave=1)
+
+    @property
+    def HK_KuehlenKonstanttemperatur(self):
+        """Test."""
+        return self.WWP.read_holding_registers(41112, slave=1).registers[0] / 10
+
+    @HK_KuehlenKonstanttemperatur.setter
+    def HK_KuehlenKonstanttemperatur(self, value):
+        self.WWP.write_register(41112, int(value * 10), slave=1)
+
     #####################
     #   Warm Water      #
     #####################
