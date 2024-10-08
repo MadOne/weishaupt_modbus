@@ -294,8 +294,24 @@ class heat_pump:
                 return "NORMAL"
             case 3:
                 return "ABSENKBETRIEB"
-            case 5:
+            case 4:
                 return "STANDBY"
+
+    @HK_Betriebsart.setter
+    def HK_Betriebsart(self, val):
+        """Energy used today."""
+        match val:
+            case "AUTOMATIK":
+                return_value = 0
+            case "KOMFORT":
+                return_value = 1
+            case "NORMAL":
+                return_value = 2
+            case "ABSENKBETRIEB":
+                return_value = 3
+            case "STANDBY":
+                return_value = 4
+        self.WWP.write_register(41103, return_value, slave=1)
 
     @property
     def HK_Pause_Party(self):
