@@ -428,11 +428,11 @@ class heat_pump:
     @property
     def WW_Push(self):
         """WW Push."""
-        return self.WWP.read_holding_registers(32102, slave=1).registers[0]
+        return self.WWP.read_holding_registers(42102, slave=1).registers[0]
 
     @WW_Push.setter
     def WW_Push(self, value):
-        self.WWP.write_register(42103, value, slave=1)
+        self.WWP.write_register(42102, value, slave=1)
 
     @property
     def WW_Normal(self):
