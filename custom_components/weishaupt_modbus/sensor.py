@@ -55,6 +55,7 @@ async def async_setup_entry(
             HP_Leistungsanforderung(host, port),
             Hp_Vorlauftemperatur(host, port),
             Hp_Ruecklauftemperatur(host, port),
+            WW_Konfiguration(host, port),
         ],
         update_before_add=True,
     )
@@ -493,6 +494,36 @@ class sensor_target_temp(SensorEntity):
         whp = wp.heat_pump(self._host, self._port)
         whp.connect()
         self._attr_native_value = whp.WW_Soll
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Information about this entity/device."""
+        return {
+            "identifiers": {(DOMAIN, "Warmwasser")},
+        }
+
+
+class WW_Konfiguration(SensorEntity):
+    """Representation of a Sensor."""
+
+    _attr_name = "Konfiguration"
+    _attr_unique_id = DOMAIN + _attr_name
+    _attr_should_poll = True
+
+    def __init__(self, host, port) -> None:
+        """Init."""
+        self._host = host
+        self._port = port
+
+    async def async_update(self) -> None:
+        """Fetch new state data for the sensor.
+
+        This is the only method that should fetch new data for Home Assistant.
+        """
+
+        whp = wp.heat_pump(self._host, self._port)
+        whp.connect()
+        self._attr_native_value = whp.WW_Konfiguration
 
     @property
     def device_info(self) -> DeviceInfo:
