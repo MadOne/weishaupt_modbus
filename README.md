@@ -1,11 +1,13 @@
-# THIS INTEGRATION IS NOT LONGER DEVELOPED.
-# There is a far superior approach at:
-# https://github.com/OStrama/weishaupt_modbus
+This is a fork from MadOne: https://github.com/MadOne/weishaupt_modbus/
 
+I started to build a structure that finally will allow loading of the modbus structure from a file.
+As a first step, all modbus parameters will be concentrated in the file hpconst.py as a set of object lists.
+This allows generic setup of all entities and a more easy completion of messages and entity behavior
 
+#### not yet ready ####
 
-
-
+For production, please use https://github.com/MadOne/weishaupt_modbus/ for now.
+When it's ready, I'll distribute this fork via HACS
 
 # Weishaupt_modbus
 
@@ -15,7 +17,7 @@ This is how it might look:
 
 ## Installation
 
-### Install through HACS 
+### Install through HACS
 
 - Not working yet
 
@@ -23,7 +25,7 @@ This is how it might look:
 
 Add this repository to HACS.
 * In the HACS GUI, select "Custom repositories"
-* Enter the following repository URL: https://github.com/MadOne/weishaupt_modbus/releases
+* Enter the following repository URL: https://github.com/OStrama/weishaupt_modbus/releases
 * Category: Integration
 * After adding the integration, restart Home Assistant.
 * Now under Configuration -> Integrations, "Weishaupt Modbus Integration" should be available.
@@ -43,7 +45,7 @@ custom_components
 │   ├── ...
 │   ├── ...
 │   ├── ...
-│   └── wp.py  
+│   └── wp.py
 ```
 ## Configuration
 
@@ -51,7 +53,7 @@ custom_components
 
 Just enter the IP of your Weishaupt heatpump. Port should be ok at default unless you changed it in the Heatpump configuration.
 
-You have to enable modbus in your heatpump settings. 
+You have to enable modbus in your heatpump settings.
 
 
 ## Setting up the HeatPump
