@@ -158,7 +158,7 @@ class MyCalcSensorEntity(MySensorEntity):
     def calcPower(self, val, x, y):
         if val == None:
             return val
-        return (val / 100) * self.my_map.map(0,0)
+        return (val / 100) * self.my_map.map(x,y)
 
     @property
     def translateVal(self):

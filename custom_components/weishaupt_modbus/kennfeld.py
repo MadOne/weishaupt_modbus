@@ -56,7 +56,17 @@ class PowerMap():
     def map(self,x,y):
 
         numrows = len(self.max_power)    # 3 rows in your example
-        return numrows
+
         numcols = len(self.max_power[0]) # 2 columns in your example
-        return numcols
-        return self.max_power[x][y]
+        x=x-self.known_x[0]
+        if x<0:
+            x=0
+        if x>70:
+            x= 70
+        y=y-self.known_t[0]
+        if y<0:
+            y=0
+        if y> (self.steps-1):
+            y=self.steps-1
+        
+        return self.max_power[int(y)][int(x)]
