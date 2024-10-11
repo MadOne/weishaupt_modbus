@@ -1,4 +1,4 @@
-from scipy.interpolate import CubicSpline
+#from scipy.interpolate import CubicSpline
 import numpy as np
 
 class PowerMap():
@@ -49,9 +49,9 @@ class PowerMap():
         # we want to have samples at every integer °C
         t = np.linspace(-30, 40, 71)
         # cubic spline interpolation of power curves
-        for idx in range(0, len(self.r_to_interpolate)):
-            f = CubicSpline(self.known_x, self.interp_y[idx], bc_type='natural')
-            self.max_power.append(f(t))
+        #for idx in range(0, len(self.r_to_interpolate)):
+        #    f = CubicSpline(self.known_x, self.interp_y[idx], bc_type='natural')
+        #    self.max_power.append(f(t))
 
     def map(self,x,y):
 
