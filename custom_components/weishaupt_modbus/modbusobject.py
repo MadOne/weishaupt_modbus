@@ -13,7 +13,7 @@ from .const import FORMATS, TYPES
 class ModbusObject():
     _ModbusItem = None
     _DataFormat = None
- 
+
     _ip = None
     _port = None
     _ModbusClient = None
@@ -21,11 +21,11 @@ class ModbusObject():
     def __init__(self, config_entry, modbus_item):
         self._ModbusItem = modbus_item
         #self._HeatPump = heatpump
-        
+
         self._ip = config_entry.data[CONF_HOST]
         self._port = config_entry.data[CONF_PORT]
         self._ModbusClient = None
-        
+
     def connect(self):
         try:
             self._ModbusClient = ModbusClient(host=self._ip, port=self._port)
@@ -38,7 +38,7 @@ class ModbusObject():
         try:
             self.connect()
             match self._ModbusItem.type:
-                case TYPES.SENSOR:
+                case TYPES.SENSOR | TYPES.SENSOR_CALC:
                     # Sensor entities are read-only
                     return self._ModbusClient.read_input_registers(self._ModbusItem.address, slave=1).registers[0]
                 case TYPES.SELECT | TYPES.NUMBER | TYPES.NUMBER_RO:
@@ -48,8 +48,13 @@ class ModbusObject():
 
     @value.setter
     def value(self,value) -> None:
-        if self._ModbusItem.type == TYPES.SENSOR | self._ModbusItem.type == TYPES.NUMBER_RO:
-            # Sensor entities are read-only
-            return
-        self.connect()
-        self._ModbusClient.write_register(self._ModbusItem.address, int(value), slave=1)
+        try:
+            match self._ModbusItem.type:
+                case TYPES.SENSOR | TYPES.NUMBER_RO | TYPES.SENSOR_CALC:
+	        # Sensor entities are read-only
+                    return
+                case _:
+                    self.connect()
+                    self._ModbusClient.write_register(self._ModbusItem.address, int(value), slave=1)
+        except:  # noqua: E722
+            return None

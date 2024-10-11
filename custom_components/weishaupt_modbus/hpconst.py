@@ -302,6 +302,12 @@ RANGE_ENERGY = [
     StatusItem(1,"divider"),
 ]
 
+RANGE_CALCPOWER = [
+    StatusItem(-1,SensorDeviceClass.POWER),
+    StatusItem(1,"divider"),
+    StatusItem(30002,"x"),
+    StatusItem(33104,"y")
+]
 
 ##############################################################################################################################
 # Modbus Register List:                                                                                                      #
@@ -320,6 +326,7 @@ MODBUS_SYS_ITEMS = [
     ModbusItem(33101,"Betrieb",FORMATS.STATUS,TYPES.SENSOR,DEVICES.WP, HP_BETRIEB),
     ModbusItem(33102,"Störmeldung",FORMATS.STATUS,TYPES.SENSOR,DEVICES.WP, HP_STOERMELDUNG),
     ModbusItem(33103,"Leistungsanforderung",FORMATS.PERCENTAGE,TYPES.SENSOR,DEVICES.WP),
+    ModbusItem(33103,"Wärmeleistung",FORMATS.POWER,TYPES.SENSOR_CALC,DEVICES.WP,RANGE_CALCPOWER),
     ModbusItem(33104,"Vorlauftemperatur",FORMATS.TEMPERATUR,TYPES.SENSOR,DEVICES.WP, TEMPRANGE_STD),
     ModbusItem(33105,"Rücklauftemperatur",FORMATS.TEMPERATUR,TYPES.SENSOR,DEVICES.WP, TEMPRANGE_STD),
     ModbusItem(43101,"Konfiguration ",FORMATS.NUMBER,TYPES.NUMBER_RO,DEVICES.WP),

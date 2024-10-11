@@ -7,6 +7,9 @@ from homeassistant.const import UnitOfEnergy, UnitOfTemperature
 from homeassistant.helpers.device_registry import DeviceInfo
 from .const import CONST, FORMATS, TYPES
 from .modbusobject import ModbusObject
+from .items import ModbusItem
+from .hpconst import TEMPRANGE_STD, DEVICES
+from .kennfeld import PowerMap
 
 def BuildEntityList(entries, config_entry, modbusitems, type):
     # this builds a list of entities that can be used as parameter by async_setup_entry()
@@ -19,6 +22,8 @@ def BuildEntityList(entries, config_entry, modbusitems, type):
                 # here the entities are created with the parameters provided by the ModbusItem object
                 case TYPES.SENSOR | TYPES.NUMBER_RO:
                     entries.append(MySensorEntity(config_entry, modbusitems[index]))
+                case TYPES.SENSOR_CALC:
+                    entries.append(MyCalcSensorEntity(config_entry, modbusitems[index]))
                 case TYPES.SELECT:
                     entries.append(MySelectEntity(config_entry, modbusitems[index]))
                 case TYPES.NUMBER:
@@ -50,6 +55,8 @@ class MyEntity():
                 self._attr_state_class = SensorStateClass.TOTAL_INCREASING
             if self._modbus_item._format == FORMATS.TEMPERATUR:
                 self._attr_state_class = SensorStateClass.MEASUREMENT
+            if self._modbus_item._format == FORMATS.POWER:
+                self._attr_state_class = SensorStateClass.MEASUREMENT
             
             if self._modbus_item.resultlist != None:
                 self._attr_native_min_value = self._modbus_item.getNumberFromText("min")
@@ -70,13 +77,15 @@ class MyEntity():
         return val / self._divider
 
     def calcPercentage(self,val: float):
+        if val == None:
+            return None
         if val == 65535:
             return None
         return val / self._divider
 
     @property
     def translateVal(self):
-        # reads an translates a value from the modbua
+        # reads an translates a value from the modbus
         mbo = ModbusObject(self._config_entry, self._modbus_item)
         val = mbo.value
         match self._modbus_item.format:
@@ -131,6 +140,49 @@ class MySensorEntity(SensorEntity, MyEntity):
     @property
     def device_info(self) -> DeviceInfo:
         return MyEntity.my_device_info(self)
+
+
+class MyCalcSensorEntity(MySensorEntity):
+    # class that represents a sensor entity derived from Sensorentity 
+    # and decorated with general parameters from MyEntity
+    # calculates output from map
+    my_map = PowerMap()
+
+    def __init__(self, config_entry, modbus_item) -> None:
+        MySensorEntity.__init__(self, config_entry, modbus_item)
+
+    async def async_update(self) -> None:
+        # the synching is done by the ModbusObject of the entity
+        self._attr_native_value = self.translateVal
+
+    def calcPower(self, val, x, y):
+        if val == None:
+            return val
+        return (val / 100) * self.my_map.map(0,0)
+
+    @property
+    def translateVal(self):
+        # reads an translates a value from the modbus
+        mbo = ModbusObject(self._config_entry, self._modbus_item)
+        val = self.calcPercentage(mbo.value)
+        
+        mb_x  = ModbusItem(self._modbus_item.getNumberFromText("x"),"x",FORMATS.TEMPERATUR,TYPES.SENSOR_CALC,DEVICES.SYS, TEMPRANGE_STD)
+        mbo_x = ModbusObject(self._config_entry, mb_x)
+        val_x = self.calcTemperature(mbo_x.value) / 10
+        mb_y  = ModbusItem(self._modbus_item.getNumberFromText("y"),"y",FORMATS.TEMPERATUR,TYPES.SENSOR_CALC,DEVICES.WP, TEMPRANGE_STD)
+        mbo_y = ModbusObject(self._config_entry, mb_y)
+        val_y = self.calcTemperature(mbo_y.value) / 10
+
+        match self._modbus_item.format:
+            case FORMATS.POWER:
+                return self.calcPower(val,val_x,val_y)
+            case _:
+                return val / self._divider
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        return MySensorEntity.my_device_info(self)
+
 
 class MyNumberEntity(NumberEntity, MyEntity):
     # class that represents a sensor entity derived from Sensorentity 

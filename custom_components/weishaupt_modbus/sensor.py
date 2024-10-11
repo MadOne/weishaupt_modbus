@@ -20,6 +20,6 @@ async def async_setup_entry(
     Entries = []
 
     Entries = BuildEntityList(Entries, config_entry, MODBUS_SYS_ITEMS, TYPES.NUMBER_RO)
-
+    Entries = BuildEntityList(Entries, config_entry, MODBUS_SYS_ITEMS, TYPES.SENSOR_CALC)
     async_add_entities(BuildEntityList(Entries, config_entry, MODBUS_SYS_ITEMS,TYPES.SENSOR), update_before_add=True)
 
