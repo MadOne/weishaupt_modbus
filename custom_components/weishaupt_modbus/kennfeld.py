@@ -1,5 +1,8 @@
 #from scipy.interpolate import CubicSpline
+from numpy.polynomial import Chebyshev
 import numpy as np
+
+import matplotlib.pyplot as plt
 
 class PowerMap():
     # these are values extracted from the characteristic curves of heating power found ion the documentation of my heat pump.
@@ -49,9 +52,10 @@ class PowerMap():
         # we want to have samples at every integer °C
         t = np.linspace(-30, 40, 71)
         # cubic spline interpolation of power curves
-        #for idx in range(0, len(self.r_to_interpolate)):
-        #    f = CubicSpline(self.known_x, self.interp_y[idx], bc_type='natural')
-        #    self.max_power.append(f(t))
+        for idx in range(0, len(self.r_to_interpolate)):
+            #f = CubicSpline(known_x, interp_y[idx], bc_type='natural')
+            f = Chebyshev.fit(self.known_x, self.interp_y[idx], deg = 8)
+            self.max_power.append(f(t))
 
     def map(self,x,y):
 
@@ -70,3 +74,11 @@ class PowerMap():
             y=self.steps-1
         
         return self.max_power[int(y)][int(x)]
+
+
+map = PowerMap()
+
+plt.plot(t,np.transpose(map.max_power))
+plt.ylabel('Max Power')
+plt.xlabel('°C')
+plt.show()
