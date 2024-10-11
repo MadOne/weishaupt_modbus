@@ -2,7 +2,7 @@
 from numpy.polynomial import Chebyshev
 import numpy as np
 
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 class PowerMap():
     # these are values extracted from the characteristic curves of heating power found ion the documentation of my heat pump.
@@ -76,9 +76,9 @@ class PowerMap():
         return self.max_power[int(y)][int(x)]
 
 
-map = PowerMap()
+#map = PowerMap()
 
-plt.plot(t,np.transpose(map.max_power))
-plt.ylabel('Max Power')
-plt.xlabel('°C')
-plt.show()
+#plt.plot(t,np.transpose(map.max_power))
+#plt.ylabel('Max Power')
+#plt.xlabel('°C')
+#plt.show()
