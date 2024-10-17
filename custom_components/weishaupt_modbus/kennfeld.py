@@ -3,6 +3,8 @@ from numpy.polynomial import Chebyshev
 import numpy as np
 
 #import matplotlib.pyplot as plt
+import json
+from .const import CONST
 
 class PowerMap():
     # these are values extracted from the characteristic curves of heating power found ion the documentation of my heat pump.
@@ -29,6 +31,23 @@ class PowerMap():
     interp_y = []
 
     def __init__(self) -> None:
+        #try to load values from json file
+        
+        try:
+            openfile = open(CONST.KENNFELDFILE, "r")
+        except IOError:
+            kennfeld = {'known_x': self.known_x,
+                        'known_y': self.known_y,
+                        'known_t': self.known_t}
+            with open(CONST.KENNFELDFILE, "w") as outfile:
+                json.dump(kennfeld, outfile)
+        else:
+            json_object = json.load(openfile)
+            self.known_x = json_object['known_x'] 
+            self.known_y = json_object['known_y']
+            self.known_t = json_object['known_t']
+            openfile.close()
+
         # build the matrix with linear interpolated samples
         # 1st and last row are populated by known values from diagrem, the rest is zero
         self.interp_y.append(self.known_y[0])
@@ -53,7 +72,7 @@ class PowerMap():
         t = np.linspace(-30, 40, 71)
         # cubic spline interpolation of power curves
         for idx in range(0, len(self.r_to_interpolate)):
-            #f = CubicSpline(known_x, interp_y[idx], bc_type='natural')
+            #f = CubicSpline(self.known_x, self.interp_y[idx], bc_type='natural')
             f = Chebyshev.fit(self.known_x, self.interp_y[idx], deg = 8)
             self.max_power.append(f(t))
 
@@ -82,3 +101,30 @@ class PowerMap():
 #plt.ylabel('Max Power')
 #plt.xlabel('°C')
 #plt.show()
+
+#kennfeld = {'known_x': map.known_x,
+#            'known_y': map.known_y,
+#            'known_t': map.known_t}
+
+#with open("sample1.json", "w") as outfile:
+#    outfile.write(kennfeld)
+
+
+
+#with open("sample2.json", "w") as outfile:
+#    json.dump(kennfeld, outfile)
+
+#with open('sample2.json', 'r') as openfile:
+ 
+    # Reading from json file
+    #json_object = json.load(openfile)
+ 
+#map.known_x = json_object['known_x'] 
+#map.known_y = json_object['known_y']
+#map.known_t = json_object['known_t']
+
+#print(map.known_x)
+#print(map.known_y)
+#print(map.known_t)
+
+
