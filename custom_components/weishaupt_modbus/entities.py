@@ -87,6 +87,8 @@ class MyEntity():
     def translateVal(self):
         # reads an translates a value from the modbus
         mbo = ModbusObject(self._config_entry, self._modbus_item)
+        if mbo == None:
+            return None
         val = mbo.value
         match self._modbus_item.format:
             case FORMATS.TEMPERATUR:
@@ -104,6 +106,8 @@ class MyEntity():
     def translateVal(self,value):
         # translates and writes a value to the modbus
         mbo = ModbusObject(self._config_entry, self._modbus_item)
+        if mbo == None:
+            return
         val = None
         match self._modbus_item.format:
             # logically, this belongs to the ModbusItem, but doing it here
@@ -168,9 +172,13 @@ class MyCalcSensorEntity(MySensorEntity):
         
         mb_x  = ModbusItem(self._modbus_item.getNumberFromText("x"),"x",FORMATS.TEMPERATUR,TYPES.SENSOR_CALC,DEVICES.SYS, TEMPRANGE_STD)
         mbo_x = ModbusObject(self._config_entry, mb_x)
+        if mbo_x == None:
+            return None
         val_x = self.calcTemperature(mbo_x.value) / 10
         mb_y  = ModbusItem(self._modbus_item.getNumberFromText("y"),"y",FORMATS.TEMPERATUR,TYPES.SENSOR_CALC,DEVICES.WP, TEMPRANGE_STD)
         mbo_y = ModbusObject(self._config_entry, mb_y)
+        if mbo_x == None:
+            return None
         val_y = self.calcTemperature(mbo_y.value) / 10
 
         match self._modbus_item.format:
