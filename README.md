@@ -44,6 +44,10 @@ custom_components
 
 Just enter the IP of your Weishaupt heatpump. Port should be ok at default unless you changed it in the Heatpump configuration.
 
+The heat power "Wärmeleistung" is calculated from the "Leistungsanforderung" in dependency of outside temperature and water temperature. 
+This is type specific. The data stored in the integration fit to a WBB 12. If you have another heat pump please update the "weishaupt_wbb_kennfeld.json" file according to the graphs foudn in the documentation of your heat pump. In the given file the data have been read out from the graphs found in the documentation in a manual way.
+
+
 You have to enable modbus in your heatpump settings. 
 
 
