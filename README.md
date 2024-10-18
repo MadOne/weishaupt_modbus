@@ -4,22 +4,13 @@ I started to build a structure that finally will allow loading of the modbus str
 As a first step, all modbus parameters will be concentrated in the file hpconst.py as a set of object lists.
 This allows generic setup of all entities and a more easy completion of messages and entity behavior
 
-#### not yet ready ####
-
-For production, please use https://github.com/MadOne/weishaupt_modbus/ for now.
-When it's ready, I'll distribute this fork via HACS
-
 # Weishaupt_modbus
 
 This integration lets you monitor and controll your weishaupt heatpump through modbus.
 This is how it might look:
-![Bildschirmfoto vom 2024-07-31 21-41-56](https://github.com/user-attachments/assets/3fde9b18-f9ea-4e75-94ee-25ef6f799dcf)
+![image](https://github.com/user-attachments/assets/00e7b8fa-1779-428d-9361-7c66e228c2c6)
 
 ## Installation
-
-### Install through HACS
-
-- Not working yet
 
 ### HACS (manually add Repository)
 
@@ -52,6 +43,10 @@ custom_components
 ![Bildschirmfoto vom 2024-07-31 21-46-18](https://github.com/user-attachments/assets/45ad403e-c721-40bd-b723-95fe05fca5c5)
 
 Just enter the IP of your Weishaupt heatpump. Port should be ok at default unless you changed it in the Heatpump configuration.
+
+The heat power "Wärmeleistung" is calculated from the "Leistungsanforderung" in dependency of outside temperature and water temperature.
+This is type specific. The data stored in the integration fit to a WBB 12. If you have another heat pump please update the "weishaupt_wbb_kennfeld.json" file according to the graphs foudn in the documentation of your heat pump. In the given file the data have been read out from the graphs found in the documentation in a manual way.
+
 
 You have to enable modbus in your heatpump settings.
 
