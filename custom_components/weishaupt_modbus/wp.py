@@ -667,8 +667,12 @@ class heat_pump:
         """Energy used for cooling year."""
         return self.WWP.read_input_registers(36404, slave=1).registers[0]
 
+    def Selector(self, methodToRun):
+        """Selector to pass to Objects."""
+        return methodToRun()
 
-# whp = heat_pump(hp_ip, hp_port)
+
+# whp = heat_pump("10.10.1.225", "502")
 # whp.connect()
 # print(whp.WW_Soll)
 # whp.WW_Soll = 44
@@ -676,4 +680,4 @@ class heat_pump:
 # whp.WW_Soll = 45
 # print(whp.WW_Soll)
 
-# print(whp.WW_Ist)
+# print(whp.HK_Raumfeuchte)

@@ -31,32 +31,44 @@ async def async_setup_entry(
     """Set up the sensor platform."""
     host = config_entry.data[CONF_HOST]
     port = config_entry.data[CONF_PORT]
+    myWp = wp.heat_pump(host, port)
+    myWp.connect()
+    myList = [
+        Sys_Aussentemperatur1(host, port),
+        Sys_Aussentemperatur2(host, port),
+        Sys_Fehler(host, port),
+        Sys_Warnung(host, port),
+        Sys_Fehlerfrei(host, port),
+        Sys_Betriebsanzeige(host, port),
+        HK_RaumSollTemperatur(host, port),
+        # HK_RaumTemperatur(host, port),
+        # HK_RaumFeuchte(host, port),
+        HK_VorlaufSollTemperatur(host, port),
+        # HK_VorlaufTemperatur(host, port),
+        sensor_measured_temp(host, port),
+        sensor_target_temp(host, port),
+        Energy_today(host, port),
+        Energy_yesterday(host, port),
+        Energy_month(host, port),
+        Energy_year(host, port),
+        HP_Betrieb(host, port),
+        HP_Stoermeldung(host, port),
+        HP_Leistungsanforderung(host, port),
+        Hp_Vorlauftemperatur(host, port),
+        Hp_Ruecklauftemperatur(host, port),
+        WW_Konfiguration(host, port),
+        # EnergySensor(myWp, "testname", "testdevice", myWp.Energy_total_year),
+        # EnergySensor(myWp, "testname2", "testdevice2", myWp.Energy_total_year),
+    ]
+    if myWp.HK_Raumfeuchte is not None:
+        myList.append(HK_RaumFeuchte(host, port))
+    if myWp.HK_Raumtemperatur is not None:
+        myList.append(HK_RaumTemperatur(host, port))
+    if myWp.HK_Vorlauftemperatur is not None:
+        myList.append(HK_VorlaufTemperatur(host, port))
+
     async_add_entities(
-        [
-            Sys_Aussentemperatur1(host, port),
-            Sys_Aussentemperatur2(host, port),
-            Sys_Fehler(host, port),
-            Sys_Warnung(host, port),
-            Sys_Fehlerfrei(host, port),
-            Sys_Betriebsanzeige(host, port),
-            HK_RaumSollTemperatur(host, port),
-            HK_RaumTemperatur(host, port),
-            HK_RaumFeuchte(host, port),
-            HK_VorlaufSollTemperatur(host, port),
-            HK_VorlaufTemperatur(host, port),
-            sensor_measured_temp(host, port),
-            sensor_target_temp(host, port),
-            Energy_today(host, port),
-            Energy_yesterday(host, port),
-            Energy_month(host, port),
-            Energy_year(host, port),
-            HP_Betrieb(host, port),
-            HP_Stoermeldung(host, port),
-            HP_Leistungsanforderung(host, port),
-            Hp_Vorlauftemperatur(host, port),
-            Hp_Ruecklauftemperatur(host, port),
-            WW_Konfiguration(host, port),
-        ],
+        myList,
         update_before_add=True,
     )
 
@@ -837,4 +849,38 @@ class Energy_year(SensorEntity):
         """Information about this entity/device."""
         return {
             "identifiers": {(DOMAIN, "Statistik")},
+        }
+
+
+class EnergySensor(SensorEntity):
+    """Representation of a Sensor."""
+
+    _attr_name = ""
+    _attr_unique_id = ""
+    _attr_should_poll = True
+    _attr_native_unit_of_measurement = UnitOfEnergy.KILO_WATT_HOUR
+    _attr_device_class = SensorDeviceClass.ENERGY
+
+    def __init__(self, myWp, name, device, method) -> None:
+        """Init."""
+        self._myWp = myWp
+        self._attr_name = name
+        self._attr_unique_id = DOMAIN + self._attr_name
+        self._device = device
+        # self._method = method()
+
+    async def async_update(self) -> None:
+        """Fetch new state data for the sensor.
+
+        This is the only method that should fetch new data for Home Assistant.
+        """
+
+        self._myWp.connect()
+        self._attr_native_value = 21
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Information about this entity/device."""
+        return {
+            "identifiers": {(DOMAIN, self._device)},
         }
