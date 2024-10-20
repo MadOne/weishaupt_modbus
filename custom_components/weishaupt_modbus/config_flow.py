@@ -4,6 +4,7 @@ from homeassistant import config_entries, exceptions
 from homeassistant.const import CONF_HOST, CONF_PORT
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
+from pymodbus.client import AsyncModbusTcpClient
 
 # from . import wp
 from .const import CONST
@@ -33,7 +34,8 @@ async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
     # throw CannotConnect
     # If the authentication is wrong:
     # InvalidAuth
-
+    if not await validateModbusConnection(data["host"], data["port"]):
+        raise CannotConnect
     # Return info that you want to store in the config entry.
     # "Title" is what is displayed to the user for this hub device
     # It is stored internally in HA as part of the device config.
@@ -72,9 +74,24 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
         )
 
 
+<<<<<<< HEAD
+=======
+async def validateModbusConnection(host, port):
+    """Validate the host."""
+    client = AsyncModbusTcpClient(host=host, port=port)
+    await client.connect()
+    return client.connected
+
+
+>>>>>>> d34be90 (Add check for working connection in setup)
 class InvalidHost(exceptions.HomeAssistantError):
     """Error to indicate there is an invalid hostname."""
 
 
+<<<<<<< HEAD
 class ConnectionFailed(exceptions.HomeAssistantError):
     """Error to indicate there is an invalid hostname."""
+=======
+class CannotConnect(exceptions.HomeAssistantError):
+    """Error to indicate that the connecton to the heatpump failed."""
+>>>>>>> d34be90 (Add check for working connection in setup)
