@@ -201,7 +201,7 @@ class MyCalcSensorEntity(MySensorEntity):
         mbo_y = ModbusObject(self._config_entry, mb_y)
         if mbo_x == None:
             return None
-        val_y = self.calcTemperature(mbo_y.value) / 10
+        val_y = self.calcTemperature(await mbo_y.value) / 10
 
         match self._modbus_item.format:
             case FORMATS.POWER:
@@ -210,7 +210,7 @@ class MyCalcSensorEntity(MySensorEntity):
                 return val / self._divider
 
     @property
-    async def device_info(self) -> DeviceInfo:
+    def device_info(self) -> DeviceInfo:
         return MySensorEntity.my_device_info(self)
 
 
