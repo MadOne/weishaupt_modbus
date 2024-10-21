@@ -8,9 +8,10 @@ from .const import FORMATS, TYPES
 # log = logging.getLogger()
 # log.setLevel(logging.DEBUG)
 
+
 # A Modbus object that contains a Modbus item and communicates with the Modbus
 # it contains a ModbusClient for setting and getting Modbus register values
-class ModbusObject():
+class ModbusObject:
     _ModbusItem = None
     _DataFormat = None
 
@@ -20,7 +21,7 @@ class ModbusObject():
 
     def __init__(self, config_entry, modbus_item):
         self._ModbusItem = modbus_item
-        #self._HeatPump = heatpump
+        # self._HeatPump = heatpump
 
         self._ip = config_entry.data[CONF_HOST]
         self._port = config_entry.data[CONF_PORT]
@@ -40,21 +41,27 @@ class ModbusObject():
             match self._ModbusItem.type:
                 case TYPES.SENSOR | TYPES.SENSOR_CALC:
                     # Sensor entities are read-only
-                    return self._ModbusClient.read_input_registers(self._ModbusItem.address, slave=1).registers[0]
+                    return self._ModbusClient.read_input_registers(
+                        self._ModbusItem.address, slave=1
+                    ).registers[0]
                 case TYPES.SELECT | TYPES.NUMBER | TYPES.NUMBER_RO:
-                    return self._ModbusClient.read_holding_registers(self._ModbusItem.address, slave=1).registers[0]
+                    return self._ModbusClient.read_holding_registers(
+                        self._ModbusItem.address, slave=1
+                    ).registers[0]
         except:  # noqa: E722
             return None
 
     @value.setter
-    def value(self,value) -> None:
+    def value(self, value) -> None:
         try:
             match self._ModbusItem.type:
                 case TYPES.SENSOR | TYPES.NUMBER_RO | TYPES.SENSOR_CALC:
-	        # Sensor entities are read-only
+                    # Sensor entities are read-only
                     return
                 case _:
                     self.connect()
-                    self._ModbusClient.write_register(self._ModbusItem.address, int(value), slave=1)
+                    self._ModbusClient.write_register(
+                        self._ModbusItem.address, int(value), slave=1
+                    )
         except:  # noqua: E722
             return None
