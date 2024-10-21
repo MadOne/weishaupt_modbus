@@ -1,6 +1,10 @@
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PORT
-from homeassistant.components.sensor import SensorDeviceClass, SensorEntity, SensorStateClass
+from homeassistant.components.sensor import (
+    SensorDeviceClass,
+    SensorEntity,
+    SensorStateClass,
+)
 from homeassistant.components.select import SelectEntity
 from homeassistant.components.number import NumberEntity
 from homeassistant.const import UnitOfEnergy, UnitOfTemperature
@@ -11,14 +15,15 @@ from .items import ModbusItem
 from .hpconst import TEMPRANGE_STD, DEVICES
 from .kennfeld import PowerMap
 
+
 def BuildEntityList(entries, config_entry, modbusitems, type):
     # this builds a list of entities that can be used as parameter by async_setup_entry()
     # type of list is defined by the ModbusItem's type flag
-    # so the app only holds one list of entities that is build from a list of ModbusItem 
+    # so the app only holds one list of entities that is build from a list of ModbusItem
     # stored in hpconst.py so far, will be provided by an external file in future
     for index, item in enumerate(modbusitems):
         if item.type == type:
-           match type:
+            match type:
                 # here the entities are created with the parameters provided by the ModbusItem object
                 case TYPES.SENSOR | TYPES.NUMBER_RO:
                     entries.append(MySensorEntity(config_entry, modbusitems[index]))
@@ -31,7 +36,8 @@ def BuildEntityList(entries, config_entry, modbusitems, type):
 
     return entries
 
-class MyEntity():
+
+class MyEntity:
     # The base class for entities that hold general parameters
     _config_entry = None
     _modbus_item = None
@@ -57,7 +63,7 @@ class MyEntity():
                 self._attr_state_class = SensorStateClass.MEASUREMENT
             if self._modbus_item._format == FORMATS.POWER:
                 self._attr_state_class = SensorStateClass.MEASUREMENT
-            
+
             if self._modbus_item.resultlist != None:
                 self._attr_native_min_value = self._modbus_item.getNumberFromText("min")
                 self._attr_native_max_value = self._modbus_item.getNumberFromText("max")
@@ -65,7 +71,7 @@ class MyEntity():
                 self._divider = self._modbus_item.getNumberFromText("divider")
                 self._attr_device_class = self._modbus_item.getTextFromNumber(-1)
 
-    def calcTemperature(self,val: float):
+    def calcTemperature(self, val: float):
         if val == None:
             return None
         if val == -32768:
@@ -76,7 +82,7 @@ class MyEntity():
             return None
         return val / self._divider
 
-    def calcPercentage(self,val: float):
+    def calcPercentage(self, val: float):
         if val == None:
             return None
         if val == 65535:
@@ -103,7 +109,7 @@ class MyEntity():
                 return val / self._divider
 
     @translateVal.setter
-    def translateVal(self,value):
+    def translateVal(self, value):
         # translates and writes a value to the modbus
         mbo = ModbusObject(self._config_entry, self._modbus_item)
         if mbo == None:
@@ -116,23 +122,24 @@ class MyEntity():
             case _:
                 val = value * self._divider
         mbo.value = val
-    
+
     def my_device_info(self) -> DeviceInfo:
-        # helper to build the device info 
+        # helper to build the device info
         return {
-                "identifiers": {(CONST.DOMAIN, self._dev_device)},
-                "name": self._dev_device,
-                "sw_version": "Device_SW_Version",
-                "model": "Device_model",
-                "manufacturer": "Weishaupt",
+            "identifiers": {(CONST.DOMAIN, self._dev_device)},
+            "name": self._dev_device,
+            "sw_version": "Device_SW_Version",
+            "model": "Device_model",
+            "manufacturer": "Weishaupt",
         }
 
+
 class MySensorEntity(SensorEntity, MyEntity):
-    # class that represents a sensor entity derived from Sensorentity 
+    # class that represents a sensor entity derived from Sensorentity
     # and decorated with general parameters from MyEntity
     _attr_native_unit_of_measurement = None
-    _attr_device_class =  None
-    _attr_state_class =  None
+    _attr_device_class = None
+    _attr_state_class = None
 
     def __init__(self, config_entry, modbus_item) -> None:
         MyEntity.__init__(self, config_entry, modbus_item)
@@ -147,7 +154,7 @@ class MySensorEntity(SensorEntity, MyEntity):
 
 
 class MyCalcSensorEntity(MySensorEntity):
-    # class that represents a sensor entity derived from Sensorentity 
+    # class that represents a sensor entity derived from Sensorentity
     # and decorated with general parameters from MyEntity
     # calculates output from map
     my_map = PowerMap()
@@ -162,20 +169,34 @@ class MyCalcSensorEntity(MySensorEntity):
     def calcPower(self, val, x, y):
         if val == None:
             return val
-        return (val / 100) * self.my_map.map(x,y)
+        return (val / 100) * self.my_map.map(x, y)
 
     @property
     def translateVal(self):
         # reads an translates a value from the modbus
         mbo = ModbusObject(self._config_entry, self._modbus_item)
         val = self.calcPercentage(mbo.value)
-        
-        mb_x  = ModbusItem(self._modbus_item.getNumberFromText("x"),"x",FORMATS.TEMPERATUR,TYPES.SENSOR_CALC,DEVICES.SYS, TEMPRANGE_STD)
+
+        mb_x = ModbusItem(
+            self._modbus_item.getNumberFromText("x"),
+            "x",
+            FORMATS.TEMPERATUR,
+            TYPES.SENSOR_CALC,
+            DEVICES.SYS,
+            TEMPRANGE_STD,
+        )
         mbo_x = ModbusObject(self._config_entry, mb_x)
         if mbo_x == None:
             return None
         val_x = self.calcTemperature(mbo_x.value) / 10
-        mb_y  = ModbusItem(self._modbus_item.getNumberFromText("y"),"y",FORMATS.TEMPERATUR,TYPES.SENSOR_CALC,DEVICES.WP, TEMPRANGE_STD)
+        mb_y = ModbusItem(
+            self._modbus_item.getNumberFromText("y"),
+            "y",
+            FORMATS.TEMPERATUR,
+            TYPES.SENSOR_CALC,
+            DEVICES.WP,
+            TEMPRANGE_STD,
+        )
         mbo_y = ModbusObject(self._config_entry, mb_y)
         if mbo_x == None:
             return None
@@ -183,7 +204,7 @@ class MyCalcSensorEntity(MySensorEntity):
 
         match self._modbus_item.format:
             case FORMATS.POWER:
-                return self.calcPower(val,val_x,val_y)
+                return self.calcPower(val, val_x, val_y)
             case _:
                 return val / self._divider
 
@@ -193,14 +214,13 @@ class MyCalcSensorEntity(MySensorEntity):
 
 
 class MyNumberEntity(NumberEntity, MyEntity):
-    # class that represents a sensor entity derived from Sensorentity 
+    # class that represents a sensor entity derived from Sensorentity
     # and decorated with general parameters from MyEntity
     _attr_native_unit_of_measurement = None
-    _attr_device_class =  None
-    _attr_state_class =  None
+    _attr_device_class = None
+    _attr_state_class = None
     _attr_native_min_value = 10
     _attr_native_max_value = 60
-
 
     def __init__(self, config_entry, modbus_item) -> None:
         MyEntity.__init__(self, config_entry, modbus_item)
@@ -212,7 +232,7 @@ class MyNumberEntity(NumberEntity, MyEntity):
 
     async def async_set_native_value(self, value: float) -> None:
         self.translateVal = value
-        self._attr_native_value =  self.translateVal
+        self._attr_native_value = self.translateVal
         self.async_write_ha_state()
 
     async def async_update(self) -> None:
@@ -225,14 +245,16 @@ class MyNumberEntity(NumberEntity, MyEntity):
 
 
 class MySelectEntity(SelectEntity, MyEntity):
-    # class that represents a sensor entity derived from Sensorentity 
+    # class that represents a sensor entity derived from Sensorentity
     # and decorated with general parameters from MyEntity
     options = []
     _attr_current_option = "FEHLER"
 
     def __init__(self, config_entry, modbus_item) -> None:
         MyEntity.__init__(self, config_entry, modbus_item)
-        self.async_internal_will_remove_from_hass_port = self._config_entry.data[CONF_PORT]
+        self.async_internal_will_remove_from_hass_port = self._config_entry.data[
+            CONF_PORT
+        ]
         # option list build from the status list of the ModbusItem
         self.options = []
         for index, item in enumerate(self._modbus_item._resultlist):
@@ -241,7 +263,7 @@ class MySelectEntity(SelectEntity, MyEntity):
     async def async_select_option(self, option: str) -> None:
         # the synching is done by the ModbusObject of the entity
         self.translateVal = option
-        self._attr_current_option =  self.translateVal
+        self._attr_current_option = self.translateVal
         self.async_write_ha_state()
 
     async def async_update(self) -> None:

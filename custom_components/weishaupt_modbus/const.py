@@ -1,6 +1,14 @@
 from dataclasses import dataclass
 from datetime import timedelta
-from homeassistant.const import UnitOfEnergy, UnitOfTemperature, UnitOfTime, UnitOfVolumeFlowRate, UnitOfPower, PERCENTAGE
+from homeassistant.const import (
+    UnitOfEnergy,
+    UnitOfTemperature,
+    UnitOfTime,
+    UnitOfVolumeFlowRate,
+    UnitOfPower,
+    PERCENTAGE,
+)
+
 
 @dataclass(frozen=True)
 class MainConstants:
@@ -10,7 +18,9 @@ class MainConstants:
     APPID = 100
     KENNFELDFILE = "weishaupt_wbb_kennfeld.json"
 
+
 CONST = MainConstants()
+
 
 @dataclass(frozen=True)
 class FormatConstants:
@@ -25,7 +35,9 @@ class FormatConstants:
     TIME_MIN = UnitOfTime.MINUTES
     TIME_H = UnitOfTime.HOURS
 
+
 FORMATS = FormatConstants()
+
 
 @dataclass(frozen=True)
 class TypeConstants:
@@ -35,5 +47,5 @@ class TypeConstants:
     NUMBER = "Number"
     NUMBER_RO = "Number_RO"
 
-TYPES = TypeConstants()
 
+TYPES = TypeConstants()

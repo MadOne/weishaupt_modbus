@@ -7,8 +7,9 @@ PLATFORMS: list[str] = [
     "number",
     "select",
     "sensor",
-#    "switch",
+    #    "switch",
 ]
+
 
 # Return boolean to indicate that initialization was successful.
 # return True
@@ -21,6 +22,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     # It's done by calling the `async_setup_entry` function in each platform module.
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     return True
+
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     # This is called when an entry/configured device is to be removed. The class

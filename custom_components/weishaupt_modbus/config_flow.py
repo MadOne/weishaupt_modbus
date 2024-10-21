@@ -13,6 +13,7 @@ DATA_SCHEMA = vol.Schema(
     {vol.Required(CONF_HOST): str, vol.Optional(CONF_PORT, default="502"): cv.port}
 )
 
+
 async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
     # Validate the data can be used to set up a connection.
 
@@ -65,13 +66,15 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
             except Exception:  # noqa: BLE001
                 errors["base"] = "unknown"
 
-# If there is no user input or there were errors, show the form again, including any errors that were found with the input.
+        # If there is no user input or there were errors, show the form again, including any errors that were found with the input.
         return self.async_show_form(
             step_id="user", data_schema=DATA_SCHEMA, errors=errors
         )
 
+
 class InvalidHost(exceptions.HomeAssistantError):
     """Error to indicate there is an invalid hostname."""
+
 
 class ConnectionFailed(exceptions.HomeAssistantError):
     """Error to indicate there is an invalid hostname."""
