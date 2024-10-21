@@ -1,14 +1,15 @@
 from .const import TYPES
 
+
 # An item of a status, e.g. error code and error text along with a precise description
-# A class is intentionally defined here because the assignment via dictionaries would not work so elegantly in the end, 
+# A class is intentionally defined here because the assignment via dictionaries would not work so elegantly in the end,
 # especially when searching backwards. (At least I don't know how...)
-class StatusItem():
+class StatusItem:
     _number = None
     _text = None
     _description = None
 
-    def __init__(self, number, text, description = None):
+    def __init__(self, number, text, description=None):
         self._number = number
         self._text = text
         self._description = description
@@ -37,13 +38,14 @@ class StatusItem():
     def description(self, value) -> None:
         self._description = value
 
-# A Modbus item, consisting of address, name, 
+
+# A Modbus item, consisting of address, name,
 #                              format (temperature, status, ..),
 #                              type (sensor, number, ..),
 #                              device (System, Heatpump, ..) and
 #                              optional result list from status items
 #                              (number entities: status = limits?
-class ModbusItem():
+class ModbusItem:
     _address = None
     _name = "empty"
     _format = None
@@ -51,17 +53,18 @@ class ModbusItem():
     _resultlist = None
     _device = None
 
-    def __init__(self, address, name, format, type, device, resultlist = None):
+    def __init__(self, address, name, format, type, device, resultlist=None):
         self._address = address
         self._name = name
         self._format = format
         self._type = type
         self._device = device
         self._resultlist = resultlist
-        
+
     @property
     def address(self):
         return self._address
+
     @property
     def name(self):
         return self._name

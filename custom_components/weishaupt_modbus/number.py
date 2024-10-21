@@ -10,6 +10,7 @@ from .const import TYPES
 from .hpconst import MODBUS_SYS_ITEMS
 from .entities import BuildEntityList
 
+
 async def async_setup_entry(
     hass: HomeAssistant,
     # config: ConfigType,
@@ -20,4 +21,7 @@ async def async_setup_entry(
     """Set up the sensor platform."""
     Entries = []
 
-    async_add_entities(BuildEntityList(Entries, config_entry, MODBUS_SYS_ITEMS,TYPES.NUMBER), update_before_add=True)
+    async_add_entities(
+        BuildEntityList(Entries, config_entry, MODBUS_SYS_ITEMS, TYPES.NUMBER),
+        update_before_add=True,
+    )

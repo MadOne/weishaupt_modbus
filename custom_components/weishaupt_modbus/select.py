@@ -6,6 +6,7 @@ from .const import TYPES
 from .hpconst import MODBUS_SYS_ITEMS
 from .entities import BuildEntityList
 
+
 async def async_setup_entry(
     hass: HomeAssistant,
     config_entry: ConfigEntry,
@@ -14,4 +15,7 @@ async def async_setup_entry(
     """Select entry setup."""
     Entries = []
 
-    async_add_entities(BuildEntityList(Entries, config_entry, MODBUS_SYS_ITEMS,TYPES.SELECT), update_before_add=True)
+    async_add_entities(
+        BuildEntityList(Entries, config_entry, MODBUS_SYS_ITEMS, TYPES.SELECT),
+        update_before_add=True,
+    )
