@@ -55,8 +55,8 @@ class ModbusObject:
         except:  # noqa: E722
             return None
 
-    @value.setter
-    async def value(self, value) -> None:
+    # @value.setter
+    async def setvalue(self, value) -> None:
         try:
             match self._ModbusItem.type:
                 case TYPES.SENSOR | TYPES.NUMBER_RO | TYPES.SENSOR_CALC:
