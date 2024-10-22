@@ -52,6 +52,7 @@ class ModbusItem:
     _type = TYPES.SENSOR
     _resultlist = None
     _device = None
+    _state = None
 
     def __init__(self, address, name, format, type, device, resultlist=None):
         self._address = address
@@ -60,10 +61,19 @@ class ModbusItem:
         self._type = type
         self._device = device
         self._resultlist = resultlist
+        self._state = None
 
     @property
     def address(self):
         return self._address
+
+    @property
+    def state(self):
+        return self._state
+
+    @state.setter
+    def state(self, val):
+        self._state = val
 
     @property
     def name(self):

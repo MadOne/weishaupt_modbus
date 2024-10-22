@@ -1,7 +1,13 @@
+"""
+A Modbus object that contains a Modbus item and communicates with the Modbus.
+It contains a ModbusClient for setting and getting Modbus register values
+"""
+
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_PORT
 from pymodbus.client import AsyncModbusTcpClient
-from .const import FORMATS, TYPES
+from .const import TYPES
+from .items import ModbusItem
 
 # import logging
 # logging.basicConfig()
@@ -9,63 +15,111 @@ from .const import FORMATS, TYPES
 # log.setLevel(logging.DEBUG)
 
 
-# A Modbus object that contains a Modbus item and communicates with the Modbus
-# it contains a ModbusClient for setting and getting Modbus register values
-class ModbusObject:
-    _ModbusItem = None
-    _DataFormat = None
-
+class ModbusAPI:
     _ip = None
     _port = None
-    _ModbusClient = None
+    _modbus_client = None
 
-    def __init__(self, config_entry, modbus_item):
-        self._ModbusItem = modbus_item
+    def __init__(self, config_entry: ConfigEntry):
+        """
+        Constructor of ModbusClient
 
+        :param config_entry: HASS config entry
+        :type config_entry: ConfigEntry
+        :param modbus_item: definition of modbus item
+        :type modbus_item: ModbusItem
+        """
         self._ip = config_entry.data[CONF_HOST]
         self._port = config_entry.data[CONF_PORT]
-        self._ModbusClient = None
+        self._modbus_client = None
 
     async def connect(self):
+        """
+        function opens modbus connection
+        """
         try:
-            self._ModbusClient = AsyncModbusTcpClient(host=self._ip, port=self._port)
-            await self._ModbusClient.connect()
-            return self._ModbusClient.connected  # noqa: TRY300
+            self._modbus_client = AsyncModbusTcpClient(
+                host=self._ip, port=self._port, name="Weishaupt_WBB"
+            )
+            await self._modbus_client.connect()
+            return self._modbus_client.connected  # noqa: TRY300
         except:  # noqa: E722
             return None
+
+    async def close(self):
+        """
+        function opens modbus connection
+        """
+        try:
+            await self._modbus_client.close()
+            return self._modbus_client.connected  # noqa: TRY300
+        except:  # noqa: E722
+            return None
+
+    def get_device(self):
+        """
+        function returns modbus connection
+        """
+        return self._modbus_client
+
+
+class ModbusObject:
+    """
+    A Modbus object that contains a Modbus item and communicates with the Modbus.
+    It contains a ModbusClient for setting and getting Modbus register values
+    """
+
+    _modbus_item = None
+    _data_format = None
+
+    def __init__(self, modbus_api: ModbusAPI, modbus_item: ModbusItem):
+        """
+        Constructor of ModbusClient
+
+        :param config_entry: HASS config entry
+        :type config_entry: ConfigEntry
+        :param modbus_item: definition of modbus item
+        :type modbus_item: ModbusItem
+        """
+
+        self._modbus_item = modbus_item
+        self._modbus_client = modbus_api.get_device()
 
     @property
     async def value(self):
-        try:
-            await self.connect()
-            match self._ModbusItem.type:
-                case TYPES.SENSOR | TYPES.SENSOR_CALC:
-                    # Sensor entities are read-only
-                    return (
-                        await self._ModbusClient.read_input_registers(
-                            self._ModbusItem.address, slave=1
-                        )
-                    ).registers[0]
-                case TYPES.SELECT | TYPES.NUMBER | TYPES.NUMBER_RO:
-                    return (
-                        await self._ModbusClient.read_holding_registers(
-                            self._ModbusItem.address, slave=1
-                        )
-                    ).registers[0]
-        except:  # noqa: E722
-            return None
+        """
+        Returns the value from the modbus register.
+        """
+        match self._modbus_item.type:
+            case TYPES.SENSOR | TYPES.SENSOR_CALC:
+                # Sensor entities are read-only
+                return (
+                    await self._modbus_client.read_input_registers(
+                        self._modbus_item.address, slave=1
+                    )
+                ).registers[0]
+            case TYPES.SELECT | TYPES.NUMBER | TYPES.NUMBER_RO:
+                return (
+                    await self._modbus_client.read_holding_registers(
+                        self._modbus_item.address, slave=1
+                    )
+                ).registers[0]
+            case _:
+                return None
 
     # @value.setter
     async def setvalue(self, value) -> None:
+        """
+        Sets the value of the modbus register, does nothing when not R/W.
+        """
         try:
-            match self._ModbusItem.type:
+            match self._modbus_item.type:
                 case TYPES.SENSOR | TYPES.NUMBER_RO | TYPES.SENSOR_CALC:
                     # Sensor entities are read-only
                     return
                 case _:
-                    await self.connect()
-                    await self._ModbusClient.write_register(
-                        self._ModbusItem.address, int(value), slave=1
+                    await self._modbus_client.write_register(
+                        self._modbus_item.address, int(value), slave=1
                     )
         except:  # noqua: E722
             return None
