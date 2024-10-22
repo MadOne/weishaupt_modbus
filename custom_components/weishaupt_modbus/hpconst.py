@@ -629,9 +629,11 @@ MODBUS_SYS_ITEMS = [
         34101, "Status 2. WEZ", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS
     ),
     ModbusItem(
-        34102, "Betriebsstunden 2. WEZ", FORMATS.TIME_H, TYPES.SENSOR, DEVICES.W2
+        34102, "Schaltspiele E-Heizung 1", FORMATS.NUMBER, TYPES.SENSOR, DEVICES.W2
     ),
-    ModbusItem(34103, "Schaltspiele 2. WEZ", FORMATS.NUMBER, TYPES.SENSOR, DEVICES.W2),
+    ModbusItem(
+        34103, "Schaltspiele E-Heizung 2", FORMATS.NUMBER, TYPES.SENSOR, DEVICES.W2
+    ),
     ModbusItem(
         34104, "Status E-Heizung 1", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS
     ),

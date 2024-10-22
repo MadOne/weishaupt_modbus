@@ -1,4 +1,4 @@
-# import warnings
+import warnings
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PORT
 from homeassistant.components.sensor import (
@@ -109,8 +109,8 @@ class MyEntity:
                     return val
                 return val / self._divider
 
-    @translateVal.setter
-    async def translateVal(self, value):
+    # @translateVal.setter
+    async def settranslateVal(self, value):
         # translates and writes a value to the modbus
         mbo = ModbusObject(self._config_entry, self._modbus_item)
         if mbo == None:
@@ -122,7 +122,7 @@ class MyEntity:
                 val = self._modbus_item.getNumberFromText(value)
             case _:
                 val = value * self._divider
-        mbo.value = val
+        await mbo.setvalue(val)  # = val
 
     def my_device_info(self) -> DeviceInfo:
         # helper to build the device info
@@ -189,7 +189,8 @@ class MyCalcSensorEntity(MySensorEntity):
         mbo_x = ModbusObject(self._config_entry, mb_x)
         if mbo_x == None:
             return None
-        val_x = self.calcTemperature(await mbo_x.value) / 10
+        t_temp = await mbo_x.value
+        val_x = self.calcTemperature(t_temp) / 10
         mb_y = ModbusItem(
             self._modbus_item.getNumberFromText("y"),
             "y",
@@ -199,9 +200,10 @@ class MyCalcSensorEntity(MySensorEntity):
             TEMPRANGE_STD,
         )
         mbo_y = ModbusObject(self._config_entry, mb_y)
-        if mbo_x == None:
+        if mbo_y == None:
             return None
-        val_y = self.calcTemperature(await mbo_y.value) / 10
+        t_temp = await mbo_y.value
+        val_y = self.calcTemperature(t_temp) / 10
 
         match self._modbus_item.format:
             case FORMATS.POWER:
@@ -232,8 +234,8 @@ class MyNumberEntity(NumberEntity, MyEntity):
             self._attr_native_step = self._modbus_item.getNumberFromText("step")
 
     async def async_set_native_value(self, value: float) -> None:
-        self.translateVal = value
-        self._attr_native_value = self.translateVal
+        await self.settranslateVal(value)
+        self._attr_native_value = await self.translateVal
         self.async_write_ha_state()
 
     async def async_update(self) -> None:
@@ -263,8 +265,8 @@ class MySelectEntity(SelectEntity, MyEntity):
 
     async def async_select_option(self, option: str) -> None:
         # the synching is done by the ModbusObject of the entity
-        self.translateVal = option
-        self._attr_current_option = self.translateVal
+        await self.settranslateVal(option)
+        self._attr_current_option = await self.translateVal
         self.async_write_ha_state()
 
     async def async_update(self) -> None:

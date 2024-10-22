@@ -1,6 +1,6 @@
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_PORT
-from pymodbus.client import AsyncModbusTcpClient as AsyncModbusTcpClient
+from pymodbus.client import AsyncModbusTcpClient
 from .const import FORMATS, TYPES
 
 import warnings
@@ -22,13 +22,12 @@ class ModbusObject:
 
     def __init__(self, config_entry, modbus_item):
         self._ModbusItem = modbus_item
-        # self._HeatPump = heatpump
 
         self._ip = config_entry.data[CONF_HOST]
         self._port = config_entry.data[CONF_PORT]
         self._ModbusClient = None
 
-    async def connect(self, modbus_item):
+    async def connect(self):
         try:
             self._ModbusClient = AsyncModbusTcpClient(host=self._ip, port=self._port)
             await self._ModbusClient.connect()
@@ -55,19 +54,18 @@ class ModbusObject:
                             self._ModbusItem.address, slave=1
                         )
                     ).registers[0]
-
         except:  # noqa: E722
             return None
 
-    @value.setter
-    async def value(self, value) -> None:
+    # @value.setter
+    async def setvalue(self, value) -> None:
         try:
             match self._ModbusItem.type:
                 case TYPES.SENSOR | TYPES.NUMBER_RO | TYPES.SENSOR_CALC:
                     # Sensor entities are read-only
                     return
                 case _:
-                    self.connect()
+                    await self.connect()
                     await self._ModbusClient.write_register(
                         self._ModbusItem.address, int(value), slave=1
                     )
