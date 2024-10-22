@@ -1,4 +1,4 @@
-import warnings
+# import warnings
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PORT
 from homeassistant.components.sensor import (

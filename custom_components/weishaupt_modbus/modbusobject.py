@@ -3,6 +3,7 @@ from homeassistant.const import CONF_HOST, CONF_PORT
 from pymodbus.client import AsyncModbusTcpClient as AsyncModbusTcpClient
 from .const import FORMATS, TYPES
 
+import warnings
 # import logging
 # logging.basicConfig()
 # log = logging.getLogger()
@@ -27,12 +28,13 @@ class ModbusObject:
         self._port = config_entry.data[CONF_PORT]
         self._ModbusClient = None
 
-    async def connect(self):
+    async def connect(self, modbus_item):
         try:
             self._ModbusClient = AsyncModbusTcpClient(host=self._ip, port=self._port)
             await self._ModbusClient.connect()
             return self._ModbusClient.connected  # noqa: TRY300
         except:  # noqa: E722
+            # warnings.warn(str(modbus_item.name) + " failed")
             return None
 
     @property
