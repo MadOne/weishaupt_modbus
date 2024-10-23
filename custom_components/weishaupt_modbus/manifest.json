@@ -1,5 +1,5 @@
 {
-  "domain": "weishaupt_wbb",
+  "domain": "weishaupt_modbus",
   "name": "Weishaupt WBB",
   "codeowners": ["@OStrama"],
   "config_flow": true,

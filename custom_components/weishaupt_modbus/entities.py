@@ -191,7 +191,7 @@ class MyEntity:
         self._config_entry = config_entry
         self._modbus_item = modbus_item
         self._attr_name = self._modbus_item.name
-        self._attr_unique_id = CONST.DOMAIN + self._attr_name
+        self._attr_unique_id = CONST.PREFIX + self._modbus_item.name
         self._dev_device = self._modbus_item.device
 
         if self._modbus_item._format != FORMATS.STATUS:
