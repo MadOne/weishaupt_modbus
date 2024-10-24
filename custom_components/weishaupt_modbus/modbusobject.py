@@ -4,6 +4,9 @@ A Modbus object that contains a Modbus item and communicates with the Modbus.
 It contains a ModbusClient for setting and getting Modbus register values
 """
 
+import warnings
+
+from pymodbus import ModbusException
 from pymodbus.client import AsyncModbusTcpClient
 
 from homeassistant.config_entries import ConfigEntry
@@ -45,7 +48,8 @@ class ModbusAPI:
             )
             await self._modbus_client.connect()
 
-        except:
+        except ModbusException:
+            warnings.warn("Connection to heatpump failed")
             return None
         return self._modbus_client.connected
 
@@ -53,8 +57,8 @@ class ModbusAPI:
         """Close modbus connection."""
         try:
             await self._modbus_client.close()
-            # noqa: TRY300
-        except:
+        except ModbusException:
+            warnings.warn("Closing connection to heatpump failed")
             return None
         return self._modbus_client.connected
 
@@ -117,5 +121,13 @@ class ModbusObject:
                     await self._modbus_client.write_register(
                         self._modbus_item.address, int(value), slave=1
                     )
-        except:
+        except ModbusException:
+            warnings.warn(
+                "Writing "
+                + str(value)
+                + " to "
+                + str(self._modbus_item.name)
+                + " ("
+                + str(self._modbus_item.address + ")" + " failed")
+            )
             return None

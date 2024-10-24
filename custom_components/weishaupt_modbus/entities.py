@@ -5,6 +5,8 @@ from datetime import timedelta
 import logging
 import warnings
 
+from pymodbus import ModbusException
+
 from homeassistant.components.number import NumberEntity
 from homeassistant.components.select import SelectEntity
 from homeassistant.components.sensor import (
@@ -154,7 +156,7 @@ class MyCoordinator(DataUpdateCoordinator):
             # return await self._modbus_api.fetch_data(listening_idx)
             try:
                 await self._modbus_api.connect()
-            except:
+            except ModbusException:
                 warnings.warn("connection to the heatpump failed")
 
             for index, item in enumerate(self._modbusitems):
@@ -164,11 +166,11 @@ class MyCoordinator(DataUpdateCoordinator):
                         case TYPES.SENSOR | TYPES.NUMBER_RO:
                             item.state = await self.translateVal(item)
                 except:
-                    warnings.warn("Item failed")
+                    warnings.warn("Item:" + str(item.name + " failed"))
 
             try:
                 await self._modbus_api.close()
-            except:
+            except ModbusException:
                 warnings.warn("Closing connection to heatpump failed")
         # except:  # noqa: E722 # ApiAuthError as err:
         #    return None
