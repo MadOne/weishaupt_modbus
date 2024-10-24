@@ -28,7 +28,9 @@ from .const import CONST, FORMATS, TYPES  # , DOMAIN
 from .kennfeld import PowerMap
 from .modbusobject import ModbusObject
 
+logging.basicConfig()
 _LOGGER = logging.getLogger(__name__)
+_LOGGER.setLevel(logging.WARNING)
 
 
 def BuildEntityList(entries, config_entry, modbusitems, item_type, coordinator=None):
@@ -92,20 +94,21 @@ class MyCoordinator(DataUpdateCoordinator):
         self._modbusitems = modbusitems
         self._number_of_items = len(modbusitems)
 
-    def get_value(self, modbus_item):
+    async def get_value(self, modbus_item):
         """function reads a value from the modbus"""
         mbo = ModbusObject(self._modbus_api, modbus_item)
         if mbo is None:
             modbus_item.state = None
-        modbus_item.state = mbo.value
+        modbus_item.state = await mbo.value
         return modbus_item.state
 
-    def get_value_a(self, modbus_item):
+    async def get_value_a(self, modbus_item):
         """function reads a value from the modbus"""
         mbo = ModbusObject(self._modbus_api, modbus_item)
         if mbo is None:
             return None
-        return mbo.value
+        val = await mbo.value
+        return val
 
     async def _async_setup(self):
         """Set up the coordinator
@@ -120,58 +123,11 @@ class MyCoordinator(DataUpdateCoordinator):
         #    self._device = self._modbus_api.get_device()
         await self.fetch_data()
 
-    def calcTemperature(self, val: float, modbus_item):
-        """Calculate Temperature with values from the heatpump."""
-        divider = 1
-        if modbus_item.resultlist is not None:
-            divider = modbus_item.getNumberFromText("divider")
-
-        if val is None:
-            return None
-        if val == -32768:
-            return -1
-        if val == -32767:
-            return -2
-        if val == 32768:
-            return None
-        return val / divider
-
-    def calcPercentage(self, val: float, modbus_item):
-        """Calculate Percentage with value from heatpump."""
-        divider = 1
-        if modbus_item.resultlist is not None:
-            divider = modbus_item.getNumberFromText("divider")
-
-        if val is None:
-            return None
-        if val == 65535:
-            return None
-        return val / divider
-
-    # @property
-    async def translateVal(self, modbus_item):
-        """Read an translates a value from the modbus."""
-        mbo = ModbusObject(self._modbus_api, modbus_item)
-        if mbo is None:
-            return None
-        val = await mbo.value
-        match modbus_item.format:
-            case FORMATS.TEMPERATUR:
-                return self.calcTemperature(val, modbus_item)
-            case FORMATS.PERCENTAGE:
-                return self.calcPercentage(val, modbus_item)
-            case FORMATS.STATUS:
-                return modbus_item.getTextFromNumber(val)
-            case _:
-                if val is None:
-                    return val
-                return val  # / self._divider
-
     async def fetch_data(self, idx=None):
         """function fetches all values from the modbus"""
         if idx is not None:
             if len(idx) > 0:
-                self._modbus_api.connect()
+                await self._modbus_api.connect()
                 for index in range(0, len(idx)):
                     item = self._modbusitems[index]
                     match item.type:
@@ -182,9 +138,9 @@ class MyCoordinator(DataUpdateCoordinator):
                             | TYPES.NUMBER
                             | TYPES.SELECT
                         ):
-                            self.get_value(item)
+                            await self.get_value(item)
                         case TYPES.SENSOR_CALC:
-                            r1 = self.get_value_a(item)
+                            r1 = await self.get_value_a(item)
                             # item_x = ModbusItem(
                             #    item.getNumberFromText("x"),
                             #    "x",
@@ -206,18 +162,18 @@ class MyCoordinator(DataUpdateCoordinator):
 
                             item.state = r1  # , r1, r1]
 
-                self._modbus_api.close()
+                await self._modbus_api.close()
                 return
 
-        self._modbus_api.connect()
+        await self._modbus_api.connect()
         for index, item in enumerate(self._modbusitems):
             try:
                 match item.type:
                     # here the entities are created with the parameters provided by the ModbusItem object
                     case TYPES.SENSOR | TYPES.NUMBER_RO | TYPES.NUMBER | TYPES.SELECT:
-                        self.get_value(item)
+                        await self.get_value(item)
                     case TYPES.SENSOR_CALC:
-                        r1 = self.get_value_a(item)
+                        r1 = await self.get_value_a(item)
                         # item_x = ModbusItem(
                         #    item.getNumberFromText("x"),
                         #    "x",
@@ -239,6 +195,7 @@ class MyCoordinator(DataUpdateCoordinator):
 
                         item.state = r1  # , r1, r1]
             except:
+                item.state = None
                 warnings.warn("Item:" + str(item.name + " failed"))
 
         try:
@@ -323,8 +280,10 @@ class MyEntity:
                 self._divider = self._modbus_item.getNumberFromText("divider")
                 self._attr_device_class = self._modbus_item.getTextFromNumber(-1)
 
-    def calcTemperature(self, val: float):
+    def calc_temperature(self, val: float):
         """Calcualte temperature."""
+        if val is None:
+            return val
         if val is None:
             return None
         if val == -32768:
@@ -333,31 +292,32 @@ class MyEntity:
             return -2
         if val == 32768:
             return None
-        return val / self._divider
+        return int(val) / self._divider
 
-    def calcPercentage(self, val: float):
+    def calc_percentage(self, val: float):
         """Calculate percentage."""
         if val is None:
             return None
         if val == 65535:
             return None
-        return val / self._divider
+        return int(val) / self._divider
 
     def translate_val(self, val):
         """function to translate modbus value into sensful format"""
+        if val is None:
+            return val
         match self._modbus_item.format:
             case FORMATS.TEMPERATUR:
-                return self.calcTemperature(val)
+                return self.calc_temperature(val)
             case FORMATS.PERCENTAGE:
-                return self.calcPercentage(val)
+                return self.calc_percentage(val)
             case FORMATS.STATUS:
                 return self._modbus_item.getTextFromNumber(val)
             case _:
-                if val is None:
-                    return val
-                return val / self._divider
+                return int(val) / self._divider
 
     def retranslate_val(self, value):
+        """function to re-translate modbus value into sensful format"""
         val = None
         match self._modbus_item.format:
             # logically, this belongs to the ModbusItem, but doing it here
@@ -371,10 +331,10 @@ class MyEntity:
         """function translates and writes a value to the modbus"""
         val = self.retranslate_val(value)
 
-        self._modbus_api.connect()
+        await self._modbus_api.connect()
         mbo = ModbusObject(self._modbus_api, self._modbus_item)
         await mbo.setvalue(val)
-        self._modbus_api.close()
+        await self._modbus_api.close()
 
     def my_device_info(self) -> DeviceInfo:
         """function helper to build the device info"""
@@ -441,23 +401,24 @@ class MyCalcSensorEntity(MySensorEntity):
     #    # the synching is done by the ModbusObject of the entity
     #    self._attr_native_value = self.translate_val(0)
 
-    def calcPower(self, val, x, y):
+    def calc_power(self, val, x, y):
+        """calculates heating power from power map"""
         if val is None:
             return val
         return (val / 100) * self.my_map.map(x, y)
 
-    def translate_val(self, value):
+    def translate_val(self, val):
         """function reads an translates a value from the modbus"""
-        return value
-        val = self.calcPercentage(value[0])
-        val_x = self.calcTemperature(value[1]) / 10
-        val_y = self.calcTemperature(value[2]) / 10
+        return val
+        val_0 = self.calc_percentage(val[0])
+        val_x = self.calc_temperature(val[1]) / 10
+        val_y = self.calc_temperature(val[2]) / 10
 
         match self._modbus_item.format:
             case FORMATS.POWER:
-                return self.calcPower(val, val_x, val_y)
+                return self.calc_power(val_0, val_x, val_y)
             case _:
-                return val / self._divider
+                return val_0 / self._divider
 
     @property
     def device_info(self) -> DeviceInfo:
@@ -493,7 +454,7 @@ class MyNumberEntity(CoordinatorEntity, NumberEntity, MyEntity):
         self.async_write_ha_state()
 
     async def async_set_native_value(self, value: float) -> None:
-        self.set_translate_val(value)
+        await self.set_translate_val(value)
         # await self.coordinator.async_request_refresh()
         self._modbus_item.state = int(self.retranslate_val(value))
         self._attr_native_value = self.translate_val(self._modbus_item.state)
@@ -531,7 +492,7 @@ class MySelectEntity(CoordinatorEntity, SelectEntity, MyEntity):
 
     async def async_select_option(self, option: str) -> None:
         # the synching is done by the ModbusObject of the entity
-        self.set_translate_val(option)
+        await self.set_translate_val(option)
         self._modbus_item.state = int(self.retranslate_val(option))
         self._attr_current_option = self.translate_val(self._modbus_item.state)
         self.async_write_ha_state()

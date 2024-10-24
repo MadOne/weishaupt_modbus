@@ -61,12 +61,12 @@ class ModbusAPI:
             await self._modbus_client.close()
         except ModbusException:
             warnings.warn("Closing connection to heatpump failed")
-            return None
+            return False
         except:  # ToDo: FIX THIS!
             warnings.warn(
                 "Some uncatched Exceptions occoured while closing connection to the heatpump"
             )
-        return self._modbus_client.connected
+        return True
 
     def get_device(self):
         """Return modbus connection."""
@@ -97,16 +97,19 @@ class ModbusObject:
     @property
     async def value(self):
         """Returns the value from the modbus register."""
+        if self._modbus_client is None:
+            return None
+        val = None
         match self._modbus_item.type:
             case TYPES.SENSOR:  # | TYPES.SENSOR_CALC:
                 # Sensor entities are read-only
-                mbr = self._modbus_client.read_input_registers(
+                mbr = await self._modbus_client.read_input_registers(
                     self._modbus_item.address, slave=1
                 )
                 if len(mbr.registers) > 0:
                     val = mbr.registers[0]
             case TYPES.SELECT | TYPES.NUMBER | TYPES.NUMBER_RO:
-                mbr = self._modbus_client.read_holding_registers(
+                mbr = await self._modbus_client.read_holding_registers(
                     self._modbus_item.address, slave=1
                 )
                 if len(mbr.registers) > 0:
@@ -118,6 +121,8 @@ class ModbusObject:
     # @value.setter
     async def setvalue(self, value) -> None:
         """Set the value of the modbus register, does nothing when not R/W."""
+        if self._modbus_client is None:
+            return None
         try:
             match self._modbus_item.type:
                 case TYPES.SENSOR | TYPES.NUMBER_RO | TYPES.SENSOR_CALC:
