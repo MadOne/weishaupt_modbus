@@ -1,11 +1,14 @@
-"""
+"""Modbusobject.
+
 A Modbus object that contains a Modbus item and communicates with the Modbus.
 It contains a ModbusClient for setting and getting Modbus register values
 """
 
+from pymodbus.client import AsyncModbusTcpClient
+
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_PORT
-from pymodbus.client import AsyncModbusTcpClient
+
 from .const import TYPES
 from .items import ModbusItem
 
@@ -16,13 +19,14 @@ from .items import ModbusItem
 
 
 class ModbusAPI:
+    """ModbusAPI class."""
+
     _ip = None
     _port = None
     _modbus_client = None
 
-    def __init__(self, config_entry: ConfigEntry):
-        """
-        Constructor of ModbusClient
+    def __init__(self, config_entry: ConfigEntry) -> None:
+        """Construct ModbusClient.
 
         :param config_entry: HASS config entry
         :type config_entry: ConfigEntry
@@ -34,37 +38,34 @@ class ModbusAPI:
         self._modbus_client = None
 
     async def connect(self):
-        """
-        function opens modbus connection
-        """
+        """Open modbus connection."""
         try:
             self._modbus_client = AsyncModbusTcpClient(
                 host=self._ip, port=self._port, name="Weishaupt_WBB"
             )
             await self._modbus_client.connect()
-            return self._modbus_client.connected  # noqa: TRY300
-        except:  # noqa: E722
+
+        except:
             return None
+        return self._modbus_client.connected
 
     async def close(self):
-        """
-        function opens modbus connection
-        """
+        """Close modbus connection."""
         try:
             await self._modbus_client.close()
-            return self._modbus_client.connected  # noqa: TRY300
-        except:  # noqa: E722
+            # noqa: TRY300
+        except:
             return None
+        return self._modbus_client.connected
 
     def get_device(self):
-        """
-        function returns modbus connection
-        """
+        """Return modbus connection."""
         return self._modbus_client
 
 
 class ModbusObject:
-    """
+    """ModbusObject.
+
     A Modbus object that contains a Modbus item and communicates with the Modbus.
     It contains a ModbusClient for setting and getting Modbus register values
     """
@@ -72,9 +73,8 @@ class ModbusObject:
     _modbus_item = None
     _data_format = None
 
-    def __init__(self, modbus_api: ModbusAPI, modbus_item: ModbusItem):
-        """
-        Constructor of ModbusClient
+    def __init__(self, modbus_api: ModbusAPI, modbus_item: ModbusItem) -> None:
+        """Construct ModbusClient.
 
         :param config_entry: HASS config entry
         :type config_entry: ConfigEntry
@@ -87,9 +87,7 @@ class ModbusObject:
 
     @property
     async def value(self):
-        """
-        Returns the value from the modbus register.
-        """
+        """Returns the value from the modbus register."""
         match self._modbus_item.type:
             case TYPES.SENSOR | TYPES.SENSOR_CALC:
                 # Sensor entities are read-only
@@ -109,9 +107,7 @@ class ModbusObject:
 
     # @value.setter
     async def setvalue(self, value) -> None:
-        """
-        Sets the value of the modbus register, does nothing when not R/W.
-        """
+        """Set the value of the modbus register, does nothing when not R/W."""
         try:
             match self._modbus_item.type:
                 case TYPES.SENSOR | TYPES.NUMBER_RO | TYPES.SENSOR_CALC:
@@ -121,5 +117,5 @@ class ModbusObject:
                     await self._modbus_client.write_register(
                         self._modbus_item.address, int(value), slave=1
                     )
-        except:  # noqua: E722
+        except:
             return None

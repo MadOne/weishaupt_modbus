@@ -1,3 +1,5 @@
+"""Number."""
+
 from __future__ import annotations
 
 from homeassistant.config_entries import ConfigEntry
@@ -7,8 +9,8 @@ from homeassistant.helpers.typing import DiscoveryInfoType
 
 # from time import gmtime, strftime
 from .const import TYPES
-from .hpconst import MODBUS_SYS_ITEMS
 from .entities import BuildEntityList
+from .hpconst import MODBUS_SYS_ITEMS
 
 
 async def async_setup_entry(

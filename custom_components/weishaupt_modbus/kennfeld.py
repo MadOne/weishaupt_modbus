@@ -1,13 +1,16 @@
-# from scipy.interpolate import CubicSpline
-from numpy.polynomial import Chebyshev
-import numpy as np
+"""Kennfeld."""
 
-# import matplotlib.pyplot as plt
 import json
+
+import numpy as np
+from numpy.polynomial import Chebyshev
+
 from .const import CONST
 
 
 class PowerMap:
+    """Power map class."""
+
     # these are values extracted from the characteristic curves of heating power found ion the documentation of my heat pump.
     # there are two diagrams:
     #  - heating power vs. outside temperature @ 35 °C flow temperature
@@ -68,6 +71,7 @@ class PowerMap:
     interp_y = []
 
     def __init__(self) -> None:
+        """Initialise the PowerMap class."""
         # try to load values from json file
 
         try:
@@ -116,6 +120,7 @@ class PowerMap:
             self.max_power.append(f(t))
 
     def map(self, x, y):
+        """Map."""
         numrows = len(self.max_power)  # 3 rows in your example
 
         numcols = len(self.max_power[0])  # 2 columns in your example

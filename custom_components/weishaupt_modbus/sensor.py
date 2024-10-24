@@ -1,16 +1,15 @@
-"""Setting uop my sensor entities"""
+"""Setting uop my sensor entities."""
 
 from __future__ import annotations
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-# from homeassistant.helpers.typing import DiscoveryInfoType
 
-from .const import CONST, TYPES
-from .hpconst import MODBUS_SYS_ITEMS
+# from homeassistant.helpers.typing import DiscoveryInfoType
+from .const import TYPES
 from .entities import BuildEntityList, MyCoordinator
-from .modbusobject import ModbusAPI
+from .hpconst import MODBUS_SYS_ITEMS
 
 
 async def async_setup_entry(
@@ -20,7 +19,7 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
     #    discovery_info: DiscoveryInfoType | None = None,
 ) -> None:
-    """function sets up the sensor platform."""
+    """Set up the sensor platform."""
     _modbus_api = config_entry.runtime_data
     coordinator = MyCoordinator(hass, _modbus_api, MODBUS_SYS_ITEMS)
 

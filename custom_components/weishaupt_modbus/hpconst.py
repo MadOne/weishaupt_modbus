@@ -1,11 +1,17 @@
+"""Heatpump constants."""
+
 from dataclasses import dataclass
-from .const import TYPES, FORMATS
-from .items import ModbusItem, StatusItem
+
 from homeassistant.components.sensor import SensorDeviceClass
+
+from .const import FORMATS, TYPES
+from .items import ModbusItem, StatusItem
 
 
 @dataclass(frozen=True)
 class DeviceConstants:
+    """Device constants."""
+
     SYS = "System"
     WP = "Wärmepumpe"
     WW = "Warmwasser"
@@ -18,7 +24,7 @@ DEVICES = DeviceConstants()
 
 ##############################################################################################################################
 # Listen mit Fehlermeldungen, Warnmeldungen und Statustexte
-# Beschreibungstext ist ebenfalls m�glich
+# Beschreibungstext ist ebenfalls möglich
 # class StatusItem(): def __init__(self, number, text, description = None):
 ##############################################################################################################################
 

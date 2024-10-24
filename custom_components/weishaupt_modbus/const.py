@@ -1,17 +1,22 @@
+"""Constants."""
+
 from dataclasses import dataclass
 from datetime import timedelta
+
 from homeassistant.const import (
+    PERCENTAGE,
     UnitOfEnergy,
+    UnitOfPower,
     UnitOfTemperature,
     UnitOfTime,
     UnitOfVolumeFlowRate,
-    UnitOfPower,
-    PERCENTAGE,
 )
 
 
 @dataclass(frozen=True)
 class MainConstants:
+    """Main constants."""
+
     DOMAIN = "weishaupt_modbus"
     SCAN_INTERVAL = timedelta(minutes=1)
     UNIQUE_ID = "unique_id"
@@ -25,6 +30,8 @@ CONST = MainConstants()
 
 @dataclass(frozen=True)
 class FormatConstants:
+    """Format constants."""
+
     TEMPERATUR = UnitOfTemperature.CELSIUS
     ENERGY = UnitOfEnergy.KILO_WATT_HOUR
     POWER = UnitOfPower.WATT
@@ -42,6 +49,8 @@ FORMATS = FormatConstants()
 
 @dataclass(frozen=True)
 class TypeConstants:
+    """Type constants."""
+
     SENSOR = "Sensor"
     SENSOR_CALC = "Sensor_Calc"
     SELECT = "Select"

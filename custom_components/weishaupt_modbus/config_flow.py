@@ -1,5 +1,9 @@
+"""Config flow."""
+
 from typing import Any
+
 import voluptuous as vol
+
 from homeassistant import config_entries, exceptions
 from homeassistant.const import CONF_HOST, CONF_PORT
 from homeassistant.core import HomeAssistant
@@ -15,6 +19,7 @@ DATA_SCHEMA = vol.Schema(
 
 
 async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
+    """Validate the input."""
     # Validate the data can be used to set up a connection.
 
     # This is a simple example to show an error in the UI for a short hostname
@@ -42,6 +47,8 @@ async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
 
 
 class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
+    """Class config flow."""
+
     VERSION = 1
     # Pick one of the available connection classes in homeassistant/config_entries.py
     # This tells HA if it should be asking for updates, or it'll be notified of updates
@@ -50,6 +57,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
     CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_PUSH
 
     async def async_step_user(self, user_input=None):
+        """Step for setup process."""
         # This goes through the steps to take the user through the setup process.
         # Using this it is possible to update the UI and prompt for additional
         # information. This example provides a single form (built from `DATA_SCHEMA`),
