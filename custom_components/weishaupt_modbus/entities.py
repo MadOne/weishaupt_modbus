@@ -169,7 +169,7 @@ class MyCoordinator(DataUpdateCoordinator):
             try:
                 await self._modbus_api.close()
             except:
-                warnings.war("Closing connection to heatpump failed")
+                warnings.warn("Closing connection to heatpump failed")
         # except:  # noqa: E722 # ApiAuthError as err:
         #    return None
         # Raising ConfigEntryAuthFailed will cancel future updates
