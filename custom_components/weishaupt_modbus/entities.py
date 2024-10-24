@@ -1,36 +1,36 @@
-from homeassistant.const import CONF_PORT
+from datetime import timedelta
+import logging
+import warnings
+
+import async_timeout
+
+from homeassistant.components.number import NumberEntity
+from homeassistant.components.select import SelectEntity
 from homeassistant.components.sensor import (
     #    SensorDeviceClass,
     SensorEntity,
     SensorStateClass,
 )
-from homeassistant.components.select import SelectEntity
-from homeassistant.components.number import NumberEntity
+from homeassistant.const import CONF_PORT
+from homeassistant.core import callback
+from homeassistant.helpers.device_registry import DeviceInfo
 
 # from homeassistant.const import UnitOfEnergy, UnitOfTemperature
 from homeassistant.helpers.update_coordinator import (
     CoordinatorEntity,
     DataUpdateCoordinator,
-    UpdateFailed,
 )
-from homeassistant.core import callback
-from datetime import timedelta
-import logging
-import async_timeout
-from homeassistant.exceptions import ConfigEntryAuthFailed
-from homeassistant.helpers.device_registry import DeviceInfo
+
 from .const import CONST, FORMATS, TYPES  # , DOMAIN
-from .modbusobject import ModbusObject
-from .items import ModbusItem
-from .hpconst import TEMPRANGE_STD, DEVICES
 from .kennfeld import PowerMap
+from .modbusobject import ModbusObject
 
 _LOGGER = logging.getLogger(__name__)
 
 
 def BuildEntityList(entries, config_entry, modbusitems, item_type, coordinator=None):
-    """
-    function builds a list of entities that can be used as parameter by async_setup_entry()
+    """Builds the Entity List.
+    Function builds a list of entities that can be used as parameter by async_setup_entry()
     type of list is defined by the ModbusItem's type flag
     so the app only holds one list of entities that is build from a list of ModbusItem
     stored in hpconst.py so far, will be provided by an external file in future
@@ -77,7 +77,7 @@ class MyCoordinator(DataUpdateCoordinator):
         self._modbusitems = modbusitems
 
     async def _async_setup(self):
-        """Set up the coordinator
+        """Set up the coordinator.
 
         This is the place to set up your coordinator,
         or to load data, that only needs to be loaded once.
@@ -139,30 +139,38 @@ class MyCoordinator(DataUpdateCoordinator):
         This is the place to pre-process the data to lookup tables
         so entities can quickly look up their data.
         """
-        try:
-            # Note: asyncio.TimeoutError and aiohttp.ClientError are already
-            # handled by the data update coordinator.
-            async with async_timeout.timeout(10):
-                # Grab active context variables to limit data required to be fetched from API
-                # Note: using context is not required if there is no need or ability to limit
-                # data retrieved from API.
-                # listening_idx = set(self.async_contexts())
-                # return await self._modbus_api.fetch_data(listening_idx)
+        # try:
+        # Note: asyncio.TimeoutError and aiohttp.ClientError are already
+        # handled by the data update coordinator.
+        async with async_timeout.timeout(10):
+            # Grab active context variables to limit data required to be fetched from API
+            # Note: using context is not required if there is no need or ability to limit
+            # data retrieved from API.
+            # listening_idx = set(self.async_contexts())
+            # return await self._modbus_api.fetch_data(listening_idx)
+            try:
                 await self._modbus_api.connect()
+            except:
+                warnings.warn("connection to the heatpump failed")
 
-                for index, item in enumerate(self._modbusitems):
+            for index, item in enumerate(self._modbusitems):
+                try:
                     match item.type:
                         # here the entities are created with the parameters provided by the ModbusItem object
                         case TYPES.SENSOR | TYPES.NUMBER_RO:
                             item.state = await self.translateVal(item)
+                except:
+                    warnings.warn("Item failed")
 
+            try:
                 await self._modbus_api.close()
-
-        except:  # noqa: E722 # ApiAuthError as err:
-            return None
-            # Raising ConfigEntryAuthFailed will cancel future updates
-            # and start a config flow with SOURCE_REAUTH (async_step_reauth)
-            # raise ConfigEntryAuthFailed from err
+            except:
+                warnings.war("Closing connection to heatpump failed")
+        # except:  # noqa: E722 # ApiAuthError as err:
+        #    return None
+        # Raising ConfigEntryAuthFailed will cancel future updates
+        # and start a config flow with SOURCE_REAUTH (async_step_reauth)
+        # raise ConfigEntryAuthFailed from err
         # except ApiError as err:
         #    raise UpdateFailed(f"Error communicating with API: {err}")
 
