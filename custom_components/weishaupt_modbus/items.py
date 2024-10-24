@@ -48,14 +48,14 @@ class StatusItem:
         self._description = value
 
 
-# A Modbus item, consisting of address, name,
-#                              format (temperature, status, ..),
-#                              type (sensor, number, ..),
-#                              device (System, Heatpump, ..) and
-#                              optional result list from status items
-#                              (number entities: status = limits?
 class ModbusItem:
-    """Modbus item class."""
+    """class Modbus item, consisting of address, name,
+    format (temperature, status, ..),
+    type (sensor, number, ..),
+    device (System, Heatpump, ..) and
+    optional result list from status items
+    (number entities: status = limits?
+    """
 
     _address = None
     _name = "empty"
@@ -64,13 +64,14 @@ class ModbusItem:
     _resultlist = None
     _device = None
     _state = None
+    _state = None
 
-    def __init__(self, address, name, format, type, device, resultlist=None) -> None:
+    def __init__(self, address, name, mformat, mtype, device, resultlist=None) -> None:
         """Initialise ModbusItem."""
         self._address = address
         self._name = name
-        self._format = format
-        self._type = type
+        self._format = mformat
+        self._type = mtype
         self._device = device
         self._resultlist = resultlist
         self._state = None

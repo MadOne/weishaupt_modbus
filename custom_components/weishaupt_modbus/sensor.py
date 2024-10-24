@@ -6,10 +6,9 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-# from homeassistant.helpers.typing import DiscoveryInfoType
 from .const import TYPES
-from .entities import BuildEntityList, MyCoordinator
 from .hpconst import MODBUS_SYS_ITEMS
+from .entities import BuildEntityList, MyCoordinator
 
 
 async def async_setup_entry(
@@ -22,6 +21,7 @@ async def async_setup_entry(
     """Set up the sensor platform."""
     _modbus_api = config_entry.runtime_data
     coordinator = MyCoordinator(hass, _modbus_api, MODBUS_SYS_ITEMS)
+    await coordinator.async_config_entry_first_refresh()
 
     entries = []
 

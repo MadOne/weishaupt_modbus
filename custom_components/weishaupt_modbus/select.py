@@ -5,8 +5,8 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import TYPES
-from .entities import BuildEntityList
 from .hpconst import MODBUS_SYS_ITEMS
+from .entities import BuildEntityList, MyCoordinator
 
 
 async def async_setup_entry(
@@ -15,9 +15,15 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Select entry setup."""
-    Entries = []
+    _modbus_api = config_entry.runtime_data
+    coordinator = MyCoordinator(hass, _modbus_api, MODBUS_SYS_ITEMS)
+    await coordinator.async_config_entry_first_refresh()
+
+    entries = []
 
     async_add_entities(
-        BuildEntityList(Entries, config_entry, MODBUS_SYS_ITEMS, TYPES.SELECT),
+        BuildEntityList(
+            entries, config_entry, MODBUS_SYS_ITEMS, TYPES.SELECT, coordinator
+        ),
         update_before_add=True,
     )

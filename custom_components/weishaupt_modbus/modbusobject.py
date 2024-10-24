@@ -3,6 +3,7 @@
 A Modbus object that contains a Modbus item and communicates with the Modbus.
 It contains a ModbusClient for setting and getting Modbus register values
 """
+# import warnings
 
 import warnings
 
@@ -15,10 +16,11 @@ from homeassistant.const import CONF_HOST, CONF_PORT
 from .const import TYPES
 from .items import ModbusItem
 
-# import logging
-# logging.basicConfig()
-# log = logging.getLogger()
-# log.setLevel(logging.DEBUG)
+import logging
+
+logging.basicConfig()
+log = logging.getLogger()
+log.setLevel(logging.WARNING)
 
 
 class ModbusAPI:
@@ -89,7 +91,6 @@ class ModbusObject:
         :param modbus_item: definition of modbus item
         :type modbus_item: ModbusItem
         """
-
         self._modbus_item = modbus_item
         self._modbus_client = modbus_api.get_device()
 
@@ -97,21 +98,22 @@ class ModbusObject:
     async def value(self):
         """Returns the value from the modbus register."""
         match self._modbus_item.type:
-            case TYPES.SENSOR | TYPES.SENSOR_CALC:
+            case TYPES.SENSOR:  # | TYPES.SENSOR_CALC:
                 # Sensor entities are read-only
-                return (
-                    await self._modbus_client.read_input_registers(
-                        self._modbus_item.address, slave=1
-                    )
-                ).registers[0]
+                mbr = self._modbus_client.read_input_registers(
+                    self._modbus_item.address, slave=1
+                )
+                if len(mbr.registers) > 0:
+                    val = mbr.registers[0]
             case TYPES.SELECT | TYPES.NUMBER | TYPES.NUMBER_RO:
-                return (
-                    await self._modbus_client.read_holding_registers(
-                        self._modbus_item.address, slave=1
-                    )
-                ).registers[0]
+                mbr = self._modbus_client.read_holding_registers(
+                    self._modbus_item.address, slave=1
+                )
+                if len(mbr.registers) > 0:
+                    val = mbr.registers[0]
             case _:
-                return None
+                val = None
+        return val
 
     # @value.setter
     async def setvalue(self, value) -> None:
