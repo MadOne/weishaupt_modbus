@@ -99,7 +99,7 @@ class ModbusObject:
             return None
         val = None
         match self._modbus_item.type:
-            case TYPES.SENSOR:  # | TYPES.SENSOR_CALC:
+            case TYPES.SENSOR | TYPES.SENSOR_CALC:
                 # Sensor entities are read-only
                 mbr = await self._modbus_client.read_input_registers(
                     self._modbus_item.address, slave=1

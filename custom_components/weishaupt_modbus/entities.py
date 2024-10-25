@@ -25,8 +25,10 @@ from homeassistant.helpers.update_coordinator import (
 )
 
 from .const import CONST, FORMATS, TYPES  # , DOMAIN
+from .hpconst import DEVICES, TEMPRANGE_STD
 from .kennfeld import PowerMap
 from .modbusobject import ModbusObject
+from .items import ModbusItem
 
 logging.basicConfig()
 _LOGGER = logging.getLogger(__name__)
@@ -141,26 +143,26 @@ class MyCoordinator(DataUpdateCoordinator):
                             await self.get_value(item)
                         case TYPES.SENSOR_CALC:
                             r1 = await self.get_value_a(item)
-                            # item_x = ModbusItem(
-                            #    item.getNumberFromText("x"),
-                            #    "x",
-                            #    FORMATS.TEMPERATUR,
-                            #    TYPES.SENSOR_CALC,
-                            #    DEVICES.SYS,
-                            #    TEMPRANGE_STD,
-                            # )
-                            # r2 = self.get_value(item_x)
-                            # item_y = ModbusItem(
-                            #    item.getNumberFromText("y"),
-                            #    "y",
-                            #    FORMATS.TEMPERATUR,
-                            #    TYPES.SENSOR_CALC,
-                            #    DEVICES.WP,
-                            #    TEMPRANGE_STD,
-                            # )
-                            # r3 = self.get_value(item_y)
+                            item_x = ModbusItem(
+                                item.getNumberFromText("x"),
+                                "x",
+                                FORMATS.TEMPERATUR,
+                                TYPES.SENSOR_CALC,
+                                DEVICES.SYS,
+                                TEMPRANGE_STD,
+                            )
+                            r2 = await self.get_value(item_x)
+                            item_y = ModbusItem(
+                                item.getNumberFromText("y"),
+                                "y",
+                                FORMATS.TEMPERATUR,
+                                TYPES.SENSOR_CALC,
+                                DEVICES.WP,
+                                TEMPRANGE_STD,
+                            )
+                            r3 = await self.get_value(item_y)
 
-                            item.state = r1  # , r1, r1]
+                            item.state = [r1, r2, r3]
 
                 self._modbus_api.close()
                 return
@@ -174,26 +176,26 @@ class MyCoordinator(DataUpdateCoordinator):
                         await self.get_value(item)
                     case TYPES.SENSOR_CALC:
                         r1 = await self.get_value_a(item)
-                        # item_x = ModbusItem(
-                        #    item.getNumberFromText("x"),
-                        #    "x",
-                        #    FORMATS.TEMPERATUR,
-                        #    TYPES.SENSOR_CALC,
-                        #    DEVICES.SYS,
-                        #    TEMPRANGE_STD,
-                        # )
-                        # r2 = self.get_value(item_x)
-                        # item_y = ModbusItem(
-                        #    item.getNumberFromText("y"),
-                        #    "y",
-                        #    FORMATS.TEMPERATUR,
-                        #    TYPES.SENSOR_CALC,
-                        #    DEVICES.WP,
-                        #    TEMPRANGE_STD,
-                        # )
-                        # r3 = self.get_value(item_y)
+                        item_x = ModbusItem(
+                            item.getNumberFromText("x"),
+                            "x",
+                            FORMATS.TEMPERATUR,
+                            TYPES.SENSOR_CALC,
+                            DEVICES.SYS,
+                            TEMPRANGE_STD,
+                        )
+                        r2 = await self.get_value(item_x)
+                        item_y = ModbusItem(
+                            item.getNumberFromText("y"),
+                            "y",
+                            FORMATS.TEMPERATUR,
+                            TYPES.SENSOR_CALC,
+                            DEVICES.WP,
+                            TEMPRANGE_STD,
+                        )
+                        r3 = await self.get_value(item_y)
 
-                        item.state = r1  # , r1, r1]
+                        item.state = [r1, r2, r3]
             except ModbusException:
                 item.state = None
                 warnings.warn("Item:" + str(item.name + " failed"))
@@ -409,7 +411,8 @@ class MyCalcSensorEntity(MySensorEntity):
 
     def translate_val(self, val):
         """function reads an translates a value from the modbus"""
-        return val
+        if val is None:
+            return None
         val_0 = self.calc_percentage(val[0])
         val_x = self.calc_temperature(val[1]) / 10
         val_y = self.calc_temperature(val[2]) / 10
@@ -418,6 +421,8 @@ class MyCalcSensorEntity(MySensorEntity):
             case FORMATS.POWER:
                 return self.calc_power(val_0, val_x, val_y)
             case _:
+                if val_0 is None:
+                    return None
                 return val_0 / self._divider
 
     @property
