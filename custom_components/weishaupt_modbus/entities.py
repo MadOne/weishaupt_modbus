@@ -162,7 +162,7 @@ class MyCoordinator(DataUpdateCoordinator):
 
                             item.state = r1  # , r1, r1]
 
-                await self._modbus_api.close()
+                self._modbus_api.close()
                 return
 
         await self._modbus_api.connect()
@@ -194,12 +194,12 @@ class MyCoordinator(DataUpdateCoordinator):
                         # r3 = self.get_value(item_y)
 
                         item.state = r1  # , r1, r1]
-            except:
+            except ModbusException:
                 item.state = None
                 warnings.warn("Item:" + str(item.name + " failed"))
 
         try:
-            await self._modbus_api.close()
+            self._modbus_api.close()
         except ModbusException:
             warnings.warn("Closing connection to heatpump failed")
 

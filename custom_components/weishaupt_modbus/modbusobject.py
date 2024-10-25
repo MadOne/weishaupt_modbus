@@ -49,13 +49,14 @@ class ModbusAPI:
                 host=self._ip, port=self._port, name="Weishaupt_WBB"
             )
             await self._modbus_client.connect()
+            warnings.warn("Connection to heatpump succeeded")
 
         except ModbusException:
             warnings.warn("Connection to heatpump failed")
             return None
         return self._modbus_client.connected
 
-    async def close(self):
+    def close(self):
         """Close modbus connection."""
         try:
             # await self._modbus_client.close()
