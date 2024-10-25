@@ -15,6 +15,9 @@ MadOne and OStrama are working together on this version.
    please do not change the intents or any other parts of the file to avoid issues
 
 ## For users of OStrama's weishaupt_wbb integration:
+ * Uninstall existing "weishaupt_wbb" installation, answer "integration and all entities of it will be deleted" with"yes"
+ * Restart home assistant
+ * Install new weishaupt_wbb integration
  * You will get a new integration with the same name
  * the sensor entities will be the same than before
 
