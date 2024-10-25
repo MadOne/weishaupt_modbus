@@ -58,7 +58,8 @@ class ModbusAPI:
     async def close(self):
         """Close modbus connection."""
         try:
-            await self._modbus_client.close()
+            # await self._modbus_client.close()
+            self._modbus_client.close()
         except ModbusException:
             warnings.warn("Closing connection to heatpump failed")
             return False
