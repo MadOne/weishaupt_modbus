@@ -63,10 +63,6 @@ class ModbusAPI:
         except ModbusException:
             warnings.warn("Closing connection to heatpump failed")
             return False
-        except:  # ToDo: FIX THIS!
-            warnings.warn(
-                "Some uncatched Exceptions occoured while closing connection to the heatpump"
-            )
         return True
 
     def get_device(self):
