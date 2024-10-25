@@ -7,7 +7,7 @@ It contains a ModbusClient for setting and getting Modbus register values
 
 import warnings
 
-from pymodbus import ModbusException
+from pymodbus import ModbusException, ExceptionResponse
 from pymodbus.client import AsyncModbusTcpClient
 
 from homeassistant.config_entries import ConfigEntry
@@ -91,27 +91,54 @@ class ModbusObject:
         """
         self._modbus_item = modbus_item
         self._modbus_client = modbus_api.get_device()
+        # await self._modbus_client.connect()
 
     @property
     async def value(self):
         """Returns the value from the modbus register."""
         if self._modbus_client is None:
             return None
+        if not self._modbus_client.connected:
+            await self._modbus_client.connect()
+
         val = None
         match self._modbus_item.type:
             case TYPES.SENSOR | TYPES.SENSOR_CALC:
                 # Sensor entities are read-only
-                mbr = await self._modbus_client.read_input_registers(
-                    self._modbus_item.address, slave=1
-                )
-                if len(mbr.registers) > 0:
-                    val = mbr.registers[0]
+                try:
+                    mbr = await self._modbus_client.read_input_registers(
+                        self._modbus_item.address, slave=1
+                    )
+                    if len(mbr.registers) > 0:
+                        val = mbr.registers[0]
+                except ModbusException as exc:
+                    print(f"Received ModbusException({exc}) from library")
+                    return None
+                if mbr.isError():
+                    print(f"Received Modbus library error({mbr})")
+                    return None
+                if isinstance(mbr, ExceptionResponse):
+                    print(f"Received Modbus library exception ({mbr})")
+                    return None
+                    # THIS IS NOT A PYTHON EXCEPTION, but a valid modbus message
+
             case TYPES.SELECT | TYPES.NUMBER | TYPES.NUMBER_RO:
-                mbr = await self._modbus_client.read_holding_registers(
-                    self._modbus_item.address, slave=1
-                )
-                if len(mbr.registers) > 0:
-                    val = mbr.registers[0]
+                try:
+                    mbr = await self._modbus_client.read_holding_registers(
+                        self._modbus_item.address, slave=1
+                    )
+                    if len(mbr.registers) > 0:
+                        val = mbr.registers[0]
+                except ModbusException as exc:
+                    print(f"Received ModbusException({exc}) from library")
+                    return None
+                if mbr.isError():
+                    print(f"Received Modbus library error({mbr})")
+                    return None
+                if isinstance(mbr, ExceptionResponse):
+                    print(f"Received Modbus library exception ({mbr})")
+                    return None
+                    # THIS IS NOT A PYTHON EXCEPTION, but a valid modbus message
             case _:
                 val = None
         return val
