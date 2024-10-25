@@ -1,6 +1,23 @@
 This is the successor of the integration from MadOne.
 MadOne and OStrama are working together on this version.
 
+# Starting with version 0.0.8 we will start to consolidate both versions. 
+# In version 0.0.8 this will have the following impact:
+
+## For users of MadOne's original weishaupt_modbus integration:
+ * When doing nothing than simply installing the integration, the long term statistics will be split into new entities,
+   since the sensor domain is different.
+ * To avoid this, edit the file "const.py" in the integration's directory as follows:
+   replace the string
+     PREFIX = "weishaupt_wbb"
+   by
+     PREFIX = "weishaupt_modbus"
+   please do not change the intents or any other parts of the file to avoid issues
+
+## For users of OStrama's weishaupt_wbb integration:
+ * You will get a new integration with the same name
+ * the sensor entities will be the same than before
+
 I started to build a structure that finally will allow loading of the modbus structure from a file. 
 As a first step, all modbus parameters will be concentrated in the file hpconst.py as a set of object lists.
 This allows generic setup of all entities and a more easy completion of messages and entity behavior
