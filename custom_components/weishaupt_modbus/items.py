@@ -65,7 +65,7 @@ class ModbusItem:
     _device = None
     _state = None
     _state = None
-    _is_invalid_modbus_address = False
+    _is_invalid = False
 
     def __init__(self, address, name, mformat, mtype, device, resultlist=None) -> None:
         """Initialise ModbusItem."""

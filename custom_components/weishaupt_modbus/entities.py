@@ -164,7 +164,7 @@ class MyCoordinator(DataUpdateCoordinator):
 
                             item.state = [r1, r2, r3]
 
-                self._modbus_api.close()
+                # self._modbus_api.close()
                 return
 
         await self._modbus_api.connect()
@@ -200,10 +200,10 @@ class MyCoordinator(DataUpdateCoordinator):
                 item.state = None
                 warnings.warn("Item:" + str(item.name + " failed"))
 
-        try:
-            self._modbus_api.close()
-        except ModbusException:
-            warnings.warn("Closing connection to heatpump failed")
+            # try:
+            # self._modbus_api.close()
+            # except ModbusException:
+            # warnings.warn("Closing connection to heatpump failed")
 
     async def _async_update_data(self):
         """Fetch data from API endpoint.
@@ -336,7 +336,7 @@ class MyEntity:
         await self._modbus_api.connect()
         mbo = ModbusObject(self._modbus_api, self._modbus_item)
         await mbo.setvalue(val)
-        self._modbus_api.close()
+        # self._modbus_api.close()
 
     def my_device_info(self) -> DeviceInfo:
         """function helper to build the device info"""
