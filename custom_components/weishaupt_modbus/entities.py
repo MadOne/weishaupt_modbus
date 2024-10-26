@@ -336,7 +336,7 @@ class MyEntity:
         await self._modbus_api.connect()
         mbo = ModbusObject(self._modbus_api, self._modbus_item)
         await mbo.setvalue(val)
-        await self._modbus_api.close()
+        self._modbus_api.close()
 
     def my_device_info(self) -> DeviceInfo:
         """function helper to build the device info"""
