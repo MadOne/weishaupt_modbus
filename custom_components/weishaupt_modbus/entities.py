@@ -146,7 +146,7 @@ class MyCoordinator(DataUpdateCoordinator):
             # idx exists and is filled up: Update only entitys requested by the coordinator.
             toUpdate = idx
 
-        await self._modbus_api.connect()
+        # await self._modbus_api.connect()
         for index in toUpdate:
             item = self._modbusitems[index]
             match item.type:
