@@ -26,9 +26,9 @@ from homeassistant.helpers.update_coordinator import (
 
 from .const import CONST, FORMATS, TYPES  # , DOMAIN
 from .hpconst import DEVICES, TEMPRANGE_STD
+from .items import ModbusItem
 from .kennfeld import PowerMap
 from .modbusobject import ModbusObject
-from .items import ModbusItem
 
 logging.basicConfig()
 _LOGGER = logging.getLogger(__name__)
@@ -36,7 +36,8 @@ _LOGGER.setLevel(logging.WARNING)
 
 
 def BuildEntityList(entries, config_entry, modbusitems, item_type, coordinator=None):
-    """
+    """Build entity list.
+
     function builds a list of entities that can be used as parameter by async_setup_entry()
     type of list is defined by the ModbusItem's type flag
     so the app only holds one list of entities that is build from a list of ModbusItem
@@ -97,7 +98,7 @@ class MyCoordinator(DataUpdateCoordinator):
         self._number_of_items = len(modbusitems)
 
     async def get_value(self, modbus_item):
-        """function reads a value from the modbus"""
+        """Read a value from the modbus."""
         mbo = ModbusObject(self._modbus_api, modbus_item)
         if mbo is None:
             modbus_item.state = None
@@ -105,15 +106,14 @@ class MyCoordinator(DataUpdateCoordinator):
         return modbus_item.state
 
     async def get_value_a(self, modbus_item):
-        """function reads a value from the modbus"""
+        """Read a value from the modbus."""
         mbo = ModbusObject(self._modbus_api, modbus_item)
         if mbo is None:
             return None
-        val = await mbo.value
-        return val
+        return await mbo.value
 
     async def _async_setup(self):
-        """Set up the coordinator
+        """Set up the coordinator.
 
         This is the place to set up your coordinator,
         or to load data, that only needs to be loaded once.
@@ -126,104 +126,47 @@ class MyCoordinator(DataUpdateCoordinator):
         await self.fetch_data()
 
     async def fetch_data(self, idx=None):
-        """function fetches all values from the modbus"""
+        """Fetch all values from the modbus."""
         # if idx is not None:
         if idx is None:
             # first run: Update all entitiys
-            toUpdate = tuple(range(0, len(self._modbusitems)))
+            toUpdate = tuple(range(len(self._modbusitems)))
+        elif len(idx) == 0:
+            # idx exists but is not yet filled up: Update all entitiys.
+            toUpdate = tuple(range(len(self._modbusitems)))
         else:
-            if len(idx) == 0:
-                # idx exists but is not yet filled up: Update all entitiys.
-                toUpdate = tuple(range(0, len(self._modbusitems)))
-            else:
-                # idx exists and is filled up: Update only entitys requested by the coordinator.
-                toUpdate = idx
-        print(toUpdate)
+            # idx exists and is filled up: Update only entitys requested by the coordinator.
+            toUpdate = idx
 
-        if True:  # This should run repeatedly with an filled up idx?
-            if len(idx) > 0:
-                await self._modbus_api.connect()
-                for index in toUpdate:
-                    item = self._modbusitems[index]
-                    match item.type:
-                        # here the entities are created with the parameters provided by the ModbusItem object
-                        case (
-                            TYPES.SENSOR
-                            | TYPES.NUMBER_RO
-                            | TYPES.NUMBER
-                            | TYPES.SELECT
-                        ):
-                            await self.get_value(item)
-                        case TYPES.SENSOR_CALC:
-                            r1 = await self.get_value_a(item)
-                            item_x = ModbusItem(
-                                item.getNumberFromText("x"),
-                                "x",
-                                FORMATS.TEMPERATUR,
-                                TYPES.SENSOR_CALC,
-                                DEVICES.SYS,
-                                TEMPRANGE_STD,
-                            )
-                            r2 = await self.get_value(item_x)
-                            item_y = ModbusItem(
-                                item.getNumberFromText("y"),
-                                "y",
-                                FORMATS.TEMPERATUR,
-                                TYPES.SENSOR_CALC,
-                                DEVICES.WP,
-                                TEMPRANGE_STD,
-                            )
-                            r3 = await self.get_value(item_y)
+        await self._modbus_api.connect()
+        for index in toUpdate:
+            item = self._modbusitems[index]
+            match item.type:
+                # here the entities are created with the parameters provided by the ModbusItem object
+                case TYPES.SENSOR | TYPES.NUMBER_RO | TYPES.NUMBER | TYPES.SELECT:
+                    await self.get_value(item)
+                case TYPES.SENSOR_CALC:
+                    r1 = await self.get_value_a(item)
+                    item_x = ModbusItem(
+                        item.getNumberFromText("x"),
+                        "x",
+                        FORMATS.TEMPERATUR,
+                        TYPES.SENSOR_CALC,
+                        DEVICES.SYS,
+                        TEMPRANGE_STD,
+                    )
+                    r2 = await self.get_value(item_x)
+                    item_y = ModbusItem(
+                        item.getNumberFromText("y"),
+                        "y",
+                        FORMATS.TEMPERATUR,
+                        TYPES.SENSOR_CALC,
+                        DEVICES.WP,
+                        TEMPRANGE_STD,
+                    )
+                    r3 = await self.get_value(item_y)
 
-                            item.state = [r1, r2, r3]
-
-                # self._modbus_api.close()
-                return
-
-        # This should only run once to fill up the idx?
-        if False:
-            await self._modbus_api.connect()
-            for index, item in enumerate(self._modbusitems):
-                try:
-                    match item.type:
-                        # here the entities are created with the parameters provided by the ModbusItem object
-                        case (
-                            TYPES.SENSOR
-                            | TYPES.NUMBER_RO
-                            | TYPES.NUMBER
-                            | TYPES.SELECT
-                        ):
-                            await self.get_value(item)
-                        case TYPES.SENSOR_CALC:
-                            r1 = await self.get_value_a(item)
-                            item_x = ModbusItem(
-                                item.getNumberFromText("x"),
-                                "x",
-                                FORMATS.TEMPERATUR,
-                                TYPES.SENSOR_CALC,
-                                DEVICES.SYS,
-                                TEMPRANGE_STD,
-                            )
-                            r2 = await self.get_value(item_x)
-                            item_y = ModbusItem(
-                                item.getNumberFromText("y"),
-                                "y",
-                                FORMATS.TEMPERATUR,
-                                TYPES.SENSOR_CALC,
-                                DEVICES.WP,
-                                TEMPRANGE_STD,
-                            )
-                            r3 = await self.get_value(item_y)
-
-                            item.state = [r1, r2, r3]
-                except ModbusException:
-                    item.state = None
-                    warnings.warn("Item:" + str(item.name + " failed"))
-
-            # try:
-            # self._modbus_api.close()
-            # except ModbusException:
-            # warnings.warn("Closing connection to heatpump failed")
+                    item.state = [r1, r2, r3]
 
     async def _async_update_data(self):
         """Fetch data from API endpoint.
@@ -325,7 +268,7 @@ class MyEntity:
         return int(val) / self._divider
 
     def translate_val(self, val):
-        """function to translate modbus value into sensful format"""
+        """Translate modbus value into sensful format."""
         if val is None:
             return val
         match self._modbus_item.format:
@@ -339,7 +282,7 @@ class MyEntity:
                 return int(val) / self._divider
 
     def retranslate_val(self, value):
-        """function to re-translate modbus value into sensful format"""
+        """Re-translate modbus value into sensful format."""
         val = None
         match self._modbus_item.format:
             # logically, this belongs to the ModbusItem, but doing it here
@@ -350,7 +293,7 @@ class MyEntity:
         return val
 
     async def set_translate_val(self, value):
-        """function translates and writes a value to the modbus"""
+        """Translate and writes a value to the modbus."""
         val = self.retranslate_val(value)
 
         await self._modbus_api.connect()
@@ -359,7 +302,7 @@ class MyEntity:
         # self._modbus_api.close()
 
     def my_device_info(self) -> DeviceInfo:
-        """function helper to build the device info"""
+        """Build the device info."""
         return {
             "identifiers": {(CONST.DOMAIN, self._dev_device)},
             "name": self._dev_device,
@@ -405,7 +348,8 @@ class MyCalcSensorEntity(MySensorEntity):
     """class that represents a sensor entity.
 
     Derived from Sensorentity
-    and decorated with general parameters from MyEntity"""
+    and decorated with general parameters from MyEntity
+    """
 
     # calculates output from map
     my_map = PowerMap()
@@ -424,13 +368,13 @@ class MyCalcSensorEntity(MySensorEntity):
     #    self._attr_native_value = self.translate_val(0)
 
     def calc_power(self, val, x, y):
-        """calculates heating power from power map"""
+        """Calculate heating power from power map."""
         if val is None:
             return val
         return (val / 100) * self.my_map.map(x, y)
 
     def translate_val(self, val):
-        """function reads an translates a value from the modbus"""
+        """Translate a value from the modbus."""
         if val is None:
             return None
         val_0 = self.calc_percentage(val[0])
