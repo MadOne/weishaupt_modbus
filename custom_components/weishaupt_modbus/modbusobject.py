@@ -5,9 +5,11 @@ It contains a ModbusClient for setting and getting Modbus register values
 """
 # import warnings
 
+import asyncio
+import logging
 import warnings
 
-from pymodbus import ModbusException, ExceptionResponse
+from pymodbus import ExceptionResponse, ModbusException
 from pymodbus.client import AsyncModbusTcpClient
 
 from homeassistant.config_entries import ConfigEntry
@@ -15,8 +17,6 @@ from homeassistant.const import CONF_HOST, CONF_PORT
 
 from .const import TYPES
 from .items import ModbusItem
-
-import logging
 
 logging.basicConfig()
 log = logging.getLogger()
@@ -48,7 +48,12 @@ class ModbusAPI:
             self._modbus_client = AsyncModbusTcpClient(
                 host=self._ip, port=self._port, name="Weishaupt_WBB"
             )
-            await self._modbus_client.connect()
+            for i in range(3):
+                await self._modbus_client.connect()
+                if self._modbus_client.connected:
+                    return self._modbus_client.connected
+                else:
+                    await asyncio.sleep(1)
             # warnings.warn("Connection to heatpump succeeded")
 
         except ModbusException:
@@ -109,92 +114,65 @@ class ModbusObject:
 
         val = None
         if self._modbus_item._is_invalid:
-            warnings.warn(
-                "Item " + self._modbus_item.name + " skipped because of invalid address"
-            )
+            ...
+            # warnings.warn(
+            #    "Item " + self._modbus_item.name + " skipped because of invalid address"
+            # )
         else:
-            match self._modbus_item.type:
-                case TYPES.SENSOR | TYPES.SENSOR_CALC:
-                    # Sensor entities are read-only
-                    try:
+            try:
+                match self._modbus_item.type:
+                    case TYPES.SENSOR | TYPES.SENSOR_CALC:
+                        # Sensor entities are read-only
+
                         mbr = await self._modbus_client.read_input_registers(
                             self._modbus_item.address, slave=1
                         )
                         if len(mbr.registers) > 0:
                             val = mbr.registers[0]
-                    except ModbusException as exc:
-                        print(
-                            f"Received ModbusException({exc}) from library in {{{self._modbus_item.name}}}"
-                        )
-                        # exception: ModbusException = exc
-                        # if exception.string == "([Connection] Client is not connected)":
-                        #    self._modbus_item._is_invalid = True
-                        # print(
-                        #    "Flagged "
-                        #    + self._modbus_item.name
-                        #    + " as invalid (Connection) but connected is:"
-                        #    + str(self._modbus_client.connected)
-                        # )
-                        return None
-                    if mbr.isError():
-                        print(f"Received Modbus library error({mbr})")
-                        myexception_code: ExceptionResponse = mbr
-                        print(myexception_code.exception_code)
-                        if mbr.exception_code == 2:
-                            self._modbus_item._is_invalid = True
-
-                            # print(myexception_code.
-                            print(
-                                "Flagged "
-                                + self._modbus_item.name
-                                + " as invalid(IllegalAddress)"
-                            )
-                        return None
-                    if isinstance(mbr, ExceptionResponse):
-                        print(f"Received Modbus library exception ({mbr})")
-                        return None
-                        # THIS IS NOT A PYTHON EXCEPTION, but a valid modbus message
-
-                case TYPES.SELECT | TYPES.NUMBER | TYPES.NUMBER_RO:
-                    try:
+                    case TYPES.SELECT | TYPES.NUMBER | TYPES.NUMBER_RO:
                         mbr = await self._modbus_client.read_holding_registers(
                             self._modbus_item.address, slave=1
                         )
                         if len(mbr.registers) > 0:
                             val = mbr.registers[0]
-                    except ModbusException as exc:
-                        print(
-                            f"Received ModbusException({exc}) from library in {{{self._modbus_item.name}}}"
+                    case _:
+                        val = None
+                        warnings.warn(
+                            "Unknown Sensor type: "
+                            + str(self._modbus_item.type)
+                            + "in "
+                            + str(self._modbus_item.name)
                         )
-                        exception: ModbusException = exc
-                        if exception.string == "([Connection] Client is not connected)":
-                            self._modbus_item._is_invalid = True
-                        print(
-                            "Flagged "
-                            + self._modbus_item.name
-                            + " as invalid (Connection)"
-                        )
-                        return None
-                    if mbr.isError():
-                        print(f"Received Modbus library error({mbr})")
-                        myexception_code: ExceptionResponse = mbr
-                        print(myexception_code.exception_code)
-                        if mbr.exception_code == 2:
-                            self._modbus_item._is_invalid = True
+            except ModbusException as exc:
+                warnings.warn(
+                    "Received ModbusException: "
+                    + exc
+                    + "in item: "
+                    + self._modbus_item.name
+                )
+                return None
+            if mbr.isError():
+                myexception_code: ExceptionResponse = mbr
+                if myexception_code.exception_code == 2:
+                    self._modbus_item._is_invalid = True
+                else:
+                    warnings.warn(
+                        "Received Modbus library error: "
+                        + str(mbr)
+                        + "in item: "
+                        + self._modbus_item.name
+                    )
+                return None
+            if isinstance(mbr, ExceptionResponse):
+                warnings.warn(
+                    "Received ModbusException: "
+                    + str(mbr)
+                    + " from library in item: "
+                    + self._modbus_item.name
+                )
+                return None
+                # THIS IS NOT A PYTHON EXCEPTION, but a valid modbus message
 
-                            # print(myexception_code.
-                            print(
-                                "Flagged "
-                                + self._modbus_item.name
-                                + " as invalid(IllegalAddress)"
-                            )
-                        return None
-                    if isinstance(mbr, ExceptionResponse):
-                        print(f"Received Modbus library exception ({mbr})")
-                        return None
-                        # THIS IS NOT A PYTHON EXCEPTION, but a valid modbus message
-                case _:
-                    val = None
         return val
 
     # @value.setter
