@@ -113,7 +113,7 @@ class ModbusObject:
             )
 
         val = None
-        if self._modbus_item._is_invalid:
+        if self._modbus_item.is_invalid:
             ...
             # warnings.warn(
             #    "Item " + self._modbus_item.name + " skipped because of invalid address"
@@ -154,7 +154,7 @@ class ModbusObject:
             if mbr.isError():
                 myexception_code: ExceptionResponse = mbr
                 if myexception_code.exception_code == 2:
-                    self._modbus_item._is_invalid = True
+                    self._modbus_item.is_invalid = True
                 else:
                     warnings.warn(
                         "Received Modbus library error: "

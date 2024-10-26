@@ -25,14 +25,14 @@ async def async_setup_entry(
 
     entries = []
 
-    entries = BuildEntityList(
+    entries = await BuildEntityList(
         entries, config_entry, MODBUS_SYS_ITEMS, TYPES.NUMBER_RO, coordinator
     )
-    entries = BuildEntityList(
+    entries = await BuildEntityList(
         entries, config_entry, MODBUS_SYS_ITEMS, TYPES.SENSOR_CALC, coordinator
     )
     async_add_entities(
-        BuildEntityList(
+        await BuildEntityList(
             entries, config_entry, MODBUS_SYS_ITEMS, TYPES.SENSOR, coordinator
         ),
         update_before_add=True,

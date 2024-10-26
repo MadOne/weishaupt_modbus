@@ -75,6 +75,16 @@ class ModbusItem:
         self._device = device
         self._resultlist = resultlist
         self._state = None
+        self._is_invalid = False
+
+    @property
+    def is_invalid(self):
+        """Return state."""
+        return self._is_invalid
+
+    @is_invalid.setter
+    def is_invalid(self, val):
+        self._is_invalid = val
 
     @property
     def address(self):

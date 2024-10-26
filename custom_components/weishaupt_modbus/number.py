@@ -29,7 +29,7 @@ async def async_setup_entry(
     entries = []
 
     async_add_entities(
-        BuildEntityList(
+        await BuildEntityList(
             entries, config_entry, MODBUS_SYS_ITEMS, TYPES.NUMBER, coordinator
         ),
         update_before_add=True,

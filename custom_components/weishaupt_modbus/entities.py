@@ -35,7 +35,13 @@ _LOGGER = logging.getLogger(__name__)
 _LOGGER.setLevel(logging.WARNING)
 
 
-def BuildEntityList(entries, config_entry, modbusitems, item_type, coordinator=None):
+async def check_available(modbus_item):
+    if modbus_item.is_invalid is False:
+        return True
+    return False
+
+
+async def BuildEntityList(entries, config_entry, modbusitems, item_type, coordinator):
     """Build entity list.
 
     function builds a list of entities that can be used as parameter by async_setup_entry()
@@ -43,34 +49,36 @@ def BuildEntityList(entries, config_entry, modbusitems, item_type, coordinator=N
     so the app only holds one list of entities that is build from a list of ModbusItem
     stored in hpconst.py so far, will be provided by an external file in future
     """
+
     for index, item in enumerate(modbusitems):
         if item.type == item_type:
-            match item_type:
-                # here the entities are created with the parameters provided by the ModbusItem object
-                case TYPES.SENSOR | TYPES.NUMBER_RO:
-                    entries.append(
-                        MySensorEntity(
-                            config_entry, modbusitems[index], coordinator, index
+            if await check_available(modbusitems[index]) is True:
+                match item_type:
+                    # here the entities are created with the parameters provided by the ModbusItem object
+                    case TYPES.SENSOR | TYPES.NUMBER_RO:
+                        entries.append(
+                            MySensorEntity(
+                                config_entry, modbusitems[index], coordinator, index
+                            )
                         )
-                    )
-                case TYPES.SENSOR_CALC:
-                    entries.append(
-                        MyCalcSensorEntity(
-                            config_entry, modbusitems[index], coordinator, index
+                    case TYPES.SENSOR_CALC:
+                        entries.append(
+                            MyCalcSensorEntity(
+                                config_entry, modbusitems[index], coordinator, index
+                            )
                         )
-                    )
-                case TYPES.SELECT:
-                    entries.append(
-                        MySelectEntity(
-                            config_entry, modbusitems[index], coordinator, index
+                    case TYPES.SELECT:
+                        entries.append(
+                            MySelectEntity(
+                                config_entry, modbusitems[index], coordinator, index
+                            )
                         )
-                    )
-                case TYPES.NUMBER:
-                    entries.append(
-                        MyNumberEntity(
-                            config_entry, modbusitems[index], coordinator, index
+                    case TYPES.NUMBER:
+                        entries.append(
+                            MyNumberEntity(
+                                config_entry, modbusitems[index], coordinator, index
+                            )
                         )
-                    )
 
     return entries
 
