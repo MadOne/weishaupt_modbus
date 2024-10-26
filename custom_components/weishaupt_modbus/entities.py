@@ -127,10 +127,23 @@ class MyCoordinator(DataUpdateCoordinator):
 
     async def fetch_data(self, idx=None):
         """function fetches all values from the modbus"""
-        if idx is not None:
+        # if idx is not None:
+        if idx is None:
+            # first run: Update all entitiys
+            toUpdate = tuple(range(0, len(self._modbusitems)))
+        else:
+            if len(idx) == 0:
+                # idx exists but is not yet filled up: Update all entitiys.
+                toUpdate = tuple(range(0, len(self._modbusitems)))
+            else:
+                # idx exists and is filled up: Update only entitys requested by the coordinator.
+                toUpdate = idx
+        print(toUpdate)
+
+        if True:  # This should run repeatedly with an filled up idx?
             if len(idx) > 0:
                 await self._modbus_api.connect()
-                for index in range(0, len(idx)):
+                for index in toUpdate:
                     item = self._modbusitems[index]
                     match item.type:
                         # here the entities are created with the parameters provided by the ModbusItem object
@@ -167,38 +180,45 @@ class MyCoordinator(DataUpdateCoordinator):
                 # self._modbus_api.close()
                 return
 
-        await self._modbus_api.connect()
-        for index, item in enumerate(self._modbusitems):
-            try:
-                match item.type:
-                    # here the entities are created with the parameters provided by the ModbusItem object
-                    case TYPES.SENSOR | TYPES.NUMBER_RO | TYPES.NUMBER | TYPES.SELECT:
-                        await self.get_value(item)
-                    case TYPES.SENSOR_CALC:
-                        r1 = await self.get_value_a(item)
-                        item_x = ModbusItem(
-                            item.getNumberFromText("x"),
-                            "x",
-                            FORMATS.TEMPERATUR,
-                            TYPES.SENSOR_CALC,
-                            DEVICES.SYS,
-                            TEMPRANGE_STD,
-                        )
-                        r2 = await self.get_value(item_x)
-                        item_y = ModbusItem(
-                            item.getNumberFromText("y"),
-                            "y",
-                            FORMATS.TEMPERATUR,
-                            TYPES.SENSOR_CALC,
-                            DEVICES.WP,
-                            TEMPRANGE_STD,
-                        )
-                        r3 = await self.get_value(item_y)
+        # This should only run once to fill up the idx?
+        if False:
+            await self._modbus_api.connect()
+            for index, item in enumerate(self._modbusitems):
+                try:
+                    match item.type:
+                        # here the entities are created with the parameters provided by the ModbusItem object
+                        case (
+                            TYPES.SENSOR
+                            | TYPES.NUMBER_RO
+                            | TYPES.NUMBER
+                            | TYPES.SELECT
+                        ):
+                            await self.get_value(item)
+                        case TYPES.SENSOR_CALC:
+                            r1 = await self.get_value_a(item)
+                            item_x = ModbusItem(
+                                item.getNumberFromText("x"),
+                                "x",
+                                FORMATS.TEMPERATUR,
+                                TYPES.SENSOR_CALC,
+                                DEVICES.SYS,
+                                TEMPRANGE_STD,
+                            )
+                            r2 = await self.get_value(item_x)
+                            item_y = ModbusItem(
+                                item.getNumberFromText("y"),
+                                "y",
+                                FORMATS.TEMPERATUR,
+                                TYPES.SENSOR_CALC,
+                                DEVICES.WP,
+                                TEMPRANGE_STD,
+                            )
+                            r3 = await self.get_value(item_y)
 
-                        item.state = [r1, r2, r3]
-            except ModbusException:
-                item.state = None
-                warnings.warn("Item:" + str(item.name + " failed"))
+                            item.state = [r1, r2, r3]
+                except ModbusException:
+                    item.state = None
+                    warnings.warn("Item:" + str(item.name + " failed"))
 
             # try:
             # self._modbus_api.close()
