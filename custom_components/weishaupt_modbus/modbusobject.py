@@ -54,7 +54,7 @@ class ModbusAPI:
                     return self._modbus_client.connected
                 else:
                     await asyncio.sleep(1)
-            # warnings.warn("Connection to heatpump succeeded")
+            warnings.warn("Connection to heatpump succeeded")
 
         except ModbusException:
             warnings.warn("Connection to heatpump failed")
@@ -69,6 +69,7 @@ class ModbusAPI:
         except ModbusException:
             warnings.warn("Closing connection to heatpump failed")
             return False
+        warnings.warn("Connection to heatpump closed")
         return True
 
     def get_device(self):
