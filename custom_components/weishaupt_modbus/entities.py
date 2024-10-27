@@ -279,15 +279,19 @@ class MyEntity:
         #        return int(val) / self._divider
         #    case _:
         #        return None
-
+        # print(str(val))
         if val is None:
             return None
-        if val == -32768:
+        if val == 32768:
             # No Sensor installed
+            self._modbus_item.is_invalid = True
+            # print(self._modbus_item.name + "Sensor not installed")
             return -1
-        if val == -32767:
+        if val == 32767:
             # Sensor broken
-            return -2
+            self._modbus_item.is_invalid = True
+            # print(self._modbus_item.name + "Sensor broken")
+
         if val == 32768:
             # Dont know. Whats this?
             return None
