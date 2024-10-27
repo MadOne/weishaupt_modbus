@@ -6,7 +6,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import TYPES
 from .hpconst import MODBUS_SYS_ITEMS
-from .entities import BuildEntityList, MyCoordinator
+from .entities import build_entity_list, MyCoordinator
 
 
 async def async_setup_entry(
@@ -22,7 +22,7 @@ async def async_setup_entry(
     entries = []
 
     async_add_entities(
-        await BuildEntityList(
+        await build_entity_list(
             entries, config_entry, MODBUS_SYS_ITEMS, TYPES.SELECT, coordinator
         ),
         update_before_add=True,

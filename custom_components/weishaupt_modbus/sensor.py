@@ -8,7 +8,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import TYPES
 from .hpconst import MODBUS_SYS_ITEMS
-from .entities import BuildEntityList, MyCoordinator
+from .entities import build_entity_list, MyCoordinator
 
 
 async def async_setup_entry(
@@ -25,14 +25,14 @@ async def async_setup_entry(
 
     entries = []
 
-    entries = await BuildEntityList(
+    entries = await build_entity_list(
         entries, config_entry, MODBUS_SYS_ITEMS, TYPES.NUMBER_RO, coordinator
     )
-    entries = await BuildEntityList(
+    entries = await build_entity_list(
         entries, config_entry, MODBUS_SYS_ITEMS, TYPES.SENSOR_CALC, coordinator
     )
     async_add_entities(
-        await BuildEntityList(
+        await build_entity_list(
             entries, config_entry, MODBUS_SYS_ITEMS, TYPES.SENSOR, coordinator
         ),
         update_before_add=True,

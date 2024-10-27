@@ -10,7 +10,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 # from time import gmtime, strftime
 from .const import TYPES
 from .hpconst import MODBUS_SYS_ITEMS
-from .entities import BuildEntityList, MyCoordinator
+from .entities import build_entity_list, MyCoordinator
 # from .modbusobject import ModbusAPI
 
 
@@ -29,7 +29,7 @@ async def async_setup_entry(
     entries = []
 
     async_add_entities(
-        await BuildEntityList(
+        await build_entity_list(
             entries, config_entry, MODBUS_SYS_ITEMS, TYPES.NUMBER, coordinator
         ),
         update_before_add=True,

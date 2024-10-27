@@ -45,7 +45,7 @@ async def check_available(modbus_item, config_entry) -> bool:
     return False
 
 
-async def BuildEntityList(entries, config_entry, modbusitems, item_type, coordinator):
+async def build_entity_list(entries, config_entry, modbusitems, item_type, coordinator):
     """Build entity list.
 
     function builds a list of entities that can be used as parameter by async_setup_entry()
@@ -145,16 +145,16 @@ class MyCoordinator(DataUpdateCoordinator):
         # if idx is not None:
         if idx is None:
             # first run: Update all entitiys
-            toUpdate = tuple(range(len(self._modbusitems)))
+            to_update = tuple(range(len(self._modbusitems)))
         elif len(idx) == 0:
             # idx exists but is not yet filled up: Update all entitiys.
-            toUpdate = tuple(range(len(self._modbusitems)))
+            to_update = tuple(range(len(self._modbusitems)))
         else:
             # idx exists and is filled up: Update only entitys requested by the coordinator.
-            toUpdate = idx
+            to_update = idx
 
         # await self._modbus_api.connect()
-        for index in toUpdate:
+        for index in to_update:
             item = self._modbusitems[index]
             match item.type:
                 # here the entities are created with the parameters provided by the ModbusItem object
@@ -502,7 +502,7 @@ class MySelectEntity(CoordinatorEntity, SelectEntity, MyEntity):
         ]
         # option list build from the status list of the ModbusItem
         self.options = []
-        for index, item in enumerate(self._modbus_item._resultlist):
+        for _useless, item in enumerate(self._modbus_item._resultlist):
             self.options.append(item.text)
 
     async def async_select_option(self, option: str) -> None:
