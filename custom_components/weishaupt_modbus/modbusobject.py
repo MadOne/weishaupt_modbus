@@ -15,7 +15,7 @@ from pymodbus.client import AsyncModbusTcpClient
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_PORT
 
-from .const import TYPES
+from .const import TYPES, FORMATS
 from .items import ModbusItem
 
 logging.basicConfig()
@@ -99,6 +99,39 @@ class ModbusObject:
         self._modbus_client = modbus_api.get_device()
         # await self._modbus_client.connect()
 
+    def check_valid(self, val):
+        match self._modbus_item.format:
+            case FORMATS.TEMPERATUR:
+                self.check_temperature(val)
+                return
+            case FORMATS.PERCENTAGE:
+                self.check_percentage(val)
+                return
+            case FORMATS.STATUS:
+                self.check_status(val)
+                return
+            case _:
+                self._modbus_item.is_invalid = False
+
+    def check_temperature(self, val):
+        match val:
+            case -32768:
+                # No Sensor installed, remove it from the list
+                self._modbus_item.is_invalid = True
+            case 32768:
+                # Dont know. Whats this?
+                self._modbus_item.is_invalid = True
+            case _:
+                self._modbus_item.is_invalid = False
+
+    def check_percentage(self, val):
+        if val == 65535:
+            self._modbus_item.is_invalid = True
+        self._modbus_item.is_invalid = False
+
+    def check_status(self, val):
+        self._modbus_item.is_invalid = False
+
     @property
     async def value(self):
         """Returns the value from the modbus register."""
@@ -116,12 +149,14 @@ class ModbusObject:
                             self._modbus_item.address, slave=1
                         )
                         if len(mbr.registers) > 0:
+                            self.check_valid(val)
                             val = mbr.registers[0]
                     case TYPES.SELECT | TYPES.NUMBER | TYPES.NUMBER_RO:
                         mbr = await self._modbus_client.read_holding_registers(
                             self._modbus_item.address, slave=1
                         )
                         if len(mbr.registers) > 0:
+                            self.check_valid(val)
                             val = mbr.registers[0]
                     case _:
                         val = None
