@@ -280,6 +280,7 @@ class MyEntity:
                 # Valid Temperatur range
                 return int(val) / self._divider
             case _:
+                # to optimize
                 return int(val) / self._divider
 
         # if val is None:
