@@ -120,8 +120,10 @@ class ModbusObject:
                 self._modbus_item.is_invalid = True
             case 32768:
                 # Dont know. Whats this?
+                # print("Sensor not installed: " + self._modbus_item.name)
                 self._modbus_item.is_invalid = True
             case _:
+                # print("Sensor OK " + self._modbus_item.name + " " + str(val))
                 self._modbus_item.is_invalid = False
 
     def check_percentage(self, val):
@@ -149,15 +151,15 @@ class ModbusObject:
                             self._modbus_item.address, slave=1
                         )
                         if len(mbr.registers) > 0:
-                            self.check_valid(val)
                             val = mbr.registers[0]
+                            self.check_valid(val)
                     case TYPES.SELECT | TYPES.NUMBER | TYPES.NUMBER_RO:
                         mbr = await self._modbus_client.read_holding_registers(
                             self._modbus_item.address, slave=1
                         )
                         if len(mbr.registers) > 0:
-                            self.check_valid(val)
                             val = mbr.registers[0]
+                            self.check_valid(val)
                     case _:
                         val = None
                         warnings.warn(
