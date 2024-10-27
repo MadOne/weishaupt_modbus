@@ -222,6 +222,13 @@ WW_KONFIGURATION = [
     StatusItem(2, "Pumpe"),
 ]
 
+WW_PUSH = [
+    StatusItem(0, "AUS"),
+]
+# Fill WW_PUSH with values for every 5 Minutes
+for i in range(5, 240, 5):
+    WW_PUSH.append(StatusItem(i, str(i) + "Minuten"))  # noqa: PERF401
+
 W2_STATUS = [
     StatusItem(0, "aus"),
     StatusItem(1, "ein"),
@@ -602,10 +609,10 @@ MODBUS_SYS_ITEMS = [
     ModbusItem(
         42102,
         "Warmwasser Push",
-        FORMATS.TIME_MIN,
-        TYPES.NUMBER,
+        FORMATS.STATUS,
+        TYPES.SELECT,
         DEVICES.WW,
-        TIMERANGE_WWPUSH,
+        WW_PUSH,
     ),
     ModbusItem(
         42103,
