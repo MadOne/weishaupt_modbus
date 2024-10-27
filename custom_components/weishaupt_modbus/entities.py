@@ -36,6 +36,7 @@ _LOGGER.setLevel(logging.WARNING)
 
 
 async def check_available(modbus_item, config_entry) -> bool:
+    """function checks if item is valid and available"""
     _modbus_api = config_entry.runtime_data
     mbo = ModbusObject(_modbus_api, modbus_item)
     _useless = await mbo.value
@@ -410,8 +411,18 @@ class MyCalcSensorEntity(MySensorEntity):
 
     def translate_val(self, val):
         """Translate a value from the modbus."""
+        # this is necessary to avoid errors when re-connection heatpump
         if val is None:
             return None
+        if len(val) < 3:
+            return None
+        if val[0] is None:
+            return None
+        if val[1] is None:
+            return None
+        if val[2] is None:
+            return None
+
         val_0 = self.calc_percentage(val[0])
         val_x = self.calc_temperature(val[1]) / 10
         val_y = self.calc_temperature(val[2]) / 10

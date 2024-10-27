@@ -48,7 +48,7 @@ class ModbusAPI:
             self._modbus_client = AsyncModbusTcpClient(
                 host=self._ip, port=self._port, name="Weishaupt_WBB"
             )
-            for i in range(3):
+            for _useless in range(3):
                 await self._modbus_client.connect()
                 if self._modbus_client.connected:
                     return self._modbus_client.connected
@@ -100,6 +100,7 @@ class ModbusObject:
         # await self._modbus_client.connect()
 
     def check_valid(self, val):
+        """Checks if item is available and valid"""
         match self._modbus_item.format:
             case FORMATS.TEMPERATUR:
                 self.check_temperature(val)
@@ -114,6 +115,7 @@ class ModbusObject:
                 self._modbus_item.is_invalid = False
 
     def check_temperature(self, val):
+        """Checks availability of temperature item"""
         match val:
             case -32768:
                 # No Sensor installed, remove it from the list
@@ -127,12 +129,15 @@ class ModbusObject:
                 self._modbus_item.is_invalid = False
 
     def check_percentage(self, val):
+        """Checks availability of percentage item"""
         if val == 65535:
             self._modbus_item.is_invalid = True
         else:
             self._modbus_item.is_invalid = False
 
     def check_status(self, val):
+        """Checks general availability of item"""
+        _useless = val
         self._modbus_item.is_invalid = False
 
     @property
@@ -172,9 +177,9 @@ class ModbusObject:
             except ModbusException as exc:
                 warnings.warn(
                     "Received ModbusException: "
-                    + exc
+                    + str(exc)
                     + "in item: "
-                    + self._modbus_item.name
+                    + str(self._modbus_item.name)
                 )
                 return None
             if mbr.isError():
@@ -186,7 +191,7 @@ class ModbusObject:
                         "Received Modbus library error: "
                         + str(mbr)
                         + "in item: "
-                        + self._modbus_item.name
+                        + str(self._modbus_item.name)
                     )
                 return None
             if isinstance(mbr, ExceptionResponse):
@@ -194,7 +199,7 @@ class ModbusObject:
                     "Received ModbusException: "
                     + str(mbr)
                     + " from library in item: "
-                    + self._modbus_item.name
+                    + str(self._modbus_item.name)
                 )
                 return None
                 # THIS IS NOT A PYTHON EXCEPTION, but a valid modbus message
