@@ -35,7 +35,10 @@ _LOGGER = logging.getLogger(__name__)
 _LOGGER.setLevel(logging.WARNING)
 
 
-async def check_available(modbus_item):
+async def check_available(modbus_item, config_entry) -> bool:
+    _modbus_api = config_entry.runtime_data
+    mbo = ModbusObject(_modbus_api, modbus_item)
+    _useless = await mbo.value
     if modbus_item.is_invalid is False:
         return True
     return False
@@ -52,7 +55,10 @@ async def BuildEntityList(entries, config_entry, modbusitems, item_type, coordin
 
     for index, item in enumerate(modbusitems):
         if item.type == item_type:
-            if await check_available(modbusitems[index]) is True:
+            if (
+                await check_available(modbusitems[index], config_entry=config_entry)
+                is True
+            ):
                 match item_type:
                     # here the entities are created with the parameters provided by the ModbusItem object
                     case TYPES.SENSOR | TYPES.NUMBER_RO:
