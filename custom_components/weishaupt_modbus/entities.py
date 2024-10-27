@@ -261,7 +261,6 @@ class MyEntity:
 
     def calc_temperature(self, val: float):
         """Calcualte temperature."""
-
         match val:
             case None:
                 return None

@@ -129,7 +129,8 @@ class ModbusObject:
     def check_percentage(self, val):
         if val == 65535:
             self._modbus_item.is_invalid = True
-        self._modbus_item.is_invalid = False
+        else:
+            self._modbus_item.is_invalid = False
 
     def check_status(self, val):
         self._modbus_item.is_invalid = False
