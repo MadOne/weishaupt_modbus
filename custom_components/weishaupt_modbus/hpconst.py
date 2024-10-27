@@ -16,6 +16,10 @@ class DeviceConstants:
     WP = "Wärmepumpe"
     WW = "Warmwasser"
     HZ = "Heizkreis"
+    HZ2 = "Heizkreis2"
+    HZ3 = "Heizkreis3"
+    HZ4 = "Heizkreis4"
+    HZ5 = "Heizkreis5"
     W2 = "2. Wärmeerzeuger"
     ST = "Statistik"
 
@@ -329,359 +333,88 @@ RANGE_CALCPOWER = [
 # https://docs.google.com/spreadsheets/d/1EZ3QgyB41xaXo4B5CfZe0Pi8KPwzIGzK/edit?gid=1730751621#gid=1730751621                #
 ##############################################################################################################################
 
+# fmt: off
 MODBUS_SYS_ITEMS = [
-    ModbusItem(
-        30001,
-        "Aussentemperatur",
-        FORMATS.TEMPERATUR,
-        TYPES.SENSOR,
-        DEVICES.SYS,
-        TEMPRANGE_STD,
-    ),
-    ModbusItem(
-        30002,
-        "Luftansaugtemperatur",
-        FORMATS.TEMPERATUR,
-        TYPES.SENSOR,
-        DEVICES.SYS,
-        TEMPRANGE_STD,
-    ),
-    ModbusItem(30003, "Fehler", FORMATS.STATUS, TYPES.SENSOR, DEVICES.SYS, SYS_FEHLER),
-    ModbusItem(
-        30004, "Warnung", FORMATS.STATUS, TYPES.SENSOR, DEVICES.SYS, SYS_WARNUNG
-    ),
-    ModbusItem(
-        30005, "Fehlerfrei", FORMATS.STATUS, TYPES.SENSOR, DEVICES.SYS, SYS_FEHLERFREI
-    ),
-    ModbusItem(
-        30006,
-        "Betriebsanzeige",
-        FORMATS.STATUS,
-        TYPES.SENSOR,
-        DEVICES.SYS,
-        SYS_BETRIEBSANZEIGE,
-    ),
-    ModbusItem(
-        40001,
-        "Systembetriebsart",
-        FORMATS.STATUS,
-        TYPES.SELECT,
-        DEVICES.SYS,
-        SYS_BETRIEBSART,
-    ),
-    ModbusItem(33101, "Betrieb", FORMATS.STATUS, TYPES.SENSOR, DEVICES.WP, HP_BETRIEB),
-    ModbusItem(
-        33102, "Störmeldung", FORMATS.STATUS, TYPES.SENSOR, DEVICES.WP, HP_STOERMELDUNG
-    ),
-    ModbusItem(
-        33103, "Leistungsanforderung", FORMATS.PERCENTAGE, TYPES.SENSOR, DEVICES.WP
-    ),
-    ModbusItem(
-        33103,
-        "Wärmeleistung",
-        FORMATS.POWER,
-        TYPES.SENSOR_CALC,
-        DEVICES.WP,
-        RANGE_CALCPOWER,
-    ),
-    ModbusItem(
-        33104,
-        "Vorlauftemperatur",
-        FORMATS.TEMPERATUR,
-        TYPES.SENSOR,
-        DEVICES.WP,
-        TEMPRANGE_STD,
-    ),
-    ModbusItem(
-        33105,
-        "Rücklauftemperatur",
-        FORMATS.TEMPERATUR,
-        TYPES.SENSOR,
-        DEVICES.WP,
-        TEMPRANGE_STD,
-    ),
-    ModbusItem(43101, "Konfiguration ", FORMATS.NUMBER, TYPES.NUMBER_RO, DEVICES.WP),
-    ModbusItem(
-        43102, "Ruhemodus", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.WP, HP_RUHEMODUS
-    ),
-    ModbusItem(
-        43103, "Pumpe Einschaltart", FORMATS.NUMBER, TYPES.NUMBER_RO, DEVICES.WP
-    ),
-    ModbusItem(
-        43104,
-        "Pumpe Leistung Heizen",
-        FORMATS.PERCENTAGE,
-        TYPES.NUMBER_RO,
-        DEVICES.WP,
-        RANGE_PERCENTAGE,
-    ),
-    ModbusItem(
-        43105,
-        "Pumpe Leistung Kühlen",
-        FORMATS.PERCENTAGE,
-        TYPES.NUMBER_RO,
-        DEVICES.WP,
-        RANGE_PERCENTAGE,
-    ),
-    ModbusItem(
-        43106,
-        "Pumpe Leistung Warmwasser",
-        FORMATS.PERCENTAGE,
-        TYPES.NUMBER_RO,
-        DEVICES.WP,
-        RANGE_PERCENTAGE,
-    ),
-    ModbusItem(
-        43107,
-        "Pumpe Leistung Abtaubetrieb",
-        FORMATS.PERCENTAGE,
-        TYPES.NUMBER_RO,
-        DEVICES.WP,
-        RANGE_PERCENTAGE,
-    ),
-    ModbusItem(
-        43108,
-        "Volumenstrom Heizen",
-        FORMATS.VOLUMENSTROM,
-        TYPES.NUMBER_RO,
-        DEVICES.WP,
-        RANGE_FLOWRATE,
-    ),
-    ModbusItem(
-        43109,
-        "Volumenstrom Kühlen",
-        FORMATS.VOLUMENSTROM,
-        TYPES.NUMBER_RO,
-        DEVICES.WP,
-        RANGE_FLOWRATE,
-    ),
-    ModbusItem(
-        43110,
-        "Volumenstrom Warmwasser",
-        FORMATS.VOLUMENSTROM,
-        TYPES.NUMBER_RO,
-        DEVICES.WP,
-        RANGE_FLOWRATE,
-    ),
-    ModbusItem(
-        31101,
-        "Raumsolltemperatur",
-        FORMATS.TEMPERATUR,
-        TYPES.SENSOR,
-        DEVICES.HZ,
-        TEMPRANGE_ROOM,
-    ),
-    ModbusItem(
-        31102,
-        "Raumtemperatur",
-        FORMATS.TEMPERATUR,
-        TYPES.SENSOR,
-        DEVICES.HZ,
-        TEMPRANGE_ROOM,
-    ),
-    ModbusItem(31103, "Raumfeuchte", FORMATS.PERCENTAGE, TYPES.SENSOR, DEVICES.HZ),
-    ModbusItem(
-        31104,
-        "Vorlaufsolltemperatur",
-        FORMATS.TEMPERATUR,
-        TYPES.SENSOR,
-        DEVICES.HZ,
-        TEMPRANGE_STD,
-    ),
-    ModbusItem(
-        31105,
-        "HZ_Vorlauftemperatur",
-        FORMATS.TEMPERATUR,
-        TYPES.SENSOR,
-        DEVICES.HZ,
-        TEMPRANGE_STD,
-    ),
-    ModbusItem(
-        41101,
-        "HZ_Konfiguration",
-        FORMATS.STATUS,
-        TYPES.NUMBER_RO,
-        DEVICES.HZ,
-        HZ_KONFIGURATION,
-    ),
-    ModbusItem(
-        41102,
-        "Anforderung Typ",
-        FORMATS.STATUS,
-        TYPES.NUMBER_RO,
-        DEVICES.HZ,
-        HZ_ANFORDERUNG,
-    ),
-    ModbusItem(
-        41103, "Betriebsart", FORMATS.STATUS, TYPES.SELECT, DEVICES.HZ, HZ_BETRIEBSART
-    ),
-    ModbusItem(
-        41104, "Pause / Party", FORMATS.STATUS, TYPES.SELECT, DEVICES.HZ, HZ_PARTY_PAUSE
-    ),
-    ModbusItem(
-        41105,
-        "Raumsolltemperatur Komfort",
-        FORMATS.TEMPERATUR,
-        TYPES.NUMBER,
-        DEVICES.HZ,
-        TEMPRANGE_ROOM,
-    ),
-    ModbusItem(
-        41106,
-        "Raumsolltemperatur Normal",
-        FORMATS.TEMPERATUR,
-        TYPES.NUMBER,
-        DEVICES.HZ,
-        TEMPRANGE_ROOM,
-    ),
-    ModbusItem(
-        41107,
-        "Raumsolltemperatur Absenk",
-        FORMATS.TEMPERATUR,
-        TYPES.NUMBER,
-        DEVICES.HZ,
-        TEMPRANGE_ROOM,
-    ),
-    ModbusItem(
-        41108,
-        "Heizkennlinie",
-        FORMATS.KENNLINIE,
-        TYPES.NUMBER,
-        DEVICES.HZ,
-        RANGE_HZKENNLINIE,
-    ),
-    ModbusItem(
-        41109,
-        "Sommer Winter Umschaltung",
-        FORMATS.TEMPERATUR,
-        TYPES.NUMBER,
-        DEVICES.HZ,
-        TEMPRANGE_ROOM,
-    ),
-    ModbusItem(
-        41110,
-        "Heizen Konstanttemperatur",
-        FORMATS.TEMPERATUR,
-        TYPES.NUMBER_RO,
-        DEVICES.HZ,
-        TEMPRANGE_ROOM,
-    ),
-    ModbusItem(
-        41111,
-        "Heizen Konstanttemp Absenk",
-        FORMATS.TEMPERATUR,
-        TYPES.NUMBER_RO,
-        DEVICES.HZ,
-        TEMPRANGE_ROOM,
-    ),
-    ModbusItem(
-        41112,
-        "Kühlen Konstanttemperatur",
-        FORMATS.TEMPERATUR,
-        TYPES.NUMBER_RO,
-        DEVICES.HZ,
-        TEMPRANGE_ROOM,
-    ),
-    ModbusItem(
-        32101,
-        "Warmwassersolltemperatur",
-        FORMATS.TEMPERATUR,
-        TYPES.SENSOR,
-        DEVICES.WW,
-        TEMPRANGE_WATER,
-    ),
-    ModbusItem(
-        32102,
-        "Warmwassertemperatur",
-        FORMATS.TEMPERATUR,
-        TYPES.SENSOR,
-        DEVICES.WW,
-        TEMPRANGE_WATER,
-    ),
-    ModbusItem(
-        42101,
-        "WW_Konfiguration",
-        FORMATS.STATUS,
-        TYPES.NUMBER_RO,
-        DEVICES.WW,
-        WW_KONFIGURATION,
-    ),
-    ModbusItem(
-        42102,
-        "Warmwasser Push",
-        FORMATS.STATUS,
-        TYPES.SELECT,
-        DEVICES.WW,
-        WW_PUSH,
-    ),
-    ModbusItem(
-        42103,
-        "Warmwasser Normal",
-        FORMATS.TEMPERATUR,
-        TYPES.NUMBER,
-        DEVICES.WW,
-        TEMPRANGE_WATER,
-    ),
-    ModbusItem(
-        42104,
-        "Warmwasser Absenk",
-        FORMATS.TEMPERATUR,
-        TYPES.NUMBER,
-        DEVICES.WW,
-        TEMPRANGE_WATER,
-    ),
-    ModbusItem(
-        42105,
-        "SG Ready Anhebung",
-        FORMATS.TEMPERATUR,
-        TYPES.NUMBER,
-        DEVICES.WW,
-        TEMPRANGE_SGREADY,
-    ),
-    ModbusItem(
-        34101, "Status 2. WEZ", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS
-    ),
-    ModbusItem(
-        34102, "Schaltspiele E-Heizung 1", FORMATS.NUMBER, TYPES.SENSOR, DEVICES.W2
-    ),
-    ModbusItem(
-        34103, "Schaltspiele E-Heizung 2", FORMATS.NUMBER, TYPES.SENSOR, DEVICES.W2
-    ),
-    ModbusItem(
-        34104, "Status E-Heizung 1", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS
-    ),
-    ModbusItem(
-        34105, "Status E-Heizung 2", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS
-    ),
-    ModbusItem(34106, "Betriebsstunden E1", FORMATS.TIME_H, TYPES.SENSOR, DEVICES.W2),
-    ModbusItem(34107, "Betriebsstunden E2", FORMATS.TIME_H, TYPES.SENSOR, DEVICES.W2),
-    ModbusItem(
-        44101, "W2_Konfiguration", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_KONFIG
-    ),
-    ModbusItem(
-        44102,
-        "Grenztemperatur",
-        FORMATS.TEMPERATUR,
-        TYPES.NUMBER,
-        DEVICES.W2,
-        TEMPRANGE_BIVALENZ,
-    ),
-    ModbusItem(
-        44103,
-        "Bivalenztemperatur",
-        FORMATS.TEMPERATUR,
-        TYPES.NUMBER,
-        DEVICES.W2,
-        TEMPRANGE_BIVALENZ,
-    ),
-    ModbusItem(
-        44104,
-        "Bivalenztemperatur WW",
-        FORMATS.TEMPERATUR,
-        TYPES.NUMBER,
-        DEVICES.W2,
-        TEMPRANGE_BIVALENZ,
-    ),
+    ModbusItem( 30001, "Aussentemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.SYS, TEMPRANGE_STD),
+    ModbusItem( 30002, "Luftansaugtemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.SYS, TEMPRANGE_STD),
+    ModbusItem( 30003, "Fehler", FORMATS.STATUS, TYPES.SENSOR, DEVICES.SYS, SYS_FEHLER),
+    ModbusItem( 30004, "Warnung", FORMATS.STATUS, TYPES.SENSOR, DEVICES.SYS, SYS_WARNUNG),
+    ModbusItem( 30005, "Fehlerfrei", FORMATS.STATUS, TYPES.SENSOR, DEVICES.SYS, SYS_FEHLERFREI),
+    ModbusItem( 30006, "Betriebsanzeige", FORMATS.STATUS, TYPES.SENSOR, DEVICES.SYS, SYS_BETRIEBSANZEIGE),
+    ModbusItem( 40001,  "Systembetriebsart", FORMATS.STATUS, TYPES.SELECT, DEVICES.SYS, SYS_BETRIEBSART),
+    ModbusItem( 33101, "Betrieb", FORMATS.STATUS, TYPES.SENSOR, DEVICES.WP, HP_BETRIEB),
+    ModbusItem( 33102, "Störmeldung", FORMATS.STATUS, TYPES.SENSOR, DEVICES.WP, HP_STOERMELDUNG),
+    ModbusItem( 33103, "Leistungsanforderung", FORMATS.PERCENTAGE, TYPES.SENSOR, DEVICES.WP),
+    ModbusItem( 33103, "Wärmeleistung", FORMATS.POWER, TYPES.SENSOR_CALC, DEVICES.WP, RANGE_CALCPOWER),
+    ModbusItem( 33104, "Vorlauftemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WP, TEMPRANGE_STD),
+    ModbusItem( 33105, "Rücklauftemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR,  DEVICES.WP, TEMPRANGE_STD),
+    ModbusItem( 43101, "Konfiguration ", FORMATS.NUMBER, TYPES.NUMBER_RO, DEVICES.WP),
+    ModbusItem( 43102, "Ruhemodus", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.WP, HP_RUHEMODUS),
+    ModbusItem( 43103, "Pumpe Einschaltart", FORMATS.NUMBER, TYPES.NUMBER_RO, DEVICES.WP ),
+    ModbusItem( 43104, "Pumpe Leistung Heizen", FORMATS.PERCENTAGE, TYPES.NUMBER_RO, DEVICES.WP, RANGE_PERCENTAGE),
+    ModbusItem( 43105, "Pumpe Leistung Kühlen", FORMATS.PERCENTAGE, TYPES.NUMBER_RO, DEVICES.WP, RANGE_PERCENTAGE),
+    ModbusItem( 43106, "Pumpe Leistung Warmwasser", FORMATS.PERCENTAGE, TYPES.NUMBER_RO, DEVICES.WP, RANGE_PERCENTAGE),
+    ModbusItem( 43107, "Pumpe Leistung Abtaubetrieb", FORMATS.PERCENTAGE, TYPES.NUMBER_RO, DEVICES.WP, RANGE_PERCENTAGE),
+    ModbusItem( 43108, "Volumenstrom Heizen", FORMATS.VOLUMENSTROM, TYPES.NUMBER_RO, DEVICES.WP, RANGE_FLOWRATE),
+    ModbusItem( 43109, "Volumenstrom Kühlen", FORMATS.VOLUMENSTROM, TYPES.NUMBER_RO,  DEVICES.WP, RANGE_FLOWRATE),
+    ModbusItem( 43110, "Volumenstrom Warmwasser", FORMATS.VOLUMENSTROM, TYPES.NUMBER_RO, DEVICES.WP, RANGE_FLOWRATE),
+
+    ModbusItem( 31101, "Raumsolltemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ, TEMPRANGE_ROOM),
+    ModbusItem( 31102, "Raumtemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ, TEMPRANGE_ROOM),
+    ModbusItem( 31103, "Raumfeuchte", FORMATS.PERCENTAGE, TYPES.SENSOR, DEVICES.HZ),
+    ModbusItem( 31104, "Vorlaufsolltemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ, TEMPRANGE_STD),
+    ModbusItem( 31105, "HZ_Vorlauftemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ, TEMPRANGE_STD),
+    ModbusItem( 41101, "HZ_Konfiguration", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.HZ, HZ_KONFIGURATION),
+    ModbusItem( 41102, "Anforderung Typ", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.HZ, HZ_ANFORDERUNG),
+    ModbusItem( 41103, "Betriebsart", FORMATS.STATUS, TYPES.SELECT, DEVICES.HZ, HZ_BETRIEBSART),
+    ModbusItem( 41104, "Pause / Party", FORMATS.STATUS, TYPES.SELECT, DEVICES.HZ, HZ_PARTY_PAUSE),
+    ModbusItem( 41105, "Raumsolltemperatur Komfort", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.HZ, TEMPRANGE_ROOM),
+    ModbusItem( 41106, "Raumsolltemperatur Normal", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.HZ, TEMPRANGE_ROOM),
+    ModbusItem( 41107, "Raumsolltemperatur Absenk", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.HZ, TEMPRANGE_ROOM),
+    ModbusItem( 41108, "Heizkennlinie", FORMATS.KENNLINIE, TYPES.NUMBER, DEVICES.HZ, RANGE_HZKENNLINIE),
+    ModbusItem( 41109, "Sommer Winter Umschaltung", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.HZ, TEMPRANGE_ROOM),
+    ModbusItem( 41110, "Heizen Konstanttemperatur", FORMATS.TEMPERATUR, TYPES.NUMBER_RO, DEVICES.HZ, TEMPRANGE_ROOM),
+    ModbusItem( 41111, "Heizen Konstanttemp Absenk", FORMATS.TEMPERATUR, TYPES.NUMBER_RO, DEVICES.HZ, TEMPRANGE_ROOM),
+    ModbusItem( 41112, "Kühlen Konstanttemperatur", FORMATS.TEMPERATUR, TYPES.NUMBER_RO, DEVICES.HZ, TEMPRANGE_ROOM),
+
+    ModbusItem( 31201, "Raumsolltemperatur2", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ2, TEMPRANGE_ROOM),
+    ModbusItem( 31202, "Raumtemperatur2", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ2, TEMPRANGE_ROOM),
+    ModbusItem( 31203, "Raumfeuchte2", FORMATS.PERCENTAGE, TYPES.SENSOR, DEVICES.HZ2),
+    ModbusItem( 31204, "Vorlaufsolltemperatur2", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ2, TEMPRANGE_STD),
+    ModbusItem( 31205, "HZ_Vorlauftemperatur2", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ2, TEMPRANGE_STD),
+    ModbusItem( 41201, "HZ_Konfiguration2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.HZ2, HZ_KONFIGURATION),
+    ModbusItem( 41202, "Anforderung Typ2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.HZ2, HZ_ANFORDERUNG),
+    ModbusItem( 41203, "Betriebsart2", FORMATS.STATUS, TYPES.SELECT, DEVICES.HZ2, HZ_BETRIEBSART),
+    ModbusItem( 41204, "Pause / Party 2", FORMATS.STATUS, TYPES.SELECT, DEVICES.HZ2, HZ_PARTY_PAUSE),
+    ModbusItem( 41205, "Raumsolltemperatur Komfort2", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.HZ2, TEMPRANGE_ROOM),
+    ModbusItem( 41206, "Raumsolltemperatur Normal2", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.HZ2, TEMPRANGE_ROOM),
+    ModbusItem( 41207, "Raumsolltemperatur Absenk2", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.HZ2, TEMPRANGE_ROOM),
+    ModbusItem( 41208, "Heizkennlinie2", FORMATS.KENNLINIE, TYPES.NUMBER, DEVICES.HZ2, RANGE_HZKENNLINIE),
+    ModbusItem( 41209, "Sommer Winter Umschaltung2", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.HZ2, TEMPRANGE_ROOM),
+    ModbusItem( 41210, "Heizen Konstanttemperatur2", FORMATS.TEMPERATUR, TYPES.NUMBER_RO, DEVICES.HZ2, TEMPRANGE_ROOM),
+    ModbusItem( 41211, "Heizen Konstanttemp Absenk2", FORMATS.TEMPERATUR, TYPES.NUMBER_RO, DEVICES.HZ2, TEMPRANGE_ROOM),
+    ModbusItem( 41212, "Kühlen Konstanttemperatur2", FORMATS.TEMPERATUR, TYPES.NUMBER_RO, DEVICES.HZ2, TEMPRANGE_ROOM),
+
+    ModbusItem( 32101, "Warmwassersolltemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WW, TEMPRANGE_WATER),
+    ModbusItem( 32102, "Warmwassertemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WW, TEMPRANGE_WATER),
+    ModbusItem( 42101, "WW_Konfiguration", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.WW, WW_KONFIGURATION),
+    ModbusItem( 42102, "Warmwasser Push", FORMATS.STATUS, TYPES.SELECT, DEVICES.WW, WW_PUSH),
+    ModbusItem( 42103, "Warmwasser Normal", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.WW, TEMPRANGE_WATER),
+    ModbusItem( 42104, "Warmwasser Absenk", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.WW, TEMPRANGE_WATER),
+    ModbusItem( 42105, "SG Ready Anhebung", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.WW, TEMPRANGE_SGREADY),
+
+    ModbusItem( 34101, "Status 2. WEZ", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS),
+    ModbusItem( 34102, "Schaltspiele E-Heizung 1", FORMATS.NUMBER, TYPES.SENSOR, DEVICES.W2),
+    ModbusItem( 34103, "Schaltspiele E-Heizung 2", FORMATS.NUMBER, TYPES.SENSOR, DEVICES.W2),
+    ModbusItem( 34104, "Status E-Heizung 1", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS),
+    ModbusItem( 34105, "Status E-Heizung 2", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS),
+    ModbusItem( 34106, "Betriebsstunden E1", FORMATS.TIME_H, TYPES.SENSOR, DEVICES.W2),
+    ModbusItem( 34107, "Betriebsstunden E2", FORMATS.TIME_H, TYPES.SENSOR, DEVICES.W2),
+    ModbusItem( 44101, "W2_Konfiguration", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_KONFIG),
+    ModbusItem( 44102, "Grenztemperatur", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.W2, TEMPRANGE_BIVALENZ),
+    ModbusItem( 44103, "Bivalenztemperatur", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.W2, TEMPRANGE_BIVALENZ),
+    ModbusItem( 44104, "Bivalenztemperatur WW", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.W2, TEMPRANGE_BIVALENZ),
+
     ModbusItem(
         36101,
         "Gesamt Energie heute",
@@ -907,3 +640,4 @@ MODBUS_SYS_ITEMS = [
         RANGE_ENERGY,
     ),
 ]
+# fmt: on
