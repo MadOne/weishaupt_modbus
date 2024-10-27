@@ -104,22 +104,9 @@ class ModbusObject:
         """Returns the value from the modbus register."""
         if self._modbus_client is None:
             return None
-        if not self._modbus_client.connected:
-            mbr = await self._modbus_client.connect()
-            warnings.warn(
-                "Reconnect failed"
-                + self._modbus_client.comm_params.host
-                + ":"
-                + str(self._modbus_client.comm_params.port)
-            )
 
         val = None
-        if self._modbus_item.is_invalid:
-            ...
-            # warnings.warn(
-            #    "Item " + self._modbus_item.name + " skipped because of invalid address"
-            # )
-        else:
+        if not self._modbus_item.is_invalid:
             try:
                 match self._modbus_item.type:
                     case TYPES.SENSOR | TYPES.SENSOR_CALC:

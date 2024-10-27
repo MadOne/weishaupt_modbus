@@ -255,17 +255,38 @@ class MyEntity:
 
     def calc_temperature(self, val: float):
         """Calcualte temperature."""
-        if val is None:
-            return val
-        if val is None:
-            return None
-        if val == -32768:
-            return -1
-        if val == -32767:
-            return -2
-        if val == 32768:
-            return None
-        return int(val) / self._divider
+
+        match val:
+            case None:
+                return None
+            case -32768:
+                # No Sensor installed
+                return -1
+            case -32767:
+                # Sensor broken
+                return -2
+            case 32768:
+                # Dont know. Whats this?
+                return None
+            case range(-500, 5000):
+                # Valid Temperatur range
+                return int(val) / self._divider
+            case _:
+                return None
+
+        # if val is None:
+        #    return None
+        # if val == -32768:
+        #    # No Sensor installed
+        #    return -1
+        # if val == -32767:
+        #    # Sensor broken
+        #    return -2
+        # if val == 32768:
+        #    # Dont know. Whats this?
+        #    return None
+        # if val in range(-500, 5000):
+        #    return int(val) / self._divider
 
     def calc_percentage(self, val: float):
         """Calculate percentage."""
