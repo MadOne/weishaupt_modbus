@@ -4,6 +4,7 @@ import json
 
 import numpy as np
 from numpy.polynomial import Chebyshev
+# from scipy.interpolate import CubicSpline
 
 from .const import CONST
 
@@ -75,14 +76,14 @@ class PowerMap:
         # try to load values from json file
 
         try:
-            openfile = open(CONST.KENNFELDFILE, "r")
+            openfile = open(CONST.KENNFELDFILE, "r", encoding="utf-8")
         except IOError:
             kennfeld = {
                 "known_x": self.known_x,
                 "known_y": self.known_y,
                 "known_t": self.known_t,
             }
-            with open(CONST.KENNFELDFILE, "w") as outfile:
+            with open(CONST.KENNFELDFILE, "w", encoding="utf-8") as outfile:
                 json.dump(kennfeld, outfile)
         else:
             json_object = json.load(openfile)
@@ -121,9 +122,6 @@ class PowerMap:
 
     def map(self, x, y):
         """Map."""
-        numrows = len(self.max_power)  # 3 rows in your example
-
-        numcols = len(self.max_power[0])  # 2 columns in your example
         x = x - self.known_x[0]
         if x < 0:
             x = 0
@@ -140,9 +138,9 @@ class PowerMap:
 
 # map = PowerMap()
 
-# plt.plot(t,np.transpose(map.max_power))
-# plt.ylabel('Max Power')
-# plt.xlabel('°C')
+# plt.plot(t, np.transpose(map.max_power))
+# plt.ylabel("Max Power")
+# plt.xlabel("°C")
 # plt.show()
 
 # kennfeld = {'known_x': map.known_x,
