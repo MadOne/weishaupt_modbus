@@ -8,6 +8,7 @@ from homeassistant import config_entries, exceptions
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_PREFIX
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
+from homeassistant.config_entries import ConfigFlowResult
 
 # from . import wp
 from .const import CONST, CONF_DEVICE_POSTFIX, CONF_KENNFELD_FILE
@@ -84,6 +85,20 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
         return self.async_show_form(
             step_id="user", data_schema=DATA_SCHEMA, errors=errors
         )
+
+    # async def async_step_reconfigure(
+    #    self, user_input: dict[str, Any] | None = None
+    # ) -> ConfigFlowResult:
+    #    """Add reconfigure step to allow to reconfigure a config entry."""
+    #    errors = {}
+    #    reconfigure_entry = self._get_reconfigure_entry()##
+
+    #    return self.async_show_form(
+    #        step_id="reconfigure",
+    #        data_schema=DATA_SCHEMA,
+    #        description_placeholders={"device": reconfigure_entry.title},
+    #        errors=errors,
+    #    )
 
 
 class InvalidHost(exceptions.HomeAssistantError):
