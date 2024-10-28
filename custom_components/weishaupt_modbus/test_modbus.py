@@ -7,7 +7,7 @@ from pymodbus.client import AsyncModbusTcpClient as AsyncModbusTcpClient
 
 async def main():
     pymodbus_apply_logging_config("DEBUG")
-    host = "10.10.1.225"
+    host = "192.168.42.144"  # 10.10.1.225"
     port = 502
     client = ModbusClient.AsyncModbusTcpClient(
         host,
