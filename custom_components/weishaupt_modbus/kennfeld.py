@@ -6,7 +6,7 @@ import numpy as np
 from numpy.polynomial import Chebyshev
 # from scipy.interpolate import CubicSpline
 
-from .const import CONST
+from .const import CONF_KENNFELD_FILE
 
 
 class PowerMap:
@@ -71,19 +71,26 @@ class PowerMap:
 
     interp_y = []
 
-    def __init__(self) -> None:
+    _config_entry = None
+
+    def __init__(self, config_entry) -> None:
         """Initialise the PowerMap class."""
         # try to load values from json file
+        self._config_entry = config_entry
 
         try:
-            openfile = open(CONST.KENNFELDFILE, "r", encoding="utf-8")
+            openfile = open(
+                self._config_entry.data[CONF_KENNFELD_FILE], "r", encoding="utf-8"
+            )
         except IOError:
             kennfeld = {
                 "known_x": self.known_x,
                 "known_y": self.known_y,
                 "known_t": self.known_t,
             }
-            with open(CONST.KENNFELDFILE, "w", encoding="utf-8") as outfile:
+            with open(
+                self._config_entry.data[CONF_KENNFELD_FILE], "w", encoding="utf-8"
+            ) as outfile:
                 json.dump(kennfeld, outfile)
         else:
             json_object = json.load(openfile)
