@@ -242,16 +242,15 @@ class MyEntity:
 
         dev_postfix = ""
         try:
-            dev_postfix = "_" + self._config_entry.data[CONF_DEVICE_POSTFIX]
+            dev_postfix = self._config_entry.data[CONF_DEVICE_POSTFIX]
+            dev_postfix = "_" + dev_postfix
         except KeyError:
-            dev_postfix = ""
             warnings.warn("Device postfix not defined, use default: ")
 
         dev_prefix = CONST.DEF_PREFIX
         try:
-            dev_prefix = "_" + self._config_entry.data[CONF_PREFIX]
+            dev_prefix = self._config_entry.data[CONF_PREFIX]
         except KeyError:
-            dev_prefix = ""
             warnings.warn("Device prefix not defined, use default: " + CONST.DEF_PREFIX)
 
         self._attr_unique_id = (
