@@ -14,7 +14,7 @@ from homeassistant.components.sensor import (
     SensorEntity,
     SensorStateClass,
 )
-from homeassistant.const import CONF_PORT
+from homeassistant.const import CONF_PORT, CONF_PREFIX, CONF_DOMAIN
 from homeassistant.core import callback
 from homeassistant.helpers.device_registry import DeviceInfo
 
@@ -24,7 +24,7 @@ from homeassistant.helpers.update_coordinator import (
     DataUpdateCoordinator,
 )
 
-from .const import CONST, FORMATS, TYPES  # , DOMAIN
+from .const import CONST, FORMATS, TYPES, CONF_DEVICE_POSTFIX  # , DOMAIN
 from .hpconst import DEVICES, TEMPRANGE_STD
 from .items import ModbusItem
 from .kennfeld import PowerMap
@@ -101,7 +101,7 @@ class MyCoordinator(DataUpdateCoordinator):
             # Name of the data. For logging purposes.
             name="weishaupt-coordinator",
             # Polling interval. Will only be polled if there are subscribers.
-            update_interval=timedelta(seconds=30),
+            update_interval=CONST.SCAN_INTERVAL,
             # Set always_update to `False` if the data returned from the
             # api can be compared via `__eq__` to avoid duplicate updates
             # being dispatched to listeners
@@ -239,8 +239,23 @@ class MyEntity:
         self._config_entry = config_entry
         self._modbus_item = modbus_item
         self._attr_name = self._modbus_item.name
-        self._attr_unique_id = CONST.PREFIX + self._modbus_item.name
-        self._dev_device = self._modbus_item.device
+
+        dev_postfix = ""
+        try:
+            dev_postfix = "_" + self._config_entry.data[CONF_DEVICE_POSTFIX]
+        except KeyError:
+            warnings.warn("Device postfix not defined, use default: ")
+
+        dev_prefix = CONST.DEF_PREFIX
+        try:
+            dev_prefix = "_" + self._config_entry.data[CONF_PREFIX]
+        except KeyError:
+            warnings.warn("Device prefix not defined, use default: " + CONST.DEF_PREFIX)
+
+        self._attr_unique_id = (
+            dev_prefix + self._modbus_item.name + dev_postfix
+        )  # CONST.PREFIX + self._modbus_item.name
+        self._dev_device = self._modbus_item.device + dev_postfix
         self._modbus_api = modbus_api
 
         if self._modbus_item._format != FORMATS.STATUS:
@@ -388,10 +403,11 @@ class MyCalcSensorEntity(MySensorEntity):
     """
 
     # calculates output from map
-    my_map = PowerMap()
+    my_map = None
 
     def __init__(self, config_entry, modbus_item, coordinator, idx) -> None:
         MySensorEntity.__init__(self, config_entry, modbus_item, coordinator, idx)
+        self.my_map = PowerMap(self._config_entry)
 
     @callback
     def _handle_coordinator_update(self) -> None:

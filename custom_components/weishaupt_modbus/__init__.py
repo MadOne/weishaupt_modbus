@@ -1,5 +1,7 @@
 """init."""
 
+import warnings
+
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 
@@ -39,6 +41,9 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     entry.runtime_data.close()
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
     if unload_ok:
-        hass.data[CONST.DOMAIN].pop(entry.entry_id)
+        try:
+            hass.data[CONST.DOMAIN].pop(entry.entry_id)
+        except KeyError:
+            warnings.warn("KeyError: " + CONST.DOMAIN)
 
     return unload_ok

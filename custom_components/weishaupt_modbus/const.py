@@ -12,17 +12,20 @@ from homeassistant.const import (
     UnitOfVolumeFlowRate,
 )
 
+CONF_DEVICE_POSTFIX = "Device-Postfix"
+CONF_KENNFELD_FILE = "Kennfeld-File"
+
 
 @dataclass(frozen=True)
 class MainConstants:
     """Main constants."""
 
     DOMAIN = "weishaupt_modbus"
-    SCAN_INTERVAL = timedelta(minutes=1)
+    SCAN_INTERVAL = timedelta(seconds=30)
     UNIQUE_ID = "unique_id"
     APPID = 100
-    KENNFELDFILE = "weishaupt_wbb_kennfeld.json"
-    PREFIX = "weishaupt_wbb"
+    DEF_KENNFELDFILE = "weishaupt_wbb_kennfeld.json"
+    DEF_PREFIX = "weishaupt_wbb"
 
 
 CONST = MainConstants()

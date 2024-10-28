@@ -5,16 +5,22 @@ from typing import Any
 import voluptuous as vol
 
 from homeassistant import config_entries, exceptions
-from homeassistant.const import CONF_HOST, CONF_PORT
+from homeassistant.const import CONF_HOST, CONF_PORT, CONF_PREFIX
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
 
 # from . import wp
-from .const import CONST
+from .const import CONST, CONF_DEVICE_POSTFIX, CONF_KENNFELD_FILE
 
 # DATA_SCHEMA = vol.Schema({("host"): str, ("port"): cv.port})
 DATA_SCHEMA = vol.Schema(
-    {vol.Required(CONF_HOST): str, vol.Optional(CONF_PORT, default="502"): cv.port}
+    {
+        vol.Required(CONF_HOST): str,
+        vol.Optional(CONF_PORT, default="502"): cv.port,
+        vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
+        vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
+        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
+    }
 )
 
 
