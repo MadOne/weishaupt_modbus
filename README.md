@@ -7,11 +7,10 @@ MadOne and OStrama are working together on this version.
 ## For users of MadOne's original weishaupt_modbus integration:
  * When doing nothing than simply installing the integration, the long term statistics will be split into new entities,
    since the sensor domain is different.
- * To avoid this, edit the file "const.py" in the integration's directory as follows:
-   replace the string
-     PREFIX = "weishaupt_wbb"
-   by
-     PREFIX = "weishaupt_modbus"
+ * To avoid this, change the default prefix entry in the configuration dialog from
+     weishaupt_wbb
+   to
+     weishaupt_modbus
    please do not change the intents or any other parts of the file to avoid issues
 
 ## For users of OStrama's weishaupt_wbb integration:
@@ -61,12 +60,18 @@ custom_components
 ```
 ## Configuration
 
-![Bildschirmfoto vom 2024-07-31 21-46-18](https://github.com/user-attachments/assets/45ad403e-c721-40bd-b723-95fe05fca5c5)
+![image](https://github.com/user-attachments/assets/8549938f-a059-4a92-988c-ba329f3cd758)
 
-Just enter the IP of your Weishaupt heatpump. Port should be ok at default unless you changed it in the Heatpump configuration.
+The only mandatory parameter is the IP-Address of your heatpump. The port should be ok at default unless you changed it in the Heatpump configuration.
+
+The "prefix" should only be changed when migrating from MadOnes original integration to this one to avoid splitting of sensor history
+
+The "Device Postfix" has a default value of "". It can be used to add multiple heat pumps to one home assistant. For compatibility this should be left empty. If you want to add another heat pump, use a name that help to identify the devices.
+
+The "Kennfeld-File" can be choosen to read in the right power mapping according to your type of heat pump:
 
 The heat power "Wärmeleistung" is calculated from the "Leistungsanforderung" in dependency of outside temperature and water temperature. 
-This is type specific. The data stored in the integration fit to a WBB 12. If you have another heat pump please update the "weishaupt_wbb_kennfeld.json" file according to the graphs foudn in the documentation of your heat pump. In the given file the data have been read out from the graphs found in the documentation in a manual way.
+This is type specific. The data stored in the integration fit to a WBB 12. If the file you've parameterized does not exist, the integration will create a file that fits for a WBB12. If you have another heat pump please update the Kennfeld-File file according to the graphs found in the documentation of your heat pump and restart Home Assistant. In the given file the data have been read out from the graphs found in the documentation in a manual way.
 
 
 You have to enable modbus in your heatpump settings. 
