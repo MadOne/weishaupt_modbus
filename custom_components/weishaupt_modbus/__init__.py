@@ -44,6 +44,6 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         try:
             hass.data[CONST.DOMAIN].pop(entry.entry_id)
         except KeyError:
-            warnings.warn("KeyError: " + CONST.DOMAIN)
+            warnings.warn("KeyError: " + str(CONST.DOMAIN))
 
     return unload_ok

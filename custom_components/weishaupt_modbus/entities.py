@@ -1,7 +1,6 @@
 """Build entitiy List and Update Coordinator."""
 
 import asyncio
-from datetime import timedelta
 import logging
 import warnings
 
@@ -14,7 +13,7 @@ from homeassistant.components.sensor import (
     SensorEntity,
     SensorStateClass,
 )
-from homeassistant.const import CONF_PORT, CONF_PREFIX, CONF_DOMAIN
+from homeassistant.const import CONF_PORT, CONF_PREFIX
 from homeassistant.core import callback
 from homeassistant.helpers.device_registry import DeviceInfo
 
@@ -61,7 +60,8 @@ async def build_entity_list(entries, config_entry, modbusitems, item_type, coord
                 is True
             ):
                 match item_type:
-                    # here the entities are created with the parameters provided by the ModbusItem object
+                    # here the entities are created with the parameters provided
+                    # by the ModbusItem object
                     case TYPES.SENSOR | TYPES.NUMBER_RO:
                         entries.append(
                             MySensorEntity(
@@ -157,7 +157,8 @@ class MyCoordinator(DataUpdateCoordinator):
         for index in to_update:
             item = self._modbusitems[index]
             match item.type:
-                # here the entities are created with the parameters provided by the ModbusItem object
+                # here the entities are created with the parameters provided
+                # by the ModbusItem object
                 case TYPES.SENSOR | TYPES.NUMBER_RO | TYPES.NUMBER | TYPES.SELECT:
                     await self.get_value(item)
                 case TYPES.SENSOR_CALC:
@@ -242,10 +243,12 @@ class MyEntity:
 
         dev_postfix = ""
         try:
-            dev_postfix = self._config_entry.data[CONF_DEVICE_POSTFIX]
-            dev_postfix = "_" + dev_postfix
+            dev_postfix = "_" + self._config_entry.data[CONF_DEVICE_POSTFIX]
         except KeyError:
             warnings.warn("Device postfix not defined, use default: ")
+
+        if dev_postfix == "_":
+            dev_postfix = ""
 
         dev_prefix = CONST.DEF_PREFIX
         try:
