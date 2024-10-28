@@ -265,12 +265,17 @@ class MyEntity:
         if self._modbus_item._format != FORMATS.STATUS:
             self._attr_native_unit_of_measurement = self._modbus_item._format
 
-            if self._modbus_item._format == FORMATS.ENERGY:
-                self._attr_state_class = SensorStateClass.TOTAL_INCREASING
-            if self._modbus_item._format == FORMATS.TEMPERATUR:
-                self._attr_state_class = SensorStateClass.MEASUREMENT
-            if self._modbus_item._format == FORMATS.POWER:
-                self._attr_state_class = SensorStateClass.MEASUREMENT
+            match self._modbus_item._format:
+                case FORMATS.ENERGY:
+                    self._attr_state_class = SensorStateClass.TOTAL_INCREASING
+                case (
+                    FORMATS.TEMPERATUR
+                    | FORMATS.POWER
+                    | FORMATS.PERCENTAGE
+                    | FORMATS.TIME_H
+                    | FORMATS.TIME_MIN
+                ):
+                    self._attr_state_class = SensorStateClass.MEASUREMENT
 
             if self._modbus_item.resultlist is not None:
                 self._attr_native_min_value = self._modbus_item.getNumberFromText("min")
