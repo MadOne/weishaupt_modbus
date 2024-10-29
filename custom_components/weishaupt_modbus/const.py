@@ -45,6 +45,7 @@ class FormatConstants:
     KENNLINIE = "Stg."
     TIME_MIN = UnitOfTime.MINUTES
     TIME_H = UnitOfTime.HOURS
+    UNKNOWN = "?"
 
 
 FORMATS = FormatConstants()

@@ -262,6 +262,7 @@ class MyEntity:
                     | FORMATS.PERCENTAGE
                     | FORMATS.TIME_H
                     | FORMATS.TIME_MIN
+                    | FORMATS.UNKNOWN
                 ):
                     self._attr_state_class = SensorStateClass.MEASUREMENT
 
@@ -312,6 +313,8 @@ class MyEntity:
                 return self.calc_percentage(val)
             case FORMATS.STATUS:
                 return self._modbus_item.getTextFromNumber(val)
+            case FORMATS.UNKNOWN:
+                return int(val)
             case _:
                 return int(val) / self._divider
 

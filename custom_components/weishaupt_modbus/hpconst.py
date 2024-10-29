@@ -22,6 +22,7 @@ class DeviceConstants:
     HZ5 = "Heizkreis5"
     W2 = "2. Wärmeerzeuger"
     ST = "Statistik"
+    UK = "Unknown"
 
 
 DEVICES = DeviceConstants()
@@ -453,5 +454,14 @@ MODBUS_SYS_ITEMS = [
     ModbusItem( 36702, "Elektr. Energie gestern", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
     ModbusItem( 36703, "Elektr. Energie Monat", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
     ModbusItem( 36704, "Elektr. Energie Jahr", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
+
+    ModbusItem( 31106, "Adr. 31106", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.UK),
+    ModbusItem( 33106, "Adr. 33106", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.UK),
+    ModbusItem( 33107, "Adr. 33107", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.UK),
+    ModbusItem( 33110, "Adr. 33110", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.UK),
+    ModbusItem( 33111, "Adr. 33111", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.UK),
+    ModbusItem( 36801, "Adr. 36801", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.UK),
+
+
 ] # noqa: E501
 # fmt: on
