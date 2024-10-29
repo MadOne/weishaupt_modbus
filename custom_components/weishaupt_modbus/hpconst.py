@@ -226,6 +226,14 @@ WW_KONFIGURATION = [
     StatusItem(2, "Pumpe"),
 ]
 
+HP_KONFIGURATION = [
+    StatusItem(0, "Ncht konfiguriert"),
+    StatusItem(1, "Heizen verfügbar"),
+    StatusItem(2, "Heizen, Kühlen verfügbar"),
+    StatusItem(3, "Heizen, Kühlen, Warmwasser verfügbar"),
+    StatusItem(4, "Heizen, Warmwasser verfügbar"),
+]
+
 WW_PUSH = [
     StatusItem(0, "AUS"),
 ]
@@ -350,7 +358,7 @@ MODBUS_SYS_ITEMS = [
     ModbusItem( 33103, "Wärmeleistung", FORMATS.POWER, TYPES.SENSOR_CALC, DEVICES.WP, RANGE_CALCPOWER),
     ModbusItem( 33104, "Vorlauftemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WP, TEMPRANGE_STD),
     ModbusItem( 33105, "Rücklauftemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR,  DEVICES.WP, TEMPRANGE_STD),
-    ModbusItem( 43101, "Konfiguration ", FORMATS.NUMBER, TYPES.NUMBER_RO, DEVICES.WP),
+    ModbusItem( 43101, "Konfiguration ", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.WP, HP_KONFIGURATION),
     ModbusItem( 43102, "Ruhemodus", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.WP, HP_RUHEMODUS),
     ModbusItem( 43103, "Pumpe Einschaltart", FORMATS.NUMBER, TYPES.NUMBER_RO, DEVICES.WP ),
     ModbusItem( 43104, "Pumpe Leistung Heizen", FORMATS.PERCENTAGE, TYPES.NUMBER_RO, DEVICES.WP, RANGE_PERCENTAGE),

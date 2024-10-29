@@ -97,7 +97,6 @@ class ModbusObject:
         """
         self._modbus_item = modbus_item
         self._modbus_client = modbus_api.get_device()
-        # await self._modbus_client.connect()
 
     def check_valid(self, val):
         """Checks if item is available and valid"""
@@ -122,10 +121,8 @@ class ModbusObject:
                 self._modbus_item.is_invalid = True
             case 32768:
                 # Dont know. Whats this?
-                # print("Sensor not installed: " + self._modbus_item.name)
                 self._modbus_item.is_invalid = True
             case _:
-                # print("Sensor OK " + self._modbus_item.name + " " + str(val))
                 self._modbus_item.is_invalid = False
 
     def check_percentage(self, val):
