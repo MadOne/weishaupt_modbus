@@ -37,7 +37,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry):
     """Migrate old entry."""
     warnings.warn("Check if migration of config entries is necessary.")
-    if config_entry.version > 1:
+    if config_entry.version > 2:
         # This means the user has downgraded from a future version
         return False
 
