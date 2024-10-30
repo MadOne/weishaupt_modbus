@@ -26,7 +26,7 @@ async def async_setup_entry(
 
     entries = []
 
-    for index, item in enumerate(ITEMLISTS):
+    for _useless, item in enumerate(ITEMLISTS):
         coordinator = MyCoordinator(hass, _modbus_api, item)
         await coordinator.async_config_entry_first_refresh()
 
