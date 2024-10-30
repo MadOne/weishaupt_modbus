@@ -3,7 +3,6 @@
     "config": {
       "step": {
         "user": {
-          "Title": "Configuration of heat pump",
           "data": {
             "host": "Host of the modbus interface",
             "port": "Port of modbus interface",
