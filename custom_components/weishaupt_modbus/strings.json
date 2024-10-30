@@ -3,7 +3,6 @@
     "config": {
       "step": {
         "user": {
-          "Title": "Konfiguration der Wärmepumpe",
           "data": {
             "Host": "Host!",
             "Port": "Port",
