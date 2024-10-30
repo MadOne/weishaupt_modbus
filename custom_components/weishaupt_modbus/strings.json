@@ -1,13 +1,19 @@
 {
+    "title" : "Weishaupt Wärmepumpe",
     "config": {
       "step": {
         "user": {
+          "Title": "Konfiguration der Wärmepumpe",
           "data": {
-            "host": "Host!",
-            "port": "Port",
-            "prefix": "Prefix",
-            "device_postfix": "Device postfix",
-            "kennfeld_file": "Filename Kennfeld"
+            "Host": "Host!",
+            "Port": "Port",
+            "Prefix": "Prefix",
+            "Device-Postfix": "Device postfix",
+            "Kennfeld-File": "Filename Kennfeld",
+            "Heizkreis 2" : "2. Heizkreis",
+            "Heizkreis 3" : "3. Heizkreis",
+            "Heizkreis 4" : "4. Heizkreis",
+            "Heizkreis 5" : "5. Heizkreis"
 
           }
         }

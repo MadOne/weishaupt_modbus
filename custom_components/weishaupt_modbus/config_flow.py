@@ -87,6 +87,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
         # actually create the HA config entry. Note the "title" value is returned by
         # `validate_input` above.
         errors = {}
+        info = None
         if user_input is not None:
             try:
                 info = await validate_input(self.hass, user_input)
