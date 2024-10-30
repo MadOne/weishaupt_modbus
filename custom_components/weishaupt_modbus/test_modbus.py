@@ -7,7 +7,7 @@ from pymodbus.client import AsyncModbusTcpClient as AsyncModbusTcpClient
 
 async def main():
     pymodbus_apply_logging_config("DEBUG")
-    host = "10.10.1.225"
+    host = "192.168.42.144"  # 10.10.1.225"
     port = 502
     client = ModbusClient.AsyncModbusTcpClient(
         host,
@@ -43,48 +43,65 @@ async def main():
     file.write("Binary in: \n\n")
 
     for register in binary_in:
+        writeit = False
         try:
             rr = await client.read_coils(register, 1, slave=1)
-            if len(rr.registers) > 0:
-                val = rr.registers[0]
         except ModbusException as exc:
             val = exc
         if rr.isError():
             val = rr
-        if isinstance(rr, ExceptionResponse):
+            writeit = False
+        elif isinstance(rr, ExceptionResponse):
             val = rr
+            writeit = False
+        elif len(rr.registers) > 0:
+            val = rr.registers[0]
+            writeit = True
 
-        file.write(str(register) + ";" + str(val) + "\n")
+        if writeit is True:
+            file.write(str(register) + ";" + str(val) + "\n")
 
     file.write("Input Register: \n\n")
 
     for register in input_register:
+        writeit = False
         try:
             rr = await client.read_input_registers(register, slave=1)
-            if len(rr.registers) > 0:
-                val = rr.registers[0]
         except ModbusException as exc:
             val = exc
         if rr.isError():
             val = rr
-        if isinstance(rr, ExceptionResponse):
+            writeit = False
+        elif isinstance(rr, ExceptionResponse):
             val = rr
+            writeit = False
+        elif len(rr.registers) > 0:
+            val = rr.registers[0]
+            writeit = True
 
-        file.write(str(register) + ";" + str(val) + "\n")
+        if writeit is True:
+            file.write(str(register) + ";" + str(val) + "\n")
+
+    file.write("Holding Register: \n\n")
 
     for register in holding_register:
+        writeit = False
         try:
             rr = await client.read_holding_registers(register, slave=1)
-            if len(rr.registers) > 0:
-                val = rr.registers[0]
         except ModbusException as exc:
             val = exc
         if rr.isError():
             val = rr
-        if isinstance(rr, ExceptionResponse):
+            writeit = False
+        elif isinstance(rr, ExceptionResponse):
             val = rr
+            writeit = False
+        elif len(rr.registers) > 0:
+            val = rr.registers[0]
+            writeit = True
 
-        file.write(str(register) + ";" + str(val) + "\n")
+        if writeit is True:
+            file.write(str(register) + ";" + str(val) + "\n")
 
     client.close()
 

@@ -9,7 +9,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 # from time import gmtime, strftime
 from .const import TYPES
-from .hpconst import MODBUS_SYS_ITEMS
+from .hpconst import ITEMLISTS
 from .entities import build_entity_list, MyCoordinator
 # from .modbusobject import ModbusAPI
 
@@ -23,14 +23,18 @@ async def async_setup_entry(
 ) -> None:
     """Set up the sensor platform."""
     _modbus_api = config_entry.runtime_data
-    coordinator = MyCoordinator(hass, _modbus_api, MODBUS_SYS_ITEMS)
-    await coordinator.async_config_entry_first_refresh()
 
     entries = []
 
+    for index, item in enumerate(ITEMLISTS):
+        coordinator = MyCoordinator(hass, _modbus_api, item)
+        await coordinator.async_config_entry_first_refresh()
+
+        entries = await build_entity_list(
+            entries, config_entry, item, TYPES.NUMBER, coordinator
+        )
+
     async_add_entities(
-        await build_entity_list(
-            entries, config_entry, MODBUS_SYS_ITEMS, TYPES.NUMBER, coordinator
-        ),
+        entries,
         update_before_add=True,
     )

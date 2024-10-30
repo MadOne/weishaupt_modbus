@@ -7,7 +7,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import TYPES
-from .hpconst import MODBUS_SYS_ITEMS
+from .hpconst import ITEMLISTS
 from .entities import build_entity_list, MyCoordinator
 
 
@@ -20,20 +20,25 @@ async def async_setup_entry(
 ) -> None:
     """Set up the sensor platform."""
     _modbus_api = config_entry.runtime_data
-    coordinator = MyCoordinator(hass, _modbus_api, MODBUS_SYS_ITEMS)
-    await coordinator.async_config_entry_first_refresh()
 
     entries = []
 
-    entries = await build_entity_list(
-        entries, config_entry, MODBUS_SYS_ITEMS, TYPES.NUMBER_RO, coordinator
-    )
-    entries = await build_entity_list(
-        entries, config_entry, MODBUS_SYS_ITEMS, TYPES.SENSOR_CALC, coordinator
-    )
+    for index, item in enumerate(ITEMLISTS):
+        coordinator = MyCoordinator(hass, _modbus_api, item)
+        await coordinator.async_config_entry_first_refresh()
+
+        entries = await build_entity_list(
+            entries, config_entry, item, TYPES.NUMBER_RO, coordinator
+        )
+        entries = await build_entity_list(
+            entries, config_entry, item, TYPES.SENSOR_CALC, coordinator
+        )
+
+        entries = await build_entity_list(
+            entries, config_entry, item, TYPES.SENSOR, coordinator
+        )
+
     async_add_entities(
-        await build_entity_list(
-            entries, config_entry, MODBUS_SYS_ITEMS, TYPES.SENSOR, coordinator
-        ),
+        entries,
         update_before_add=True,
     )

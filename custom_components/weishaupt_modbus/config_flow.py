@@ -8,9 +8,18 @@ from homeassistant import config_entries, exceptions
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_PREFIX
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
+from homeassistant.config_entries import ConfigFlowResult
 
 # from . import wp
-from .const import CONST, CONF_DEVICE_POSTFIX, CONF_KENNFELD_FILE
+from .const import (
+    CONST,
+    CONF_DEVICE_POSTFIX,
+    CONF_KENNFELD_FILE,
+    CONF_HK2,
+    CONF_HK3,
+    CONF_HK4,
+    CONF_HK5,
+)
 
 # DATA_SCHEMA = vol.Schema({("host"): str, ("port"): cv.port})
 # The caption comes from strings.json / translations/en.json.
@@ -23,6 +32,10 @@ DATA_SCHEMA = vol.Schema(
         vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
         vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
         vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
+        vol.Optional(CONF_HK2, default=False): bool,
+        vol.Optional(CONF_HK3, default=False): bool,
+        vol.Optional(CONF_HK4, default=False): bool,
+        vol.Optional(CONF_HK5, default=False): bool,
     }
 )
 
@@ -58,7 +71,7 @@ async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
 class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
     """Class config flow."""
 
-    VERSION = 1
+    VERSION = 2
     # Pick one of the available connection classes in homeassistant/config_entries.py
     # This tells HA if it should be asking for updates, or it'll be notified of updates
     # automatically. This example uses PUSH, as the dummy hub will notify HA of

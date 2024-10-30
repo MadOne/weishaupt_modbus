@@ -1,7 +1,6 @@
 """Build entitiy List and Update Coordinator."""
 
 import asyncio
-from datetime import timedelta
 import logging
 import warnings
 
@@ -14,7 +13,7 @@ from homeassistant.components.sensor import (
     SensorEntity,
     SensorStateClass,
 )
-from homeassistant.const import CONF_PORT, CONF_PREFIX, CONF_DOMAIN
+from homeassistant.const import CONF_PORT, CONF_PREFIX
 from homeassistant.core import callback
 from homeassistant.helpers.device_registry import DeviceInfo
 
@@ -24,7 +23,16 @@ from homeassistant.helpers.update_coordinator import (
     DataUpdateCoordinator,
 )
 
-from .const import CONST, FORMATS, TYPES, CONF_DEVICE_POSTFIX  # , DOMAIN
+from .const import (
+    CONST,
+    FORMATS,
+    TYPES,
+    CONF_DEVICE_POSTFIX,
+    CONF_HK2,
+    CONF_HK3,
+    CONF_HK4,
+    CONF_HK5,
+)
 from .hpconst import DEVICES, TEMPRANGE_STD
 from .items import ModbusItem
 from .kennfeld import PowerMap
@@ -37,6 +45,22 @@ _LOGGER.setLevel(logging.WARNING)
 
 async def check_available(modbus_item, config_entry) -> bool:
     """function checks if item is valid and available"""
+    if config_entry.data[CONF_HK2] is False:
+        if modbus_item.device is DEVICES.HZ2:
+            return False
+
+    if config_entry.data[CONF_HK3] is False:
+        if modbus_item.device is DEVICES.HZ3:
+            return False
+
+    if config_entry.data[CONF_HK4] is False:
+        if modbus_item.device is DEVICES.HZ4:
+            return False
+
+    if config_entry.data[CONF_HK5] is False:
+        if modbus_item.device is DEVICES.HZ5:
+            return False
+
     _modbus_api = config_entry.runtime_data
     mbo = ModbusObject(_modbus_api, modbus_item)
     _useless = await mbo.value
@@ -61,7 +85,8 @@ async def build_entity_list(entries, config_entry, modbusitems, item_type, coord
                 is True
             ):
                 match item_type:
-                    # here the entities are created with the parameters provided by the ModbusItem object
+                    # here the entities are created with the parameters provided
+                    # by the ModbusItem object
                     case TYPES.SENSOR | TYPES.NUMBER_RO:
                         entries.append(
                             MySensorEntity(
@@ -136,8 +161,6 @@ class MyCoordinator(DataUpdateCoordinator):
         This method will be called automatically during
         coordinator.async_config_entry_first_refresh.
         """
-        # await self._modbus_api.connect()
-        #    self._device = self._modbus_api.get_device()
         await self.fetch_data()
 
     async def fetch_data(self, idx=None):
@@ -157,7 +180,8 @@ class MyCoordinator(DataUpdateCoordinator):
         for index in to_update:
             item = self._modbusitems[index]
             match item.type:
-                # here the entities are created with the parameters provided by the ModbusItem object
+                # here the entities are created with the parameters provided
+                # by the ModbusItem object
                 case TYPES.SENSOR | TYPES.NUMBER_RO | TYPES.NUMBER | TYPES.SELECT:
                     await self.get_value(item)
                 case TYPES.SENSOR_CALC:
@@ -196,8 +220,6 @@ class MyCoordinator(DataUpdateCoordinator):
             # Grab active context variables to limit data required to be fetched from API
             # Note: using context is not required if there is no need or ability to limit
             # data retrieved from API.
-            # listening_idx = set(self.async_contexts())
-            # return await self._modbus_api.fetch_data(listening_idx)
             try:
                 listening_idx = set(self.async_contexts())
                 return await self.fetch_data(listening_idx)
@@ -241,32 +263,33 @@ class MyEntity:
         self._attr_name = self._modbus_item.name
 
         dev_postfix = ""
-        try:
-            dev_postfix = "_" + self._config_entry.data[CONF_DEVICE_POSTFIX]
-        except KeyError:
-            warnings.warn("Device postfix not defined, use default: ")
+        dev_postfix = "_" + self._config_entry.data[CONF_DEVICE_POSTFIX]
+
+        if dev_postfix == "_":
+            dev_postfix = ""
 
         dev_prefix = CONST.DEF_PREFIX
-        try:
-            dev_prefix = "_" + self._config_entry.data[CONF_PREFIX]
-        except KeyError:
-            warnings.warn("Device prefix not defined, use default: " + CONST.DEF_PREFIX)
+        dev_prefix = self._config_entry.data[CONF_PREFIX]
 
-        self._attr_unique_id = (
-            dev_prefix + self._modbus_item.name + dev_postfix
-        )  # CONST.PREFIX + self._modbus_item.name
+        self._attr_unique_id = dev_prefix + self._modbus_item.name + dev_postfix
         self._dev_device = self._modbus_item.device + dev_postfix
         self._modbus_api = modbus_api
 
         if self._modbus_item._format != FORMATS.STATUS:
             self._attr_native_unit_of_measurement = self._modbus_item._format
 
-            if self._modbus_item._format == FORMATS.ENERGY:
-                self._attr_state_class = SensorStateClass.TOTAL_INCREASING
-            if self._modbus_item._format == FORMATS.TEMPERATUR:
-                self._attr_state_class = SensorStateClass.MEASUREMENT
-            if self._modbus_item._format == FORMATS.POWER:
-                self._attr_state_class = SensorStateClass.MEASUREMENT
+            match self._modbus_item._format:
+                case FORMATS.ENERGY:
+                    self._attr_state_class = SensorStateClass.TOTAL_INCREASING
+                case (
+                    FORMATS.TEMPERATUR
+                    | FORMATS.POWER
+                    | FORMATS.PERCENTAGE
+                    | FORMATS.TIME_H
+                    | FORMATS.TIME_MIN
+                    | FORMATS.UNKNOWN
+                ):
+                    self._attr_state_class = SensorStateClass.MEASUREMENT
 
             if self._modbus_item.resultlist is not None:
                 self._attr_native_min_value = self._modbus_item.getNumberFromText("min")
@@ -296,20 +319,6 @@ class MyEntity:
                 # to optimize
                 return int(val) / self._divider
 
-        # if val is None:
-        #    return None
-        # if val == -32768:
-        #    # No Sensor installed
-        #    return -1
-        # if val == -32767:
-        #    # Sensor broken
-        #    return -2
-        # if val == 32768:
-        #    # Dont know. Whats this?
-        #    return None
-        # if val in range(-500, 5000):
-        #    return int(val) / self._divider
-
     def calc_percentage(self, val: float):
         """Calculate percentage."""
         if val is None:
@@ -329,6 +338,8 @@ class MyEntity:
                 return self.calc_percentage(val)
             case FORMATS.STATUS:
                 return self._modbus_item.getTextFromNumber(val)
+            case FORMATS.UNKNOWN:
+                return int(val)
             case _:
                 return int(val) / self._divider
 
@@ -350,7 +361,6 @@ class MyEntity:
         await self._modbus_api.connect()
         mbo = ModbusObject(self._modbus_api, self._modbus_item)
         await mbo.setvalue(val)
-        # self._modbus_api.close()
 
     def my_device_info(self) -> DeviceInfo:
         """Build the device info."""
@@ -414,10 +424,6 @@ class MyCalcSensorEntity(MySensorEntity):
         """Handle updated data from the coordinator."""
         self._attr_native_value = self.translate_val(self._modbus_item.state)
         self.async_write_ha_state()
-
-    # async def async_update(self) -> None:
-    #    # the synching is done by the ModbusObject of the entity
-    #    self._attr_native_value = self.translate_val(0)
 
     def calc_power(self, val, x, y):
         """Calculate heating power from power map."""
@@ -486,14 +492,9 @@ class MyNumberEntity(CoordinatorEntity, NumberEntity, MyEntity):
 
     async def async_set_native_value(self, value: float) -> None:
         await self.set_translate_val(value)
-        # await self.coordinator.async_request_refresh()
         self._modbus_item.state = int(self.retranslate_val(value))
         self._attr_native_value = self.translate_val(self._modbus_item.state)
         self.async_write_ha_state()
-
-    # async def async_update(self) -> None:
-    #    # the synching is done by the ModbusObject of the entity
-    #    self._attr_native_value = self.translate_val(self._modbus_item.state)
 
     @property
     def device_info(self) -> DeviceInfo:
@@ -533,11 +534,6 @@ class MySelectEntity(CoordinatorEntity, SelectEntity, MyEntity):
         """Handle updated data from the coordinator."""
         self._attr_current_option = self.translate_val(self._modbus_item.state)
         self.async_write_ha_state()
-
-    # async def async_update(self) -> None:
-    #    # the synching is done by the ModbusObject of the entity
-    #    await self.coordinator.async_request_refresh()
-    #    self._attr_current_option = self.translate_val(self._modbus_item.state)
 
     @property
     def device_info(self) -> DeviceInfo:

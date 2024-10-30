@@ -4,8 +4,9 @@ import warnings
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.const import CONF_PREFIX
 
-from .const import CONST
+from .const import CONST, CONF_DEVICE_POSTFIX, CONF_KENNFELD_FILE
 from .modbusobject import ModbusAPI
 
 PLATFORMS: list[str] = [
@@ -33,6 +34,30 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     return True
 
 
+async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry):
+    """Migrate old entry."""
+    warnings.warn("Check if migration of config entries is necessary.")
+    if config_entry.version > 1:
+        # This means the user has downgraded from a future version
+        return False
+
+    if config_entry.version < 2:
+        warnings.warn("Version 1 detected")
+        new_data = {**config_entry.data}
+        warnings.warn("Minor version 1 detected")
+        new_data[CONF_PREFIX] = CONST.DEF_PREFIX
+        new_data[CONF_DEVICE_POSTFIX] = ""
+        new_data[CONF_KENNFELD_FILE] = CONST.DEF_KENNFELDFILE
+
+        warnings.warn("Update entries")
+
+        hass.config_entries.async_update_entry(
+            config_entry, data=new_data, minor_version=1, version=2
+        )
+
+    return True
+
+
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload entry."""
     # This is called when an entry/configured device is to be removed. The class
@@ -44,6 +69,6 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         try:
             hass.data[CONST.DOMAIN].pop(entry.entry_id)
         except KeyError:
-            warnings.warn("KeyError: " + CONST.DOMAIN)
+            warnings.warn("KeyError: " + str(CONST.DOMAIN))
 
     return unload_ok
