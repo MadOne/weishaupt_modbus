@@ -6,7 +6,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.const import CONF_PREFIX
 
-from .const import CONST, CONF_DEVICE_POSTFIX, CONF_KENNFELD_FILE
+from .const import CONST, CONF_DEVICE_POSTFIX, CONF_KENNFELD_FILE, CONF_HK2, CONF_HK3, CONF_HK4, CONF_HK5
 from .modbusobject import ModbusAPI
 
 PLATFORMS: list[str] = [
