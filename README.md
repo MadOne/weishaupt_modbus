@@ -26,7 +26,7 @@ This allows generic setup of all entities and a more easy completion of messages
 
 # Weishaupt_modbus
 
-This integration lets you monitor and controll your weishaupt heatpump through modbus.
+This integration lets you monitor and control your weishaupt heatpump through modbus.
 This is how it might look:
 ![image](https://github.com/user-attachments/assets/00e7b8fa-1779-428d-9361-7c66e228c2c6)
 
@@ -91,5 +91,5 @@ Option 1 is the savest but Option 2 enables you to connect to the heatpump from 
 **Netmask**: Select the netmask of your network. This will be **255.255.255.000** for you otherwise you would know the correct one ;)
 
 # Disclaimer
-The developers of this integration are not affiliated with Weishaupt. They have created the integration and provided it as open source in their spare time on the basis of publicly accessible information. 
+The developers of this integration are not affiliated with Weishaupt. They have created the integration as open source in their spare time on the basis of publicly accessible information. 
 The use of the integration is at the user's own risk and responsibility. The developers are not liable for any damages arising from the use of the integration.
