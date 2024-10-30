@@ -12,7 +12,10 @@
             "user": {
                 "data": {
                     "host": "Host",
-                    "port": "Port"
+                    "port": "Port",
+                    "prefix": "Prefix",
+                    "device_postfix": "Device postfix",
+                    "kennfeld_file": "Filename Kennfeld"
                 }
             }
         }
@@ -20,6 +23,7 @@
     "options": {
         "step": {
             "init": {
+
                 "data": {
                     "api_scan_interval": "Api scan interval (default = 300 sec)",
                     "language": "Language (default = en)",

@@ -3,8 +3,12 @@
       "step": {
         "user": {
           "data": {
-            "host": "Host",
-            "port": "Port"
+            "host": "Host!",
+            "port": "Port",
+            "prefix": "Prefix",
+            "device_postfix": "Device postfix",
+            "kennfeld_file": "Filename Kennfeld"
+
           }
         }
       },

@@ -13,6 +13,9 @@ import homeassistant.helpers.config_validation as cv
 from .const import CONST, CONF_DEVICE_POSTFIX, CONF_KENNFELD_FILE
 
 # DATA_SCHEMA = vol.Schema({("host"): str, ("port"): cv.port})
+# The caption comes from strings.json / translations/en.json.
+# strings.json can be processed into en.json with some HA commands.
+# did not find out how this works yet.
 DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_HOST): str,
