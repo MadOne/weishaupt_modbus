@@ -1,0 +1,42 @@
+{
+    "title" : "Weishaupt Wärmepumpe",
+    "config": {
+      "step": {
+        "user": {
+          "Title": "Konfiguration Wärmepumpe",
+          "data": {
+            "host": "Hostadresse Modbusinterface",
+            "port": "Port Modbusinterface",
+            "prefix": "Prefix für Kompatibiliotät mit früheren Versionen",
+            "Device-Postfix": "Postfix, um verschiedene Geräte zu unterscheiden",
+            "Kennfeld-File": "Name der Leistungs-Kennfelddatei",
+            "Heizkreis 2" : "2. Heizkreis hinzufügen",
+            "Heizkreis 3" : "3. Heizkreis hinzufügen",
+            "Heizkreis 4" : "4. Heizkreis hinzufügen",
+            "Heizkreis 5" : "5. Heizkreis hinzufügen"
+
+          }
+        }
+      },
+      "error": {
+        "cannot_connect": "Failed to connect",
+        "invalid_auth": "Invalid authentication",
+        "unknown": "Unexpected error"
+      },
+      "abort": {
+        "already_configured": "Account is already configured"
+      }
+    },
+    "options": {
+      "step": {
+        "init": {
+          "data": {
+            "scan_interval": "Web scraping interval (default = 1800 sec)",
+            "api_scan_interval": "Api scan interval (default = 300 sec)",
+            "language": "Language (default = de)",
+            "mode": "Mode(default = api)"
+          }
+        }
+      }
+    }
+  }

@@ -1,19 +1,19 @@
 {
-    "title" : "Weishaupt Wärmepumpe",
+    "title" : "Weishaupt heat pump",
     "config": {
       "step": {
         "user": {
-          "Title": "Konfiguration der Wärmepumpe",
+          "Title": "Configuration of heat pump",
           "data": {
-            "Host": "Host!",
-            "Port": "Port",
-            "Prefix": "Prefix",
-            "Device-Postfix": "Device postfix",
-            "Kennfeld-File": "Filename Kennfeld",
-            "Heizkreis 2" : "2. Heizkreis",
-            "Heizkreis 3" : "3. Heizkreis",
-            "Heizkreis 4" : "4. Heizkreis",
-            "Heizkreis 5" : "5. Heizkreis"
+            "host": "Host of the modbus interface",
+            "port": "Port of modbus interface",
+            "prefix": "Prefix for compatibility with former versions",
+            "Device-Postfix": "Device postfix to distinguish different heat pumps",
+            "Kennfeld-File": "Name of the power map file",
+            "Heizkreis 2" : "Enable 2nd heating circuit",
+            "Heizkreis 3" : "Enable 3rd heating circuit",
+            "Heizkreis 4" : "Enable 4th heating circuit",
+            "Heizkreis 5" : "Enable 5th heating circuit"
 
           }
         }
