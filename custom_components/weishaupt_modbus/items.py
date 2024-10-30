@@ -91,6 +91,11 @@ class ModbusItem:
         """Return address."""
         return self._address
 
+    @address.setter
+    def address(self, val):
+        """Return address."""
+        self._address = val
+
     @property
     def state(self):
         """Return state."""
@@ -104,6 +109,11 @@ class ModbusItem:
     def name(self):
         """Return name."""
         return self._name
+
+    @name.setter
+    def name(self, val):
+        """Return name."""
+        self._name = val
 
     @property
     def format(self):
@@ -120,13 +130,18 @@ class ModbusItem:
         """Return device."""
         return self._device
 
+    @device.setter
+    def device(self, val):
+        """Return device."""
+        self._device = val
+
     @property
     def resultlist(self):
         """Return resultlist."""
         return self._resultlist
 
     def getTextFromNumber(self, val):
-        """Get errortext from corespnding number."""
+        """Get errortext from coresponding number."""
         if self._resultlist is None:
             return None
         for index, item in enumerate(self._resultlist):

@@ -11,7 +11,15 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.config_entries import ConfigFlowResult
 
 # from . import wp
-from .const import CONST, CONF_DEVICE_POSTFIX, CONF_KENNFELD_FILE
+from .const import (
+    CONST,
+    CONF_DEVICE_POSTFIX,
+    CONF_KENNFELD_FILE,
+    CONF_HK2,
+    CONF_HK3,
+    CONF_HK4,
+    CONF_HK5,
+)
 
 # DATA_SCHEMA = vol.Schema({("host"): str, ("port"): cv.port})
 DATA_SCHEMA = vol.Schema(
@@ -21,6 +29,10 @@ DATA_SCHEMA = vol.Schema(
         vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
         vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
         vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
+        vol.Optional(CONF_HK2, default=False): bool,
+        vol.Optional(CONF_HK3, default=False): bool,
+        vol.Optional(CONF_HK4, default=False): bool,
+        vol.Optional(CONF_HK5, default=False): bool,
     }
 )
 

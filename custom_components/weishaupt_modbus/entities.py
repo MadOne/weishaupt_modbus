@@ -23,7 +23,16 @@ from homeassistant.helpers.update_coordinator import (
     DataUpdateCoordinator,
 )
 
-from .const import CONST, FORMATS, TYPES, CONF_DEVICE_POSTFIX  # , DOMAIN
+from .const import (
+    CONST,
+    FORMATS,
+    TYPES,
+    CONF_DEVICE_POSTFIX,
+    CONF_HK2,
+    CONF_HK3,
+    CONF_HK4,
+    CONF_HK5,
+)
 from .hpconst import DEVICES, TEMPRANGE_STD
 from .items import ModbusItem
 from .kennfeld import PowerMap
@@ -36,6 +45,22 @@ _LOGGER.setLevel(logging.WARNING)
 
 async def check_available(modbus_item, config_entry) -> bool:
     """function checks if item is valid and available"""
+    if config_entry.data[CONF_HK2] is False:
+        if modbus_item.device is DEVICES.HZ2:
+            return False
+
+    if config_entry.data[CONF_HK3] is False:
+        if modbus_item.device is DEVICES.HZ3:
+            return False
+
+    if config_entry.data[CONF_HK4] is False:
+        if modbus_item.device is DEVICES.HZ4:
+            return False
+
+    if config_entry.data[CONF_HK5] is False:
+        if modbus_item.device is DEVICES.HZ5:
+            return False
+
     _modbus_api = config_entry.runtime_data
     mbo = ModbusObject(_modbus_api, modbus_item)
     _useless = await mbo.value
@@ -336,7 +361,6 @@ class MyEntity:
         await self._modbus_api.connect()
         mbo = ModbusObject(self._modbus_api, self._modbus_item)
         await mbo.setvalue(val)
-        # self._modbus_api.close()
 
     def my_device_info(self) -> DeviceInfo:
         """Build the device info."""

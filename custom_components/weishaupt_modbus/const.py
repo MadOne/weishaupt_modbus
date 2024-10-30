@@ -14,6 +14,10 @@ from homeassistant.const import (
 
 CONF_DEVICE_POSTFIX = "Device-Postfix"
 CONF_KENNFELD_FILE = "Kennfeld-File"
+CONF_HK2 = "Heizkreis 2"
+CONF_HK3 = "Heizkreis 3"
+CONF_HK4 = "Heizkreis 4"
+CONF_HK5 = "Heizkreis 5"
 
 
 @dataclass(frozen=True)

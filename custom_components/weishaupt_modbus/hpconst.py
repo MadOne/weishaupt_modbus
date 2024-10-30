@@ -1,5 +1,7 @@
 """Heatpump constants."""
 
+import copy
+
 from dataclasses import dataclass
 
 from homeassistant.components.sensor import SensorDeviceClass
@@ -27,20 +29,236 @@ class DeviceConstants:
 
 DEVICES = DeviceConstants()
 
+
+@dataclass(frozen=True)
+class ItemLists:
+    """Device constants."""
+
+    SYS = "System"
+    WP = "Wärmepumpe"
+    WW = "Warmwasser"
+    HZ = "Heizkreis"
+    HZ2 = "Heizkreis2"
+    HZ3 = "Heizkreis3"
+    HZ4 = "Heizkreis4"
+    HZ5 = "Heizkreis5"
+    W2 = "2. Wärmeerzeuger"
+    ST = "Statistik"
+    UK = "Unknown"
+
+
 ##############################################################################################################################
 # Listen mit Fehlermeldungen, Warnmeldungen und Statustexte
 # Beschreibungstext ist ebenfalls möglich
 # class StatusItem(): def __init__(self, number, text, description = None):
 ##############################################################################################################################
 
+# fmt: off
 SYS_FEHLER = [
-    StatusItem(65535, "kein Fehler"),
-]
+    StatusItem(65535,'kein Fehler'),
+    StatusItem(1,'Kältemittelfühler Expansionsventil Eintritt (T1)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(2,'Luftansaugfühler (T2)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(3,'Wärmetauscherfühler AG Austritt (T3)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(4,'Verdichtersauggasfühler (T4)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(5,'EVI-Sauggasfühler (T5)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(6,'Kältemittelfühler IG Austritt (T6)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(7,'Ölsumpffühler (T7)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(8,'Expansionsventil EVI', 'Leitung prüfen, ggf. austauschen. Ggf. defektes Expansionsventil austauschen.'),
+    StatusItem(9,'Niederdrucksensor (P1)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(10,'Hochdrucksensor (P2)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(11,'Mitteldrucksensor (P3)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(12,'Expansionsventil Kühlen defekt', 'Leitung prüfen, ggf. austauschen. Expansionsventil austauschen.'),
+    StatusItem(13,'keine Kommunikation zum Inverter', 'Lastspannung am Verdichter und Inverter prüfen. & Verbindungsleitung Steuerplatine Kältesatz zu Inverter prüfen. & Ggf. defekte Steuerplatine Kältesatz austauschen.'),
+    StatusItem(14,'keine Kommunikation zum Außengerät', 'Verbindungsleitung zum Außengerät prüfen.'),
+    StatusItem(15,'Hochdruckschalter hat ausgelöst', 'Drücke im Kältekreis kontrollieren. Volumenstrom prüfen. & Verdrahtung prüfen. & Sicherstellen, dass die Einsatzgrenzen der Wärmepumpe eingehalten werden. & Kältekreis prüfen.'),
+    StatusItem(16,'Inverter gesperrt, da in den letzten 10 Stunden 10 Fehler aufgetreten sind', 'Spannungsversorgung mindestens 10 Minuten unterbrechen. Bei wiederholtem Auftreten Weishaupt-Kundendienst benachrichtigen.'),
+    StatusItem(17,'EEPROM Speicher-Fehler', 'Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(18,'keine Modbus-Kommunikation zwischen Regler EC und Steuerplatine Kältesatz', 'Modbus-Verbindung prüfen.'),
+    StatusItem(19,'durch Inverter-Alarm Wärmepumpe abgeschaltet', 'Bei wiederholtem Auftreten Weishaupt-Kundendienst benachrichtigen.'),
+    StatusItem(20,'Verdichter passt nicht zur Konfiguration', 'Verdichtertyp prüfen. & Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(21,'Niederdruck-Störung', 'Verdampfer auf Eisfreiheit prüfen. Funktion Ventilator prüfen. & Niederdrucksensor (P1) prüfen. Kältekreis prüfen.'),
+    StatusItem(22,'zu geringe Überhitzung', 'Wenn der Fehler wiederholt auftritt: Überhitzung prüfen. & Verdichtersauggasfühler (T4) prüfen. Niederdrucksensor (P1) prüfen. & Antrieb Expansionsventil prüfen. Kältekreis prüfen.'),
+    StatusItem(23,'zu hohe Überhitzung', 'Wenn der Fehler wiederholt auftritt: Überhitzung prüfen. & Verdichtersauggasfühler (T4) prüfen. Niederdrucksensor (P1) prüfen. & Antrieb Expansionsventil prüfen. Kältekreis prüfen.'),
+    StatusItem(24,'EVI zu hohe Überhitzung', 'Wenn der Fehler wiederholt auftritt: Kältekreis prüfen. & Lecksuche durchführen.'),
+    StatusItem(25,'Kältemittelmenge zu niedrig', 'Wenn der Fehler wiederholt auftritt: Kältekreis prüfen. & Lecksuche durchführen.'),
+    StatusItem(26,'Hochdruck-Störung', 'Wärmeabnahme prüfen. & Hohe Warmwasser-Solltemperaturen vermeiden. & Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Einstellung Überströmventil prüfen.'),
+    StatusItem(27,'Kondensationstemperatur zu niedrig', 'Der erwartete Betriebszustand wird bei hoher Außentemperatur und geringer Vorlauftemperatur nicht erreichen. & Anlage mit 2. Wärmeerzeuger hochheizen.'),
+    StatusItem(28,'Kondensationstemperatur zu hoch', 'Wärmeabnahme prüfen. Einstellung Überströmventil prüfen. Heizwasser-Volumenstrom prüfen.'),
+    StatusItem(29,'Verdampfungstemperatur zu niedrig', 'Verdampfer auf Eisfreiheit prüfen. Funktion Ventilator prüfen. & Kältekreis prüfen.'),
+    StatusItem(30,'Verdampfungstemperatur zu hoch', 'Die Einsatzgrenze der Wärmepumpe wurde überschritten. & Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird.'),
+    StatusItem(32,'Wärmepumpe nicht kompatibel', 'Spannungsversorgung Verdichter prüfen. Spannungsversorgung von den Klemmen zum Kältesatz prüfen. & Weishaupt-Kundendienst benachrichtigen.'),
+    StatusItem(33,'Regler EC hat keine Verbindung zum Erweiterungsmodul EM-HK', 'Verbindungsleitung zwischen Regler und Erweiterungsmodul prüfen.'),
+    StatusItem(40,'Volumenstrom zu gering', 'Mindestvolumenstrom beachten [Kap. 3.4.6]. Volumenstrom prüfen, ggf. erhöhen. & Leitung Volumenstromsensor (B10) prüfen. Volumenstromsensor (B10) prüfen, ggf. austauschen.'),
+    StatusItem(41,'Spreizung LWT/Rücklauf negativ / Vierwegeventil schaltet nach dem Abtauen nicht zurück; nach 3 Warnungen verriegelt die Anlage)', 'Volumenstrom anpassen. Pumpenleistung reduzieren. Vierwegeventil prüfen. & Ggf. Funktion deaktivieren.'),
+    StatusItem(43,'Ventilator blockiert', 'Verdampfer auf Eisfreiheit prüfen. Funktion Ventilator prüfen.'),
+    StatusItem(44,'Drehzahl Ventilator zu niedrig', 'Verdampfer auf Eisfreiheit prüfen. Funktion Ventilator prüfen.'),
+    StatusItem(47,'Kommunikation Regler EC zu Steuerplatine Kältesatz fehlerhaft', 'Leitung prüfen, ggf. austauschen.'),
+    StatusItem(50,'Außenfühler (B1) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(51,'Außenfühler (B1) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(52,'Weichenfühler (B2) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(53,'Weichenfühler (B2) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(54,'Warmwasserfühler (B3) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(55,'Warmwasserfühler (B3) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(56,'Vorlauffühler Verflüssiger (B4) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(57,'Vorlauffühler Verflüssiger (B4) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(58,'Vorlauffühler (B7) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(59,'Vorlauffühler (B7) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(60,'Rücklauffühler (B9) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(61,'Rücklauffühler (B9) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(64,'Pufferfühler (B11) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(65,'Pufferfühler (B11) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(66,'Mischerfühler regenerativ (B2.1) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(67,'Mischerfühler regenerativ (B2.1) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(70,'Vorlauffühler Zweiter Heizkreis (B6.2) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(71,'Vorlauffühler Zweiter Heizkreis (B6.2) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(72,'Fühler (T1.2) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(73,'Fühler (T1.2) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(74,'Fühler (T2.2) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(75,'Fühler (T2.2) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(90,'Analogeingang AE1 unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(91,'Analogeingang AE1 kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(92,'Analogeingang AE2 unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(93,'Analogeingang AE2 kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(94,'Analogeingang AE3 unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(95,'Analogeingang AE3 kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(101,'Wärmepumpe wird außerhalb der Einsatzgrenzen betrieben', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird, siehe W 26 bis W 30.'),
+    StatusItem(102,'maximale Abtauzeit überschritten', 'Bei exponiertem Aufstellungsort kann starker Wind zu dieser Warnung führen. Nach der Abtauung Verdampfer auf Eisfreiheit prüfen.'),
+    StatusItem(103,'Kommunikation Kältekreis fehlerhaft', 'Spannungsversorgung mindestens 10 Minuten unterbrechen. Bei wiederholtem Auftreten Weishaupt-Kundendienst benachrichtigen.'),
+    StatusItem(104,'Druckgastemperatur zu hoch', 'Wärmeabnahme prüfen. Kältekreis prüfen.'),
+    StatusItem(105,'Stromaufnahme vom Inverter zu hoch', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Verdichteranschluss am Inverter prüfen.'),
+    StatusItem(106,'Stromaufnahme zu hoch', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Spannungsversorgung prüfen (Netzspannung zu gering). & Drosselspulen in der 400 V Zuleitung zum Inverter prüfen.'),
+    StatusItem(107,'Gleichspannung am Inverter zu hoch', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Spannungsversorgung prüfen.'),
+    StatusItem(108,'Gleichspannung am Inverter zu niedrig', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Spannungsversorgung prüfen.'),
+    StatusItem(109,'Wärmepumpe wird außerhalb vom zulässigen Spannungsbereich betrieben', 'Spannungsversorgung prüfen.'),
+    StatusItem(110,'Wärmepumpe wird außerhalb vom zulässigen Spannungsbereich betrieben', 'Spannungsversorgung prüfen.'),
+    StatusItem(111,'Hochdruckschalter hat ausgelöst', 'Wärmeabnahme prüfen. & Einstellung vom Überströmventil prüfen. Stellung der Kugelhähne am Innenund Außengerät prüfen. & Drücke im Kältekreis kontrollieren. Volumenstrom kontrollieren. & Verdrahtung prüfen. & Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Kältekreis prüfen.'),
+    StatusItem(112,'Inverter ist überhitzt', 'Sicherstellen, dass: die Montagebedingungen für das Innengerät eingehalten werden & die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird & Weishaupt-Kundendienst benachrichtigen (Version der Steuerplatine Kältesatz RCC Modbus prüfen).'),
+    StatusItem(113,'Inverter ist überhitzt', 'Sicherstellen, dass: die Montagebedingungen für das Innengerät eingehalten werden & die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird & Weishaupt-Kundendienst benachrichtigen (Version der Steuerplatine Kältesatz RCC Modbus prüfen).'),
+    StatusItem(114,'Stellung vom Verdichtermotor kann nicht bestimmt werden', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Verdichteranschluss am Inverter prüfen.'),
+    StatusItem(117,'Gleichspannung am Inverter zu niedrig', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Spannungsversorgung prüfen.'),
+    StatusItem(118,'Strom zwischen Inverter und Verdichter ist zu hoch', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Verdichteranschluss am Inverter prüfen. Verdichter-Wicklungswiderstände messen.'),
+    StatusItem(119,'Stromaufnahme vom Verdichter zu hoch Zeitüberschreitung', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Verdichteranschluss am Inverter prüfen. Verdichter-Wicklungswiderstände messen.'),
+    StatusItem(120,'Invertertemperatur zu hoch', 'Sicherstellen, dass: die Montagebedingungen für das Innengerät eingehalten werden & die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird'),
+    StatusItem(121,'Spannung am Inverter zu gering', 'Spannung nach den Drosselspulen messen.'),
+    StatusItem(122,'Modbus-Konfigurationsfehler', 'Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(123,'keine Modbus-Verbindung', 'Modbus-Verbindung (Leitung und Stecker) zwischen Inverter und Steuerplatine Kältesatz prüfen. & Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(124,'Druckgastemperatur zu hoch', 'Wärmeabnahme prüfen. Kältekreis prüfen.'),
+    StatusItem(127,'Invertertemperatur zu hoch', 'Sicherstellen, dass: die Montagebedingungen für das Innengerät eingehalten werden & die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird'),
+    StatusItem(128,'Inverter ist überhitzt', 'Sicherstellen, dass: die Montagebedingungen für das Innengerät eingehalten werden & die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird & Weishaupt-Kundendienst benachrichtigen (Version der Steuerplatine Kältesatz RCC Modbus prüfen).'),
+    StatusItem(129,'Modbus-Kommunikation fehlerhaft', 'Modbus-Verbindung zwischen Inverter und Steuerplatine Kältesatz prüfen (Leitung und Stecker). & Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(130,'Modbus-Kommunikation fehlerhaft', 'Modbus-Verbindung zwischen Inverter und Steuerplatine Kältesatz prüfen (Leitung und Stecker). & Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(133,'Elektronikfehler', 'Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(135,'Hochdruckschalter defekt', 'Hochdruckschalter-Anschluss prüfen.'),
+    StatusItem(136,'Verdichter passt nicht zur Konfiguration', 'Verdichtertyp prüfen. & Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(137,'Hochdruckschalter passt nicht zur Konfiguration', 'Hochdruckschalter prüfen. Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(140,'Druckgastemperatur zu niedrig', 'Druckgasfühler (DT) und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(143,'Invertertemperatur zu niedrig', 'Kühlung am Inverter prüfen. Gerät neu starten.'),
+    StatusItem(144,'Drosselspulentemperatur zu niedrig', 'Sicherstellen, dass die Montagebedingungen für das Innengerät eingehalten werden.'),
+]  # noqa: E501
 
 SYS_WARNUNG = [
-    StatusItem(65535, "keine Warnung"),
-    StatusItem(32, "Fehler Kältesatz (32)"),
-]
+    StatusItem(65535,'kein Fehler'),
+    StatusItem(1,'Kältemittelfühler Expansionsventil Eintritt (T1)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(2,'Luftansaugfühler (T2)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(3,'Wärmetauscherfühler AG Austritt (T3)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(4,'Verdichtersauggasfühler (T4)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(5,'EVI-Sauggasfühler (T5)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(6,'Kältemittelfühler IG Austritt (T6)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(7,'Ölsumpffühler (T7)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(8,'Expansionsventil EVI', 'Leitung prüfen, ggf. austauschen. Ggf. defektes Expansionsventil austauschen.'),
+    StatusItem(9,'Niederdrucksensor (P1)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(10,'Hochdrucksensor (P2)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(11,'Mitteldrucksensor (P3)', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(12,'Expansionsventil Kühlen defekt', 'Leitung prüfen, ggf. austauschen. Expansionsventil austauschen.'),
+    StatusItem(13,'keine Kommunikation zum Inverter', 'Lastspannung am Verdichter und Inverter prüfen. & Verbindungsleitung Steuerplatine Kältesatz zu Inverter prüfen. & Ggf. defekte Steuerplatine Kältesatz austauschen.'),
+    StatusItem(14,'keine Kommunikation zum Außengerät', 'Verbindungsleitung zum Außengerät prüfen.'),
+    StatusItem(15,'Hochdruckschalter hat ausgelöst', 'Drücke im Kältekreis kontrollieren. Volumenstrom prüfen. & Verdrahtung prüfen. & Sicherstellen, dass die Einsatzgrenzen der Wärmepumpe eingehalten werden. & Kältekreis prüfen.'),
+    StatusItem(16,'Inverter gesperrt, da in den letzten 10 Stunden 10 Fehler aufgetreten sind', 'Spannungsversorgung mindestens 10 Minuten unterbrechen. Bei wiederholtem Auftreten Weishaupt-Kundendienst benachrichtigen.'),
+    StatusItem(17,'EEPROM Speicher-Fehler', 'Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(18,'keine Modbus-Kommunikation zwischen Regler EC und Steuerplatine Kältesatz', 'Modbus-Verbindung prüfen.'),
+    StatusItem(19,'durch Inverter-Alarm Wärmepumpe abgeschaltet', 'Bei wiederholtem Auftreten Weishaupt-Kundendienst benachrichtigen.'),
+    StatusItem(20,'Verdichter passt nicht zur Konfiguration', 'Verdichtertyp prüfen. & Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(21,'Niederdruck-Störung', 'Verdampfer auf Eisfreiheit prüfen. Funktion Ventilator prüfen. & Niederdrucksensor (P1) prüfen. Kältekreis prüfen.'),
+    StatusItem(22,'zu geringe Überhitzung', 'Wenn der Fehler wiederholt auftritt: Überhitzung prüfen. & Verdichtersauggasfühler (T4) prüfen. Niederdrucksensor (P1) prüfen. & Antrieb Expansionsventil prüfen. Kältekreis prüfen.'),
+    StatusItem(23,'zu hohe Überhitzung', 'Wenn der Fehler wiederholt auftritt: Überhitzung prüfen. & Verdichtersauggasfühler (T4) prüfen. Niederdrucksensor (P1) prüfen. & Antrieb Expansionsventil prüfen. Kältekreis prüfen.'),
+    StatusItem(24,'EVI zu hohe Überhitzung', 'Wenn der Fehler wiederholt auftritt: Kältekreis prüfen. & Lecksuche durchführen.'),
+    StatusItem(25,'Kältemittelmenge zu niedrig', 'Wenn der Fehler wiederholt auftritt: Kältekreis prüfen. & Lecksuche durchführen.'),
+    StatusItem(26,'Hochdruck-Störung', 'Wärmeabnahme prüfen. & Hohe Warmwasser-Solltemperaturen vermeiden. & Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Einstellung Überströmventil prüfen.'),
+    StatusItem(27,'Kondensationstemperatur zu niedrig', 'Der erwartete Betriebszustand wird bei hoher Außentemperatur und geringer Vorlauftemperatur nicht erreichen. & Anlage mit 2. Wärmeerzeuger hochheizen.'),
+    StatusItem(28,'Kondensationstemperatur zu hoch', 'Wärmeabnahme prüfen. Einstellung Überströmventil prüfen. Heizwasser-Volumenstrom prüfen.'),
+    StatusItem(29,'Verdampfungstemperatur zu niedrig', 'Verdampfer auf Eisfreiheit prüfen. Funktion Ventilator prüfen. & Kältekreis prüfen.'),
+    StatusItem(30,'Verdampfungstemperatur zu hoch', 'Die Einsatzgrenze der Wärmepumpe wurde überschritten. & Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird.'),
+    StatusItem(32,'Wärmepumpe nicht kompatibel', 'Spannungsversorgung Verdichter prüfen. Spannungsversorgung von den Klemmen zum Kältesatz prüfen. & Weishaupt-Kundendienst benachrichtigen.'),
+    StatusItem(33,'Regler EC hat keine Verbindung zum Erweiterungsmodul EM-HK', 'Verbindungsleitung zwischen Regler und Erweiterungsmodul prüfen.'),
+    StatusItem(40,'Volumenstrom zu gering', 'Mindestvolumenstrom beachten [Kap. 3.4.6]. Volumenstrom prüfen, ggf. erhöhen. & Leitung Volumenstromsensor (B10) prüfen. Volumenstromsensor (B10) prüfen, ggf. austauschen.'),
+    StatusItem(41,'Spreizung LWT/Rücklauf negativ / Vierwegeventil schaltet nach dem Abtauen nicht zurück; nach 3 Warnungen verriegelt die Anlage)', 'Volumenstrom anpassen. Pumpenleistung reduzieren. Vierwegeventil prüfen. & Ggf. Funktion deaktivieren.'),
+    StatusItem(43,'Ventilator blockiert', 'Verdampfer auf Eisfreiheit prüfen. Funktion Ventilator prüfen.'),
+    StatusItem(44,'Drehzahl Ventilator zu niedrig', 'Verdampfer auf Eisfreiheit prüfen. Funktion Ventilator prüfen.'),
+    StatusItem(47,'Kommunikation Regler EC zu Steuerplatine Kältesatz fehlerhaft', 'Leitung prüfen, ggf. austauschen.'),
+    StatusItem(50,'Außenfühler (B1) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(51,'Außenfühler (B1) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(52,'Weichenfühler (B2) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(53,'Weichenfühler (B2) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(54,'Warmwasserfühler (B3) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(55,'Warmwasserfühler (B3) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(56,'Vorlauffühler Verflüssiger (B4) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(57,'Vorlauffühler Verflüssiger (B4) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(58,'Vorlauffühler (B7) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(59,'Vorlauffühler (B7) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(60,'Rücklauffühler (B9) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(61,'Rücklauffühler (B9) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(64,'Pufferfühler (B11) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(65,'Pufferfühler (B11) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(66,'Mischerfühler regenerativ (B2.1) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(67,'Mischerfühler regenerativ (B2.1) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(70,'Vorlauffühler Zweiter Heizkreis (B6.2) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(71,'Vorlauffühler Zweiter Heizkreis (B6.2) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(72,'Fühler (T1.2) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(73,'Fühler (T1.2) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(74,'Fühler (T2.2) unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(75,'Fühler (T2.2) kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(90,'Analogeingang AE1 unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(91,'Analogeingang AE1 kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(92,'Analogeingang AE2 unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(93,'Analogeingang AE2 kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(94,'Analogeingang AE3 unterbrochen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(95,'Analogeingang AE3 kurzgeschlossen', 'Fühler und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(101,'Wärmepumpe wird außerhalb der Einsatzgrenzen betrieben', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird, siehe W 26 bis W 30.'),
+    StatusItem(102,'maximale Abtauzeit überschritten', 'Bei exponiertem Aufstellungsort kann starker Wind zu dieser Warnung führen. Nach der Abtauung Verdampfer auf Eisfreiheit prüfen.'),
+    StatusItem(103,'Kommunikation Kältekreis fehlerhaft', 'Spannungsversorgung mindestens 10 Minuten unterbrechen. Bei wiederholtem Auftreten Weishaupt-Kundendienst benachrichtigen.'),
+    StatusItem(104,'Druckgastemperatur zu hoch', 'Wärmeabnahme prüfen. Kältekreis prüfen.'),
+    StatusItem(105,'Stromaufnahme vom Inverter zu hoch', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Verdichteranschluss am Inverter prüfen.'),
+    StatusItem(106,'Stromaufnahme zu hoch', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Spannungsversorgung prüfen (Netzspannung zu gering). & Drosselspulen in der 400 V Zuleitung zum Inverter prüfen.'),
+    StatusItem(107,'Gleichspannung am Inverter zu hoch', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Spannungsversorgung prüfen.'),
+    StatusItem(108,'Gleichspannung am Inverter zu niedrig', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Spannungsversorgung prüfen.'),
+    StatusItem(109,'Wärmepumpe wird außerhalb vom zulässigen Spannungsbereich betrieben', 'Spannungsversorgung prüfen.'),
+    StatusItem(110,'Wärmepumpe wird außerhalb vom zulässigen Spannungsbereich betrieben', 'Spannungsversorgung prüfen.'),
+    StatusItem(111,'Hochdruckschalter hat ausgelöst', 'Wärmeabnahme prüfen. & Einstellung vom Überströmventil prüfen. Stellung der Kugelhähne am Innenund Außengerät prüfen. & Drücke im Kältekreis kontrollieren. Volumenstrom kontrollieren. & Verdrahtung prüfen. & Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Kältekreis prüfen.'),
+    StatusItem(112,'Inverter ist überhitzt', 'Sicherstellen, dass: die Montagebedingungen für das Innengerät eingehalten werden & die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird & Weishaupt-Kundendienst benachrichtigen (Version der Steuerplatine Kältesatz RCC Modbus prüfen).'),
+    StatusItem(113,'Inverter ist überhitzt', 'Sicherstellen, dass: die Montagebedingungen für das Innengerät eingehalten werden & die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird & Weishaupt-Kundendienst benachrichtigen (Version der Steuerplatine Kältesatz RCC Modbus prüfen).'),
+    StatusItem(114,'Stellung vom Verdichtermotor kann nicht bestimmt werden', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Verdichteranschluss am Inverter prüfen.'),
+    StatusItem(117,'Gleichspannung am Inverter zu niedrig', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Spannungsversorgung prüfen.'),
+    StatusItem(118,'Strom zwischen Inverter und Verdichter ist zu hoch', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Verdichteranschluss am Inverter prüfen. Verdichter-Wicklungswiderstände messen.'),
+    StatusItem(119,'Stromaufnahme vom Verdichter zu hoch Zeitüberschreitung', 'Sicherstellen, dass die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird. & Verdichteranschluss am Inverter prüfen. Verdichter-Wicklungswiderstände messen.'),
+    StatusItem(120,'Invertertemperatur zu hoch', 'Sicherstellen, dass: die Montagebedingungen für das Innengerät eingehalten werden & die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird'),
+    StatusItem(121,'Spannung am Inverter zu gering', 'Spannung nach den Drosselspulen messen.'),
+    StatusItem(122,'Modbus-Konfigurationsfehler', 'Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(123,'keine Modbus-Verbindung', 'Modbus-Verbindung (Leitung und Stecker) zwischen Inverter und Steuerplatine Kältesatz prüfen. & Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(124,'Druckgastemperatur zu hoch', 'Wärmeabnahme prüfen. Kältekreis prüfen.'),
+    StatusItem(127,'Invertertemperatur zu hoch', 'Sicherstellen, dass: die Montagebedingungen für das Innengerät eingehalten werden & die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird'),
+    StatusItem(128,'Inverter ist überhitzt', 'Sicherstellen, dass: die Montagebedingungen für das Innengerät eingehalten werden & die Wärmepumpe innerhalb der Einsatzgrenzen betrieben wird & Weishaupt-Kundendienst benachrichtigen (Version der Steuerplatine Kältesatz RCC Modbus prüfen).'),
+    StatusItem(129,'Modbus-Kommunikation fehlerhaft', 'Modbus-Verbindung zwischen Inverter und Steuerplatine Kältesatz prüfen (Leitung und Stecker). & Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(130,'Modbus-Kommunikation fehlerhaft', 'Modbus-Verbindung zwischen Inverter und Steuerplatine Kältesatz prüfen (Leitung und Stecker). & Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(133,'Elektronikfehler', 'Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(135,'Hochdruckschalter defekt', 'Hochdruckschalter-Anschluss prüfen.'),
+    StatusItem(136,'Verdichter passt nicht zur Konfiguration', 'Verdichtertyp prüfen. & Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(137,'Hochdruckschalter passt nicht zur Konfiguration', 'Hochdruckschalter prüfen. Spannungsversorgung mindestens 10 Minuten unterbrechen.'),
+    StatusItem(140,'Druckgastemperatur zu niedrig', 'Druckgasfühler (DT) und Leitung prüfen, ggf. austauschen.'),
+    StatusItem(143,'Invertertemperatur zu niedrig', 'Kühlung am Inverter prüfen. Gerät neu starten.'),
+    StatusItem(144,'Drosselspulentemperatur zu niedrig', 'Sicherstellen, dass die Montagebedingungen für das Innengerät eingehalten werden.'),
+]  # noqa: E501
+
+# fmt: on
 
 SYS_FEHLERFREI = [
     StatusItem(0, "Fehler aktiv"),
@@ -229,10 +447,10 @@ WW_KONFIGURATION = [
 
 HP_KONFIGURATION = [
     StatusItem(0, "Ncht konfiguriert"),
-    StatusItem(1, "Heizen verfügbar"),
-    StatusItem(2, "Heizen, Kühlen verfügbar"),
-    StatusItem(3, "Heizen, Kühlen, Warmwasser verfügbar"),
-    StatusItem(4, "Heizen, Warmwasser verfügbar"),
+    StatusItem(1, "Heizen"),
+    StatusItem(2, "Heizen, Kühlen"),
+    StatusItem(3, "Heizen, Kühlen, Warmwasser"),
+    StatusItem(4, "Heizen, Warmwasser"),
 ]
 
 WW_PUSH = [
@@ -353,12 +571,22 @@ MODBUS_SYS_ITEMS = [
     ModbusItem( 30005, "Fehlerfrei", FORMATS.STATUS, TYPES.SENSOR, DEVICES.SYS, SYS_FEHLERFREI),
     ModbusItem( 30006, "Betriebsanzeige", FORMATS.STATUS, TYPES.SENSOR, DEVICES.SYS, SYS_BETRIEBSANZEIGE),
     ModbusItem( 40001,  "Systembetriebsart", FORMATS.STATUS, TYPES.SELECT, DEVICES.SYS, SYS_BETRIEBSART),
+] # noqa: E501
+
+MODBUS_WP_ITEMS = [
     ModbusItem( 33101, "Betrieb", FORMATS.STATUS, TYPES.SENSOR, DEVICES.WP, HP_BETRIEB),
     ModbusItem( 33102, "Störmeldung", FORMATS.STATUS, TYPES.SENSOR, DEVICES.WP, HP_STOERMELDUNG),
     ModbusItem( 33103, "Leistungsanforderung", FORMATS.PERCENTAGE, TYPES.SENSOR, DEVICES.WP),
     ModbusItem( 33103, "Wärmeleistung", FORMATS.POWER, TYPES.SENSOR_CALC, DEVICES.WP, RANGE_CALCPOWER),
     ModbusItem( 33104, "Vorlauftemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WP, TEMPRANGE_STD),
     ModbusItem( 33105, "Rücklauftemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR,  DEVICES.WP, TEMPRANGE_STD),
+    ModbusItem( 33106, "Verdampfungstemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WP, TEMPRANGE_STD),
+    ModbusItem( 33107, "Verdichtersauggastemp", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WP, TEMPRANGE_STD),
+    ModbusItem( 33108, "Weichentemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WP),
+    ModbusItem( 33109, "Anforderung", FORMATS.PERCENTAGE, TYPES.SENSOR, DEVICES.WP),
+    ModbusItem( 33110, "Adr. 33110", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.WP),
+    ModbusItem( 33111, "Adr. 33111", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.WP),
+
     ModbusItem( 43101, "Konfiguration ", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.WP, HP_KONFIGURATION),
     ModbusItem( 43102, "Ruhemodus", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.WP, HP_RUHEMODUS),
     ModbusItem( 43103, "Pumpe Einschaltart", FORMATS.NUMBER, TYPES.NUMBER_RO, DEVICES.WP ),
@@ -369,12 +597,15 @@ MODBUS_SYS_ITEMS = [
     ModbusItem( 43108, "Volumenstrom Heizen", FORMATS.VOLUMENSTROM, TYPES.NUMBER_RO, DEVICES.WP, RANGE_FLOWRATE),
     ModbusItem( 43109, "Volumenstrom Kühlen", FORMATS.VOLUMENSTROM, TYPES.NUMBER_RO,  DEVICES.WP, RANGE_FLOWRATE),
     ModbusItem( 43110, "Volumenstrom Warmwasser", FORMATS.VOLUMENSTROM, TYPES.NUMBER_RO, DEVICES.WP, RANGE_FLOWRATE),
+] # noqa: E501
 
+MODBUS_HZ_ITEMS = [
     ModbusItem( 31101, "Raumsolltemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ, TEMPRANGE_ROOM),
     ModbusItem( 31102, "Raumtemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ, TEMPRANGE_ROOM),
     ModbusItem( 31103, "Raumfeuchte", FORMATS.PERCENTAGE, TYPES.SENSOR, DEVICES.HZ),
     ModbusItem( 31104, "Vorlaufsolltemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ, TEMPRANGE_STD),
     ModbusItem( 31105, "HZ_Vorlauftemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ, TEMPRANGE_STD),
+    ModbusItem( 31106, "Adr. 31106", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.HZ),
     ModbusItem( 41101, "HZ_Konfiguration", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.HZ, HZ_KONFIGURATION),
     ModbusItem( 41102, "Anforderung Typ", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.HZ, HZ_ANFORDERUNG),
     ModbusItem( 41103, "Betriebsart", FORMATS.STATUS, TYPES.SELECT, DEVICES.HZ, HZ_BETRIEBSART),
@@ -387,25 +618,45 @@ MODBUS_SYS_ITEMS = [
     ModbusItem( 41110, "Heizen Konstanttemperatur", FORMATS.TEMPERATUR, TYPES.NUMBER_RO, DEVICES.HZ, TEMPRANGE_ROOM),
     ModbusItem( 41111, "Heizen Konstanttemp Absenk", FORMATS.TEMPERATUR, TYPES.NUMBER_RO, DEVICES.HZ, TEMPRANGE_ROOM),
     ModbusItem( 41112, "Kühlen Konstanttemperatur", FORMATS.TEMPERATUR, TYPES.NUMBER_RO, DEVICES.HZ, TEMPRANGE_ROOM),
+] # noqa: E501
 
-    ModbusItem( 31201, "Raumsolltemperatur2", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ2, TEMPRANGE_ROOM),
-    ModbusItem( 31202, "Raumtemperatur2", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ2, TEMPRANGE_ROOM),
-    ModbusItem( 31203, "Raumfeuchte2", FORMATS.PERCENTAGE, TYPES.SENSOR, DEVICES.HZ2),
-    ModbusItem( 31204, "Vorlaufsolltemperatur2", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ2, TEMPRANGE_STD),
-    ModbusItem( 31205, "HZ_Vorlauftemperatur2", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ2, TEMPRANGE_STD),
-    ModbusItem( 41201, "HZ_Konfiguration2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.HZ2, HZ_KONFIGURATION),
-    ModbusItem( 41202, "Anforderung Typ2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.HZ2, HZ_ANFORDERUNG),
-    ModbusItem( 41203, "Betriebsart2", FORMATS.STATUS, TYPES.SELECT, DEVICES.HZ2, HZ_BETRIEBSART),
-    ModbusItem( 41204, "Pause / Party 2", FORMATS.STATUS, TYPES.SELECT, DEVICES.HZ2, HZ_PARTY_PAUSE),
-    ModbusItem( 41205, "Raumsolltemperatur Komfort2", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.HZ2, TEMPRANGE_ROOM),
-    ModbusItem( 41206, "Raumsolltemperatur Normal2", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.HZ2, TEMPRANGE_ROOM),
-    ModbusItem( 41207, "Raumsolltemperatur Absenk2", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.HZ2, TEMPRANGE_ROOM),
-    ModbusItem( 41208, "Heizkennlinie2", FORMATS.KENNLINIE, TYPES.NUMBER, DEVICES.HZ2, RANGE_HZKENNLINIE),
-    ModbusItem( 41209, "Sommer Winter Umschaltung2", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.HZ2, TEMPRANGE_ROOM),
-    ModbusItem( 41210, "Heizen Konstanttemperatur2", FORMATS.TEMPERATUR, TYPES.NUMBER_RO, DEVICES.HZ2, TEMPRANGE_ROOM),
-    ModbusItem( 41211, "Heizen Konstanttemp Absenk2", FORMATS.TEMPERATUR, TYPES.NUMBER_RO, DEVICES.HZ2, TEMPRANGE_ROOM),
-    ModbusItem( 41212, "Kühlen Konstanttemperatur2", FORMATS.TEMPERATUR, TYPES.NUMBER_RO, DEVICES.HZ2, TEMPRANGE_ROOM),
+# buils other Heizkreis Itemlists
+MODBUS_HZ2_ITEMS = []
+for index, item in enumerate(MODBUS_HZ_ITEMS):
+    mbi = copy.deepcopy(item)
+    mbi.address = item.address+100
+    mbi.name = item.name + "2"
+    mbi.device = DEVICES.HZ2
+    MODBUS_HZ2_ITEMS.append(mbi)  # noqa: PERF401
 
+# buils other Heizkreis Itemlists
+MODBUS_HZ3_ITEMS = []
+for index, item in enumerate(MODBUS_HZ_ITEMS):
+    mbi = copy.deepcopy(item)
+    mbi.address = item.address+200
+    mbi.name = item.name + "3"
+    mbi.device = DEVICES.HZ3
+    MODBUS_HZ3_ITEMS.append(mbi)  # noqa: PERF401
+
+# buils other Heizkreis Itemlists
+MODBUS_HZ4_ITEMS = []
+for index, item in enumerate(MODBUS_HZ_ITEMS):
+    mbi = copy.deepcopy(item)
+    mbi.address = item.address+300
+    mbi.name = item.name + "4"
+    mbi.device = DEVICES.HZ4
+    MODBUS_HZ4_ITEMS.append(mbi)  # noqa: PERF401
+
+# buils other Heizkreis Itemlists
+MODBUS_HZ5_ITEMS = []
+for index, item in enumerate(MODBUS_HZ_ITEMS):
+    mbi = copy.deepcopy(item)
+    mbi.address = item.address+400
+    mbi.name = item.name + "5"
+    mbi.device = DEVICES.HZ5
+    MODBUS_HZ5_ITEMS.append(mbi)  # noqa: PERF401
+
+MODBUS_WW_ITEMS = [
     ModbusItem( 32101, "Warmwassersolltemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WW, TEMPRANGE_WATER),
     ModbusItem( 32102, "Warmwassertemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WW, TEMPRANGE_WATER),
     ModbusItem( 42101, "WW_Konfiguration", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.WW, WW_KONFIGURATION),
@@ -413,19 +664,23 @@ MODBUS_SYS_ITEMS = [
     ModbusItem( 42103, "Warmwasser Normal", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.WW, TEMPRANGE_WATER),
     ModbusItem( 42104, "Warmwasser Absenk", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.WW, TEMPRANGE_WATER),
     ModbusItem( 42105, "SG Ready Anhebung", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.WW, TEMPRANGE_SGREADY),
+] # noqa: E501
 
+MODBUS_W2_ITEMS = [
     ModbusItem( 34101, "Status 2. WEZ", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS),
     ModbusItem( 34102, "Schaltspiele E-Heizung 1", FORMATS.NUMBER, TYPES.SENSOR, DEVICES.W2),
-    ModbusItem( 34103, "Schaltspiele E-Heizung 2", FORMATS.NUMBER, TYPES.SENSOR, DEVICES.W2),
+    ModbusItem( 34103, "Betriebsstunden E1", FORMATS.NUMBER, TYPES.SENSOR, DEVICES.W2),
     ModbusItem( 34104, "Status E-Heizung 1", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS),
     ModbusItem( 34105, "Status E-Heizung 2", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS),
-    ModbusItem( 34106, "Betriebsstunden E1", FORMATS.TIME_H, TYPES.SENSOR, DEVICES.W2),
+    ModbusItem( 34106, "Schaltspiele E-Heizung 2", FORMATS.TIME_H, TYPES.SENSOR, DEVICES.W2),
     ModbusItem( 34107, "Betriebsstunden E2", FORMATS.TIME_H, TYPES.SENSOR, DEVICES.W2),
     ModbusItem( 44101, "W2_Konfiguration", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_KONFIG),
     ModbusItem( 44102, "Grenztemperatur", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.W2, TEMPRANGE_BIVALENZ),
     ModbusItem( 44103, "Bivalenztemperatur", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.W2, TEMPRANGE_BIVALENZ),
     ModbusItem( 44104, "Bivalenztemperatur WW", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.W2, TEMPRANGE_BIVALENZ),
+] # noqa: E501
 
+MODBUS_ST_ITEMS = [
     ModbusItem( 36101, "Gesamt Energie heute", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
     ModbusItem( 36102, "Gesamt Energie gestern", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
     ModbusItem( 36103, "Gesamt Energie Monat", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
@@ -454,14 +709,20 @@ MODBUS_SYS_ITEMS = [
     ModbusItem( 36702, "Elektr. Energie gestern", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
     ModbusItem( 36703, "Elektr. Energie Monat", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
     ModbusItem( 36704, "Elektr. Energie Jahr", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-
-    ModbusItem( 31106, "Adr. 31106", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.UK),
-    ModbusItem( 33106, "Adr. 33106", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.UK),
-    ModbusItem( 33107, "Adr. 33107", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.UK),
-    ModbusItem( 33110, "Adr. 33110", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.UK),
-    ModbusItem( 33111, "Adr. 33111", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.UK),
-    ModbusItem( 36801, "Adr. 36801", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.UK),
-
-
+    ModbusItem( 36801, "Adr. 36801", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.ST),
 ] # noqa: E501
+
+ITEMLISTS = [
+    MODBUS_SYS_ITEMS,
+    MODBUS_WP_ITEMS,
+    MODBUS_WW_ITEMS,
+    MODBUS_HZ_ITEMS,
+    MODBUS_HZ2_ITEMS,
+    MODBUS_HZ3_ITEMS,
+    MODBUS_HZ4_ITEMS,
+    MODBUS_HZ5_ITEMS,
+    MODBUS_W2_ITEMS,
+    MODBUS_ST_ITEMS,
+]
+
 # fmt: on
