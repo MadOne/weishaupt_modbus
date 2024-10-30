@@ -94,9 +94,15 @@ async def build_entity_list(entries, config_entry, modbusitems, item_type, coord
                             )
                         )
                     case TYPES.SENSOR_CALC:
+                        pwrmap = PowerMap(config_entry)
+                        await pwrmap.initialize()
                         entries.append(
                             MyCalcSensorEntity(
-                                config_entry, modbusitems[index], coordinator, index
+                                config_entry,
+                                modbusitems[index],
+                                coordinator,
+                                index,
+                                pwrmap,
                             )
                         )
                     case TYPES.SELECT:
@@ -384,7 +390,7 @@ class MySensorEntity(CoordinatorEntity, SensorEntity, MyEntity):
     _attr_device_class = None
     _attr_state_class = None
 
-    def __init__(self, config_entry, modbus_item, coordinator=None, idx=None) -> None:
+    def __init__(self, config_entry, modbus_item, coordinator, idx) -> None:
         super().__init__(coordinator, context=idx)
         self.idx = idx
         MyEntity.__init__(self, config_entry, modbus_item, coordinator._modbus_api)
@@ -415,9 +421,9 @@ class MyCalcSensorEntity(MySensorEntity):
     # calculates output from map
     my_map = None
 
-    def __init__(self, config_entry, modbus_item, coordinator, idx) -> None:
+    def __init__(self, config_entry, modbus_item, coordinator, idx, pwrmap) -> None:
         MySensorEntity.__init__(self, config_entry, modbus_item, coordinator, idx)
-        self.my_map = PowerMap(self._config_entry)
+        self.my_map = pwrmap
 
     @callback
     def _handle_coordinator_update(self) -> None:
@@ -474,7 +480,7 @@ class MyNumberEntity(CoordinatorEntity, NumberEntity, MyEntity):
     _attr_native_min_value = 10
     _attr_native_max_value = 60
 
-    def __init__(self, config_entry, modbus_item, coordinator=None, idx=None) -> None:
+    def __init__(self, config_entry, modbus_item, coordinator, idx) -> None:
         super().__init__(coordinator, context=idx)
         self._idx = idx
         MyEntity.__init__(self, config_entry, modbus_item, coordinator._modbus_api)
@@ -510,7 +516,7 @@ class MySelectEntity(CoordinatorEntity, SelectEntity, MyEntity):
     options = []
     _attr_current_option = "FEHLER"
 
-    def __init__(self, config_entry, modbus_item, coordinator, idx=None) -> None:
+    def __init__(self, config_entry, modbus_item, coordinator, idx) -> None:
         super().__init__(coordinator, context=idx)
         self._idx = idx
         MyEntity.__init__(self, config_entry, modbus_item, coordinator._modbus_api)

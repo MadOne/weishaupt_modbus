@@ -1,6 +1,8 @@
 """Kennfeld."""
 
 import json
+import aiofiles
+import asyncio
 
 import numpy as np
 from numpy.polynomial import Chebyshev
@@ -78,26 +80,33 @@ class PowerMap:
         # try to load values from json file
         self._config_entry = config_entry
 
+    async def initialize(self):
         try:
-            openfile = open(
+            async with aiofiles.open(
                 self._config_entry.data[CONF_KENNFELD_FILE], "r", encoding="utf-8"
-            )
+            ) as openfile:
+                raw_block = await openfile.read()
+                json_object = json.loads(raw_block)
+                self.known_x = json_object["known_x"]
+                self.known_y = json_object["known_y"]
+                self.known_t = json_object["known_t"]
         except IOError:
             kennfeld = {
                 "known_x": self.known_x,
                 "known_y": self.known_y,
                 "known_t": self.known_t,
             }
-            with open(
+            async with aiofiles.open(
                 self._config_entry.data[CONF_KENNFELD_FILE], "w", encoding="utf-8"
             ) as outfile:
-                json.dump(kennfeld, outfile)
-        else:
-            json_object = json.load(openfile)
-            self.known_x = json_object["known_x"]
-            self.known_y = json_object["known_y"]
-            self.known_t = json_object["known_t"]
-            openfile.close()
+                raw_block = json.dumps(kennfeld)
+                await outfile.write(raw_block)
+        # else:
+        #   json_object = json.load(openfile)
+        #  self.known_x = json_object["known_x"]
+        # self.known_y = json_object["known_y"]
+        # self.known_t = json_object["known_t"]
+        # openfile.close()
 
         # build the matrix with linear interpolated samples
         # 1st and last row are populated by known values from diagrem, the rest is zero

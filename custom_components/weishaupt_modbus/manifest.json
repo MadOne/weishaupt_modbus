@@ -6,7 +6,7 @@
   "documentation": "https://github.com/OStrama/weishaupt_modbus/",
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/OStrama/weishaupt_modbus/issues",
-  "requirements": ["pymodbus"],
+  "requirements": ["pymodbus", "aiofiles"],
   "version": "0.0.8"
 }
 
