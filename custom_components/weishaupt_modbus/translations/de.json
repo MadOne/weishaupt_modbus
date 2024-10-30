@@ -3,7 +3,6 @@
     "config": {
       "step": {
         "user": {
-          "Title": "Konfiguration Wärmepumpe",
           "data": {
             "host": "Hostadresse Modbusinterface",
             "port": "Port Modbusinterface",
