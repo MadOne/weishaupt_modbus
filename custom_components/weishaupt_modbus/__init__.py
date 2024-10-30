@@ -41,14 +41,18 @@ async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry):
         # This means the user has downgraded from a future version
         return False
 
-    if config_entry.version < 2:
+    if config_entry.version < 3:
         warnings.warn("Version 1 detected")
         new_data = {**config_entry.data}
         warnings.warn("Minor version 1 detected")
         new_data[CONF_PREFIX] = CONST.DEF_PREFIX
         new_data[CONF_DEVICE_POSTFIX] = ""
         new_data[CONF_KENNFELD_FILE] = CONST.DEF_KENNFELDFILE
-
+        new_data[CONF_HK2] = False
+        new_data[CONF_HK3] = False
+        new_data[CONF_HK4] = False
+        new_data[CONF_HK5] = False
+        
         warnings.warn("Update entries")
 
         hass.config_entries.async_update_entry(
