@@ -71,7 +71,7 @@ async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
 class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
     """Class config flow."""
 
-    VERSION = 2
+    VERSION = 3
     # Pick one of the available connection classes in homeassistant/config_entries.py
     # This tells HA if it should be asking for updates, or it'll be notified of updates
     # automatically. This example uses PUSH, as the dummy hub will notify HA of
