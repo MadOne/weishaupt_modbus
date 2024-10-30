@@ -89,3 +89,7 @@ For example: **192.168.178.123** (Home Assistant IP) or 192.168.178.0 for all ip
 Option 1 is the savest but Option 2 enables you to connect to the heatpump from multiple devices(developing machine, or maybe my possibly upcomming dedicated android app?). I suggest to go for option 1 (HomeAssistant IP).
 
 **Netmask**: Select the netmask of your network. This will be **255.255.255.000** for you otherwise you would know the correct one ;)
+
+# Disclaimer
+The developers of this integration are not affiliated with Weishaupt. They have created the integration and provided it as open source in their spare time on the basis of publicly accessible information. 
+The use of the integration is at the user's own risk and responsibility. The developers are not liable for any damages arising from the use of the integration.
