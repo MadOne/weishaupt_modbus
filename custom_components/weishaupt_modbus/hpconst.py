@@ -31,7 +31,7 @@ DEVICES = DeviceConstants()
 
 
 @dataclass(frozen=True)
-class ItemLists:
+class DeviceLists:
     """Device constants."""
 
     SYS = "System"
@@ -603,10 +603,10 @@ MODBUS_WW_ITEMS = [
 MODBUS_W2_ITEMS = [
     ModbusItem( 34101, "Status 2. WEZ", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS),
     ModbusItem( 34102, "Schaltspiele E-Heizung 1", FORMATS.NUMBER, TYPES.SENSOR, DEVICES.W2),
-    ModbusItem( 34103, "Betriebsstunden E1", FORMATS.NUMBER, TYPES.SENSOR, DEVICES.W2),
+    ModbusItem( 34103, "Betriebsstunden E1", FORMATS.TIME_H, TYPES.SENSOR, DEVICES.W2),
     ModbusItem( 34104, "Status E-Heizung 1", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS),
     ModbusItem( 34105, "Status E-Heizung 2", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS),
-    ModbusItem( 34106, "Schaltspiele E-Heizung 2", FORMATS.TIME_H, TYPES.SENSOR, DEVICES.W2),
+    ModbusItem( 34106, "Schaltspiele E-Heizung 2", FORMATS.NUMBER, TYPES.SENSOR, DEVICES.W2),
     ModbusItem( 34107, "Betriebsstunden E2", FORMATS.TIME_H, TYPES.SENSOR, DEVICES.W2),
     ModbusItem( 44101, "W2_Konfiguration", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_KONFIG),
     ModbusItem( 44102, "Grenztemperatur", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.W2, TEMPRANGE_BIVALENZ),
@@ -646,7 +646,8 @@ MODBUS_ST_ITEMS = [
     ModbusItem( 36801, "Adr. 36801", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.ST),
 ] # noqa: E501
 
-ITEMLISTS = [
+
+DEVICELISTS = [
     MODBUS_SYS_ITEMS,
     MODBUS_WP_ITEMS,
     MODBUS_WW_ITEMS,

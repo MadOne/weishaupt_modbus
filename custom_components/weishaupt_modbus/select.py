@@ -5,8 +5,9 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import TYPES
-from .hpconst import ITEMLISTS
-from .entities import build_entity_list, MyCoordinator
+from .hpconst import DEVICELISTS
+from .entities import build_entity_list
+from .coordinator import MyCoordinator
 
 
 async def async_setup_entry(
@@ -19,12 +20,12 @@ async def async_setup_entry(
 
     entries = []
 
-    for index, item in enumerate(ITEMLISTS):
-        coordinator = MyCoordinator(hass, _modbus_api, item)
+    for _useless, device in enumerate(DEVICELISTS):
+        coordinator = MyCoordinator(hass, _modbus_api, device, config_entry)
         await coordinator.async_config_entry_first_refresh()
 
         entries = await build_entity_list(
-            entries, config_entry, item, TYPES.SELECT, coordinator
+            entries, config_entry, device, TYPES.SELECT, coordinator
         )
 
     async_add_entities(
