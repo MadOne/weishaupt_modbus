@@ -51,13 +51,12 @@ class MyCoordinator(DataUpdateCoordinator):
             # api can be compared via `__eq__` to avoid duplicate updates
             # being dispatched to listeners
             always_update=True,
-            config_entry=p_config_entry,
         )
         self._modbus_api = my_api
         self._device = None  #: MyDevice | None = None
         self._modbusitems = modbusitems
         self._number_of_items = len(modbusitems)
-        # self.config_entry = p_config_entry
+        self._config_entry = p_config_entry
 
     async def get_value(self, modbus_item: ModbusItem):
         """Read a value from the modbus."""
@@ -76,19 +75,19 @@ class MyCoordinator(DataUpdateCoordinator):
 
     async def check_configured(self, modbus_item: ModbusItem) -> bool:
         """function checks if item is configured"""
-        if self.config_entry.data[CONF_HK2] is False:
+        if self._config_entry.data[CONF_HK2] is False:
             if modbus_item.device is DEVICES.HZ2:
                 return False
 
-        if self.config_entry.data[CONF_HK3] is False:
+        if self._config_entry.data[CONF_HK3] is False:
             if modbus_item.device is DEVICES.HZ3:
                 return False
 
-        if self.config_entry.data[CONF_HK4] is False:
+        if self._config_entry.data[CONF_HK4] is False:
             if modbus_item.device is DEVICES.HZ4:
                 return False
 
-        if self.config_entry.data[CONF_HK5] is False:
+        if self._config_entry.data[CONF_HK5] is False:
             if modbus_item.device is DEVICES.HZ5:
                 return False
         return True
