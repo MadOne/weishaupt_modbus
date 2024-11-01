@@ -405,6 +405,20 @@ W2_KONFIG = [
     StatusItem(1, "1"),
 ]
 
+
+IO_KONFIG = [
+    StatusItem(0, "0"),
+    StatusItem(1, "1"),
+    StatusItem(2, "2"),
+    StatusItem(3, "3"),
+    StatusItem(4, "4"),
+    StatusItem(5, "5"),
+    StatusItem(6, "6"),
+    StatusItem(7, "7"),
+    StatusItem(65535, "65535"),
+]
+
+
 #####################################################
 # Description of physical units via the status list #
 #####################################################
@@ -657,6 +671,15 @@ MODBUS_IO_ITEMS = [
     ModbusItem( 35106, "Eingang H1.5", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
     ModbusItem( 35107, "Eingang DE1", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
     ModbusItem( 35108, "Eingang DE2", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
+
+    ModbusItem( 45101, "Konfiguration SGR1", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
+    ModbusItem( 45102, "Konfiguration SGR2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
+    ModbusItem( 45103, "Konfiguration H1.2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
+    ModbusItem( 45104, "Konfiguration H1.3", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
+    ModbusItem( 45105, "Konfiguration H1.4", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
+    ModbusItem( 45106, "Konfiguration H1.5", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
+    ModbusItem( 45107, "Konfiguration DE1", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
+    ModbusItem( 45108, "Konfiguration DE2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
 ] # noqa: E501
 
 DEVICELISTS = [
