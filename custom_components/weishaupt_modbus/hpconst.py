@@ -419,8 +419,16 @@ IO_KONFIG = [
 ]
 
 IO_KONFIG_IN = [
-    StatusItem(0, "0"),
-    StatusItem(1, "1"),
+    StatusItem(
+        0,
+        "SG Ready",
+        "Siehe Smart-Grid-Funktion [Kap. 6.7.7.2]. Funktion kann nur in SGR1 gewählt werden und wird automatisch auf SGR2 übertragen, in SGR2 sind dann die anderen Funktionen gesperrt.",
+    ),
+    StatusItem(
+        1,
+        "EVU-Sperre:",
+        "Heiz- und Kühlbetrieb und Warmwasserladung gesperrt, Frostschutz ist sichergestellt.",
+    ),
     StatusItem(
         2,
         "Erhöhter Betrieb",
@@ -445,6 +453,25 @@ IO_KONFIG_IN = [
         10,
         "Erzeugersperre HZ und WW:",
         "Heizkreis und Warmwasserladung durch Wärmepumpe gesperrt",
+    ),
+    StatusItem(11, "Warmwasser Standby:", "Warmwasserladung Standby."),
+    StatusItem(12, "Warmwasser Absenk:", "Warmwasserladung im Absenkbetrieb."),
+    StatusItem(13, "Warmwasser Normal:", "Warmwasserladung im Normalbetrieb."),
+    StatusItem(
+        14,
+        "Warmwasser PUSH:",
+        "Vom Zeitprogramm abweichender Warmwasserbedarf. Der Trinkwasserspeicher wird auf Normaltemperatur aufgeheizt und gehalten.",
+    ),
+    StatusItem(15, "Taupunktwächter", "Kühlbetrieb für Heizkreise gesperrt."),
+    StatusItem(16, "Heizkreis … Standby:", "Heizkreis im Standby."),
+    StatusItem(17, "Heizkreis … Absenk:", "Heizkreis im Absenkbetrieb"),
+    StatusItem(18, "Heizkreis … Normal:", "Heizkreis im Normalbetrieb."),
+    StatusItem(19, "Heizkreis … Komfort:", "Heizkreis im Komfortbetrieb"),
+    StatusItem(20, "2.WEZ", "2. Wärmeerzeuger über Eingang aktivieren."),
+    StatusItem(
+        21,
+        "Sperre Verdichter:",
+        "Externe Vorgabe zur Sperre vom Verdichter.ng für Digitaleingang DE",
     ),
     StatusItem(65535, "AUS", "Keine Funktion, wird nicht angesteuert."),
 ]
@@ -534,6 +561,11 @@ IO_KONFIG_SGR = [
     StatusItem(6, "6"),
     StatusItem(7, "7"),
     StatusItem(65535, "65535"),
+]
+
+IO_STATUS = [
+    StatusItem(0, "aus"),
+    StatusItem(1, "ein"),
 ]
 
 
@@ -783,21 +815,21 @@ MODBUS_ST_ITEMS = [
 MODBUS_IO_ITEMS = [
     ModbusItem( 35101, "SG-Ready 1", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
     ModbusItem( 35102, "SG-Ready 2", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
-    ModbusItem( 35103, "Eingang H1.2", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
-    ModbusItem( 35104, "Eingang H1.3", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
-    ModbusItem( 35105, "Eingang H1.4", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
-    ModbusItem( 35106, "Eingang H1.5", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
-    ModbusItem( 35107, "Eingang DE1", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
-    ModbusItem( 35108, "Eingang DE2", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
+    ModbusItem( 35103, "Ausgang H1.2", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
+    ModbusItem( 35104, "Ausgang H1.3", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
+    ModbusItem( 35105, "Ausgang H1.4", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
+    ModbusItem( 35106, "Ausgang H1.5", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
+    ModbusItem( 35107, "Eingang DE1", FORMATS.STATUS, TYPES.SENSOR, DEVICES.IO, W2_STATUS),
+    ModbusItem( 35108, "Eingang DE2", FORMATS.STATUS, TYPES.SENSOR, DEVICES.IO, W2_STATUS),
 
-    ModbusItem( 45101, "Konfiguration SGR1", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG_OUT),
-    ModbusItem( 45102, "Konfiguration SGR2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
-    ModbusItem( 45103, "Konfiguration H1.2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
-    ModbusItem( 45104, "Konfiguration H1.3", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
-    ModbusItem( 45105, "Konfiguration H1.4", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
-    ModbusItem( 45106, "Konfiguration H1.5", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
-    ModbusItem( 45107, "Konfiguration DE1", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG_IN),
-    ModbusItem( 45108, "Konfiguration DE2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG_IN),
+    ModbusItem( 45101, "Konf. Eingang SGR1", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG_IN),
+    ModbusItem( 45102, "Konf. Eingang SGR2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG_IN),
+    ModbusItem( 45103, "Konf. Ausgang H1.2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
+    ModbusItem( 45104, "Konf. Ausgang  H1.3", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
+    ModbusItem( 45105, "Konf. Ausgang  H1.4", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
+    ModbusItem( 45106, "Konf. Ausgang  H1.5", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
+    ModbusItem( 45107, "Konf. Eingang DE1", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG_IN),
+    ModbusItem( 45108, "Konf. Eingang DE2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG_IN),
 ] # noqa: E501
 
 DEVICELISTS = [
