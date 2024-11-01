@@ -418,6 +418,105 @@ IO_KONFIG = [
     StatusItem(65535, "65535"),
 ]
 
+IO_KONFIG_IN = [
+    StatusItem(0, "0"),
+    StatusItem(1, "1"),
+    StatusItem(2, "2"),
+    StatusItem(3, "3"),
+    StatusItem(4, "4"),
+    StatusItem(5, "5"),
+    StatusItem(6, "6"),
+    StatusItem(7, "7"),
+    StatusItem(65535, "65535"),
+]
+
+IO_KONFIG_OUT = [
+    StatusItem(65535, "AUS", "Keine Funktion, wird nicht angesteuert."),
+    StatusItem(
+        1,
+        "Zirkulationspumpe",
+        "Ausgang wird periodisch während dem Warmwasserprogramm angesteuert.",
+    ),
+    StatusItem(
+        2,
+        "ext. Heizkreispumpe",
+        "Ausgang wird im Heizbetrieb der Wärmepumpe angesteuert.",
+    ),
+    StatusItem(3, "Schaltuhr", "Ausgang wird nach Zeitprogramm angesteuert."),
+    StatusItem(
+        4, "Störmeldung", "Ausgang wird im Fehlerfall der Wärmepumpe angesteuert."
+    ),
+    StatusItem(
+        5, "Kühlbetrieb", "Ausgang wird im Kühlbetrieb der Wärmepumpe angesteuert."
+    ),
+    StatusItem(
+        6,
+        "Verdichterbetrieb",
+        "Ausgang wird bei Verdichterbetrieb der Wärmepumpe angesteuert.",
+    ),
+    StatusItem(
+        7, "Warmwasserbetrieb", "Ausgang wird bei Warmwasserladung angesteuert."
+    ),
+    StatusItem(
+        8,
+        "Dauerspannung",
+        "Ausgang wird bei eingeschaltetem Innengerät angesteuert.",
+    ),
+    StatusItem(
+        9,
+        "Betriebsweitermeldung",
+        "Ausgang wird bei Verdichterbetrieb angesteuert.",
+    ),
+    StatusItem(
+        10,
+        "Hz- WW-Betrieb",
+        "Ausgang wird im Heizbetrieb oder bei Warmwasserladung angesteuert.",
+    ),
+    StatusItem(
+        11,
+        "Düsenringheizung",
+        "Ausgang wird bei zusätzlicher Heizung am Düsenring im Außengerät angesteuert.",
+    ),
+    StatusItem(
+        12,
+        "Kondensatwannenheizung",
+        "Ausgang wird bei zusätzlicher Heizung in der Kondensatwanne im Außengerät angesteuert",
+    ),
+    StatusItem(
+        13,
+        "Pumpe HK1",
+        "Ausgang wird bei Pumpenbetrieb für einen direkten Heizkreis angesteuert.",
+    ),
+    StatusItem(
+        14,
+        "Umlenkventil Heizen",
+        "Ausgang wird angesteuert, wenn das Dreiwegeventil auf Heizbetrieb steht.",
+    ),
+    StatusItem(
+        15,
+        "Umlenkventil Warmwasser",
+        "Ausgang wird angesteuert, wenn das Dreiwegeventil auf Warmwasserladung steht.",
+    ),
+    StatusItem(
+        65535,
+        "Umlenkventil Kühlen",
+        "Ausgang wird angesteuert, wenn das Dreiwegeventil auf Kühlbetrieb steht.",
+    ),
+    StatusItem(65535, "65535"),
+]
+
+IO_KONFIG_SGR = [
+    StatusItem(0, "0"),
+    StatusItem(1, "1"),
+    StatusItem(2, "2"),
+    StatusItem(3, "3"),
+    StatusItem(4, "4"),
+    StatusItem(5, "5"),
+    StatusItem(6, "6"),
+    StatusItem(7, "7"),
+    StatusItem(65535, "65535"),
+]
+
 
 #####################################################
 # Description of physical units via the status list #
