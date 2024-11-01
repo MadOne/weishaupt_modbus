@@ -421,17 +421,36 @@ IO_KONFIG = [
 IO_KONFIG_IN = [
     StatusItem(0, "0"),
     StatusItem(1, "1"),
-    StatusItem(2, "2"),
-    StatusItem(3, "3"),
-    StatusItem(4, "4"),
-    StatusItem(5, "5"),
-    StatusItem(6, "6"),
-    StatusItem(7, "7"),
-    StatusItem(65535, "65535"),
+    StatusItem(
+        2,
+        "Erhöhter Betrieb",
+        "Zu der Vorlaufsolltemperatur im Heizbetrieb und der Warmwasser-Solltemperatur wird die eingestellte ",
+    ),
+    StatusItem(
+        3,
+        "HK-Sperre",
+        "Heiz- und Kühlbetrieb gesperrt, Frostschutz ist sichergestellt, Warmwasserladung weiterhin betriebsbereit. ",
+    ),
+    StatusItem(
+        4,
+        "Umschaltung Hz/Kü:",
+        "Wärmeanforderungen werden ignoriert, nur Kühlanforderungen wirken auf die Wärmepumpe. Die Funktion Umschaltung Hz/Kü hat Vorrang vor Erhöhter Betrieb.",
+    ),
+    StatusItem(5, "Ruhemodus", "Manueller Ruhemodus, externer Kontakt [Kap. 6.7.5.2]."),
+    StatusItem(6, "Not-Aus:", "Wärmepumpe, Elektroheizung und Pumpe aus."),
+    StatusItem(7, "System Standby:", "Standby"),
+    StatusItem(8, "Erzeugersperre HZ:", "Heizkreis durch Wärmepumpe gesperrt."),
+    StatusItem(9, "Erzeugersperre WW:", "Warmwasserladung durch Wärmepumpe gesperrt."),
+    StatusItem(
+        10,
+        "Erzeugersperre HZ und WW:",
+        "Heizkreis und Warmwasserladung durch Wärmepumpe gesperrt",
+    ),
+    StatusItem(65535, "AUS", "Keine Funktion, wird nicht angesteuert."),
 ]
 
 IO_KONFIG_OUT = [
-    StatusItem(65535, "AUS", "Keine Funktion, wird nicht angesteuert."),
+    StatusItem(0, "AUS", "Keine Funktion, wird nicht angesteuert."),
     StatusItem(
         1,
         "Zirkulationspumpe",
@@ -502,7 +521,7 @@ IO_KONFIG_OUT = [
         "Umlenkventil Kühlen",
         "Ausgang wird angesteuert, wenn das Dreiwegeventil auf Kühlbetrieb steht.",
     ),
-    StatusItem(65535, "65535"),
+    StatusItem(65535, "65535", "Keine Funktion, wird nicht angesteuert."),
 ]
 
 IO_KONFIG_SGR = [
@@ -771,14 +790,14 @@ MODBUS_IO_ITEMS = [
     ModbusItem( 35107, "Eingang DE1", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
     ModbusItem( 35108, "Eingang DE2", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
 
-    ModbusItem( 45101, "Konfiguration SGR1", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
+    ModbusItem( 45101, "Konfiguration SGR1", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG_OUT),
     ModbusItem( 45102, "Konfiguration SGR2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
     ModbusItem( 45103, "Konfiguration H1.2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
     ModbusItem( 45104, "Konfiguration H1.3", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
     ModbusItem( 45105, "Konfiguration H1.4", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
     ModbusItem( 45106, "Konfiguration H1.5", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
-    ModbusItem( 45107, "Konfiguration DE1", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
-    ModbusItem( 45108, "Konfiguration DE2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
+    ModbusItem( 45107, "Konfiguration DE1", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG_IN),
+    ModbusItem( 45108, "Konfiguration DE2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG_IN),
 ] # noqa: E501
 
 DEVICELISTS = [
