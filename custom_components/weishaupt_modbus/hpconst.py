@@ -25,6 +25,7 @@ class DeviceConstants:
     W2 = "2. Wärmeerzeuger"
     ST = "Statistik"
     UK = "Unknown"
+    IO = "Eingänge/Ausgänge"
 
 
 DEVICES = DeviceConstants()
@@ -647,6 +648,17 @@ MODBUS_ST_ITEMS = [
 ] # noqa: E501
 
 
+MODBUS_IO_ITEMS = [
+    ModbusItem( 35101, "SG-Ready 1", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
+    ModbusItem( 35102, "SG-Ready 2", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
+    ModbusItem( 35103, "Eingang H1.2", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
+    ModbusItem( 35104, "Eingang H1.3", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
+    ModbusItem( 35105, "Eingang H1.4", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
+    ModbusItem( 35106, "Eingang H1.5", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
+    ModbusItem( 35107, "Eingang DE1", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
+    ModbusItem( 35108, "Eingang DE2", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
+] # noqa: E501
+
 DEVICELISTS = [
     MODBUS_SYS_ITEMS,
     MODBUS_WP_ITEMS,
@@ -658,6 +670,7 @@ DEVICELISTS = [
     MODBUS_HZ5_ITEMS,
     MODBUS_W2_ITEMS,
     MODBUS_ST_ITEMS,
+    MODBUS_IO_ITEMS
 ]
 
 # fmt: on
