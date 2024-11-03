@@ -1,7 +1,6 @@
 """Heatpump constants."""
 
 import copy
-
 from dataclasses import dataclass
 
 from homeassistant.components.sensor import SensorDeviceClass
@@ -46,7 +45,23 @@ class DeviceLists:
     W2 = "2. Wärmeerzeuger"
     ST = "Statistik"
     UK = "Unknown"
+    IO = "Eingänge/Ausgänge"
 
+
+reverse_device_list = {
+    "System": "SYS",
+    "Wärmepumpe": "WP",
+    "Warmwasser": "WW",
+    "Heizkreis": "HZ",
+    "Heizkreis2": "HZ2",
+    "Heizkreis3": "HZ3",
+    "Heizkreis4": "HZ4",
+    "Heizkreis5": "HZ5",
+    "2. Wärmeerzeuger": "W2",
+    "Statistik": "ST",
+    "Unbekannt": "UK",
+    "Eingänge/Ausgänge": "IO",
+}
 
 ##############################################################################################################################
 # Listen mit Fehlermeldungen, Warnmeldungen und Statustexte

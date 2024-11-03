@@ -18,6 +18,8 @@ CONF_HK2 = "Heizkreis 2"
 CONF_HK3 = "Heizkreis 3"
 CONF_HK4 = "Heizkreis 4"
 CONF_HK5 = "Heizkreis 5"
+CONF_NAME_DEVICE_PREFIX = "Name-Device-Prefix"
+CONF_NAME_TOPIC_PREFIX = "Name-Topic-Prefix"
 
 
 @dataclass(frozen=True)

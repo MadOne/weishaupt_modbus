@@ -19,6 +19,8 @@ from .const import (
     CONF_HK3,
     CONF_HK4,
     CONF_HK5,
+    CONF_NAME_DEVICE_PREFIX,
+    CONF_NAME_TOPIC_PREFIX,
 )
 
 # DATA_SCHEMA = vol.Schema({("host"): str, ("port"): cv.port})
@@ -36,6 +38,8 @@ DATA_SCHEMA = vol.Schema(
         vol.Optional(CONF_HK3, default=False): bool,
         vol.Optional(CONF_HK4, default=False): bool,
         vol.Optional(CONF_HK5, default=False): bool,
+        vol.Optional(CONF_NAME_DEVICE_PREFIX, default=False): bool,
+        vol.Optional(CONF_NAME_TOPIC_PREFIX, default=False): bool,
     }
 )
 

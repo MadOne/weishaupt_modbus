@@ -12,7 +12,9 @@
             "Heizkreis 2" : "2. Heizkreis",
             "Heizkreis 3" : "3. Heizkreis",
             "Heizkreis 4" : "4. Heizkreis",
-            "Heizkreis 5" : "5. Heizkreis"
+            "Heizkreis 5" : "5. Heizkreis",
+            "Name-Device-Prefix" : "Name Device Prefix",
+            "Name-Topic-Prefix" : "Name Topic Prefix"
 
           }
         }

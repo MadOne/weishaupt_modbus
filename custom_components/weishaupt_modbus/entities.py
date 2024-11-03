@@ -21,13 +21,15 @@ from .const import (
     CONF_HK3,
     CONF_HK4,
     CONF_HK5,
+    CONF_NAME_DEVICE_PREFIX,
+    CONF_NAME_TOPIC_PREFIX,
 )
 
 from .items import ModbusItem
 from .modbusobject import ModbusObject, ModbusAPI
 from .kennfeld import PowerMap
 from .coordinator import MyCoordinator
-from .hpconst import DEVICES
+from .hpconst import DEVICES, reverse_device_list
 
 
 async def check_available(modbus_item: ModbusItem, config_entry: ConfigEntry) -> bool:
@@ -141,8 +143,6 @@ class MyEntity:
         """Initialize the entity."""
         self._config_entry = config_entry
         self._modbus_item = modbus_item
-        self._attr_name = self._modbus_item.name
-
         dev_postfix = ""
         dev_postfix = "_" + self._config_entry.data[CONF_DEVICE_POSTFIX]
 
@@ -152,6 +152,18 @@ class MyEntity:
         dev_prefix = CONST.DEF_PREFIX
         dev_prefix = self._config_entry.data[CONF_PREFIX]
 
+        if self._config_entry.data[CONF_NAME_DEVICE_PREFIX]:
+            name_device_prefix = self._config_entry.data[CONF_PREFIX] + "_"
+        else:
+            name_device_prefix = ""
+
+        if self._config_entry.data[CONF_NAME_TOPIC_PREFIX]:
+            name_topic_prefix = reverse_device_list[self._modbus_item.device] + "_"
+        else:
+            name_topic_prefix = ""
+
+        name_prefix = name_topic_prefix + name_device_prefix
+        self._attr_name = name_prefix + self._modbus_item.name
         self._attr_unique_id = dev_prefix + self._modbus_item.name + dev_postfix
         self._dev_device = self._modbus_item.device + dev_postfix
         self._modbus_api = modbus_api
