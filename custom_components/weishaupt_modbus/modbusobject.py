@@ -119,9 +119,9 @@ class ModbusObject:
             case -32768:
                 # No Sensor installed, remove it from the list
                 self._modbus_item.is_invalid = True
-            case 32768:
-                # Dont know. Whats this?
-                self._modbus_item.is_invalid = True
+            # case 32768:
+            # This seems to be zero, should be allowed
+            # self._modbus_item.is_invalid = True
             case _:
                 self._modbus_item.is_invalid = False
 

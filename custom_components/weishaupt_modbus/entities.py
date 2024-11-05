@@ -191,7 +191,7 @@ class MyEntity:
                 self._divider = self._modbus_item.getNumberFromText("divider")
                 self._attr_device_class = self._modbus_item.getTextFromNumber(-1)
 
-    def calc_temperature(self, val: float):
+    def calc_temperature(self, val: float) -> float:
         """Calcualte temperature."""
         match val:
             case None:
@@ -203,16 +203,18 @@ class MyEntity:
                 # Sensor broken set return value to -99.9 to inform user
                 return -99.9
             case 32768:
-                # Dont know. Whats this?
-                return None
+                # Dont know. seems to be zero..
+                return 0.0
             case range(-500, 5000):
                 # Valid Temperatur range
                 return int(val) / self._divider
             case _:
-                # to optimize
+                # to optimize, seems to be Einerkomplement
+                if val > 32768:
+                    val = val - 65536
                 return int(val) / self._divider
 
-    def calc_percentage(self, val: float):
+    def calc_percentage(self, val: float) -> float:
         """Calculate percentage."""
         if val is None:
             return None
@@ -220,7 +222,7 @@ class MyEntity:
             return None
         return int(val) / self._divider
 
-    def translate_val(self, val):
+    def translate_val(self, val) -> float:
         """Translate modbus value into sensful format."""
         if val is None:
             return val
@@ -236,7 +238,7 @@ class MyEntity:
             case _:
                 return int(val) / self._divider
 
-    def retranslate_val(self, value):
+    def retranslate_val(self, value) -> int:
         """Re-translate modbus value into sensful format."""
         val = None
         match self._modbus_item.format:
@@ -247,7 +249,7 @@ class MyEntity:
                 val = value * self._divider
         return val
 
-    async def set_translate_val(self, value):
+    async def set_translate_val(self, value) -> None:
         """Translate and writes a value to the modbus."""
         val = self.retranslate_val(value)
 

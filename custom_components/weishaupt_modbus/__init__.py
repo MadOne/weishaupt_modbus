@@ -6,7 +6,17 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.const import CONF_PREFIX
 
-from .const import CONST, CONF_DEVICE_POSTFIX, CONF_KENNFELD_FILE, CONF_HK2, CONF_HK3, CONF_HK4, CONF_HK5
+from .const import (
+    CONST,
+    CONF_DEVICE_POSTFIX,
+    CONF_KENNFELD_FILE,
+    CONF_HK2,
+    CONF_HK3,
+    CONF_HK4,
+    CONF_HK5,
+    CONF_NAME_DEVICE_PREFIX,
+    CONF_NAME_TOPIC_PREFIX,
+)
 from .modbusobject import ModbusAPI
 
 PLATFORMS: list[str] = [
@@ -37,12 +47,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry):
     """Migrate old entry."""
     warnings.warn("Check if migration of config entries is necessary.")
-    if config_entry.version > 2:
+    if config_entry.version > 3:
         # This means the user has downgraded from a future version
         return False
 
-    if config_entry.version < 3:
-        warnings.warn("Version 1 detected")
+    if config_entry.version < 4:
+        warnings.warn("Version <4 detected")
         new_data = {**config_entry.data}
         warnings.warn("Minor version 1 detected")
         new_data[CONF_PREFIX] = CONST.DEF_PREFIX
@@ -52,7 +62,9 @@ async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry):
         new_data[CONF_HK3] = False
         new_data[CONF_HK4] = False
         new_data[CONF_HK5] = False
-        
+        new_data[CONF_NAME_DEVICE_PREFIX] = False
+        new_data[CONF_NAME_TOPIC_PREFIX] = False
+
         warnings.warn("Update entries")
 
         hass.config_entries.async_update_entry(
