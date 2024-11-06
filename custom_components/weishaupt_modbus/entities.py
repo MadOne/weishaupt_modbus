@@ -29,7 +29,8 @@ from .items import ModbusItem
 from .modbusobject import ModbusObject, ModbusAPI
 from .kennfeld import PowerMap
 from .coordinator import MyCoordinator
-from .hpconst import DEVICES, reverse_device_list
+from .const import DEVICES
+from .hpconst import reverse_device_list
 
 
 async def check_available(modbus_item: ModbusItem, config_entry: ConfigEntry) -> bool:
@@ -185,11 +186,15 @@ class MyEntity:
                     self._attr_state_class = SensorStateClass.MEASUREMENT
 
             if self._modbus_item.resultlist is not None:
-                self._attr_native_min_value = self._modbus_item.getNumberFromText("min")
-                self._attr_native_max_value = self._modbus_item.getNumberFromText("max")
-                self._attr_native_step = self._modbus_item.getNumberFromText("step")
-                self._divider = self._modbus_item.getNumberFromText("divider")
-                self._attr_device_class = self._modbus_item.getTextFromNumber(-1)
+                self._attr_native_min_value = self._modbus_item.get_number_from_text(
+                    "min"
+                )
+                self._attr_native_max_value = self._modbus_item.get_number_from_text(
+                    "max"
+                )
+                self._attr_native_step = self._modbus_item.get_number_from_text("step")
+                self._divider = self._modbus_item.get_number_from_text("divider")
+                self._attr_device_class = self._modbus_item.get_text_from_number(-1)
 
     def calc_temperature(self, val: float) -> float:
         """Calcualte temperature."""
@@ -232,7 +237,7 @@ class MyEntity:
             case FORMATS.PERCENTAGE:
                 return self.calc_percentage(val)
             case FORMATS.STATUS:
-                return self._modbus_item.getTextFromNumber(val)
+                return self._modbus_item.get_text_from_number(val)
             case FORMATS.UNKNOWN:
                 return int(val)
             case _:
@@ -244,7 +249,7 @@ class MyEntity:
         match self._modbus_item.format:
             # logically, this belongs to the ModbusItem, but doing it here
             case FORMATS.STATUS:
-                val = self._modbus_item.getNumberFromText(value)
+                val = self._modbus_item.get_number_from_text(value)
             case _:
                 val = value * self._divider
         return val
@@ -390,9 +395,9 @@ class MyNumberEntity(CoordinatorEntity, NumberEntity, MyEntity):
         MyEntity.__init__(self, config_entry, modbus_item, coordinator._modbus_api)
 
         if self._modbus_item.resultlist is not None:
-            self._attr_native_min_value = self._modbus_item.getNumberFromText("min")
-            self._attr_native_max_value = self._modbus_item.getNumberFromText("max")
-            self._attr_native_step = self._modbus_item.getNumberFromText("step")
+            self._attr_native_min_value = self._modbus_item.get_number_from_text("min")
+            self._attr_native_max_value = self._modbus_item.get_number_from_text("max")
+            self._attr_native_step = self._modbus_item.get_number_from_text("step")
 
     @callback
     def _handle_coordinator_update(self) -> None:

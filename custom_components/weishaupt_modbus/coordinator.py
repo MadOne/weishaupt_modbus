@@ -129,7 +129,7 @@ class MyCoordinator(DataUpdateCoordinator):
                     case TYPES.SENSOR_CALC:
                         r1 = await self.get_value_a(item)
                         item_x = ModbusItem(
-                            item.getNumberFromText("x"),
+                            item.get_number_from_text("x"),
                             "x",
                             FORMATS.TEMPERATUR,
                             TYPES.SENSOR_CALC,
@@ -138,7 +138,7 @@ class MyCoordinator(DataUpdateCoordinator):
                         )
                         r2 = await self.get_value(item_x)
                         item_y = ModbusItem(
-                            item.getNumberFromText("y"),
+                            item.get_number_from_text("y"),
                             "y",
                             FORMATS.TEMPERATUR,
                             TYPES.SENSOR_CALC,

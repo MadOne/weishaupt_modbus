@@ -1,51 +1,11 @@
 """Heatpump constants."""
 
 import copy
-from dataclasses import dataclass
 
 from homeassistant.components.sensor import SensorDeviceClass
 
-from .const import FORMATS, TYPES
+from .const import FORMATS, TYPES, DEVICES
 from .items import ModbusItem, StatusItem
-
-
-@dataclass(frozen=True)
-class DeviceConstants:
-    """Device constants."""
-
-    SYS = "System"
-    WP = "Wärmepumpe"
-    WW = "Warmwasser"
-    HZ = "Heizkreis"
-    HZ2 = "Heizkreis2"
-    HZ3 = "Heizkreis3"
-    HZ4 = "Heizkreis4"
-    HZ5 = "Heizkreis5"
-    W2 = "2. Wärmeerzeuger"
-    ST = "Statistik"
-    UK = "Unknown"
-    IO = "Eingänge/Ausgänge"
-
-
-DEVICES = DeviceConstants()
-
-
-@dataclass(frozen=True)
-class DeviceLists:
-    """Device constants."""
-
-    SYS = "System"
-    WP = "Wärmepumpe"
-    WW = "Warmwasser"
-    HZ = "Heizkreis"
-    HZ2 = "Heizkreis2"
-    HZ3 = "Heizkreis3"
-    HZ4 = "Heizkreis4"
-    HZ5 = "Heizkreis5"
-    W2 = "2. Wärmeerzeuger"
-    ST = "Statistik"
-    UK = "Unknown"
-    IO = "Eingänge/Ausgänge"
 
 
 reverse_device_list = {
@@ -63,11 +23,11 @@ reverse_device_list = {
     "Eingänge/Ausgänge": "IO",
 }
 
-##############################################################################################################################
+################################################################################
 # Listen mit Fehlermeldungen, Warnmeldungen und Statustexte
 # Beschreibungstext ist ebenfalls möglich
 # class StatusItem(): def __init__(self, number, text, description = None):
-##############################################################################################################################
+################################################################################
 
 # fmt: off
 SYS_FEHLER = [

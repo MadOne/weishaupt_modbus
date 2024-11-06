@@ -1,6 +1,6 @@
 """Item classes."""
 
-from .const import TYPES
+from .const import TYPES, FormatConstants, TypeConstants, DeviceConstants
 
 
 # An item of a status, e.g. error code and error text along with a precise description
@@ -13,38 +13,38 @@ class StatusItem:
     _text = None
     _description = None
 
-    def __init__(self, number, text, description=None) -> None:
+    def __init__(self, number: int, text: str, description: str = None) -> None:
         """Initialise StatusItem."""
         self._number = number
         self._text = text
         self._description = description
 
     @property
-    def number(self):
+    def number(self) -> int:
         """Return number."""
         return self._number
 
     @number.setter
-    def number(self, value) -> None:
+    def number(self, value: int) -> None:
         """Set number."""
         self._number = value
 
     @property
-    def text(self):
+    def text(self) -> str:
         """Return text."""
         return self._text
 
     @text.setter
-    def text(self, value) -> None:
+    def text(self, value: str) -> None:
         self._text = value
 
     @property
-    def description(self):
+    def description(self) -> str:
         """Return description."""
         return self._description
 
     @description.setter
-    def description(self, value) -> None:
+    def description(self, value: str) -> None:
         self._description = value
 
 
@@ -66,7 +66,15 @@ class ModbusItem:
     _state = None
     _is_invalid = False
 
-    def __init__(self, address, name, mformat, mtype, device, resultlist=None) -> None:
+    def __init__(
+        self,
+        address: int,
+        name: str,
+        mformat: FormatConstants,
+        mtype: TypeConstants,
+        device: DeviceConstants,
+        resultlist=None,
+    ) -> None:
         """Initialise ModbusItem."""
         self._address = address
         self._name = name
@@ -78,45 +86,46 @@ class ModbusItem:
         self._is_invalid = False
 
     @property
-    def is_invalid(self):
+    def is_invalid(self) -> bool:
         """Return state."""
         return self._is_invalid
 
     @is_invalid.setter
-    def is_invalid(self, val):
+    def is_invalid(self, val: bool):
         self._is_invalid = val
 
     @property
-    def address(self):
+    def address(self) -> int:
         """Return address."""
         return self._address
 
     @address.setter
-    def address(self, val):
+    def address(self, val: int):
         """Return address."""
         self._address = val
 
     @property
     def state(self):
-        """Return state."""
+        """Return the state of the item set by modbusobject."""
         return self._state
 
     @state.setter
     def state(self, val):
+        """set the state of the item from modbus"""
         self._state = val
 
     @property
-    def name(self):
+    def name(self) -> str:
         """Return name."""
         return self._name
 
     @name.setter
-    def name(self, val):
+    def name(self, val: str):
         """Return name."""
         self._name = val
 
     @property
-    def format(self):
+    def format(self) -> FormatConstants:
         """Return format."""
         return self._format
 
@@ -126,12 +135,12 @@ class ModbusItem:
         return self._type
 
     @property
-    def device(self):
+    def device(self) -> DeviceConstants:
         """Return device."""
         return self._device
 
     @device.setter
-    def device(self, val):
+    def device(self, val: DeviceConstants):
         """Return device."""
         self._device = val
 
@@ -140,20 +149,20 @@ class ModbusItem:
         """Return resultlist."""
         return self._resultlist
 
-    def getTextFromNumber(self, val):
+    def get_text_from_number(self, val: int) -> str:
         """Get errortext from coresponding number."""
         if self._resultlist is None:
             return None
-        for index, item in enumerate(self._resultlist):
+        for _useless, item in enumerate(self._resultlist):
             if val == item.number:
                 return item.text
         return "unbekannt <" + str(val) + ">"
 
-    def getNumberFromText(self, val):
+    def get_number_from_text(self, val: str) -> int:
         """Get number of coresponding errortext."""
         if self._resultlist is None:
             return None
-        for index, item in enumerate(self._resultlist):
+        for _useless, item in enumerate(self._resultlist):
             if val == item.text:
                 return item.number
         return -1

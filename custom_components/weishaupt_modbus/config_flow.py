@@ -8,7 +8,7 @@ from homeassistant import config_entries, exceptions
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_PREFIX
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
-from homeassistant.config_entries import ConfigFlowResult
+# from homeassistant.config_entries import ConfigFlowResult
 
 # from . import wp
 from .const import (

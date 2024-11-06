@@ -69,3 +69,24 @@ class TypeConstants:
 
 
 TYPES = TypeConstants()
+
+
+@dataclass(frozen=True)
+class DeviceConstants:
+    """Device constants."""
+
+    SYS = "System"
+    WP = "Wärmepumpe"
+    WW = "Warmwasser"
+    HZ = "Heizkreis"
+    HZ2 = "Heizkreis2"
+    HZ3 = "Heizkreis3"
+    HZ4 = "Heizkreis4"
+    HZ5 = "Heizkreis5"
+    W2 = "2. Wärmeerzeuger"
+    ST = "Statistik"
+    UK = "Unknown"
+    IO = "Eingänge/Ausgänge"
+
+
+DEVICES = DeviceConstants()
