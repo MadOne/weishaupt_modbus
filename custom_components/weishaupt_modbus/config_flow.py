@@ -99,11 +99,33 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
                 return self.async_create_entry(title=info["title"], data=user_input)
 
             except Exception:  # noqa: BLE001
-                errors["base"] = "unknown"
+                errors["base"] = "unknown error"
 
         # If there is no user input or there were errors, show the form again, including any errors that were found with the input.
         return self.async_show_form(
             step_id="user", data_schema=DATA_SCHEMA, errors=errors
+        )
+
+    async def async_step_reconfigure(
+        self, user_input: dict[str, Any] | None = None
+    ) -> config_entries.ConfigFlowResult:
+        """Trigger a reconfiguration flow."""
+        errors: dict[str, str] = {}
+        reconfigure_entry = self._get_reconfigure_entry()
+        myhostname = reconfigure_entry.data[CONF_HOST]
+        # await self.async_set_unique_id(username)
+        if user_input:
+            return self.async_update_reload_and_abort(
+                reconfigure_entry, data_updates=user_input
+            )
+
+        return self.async_show_form(
+            step_id="reconfigure",
+            data_schema=DATA_SCHEMA,
+            errors=errors,
+            description_placeholders={
+                CONF_HOST: "myhostname",
+            },
         )
 
 
