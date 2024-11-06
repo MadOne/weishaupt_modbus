@@ -6,7 +6,8 @@ import voluptuous as vol
 
 from homeassistant import config_entries, exceptions
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_PREFIX
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
+from homeassistant.data_entry_flow import FlowResult
 import homeassistant.helpers.config_validation as cv
 # from homeassistant.config_entries import ConfigFlowResult
 
@@ -30,6 +31,21 @@ from .const import (
 DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_HOST): str,
+        vol.Optional(CONF_PORT, default="502"): cv.port,
+        vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
+        vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
+        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
+        vol.Optional(CONF_HK2, default=False): bool,
+        vol.Optional(CONF_HK3, default=False): bool,
+        vol.Optional(CONF_HK4, default=False): bool,
+        vol.Optional(CONF_HK5, default=False): bool,
+        vol.Optional(CONF_NAME_DEVICE_PREFIX, default=False): bool,
+        vol.Optional(CONF_NAME_TOPIC_PREFIX, default=False): bool,
+    }
+)
+
+SCHEMA_OPTIONS_FLOW = vol.Schema(
+    {
         vol.Optional(CONF_PORT, default="502"): cv.port,
         vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
         vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
@@ -118,15 +134,69 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
             return self.async_update_reload_and_abort(
                 reconfigure_entry, data_updates=user_input
             )
+        SCHEMA_RECONFIGURE = vol.Schema(
+            {
+                vol.Required(CONF_HOST, default=reconfigure_entry.data[CONF_HOST]): str,
+                vol.Optional(
+                    CONF_PORT, default=reconfigure_entry.data[CONF_PORT]
+                ): cv.port,
+                vol.Optional(
+                    CONF_PREFIX, default=reconfigure_entry.data[CONF_PREFIX]
+                ): str,
+                vol.Optional(
+                    CONF_DEVICE_POSTFIX,
+                    default=reconfigure_entry.data[CONF_DEVICE_POSTFIX],
+                ): str,
+                vol.Optional(
+                    CONF_KENNFELD_FILE,
+                    default=reconfigure_entry.data[CONF_KENNFELD_FILE],
+                ): str,
+                vol.Optional(CONF_HK2, default=reconfigure_entry.data[CONF_HK2]): bool,
+                vol.Optional(CONF_HK3, default=reconfigure_entry.data[CONF_HK3]): bool,
+                vol.Optional(CONF_HK4, default=reconfigure_entry.data[CONF_HK4]): bool,
+                vol.Optional(CONF_HK5, default=reconfigure_entry.data[CONF_HK5]): bool,
+                vol.Optional(
+                    CONF_NAME_DEVICE_PREFIX,
+                    default=reconfigure_entry.data[CONF_NAME_DEVICE_PREFIX],
+                ): bool,
+                vol.Optional(
+                    CONF_NAME_TOPIC_PREFIX,
+                    default=reconfigure_entry.data[CONF_NAME_TOPIC_PREFIX],
+                ): bool,
+            }
+        )
 
         return self.async_show_form(
             step_id="reconfigure",
-            data_schema=DATA_SCHEMA,
+            data_schema=SCHEMA_RECONFIGURE,
             errors=errors,
             description_placeholders={
                 CONF_HOST: "myhostname",
             },
         )
+
+    # @staticmethod
+    # @callback
+    # def async_get_options_flow(
+    #    config_entry: config_entries.ConfigEntry,
+    # ) -> config_entries.OptionsFlow:
+    #    """Create the options flow."""
+    #    return OptionsFlowHandler(config_entry)
+
+
+class OptionsFlowHandler(config_entries.OptionsFlow):
+    def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
+        """Initialize options flow."""
+        self.config_entry = config_entry
+
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Manage the options."""
+        if user_input is not None:
+            return self.async_create_entry(title="", data=user_input)
+
+        return self.async_show_form(step_id="init", data_schema=SCHEMA_OPTIONS_FLOW)
 
 
 class InvalidHost(exceptions.HomeAssistantError):
