@@ -6,15 +6,15 @@
           "data": {
             "host": "Hostadresse Modbusinterface",
             "port": "Port Modbusinterface",
-            "prefix": "Prefix für Kompatibiliotät mit früheren Versionen",
+            "prefix": "Prefix für Kompatibilität mit früheren Versionen",
             "Device-Postfix": "Postfix, um verschiedene Geräte zu unterscheiden",
             "Kennfeld-File": "Name der Leistungs-Kennfelddatei",
             "Heizkreis 2" : "2. Heizkreis hinzufügen",
             "Heizkreis 3" : "3. Heizkreis hinzufügen",
             "Heizkreis 4" : "4. Heizkreis hinzufügen",
             "Heizkreis 5" : "5. Heizkreis hinzufügen",
-            "Name-Device-Prefix" : "Name Device Prefix",
-            "Name-Topic-Prefix" : "Name Topic Prefix"
+            "Name-Device-Prefix" : "Device prefix zum Entitynamen hinzufügen",
+            "Name-Topic-Prefix" : "Topic prefix zum Entitynamen hinzufügen"
 
           }
         }
