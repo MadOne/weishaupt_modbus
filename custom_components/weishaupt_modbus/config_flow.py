@@ -143,6 +143,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
                 vol.Optional(
                     CONF_PREFIX, default=reconfigure_entry.data[CONF_PREFIX]
                 ): str,
+                # reconfigure of device postfix leads to duplicated devices
                 vol.Optional(
                     CONF_DEVICE_POSTFIX,
                     default=reconfigure_entry.data[CONF_DEVICE_POSTFIX],

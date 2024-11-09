@@ -46,30 +46,35 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry):
     """Migrate old entry."""
-    warnings.warn("Check if migration of config entries is necessary.")
     if config_entry.version > 3:
         # This means the user has downgraded from a future version
         return False
 
+    # to ensure all update paths we have to check every version to not overwrite existing entries
     if config_entry.version < 4:
-        warnings.warn("Version <4 detected")
+        warnings.warn("Old Version detected")
         new_data = {**config_entry.data}
-        warnings.warn("Minor version 1 detected")
+
+    if config_entry.version < 2:
+        warnings.warn("Version <2 detected")
         new_data[CONF_PREFIX] = CONST.DEF_PREFIX
         new_data[CONF_DEVICE_POSTFIX] = ""
         new_data[CONF_KENNFELD_FILE] = CONST.DEF_KENNFELDFILE
+    if config_entry.version < 3:
+        warnings.warn("Version <3 detected")
         new_data[CONF_HK2] = False
         new_data[CONF_HK3] = False
         new_data[CONF_HK4] = False
         new_data[CONF_HK5] = False
+    if config_entry.version < 4:
+        warnings.warn("Version <4 detected")
         new_data[CONF_NAME_DEVICE_PREFIX] = False
         new_data[CONF_NAME_TOPIC_PREFIX] = False
 
-        warnings.warn("Update entries")
-
         hass.config_entries.async_update_entry(
-            config_entry, data=new_data, minor_version=1, version=2
+            config_entry, data=new_data, minor_version=1, version=4
         )
+        warnings.warn("Config entries updated to version 4")
 
     return True
 
