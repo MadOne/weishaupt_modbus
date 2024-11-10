@@ -5,6 +5,10 @@ MadOne and OStrama are working together on this version.
 # In version 0.0.8 this will have the following impact:
 
 ## For users of MadOne's original weishaupt_modbus integration:
+ * Remove the Heatpump configuration.
+ * In HACS remove the integration completely
+ * Restart Home Assistant
+ * Add this Repository to HACS as descriped in Installation
  * When doing nothing than simply installing the integration, the long term statistics will be split into new entities,
    since the sensor domain is different.
  * To avoid this, change the default prefix entry in the configuration dialog from
