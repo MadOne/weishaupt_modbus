@@ -47,7 +47,7 @@ views:
       - type: entities
         entities:
           - sensor.warmwassersolltemperatur
-          - sensor.warmwassertemepratur
+          - sensor.warmwassertemperatur
           - sensor.ww_konfiguration
         title: Warmwasser
       - type: entities
