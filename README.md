@@ -72,6 +72,7 @@ The "prefix" should only be changed when migrating from MadOnes original integra
 
 The "Device Postfix" has a default value of "". It can be used to add multiple heat pumps to one home assistant. For compatibility this should be left empty. If you want to add another heat pump, use a name that help to identify the devices.
 
+### The power mapping file
 The "Kennfeld-File" can be choosen to read in the right power mapping according to your type of heat pump:
 
 The heat power "Wärmeleistung" is calculated from the "Leistungsanforderung" in dependency of outside temperature and water temperature. 
