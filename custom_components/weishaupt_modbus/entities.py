@@ -209,7 +209,7 @@ class MyEntity:
                 return -99.9
             case 32768:
                 # Dont know. seems to be zero..
-                return 0.0
+                return None
             case range(-500, 5000):
                 # Valid Temperatur range
                 return int(val) / self._divider
