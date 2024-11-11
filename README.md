@@ -3,6 +3,7 @@ MadOne and OStrama are working together on this version.
 
 # With version 1.0.0 we consolidate both versions. 
 # In this version this will have the following impact:
+(For updates from 1.0.0 to newer versions, this procedure is not longer needed.)
 
 ## For users of MadOne's original weishaupt_modbus integration:
  * Remove the Heatpump configuration.
