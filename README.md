@@ -1,17 +1,22 @@
 This is the successor of the integration from MadOne.
 MadOne and OStrama are working together on this version.
 
-# Starting with version 0.0.8 we will start to consolidate both versions. 
-# In version 0.0.8 this will have the following impact:
+# With version 1.0.0 we consolidate both versions. 
+# In this version this will have the following impact:
+(For updates from 1.0.0 to newer versions, this procedure is not longer needed.)
 
 ## For users of MadOne's original weishaupt_modbus integration:
+ * Remove the Heatpump configuration.
+ * In HACS remove the integration completely
+ * Restart Home Assistant
+ * Add this Repository to HACS as descriped in Installation
  * When doing nothing than simply installing the integration, the long term statistics will be split into new entities,
    since the sensor domain is different.
  * To avoid this, change the default prefix entry in the configuration dialog from
      weishaupt_wbb
    to
      weishaupt_modbus
-   please do not change the intents or any other parts of the file to avoid issues
+   
 
 ## For users of OStrama's weishaupt_wbb integration:
  * Uninstall existing "weishaupt_wbb" installation, answer "integration and all entities of it will be deleted" with"yes"
@@ -20,8 +25,7 @@ MadOne and OStrama are working together on this version.
  * You will get a new integration with the same name
  * the sensor entities will be the same than before
 
-I started to build a structure that finally will allow loading of the modbus structure from a file. 
-As a first step, all modbus parameters will be concentrated in the file hpconst.py as a set of object lists.
+All modbus parameters of this integration are concentrated in the file hpconst.py as a set of object lists.
 This allows generic setup of all entities and a more easy completion of messages and entity behavior
 
 # Weishaupt_modbus
@@ -68,10 +72,13 @@ The "prefix" should only be changed when migrating from MadOnes original integra
 
 The "Device Postfix" has a default value of "". It can be used to add multiple heat pumps to one home assistant. For compatibility this should be left empty. If you want to add another heat pump, use a name that help to identify the devices.
 
+### The power mapping file
 The "Kennfeld-File" can be choosen to read in the right power mapping according to your type of heat pump:
 
 The heat power "Wärmeleistung" is calculated from the "Leistungsanforderung" in dependency of outside temperature and water temperature. 
-This is type specific. The data stored in the integration fit to a WBB 12. If the file you've parameterized does not exist, the integration will create a file that fits for a WBB12. If you have another heat pump please update the Kennfeld-File file according to the graphs found in the documentation of your heat pump and restart Home Assistant. In the given file the data have been read out from the graphs found in the documentation in a manual way.
+This is type specific. The data stored in the integration fit to a WBB 12. If the file you've parameterized does not exist, the integration will create a file that fits for a WBB12. If you have another heat pump please update the Kennfeld-File file according to the graphs found in the documentation of your heat pump and change the name of the used file by reconfiguring the integration and change only the file name. It may be necessary to restart home assistant after changing the filename.
+When no file is available, a new file with the defined name will be created that contains the parameters read out from the graphs found in the documentation of WBB 12 in a manual way. Thsi file can be used as a template for another typer of heatpump.
+(Note: It would be great if you could provide files from other types of heatpumps to us, so that we can integrate them in further versions ;-))
 
 
 You have to enable modbus in your heatpump settings. 
@@ -93,3 +100,4 @@ Option 1 is the savest but Option 2 enables you to connect to the heatpump from 
 # Disclaimer
 The developers of this integration are not affiliated with Weishaupt. They have created the integration as open source in their spare time on the basis of publicly accessible information. 
 The use of the integration is at the user's own risk and responsibility. The developers are not liable for any damages arising from the use of the integration.
+
