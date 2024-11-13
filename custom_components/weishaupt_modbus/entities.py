@@ -2,20 +2,15 @@
 
 from homeassistant.components.number import NumberEntity
 from homeassistant.components.select import SelectEntity
-from homeassistant.components.sensor import (
-    SensorEntity,
-    SensorStateClass,
-)
+from homeassistant.components.sensor import SensorEntity, SensorStateClass
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PORT, CONF_PREFIX
 from homeassistant.core import callback
 from homeassistant.helpers.device_registry import DeviceInfo
-from homeassistant.config_entries import ConfigEntry
+from homeassistant.helpers.entity import Entity, EntityDescription
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import (
-    CONST,
-    FORMATS,
-    TYPES,
     CONF_DEVICE_POSTFIX,
     CONF_HK2,
     CONF_HK3,
@@ -23,14 +18,16 @@ from .const import (
     CONF_HK5,
     CONF_NAME_DEVICE_PREFIX,
     CONF_NAME_TOPIC_PREFIX,
+    CONST,
+    DEVICES,
+    FORMATS,
+    TYPES,
 )
-
-from .items import ModbusItem
-from .modbusobject import ModbusObject, ModbusAPI
-from .kennfeld import PowerMap
 from .coordinator import MyCoordinator
-from .const import DEVICES
 from .hpconst import reverse_device_list
+from .items import ModbusItem
+from .kennfeld import PowerMap
+from .modbusobject import ModbusAPI, ModbusObject
 
 
 async def check_available(modbus_item: ModbusItem, config_entry: ConfigEntry) -> bool:
@@ -73,6 +70,16 @@ async def build_entity_list(
     so the app only holds one list of entities that is build from a list of ModbusItem
     stored in hpconst.py so far, will be provided by an external file in future
     """
+
+    file = open("newstrings.json", "w")
+    mbitem: ModbusItem = None
+    file.write('{\n "entity": {\n')
+    for mbitem in modbusitems:
+        if mbitem.type == TYPES.SENSOR:
+            file.write(
+                '"' + mbitem.name + '": {\n"name":' + '"' + mbitem.name + '"' + "},"
+            )
+    file.write("}}")
 
     for index, item in enumerate(modbusitems):
         if item.type == item_type:
@@ -117,7 +124,7 @@ async def build_entity_list(
     return entries
 
 
-class MyEntity:
+class MyEntity(Entity):
     """An entity using CoordinatorEntity.
 
     The CoordinatorEntity class provides:
@@ -132,9 +139,11 @@ class MyEntity:
     _config_entry = None
     _modbus_item = None
     _divider = 1
-    _attr_name = ""
+    # _attr_name = ""
     _attr_unique_id = ""
     _attr_should_poll = True
+    _attr_translation_key = ""
+    _attr_has_entity_name = True
     _dev_device = ""
     _modbus_api = None
 
@@ -144,6 +153,7 @@ class MyEntity:
         """Initialize the entity."""
         self._config_entry = config_entry
         self._modbus_item = modbus_item
+        self._attr_translation_key = self._modbus_item.name
         dev_postfix = ""
         dev_postfix = "_" + self._config_entry.data[CONF_DEVICE_POSTFIX]
 
@@ -164,7 +174,7 @@ class MyEntity:
             name_topic_prefix = ""
 
         name_prefix = name_topic_prefix + name_device_prefix
-        self._attr_name = name_prefix + self._modbus_item.name
+        # self._attr_name = name_prefix + self._modbus_item.name
         self._attr_unique_id = dev_prefix + self._modbus_item.name + dev_postfix
         self._dev_device = self._modbus_item.device + dev_postfix
         self._modbus_api = modbus_api
