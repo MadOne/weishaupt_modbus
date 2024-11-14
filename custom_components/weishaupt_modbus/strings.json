@@ -1,43 +1,2186 @@
 {
-    "title" : "Weishaupt Wärmepumpe",
-    "config": {
-      "step": {
-        "user": {
-          "data": {
-            "Host": "Host!",
-            "Port": "Port",
-            "Prefix": "Prefix",
-            "Device-Postfix": "Device postfix",
-            "Kennfeld-File": "Filename Kennfeld",
-            "Heizkreis 2" : "2. Heizkreis",
-            "Heizkreis 3" : "3. Heizkreis",
-            "Heizkreis 4" : "4. Heizkreis",
-            "Heizkreis 5" : "5. Heizkreis",
-            "Name-Device-Prefix" : "Name Device Prefix",
-            "Name-Topic-Prefix" : "Name Topic Prefix"
-
-          }
+  "title": "Weishaupt Wärmepumpe",
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "Host": "Host!",
+          "Port": "Port",
+          "Prefix": "Prefix",
+          "Device-Postfix": "Device postfix",
+          "Kennfeld-File": "Filename Kennfeld",
+          "Heizkreis 2": "2. Heizkreis",
+          "Heizkreis 3": "3. Heizkreis",
+          "Heizkreis 4": "4. Heizkreis",
+          "Heizkreis 5": "5. Heizkreis",
+          "Name-Device-Prefix": "Name Device Prefix",
+          "Name-Topic-Prefix": "Name Topic Prefix"
         }
-      },
-      "error": {
-        "cannot_connect": "Failed to connect",
-        "invalid_auth": "Invalid authentication",
-        "unknown": "Unexpected error"
-      },
-      "abort": {
-        "already_configured": "Account is already configured"
       }
     },
-    "options": {
-      "step": {
-        "init": {
-          "data": {
-            "scan_interval": "Web scraping interval (default = 1800 sec)",
-            "api_scan_interval": "Api scan interval (default = 300 sec)",
-            "language": "Language (default = en)",
-            "mode": "Mode(default = api)"
-          }
+    "error": {
+      "cannot_connect": "Failed to connect",
+      "invalid_auth": "Invalid authentication",
+      "unknown": "Unexpected error"
+    },
+    "abort": {
+      "already_configured": "Account is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Web scraping interval (default = 1800 sec)",
+          "api_scan_interval": "Api scan interval (default = 300 sec)",
+          "language": "Language (default = en)",
+          "mode": "Mode(default = api)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "Aussentemperatur": {
+        "name": "Aussentemperatur",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Luftansaugtemperatur": {
+        "name": "Luftansaugtemperatur",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Fehler": {
+        "name": "Fehler",
+        "value": {
+          "kein Fehler": "kein Fehler",
+          "K\u00e4ltemittelf\u00fchler Expansionsventil Eintritt (T1)": "K\u00e4ltemittelf\u00fchler Expansionsventil Eintritt (T1)",
+          "Luftansaugf\u00fchler (T2)": "Luftansaugf\u00fchler (T2)",
+          "W\u00e4rmetauscherf\u00fchler AG Austritt (T3)": "W\u00e4rmetauscherf\u00fchler AG Austritt (T3)",
+          "Verdichtersauggasf\u00fchler (T4)": "Verdichtersauggasf\u00fchler (T4)",
+          "EVI-Sauggasf\u00fchler (T5)": "EVI-Sauggasf\u00fchler (T5)",
+          "K\u00e4ltemittelf\u00fchler IG Austritt (T6)": "K\u00e4ltemittelf\u00fchler IG Austritt (T6)",
+          "\u00d6lsumpff\u00fchler (T7)": "\u00d6lsumpff\u00fchler (T7)",
+          "Expansionsventil EVI": "Expansionsventil EVI",
+          "Niederdrucksensor (P1)": "Niederdrucksensor (P1)",
+          "Hochdrucksensor (P2)": "Hochdrucksensor (P2)",
+          "Mitteldrucksensor (P3)": "Mitteldrucksensor (P3)",
+          "Expansionsventil K\u00fchlen defekt": "Expansionsventil K\u00fchlen defekt",
+          "keine Kommunikation zum Inverter": "keine Kommunikation zum Inverter",
+          "keine Kommunikation zum Au\u00dfenger\u00e4t": "keine Kommunikation zum Au\u00dfenger\u00e4t",
+          "Hochdruckschalter hat ausgel\u00f6st": "Hochdruckschalter hat ausgel\u00f6st",
+          "Inverter gesperrt, da in den letzten 10 Stunden 10 Fehler aufgetreten sind": "Inverter gesperrt, da in den letzten 10 Stunden 10 Fehler aufgetreten sind",
+          "EEPROM Speicher-Fehler": "EEPROM Speicher-Fehler",
+          "keine Modbus-Kommunikation zwischen Regler EC und Steuerplatine K\u00e4ltesatz": "keine Modbus-Kommunikation zwischen Regler EC und Steuerplatine K\u00e4ltesatz",
+          "durch Inverter-Alarm W\u00e4rmepumpe abgeschaltet": "durch Inverter-Alarm W\u00e4rmepumpe abgeschaltet",
+          "Verdichter passt nicht zur Konfiguration": "Verdichter passt nicht zur Konfiguration",
+          "Niederdruck-St\u00f6rung": "Niederdruck-St\u00f6rung",
+          "zu geringe \u00dcberhitzung": "zu geringe \u00dcberhitzung",
+          "zu hohe \u00dcberhitzung": "zu hohe \u00dcberhitzung",
+          "EVI zu hohe \u00dcberhitzung": "EVI zu hohe \u00dcberhitzung",
+          "K\u00e4ltemittelmenge zu niedrig": "K\u00e4ltemittelmenge zu niedrig",
+          "Hochdruck-St\u00f6rung": "Hochdruck-St\u00f6rung",
+          "Kondensationstemperatur zu niedrig": "Kondensationstemperatur zu niedrig",
+          "Kondensationstemperatur zu hoch": "Kondensationstemperatur zu hoch",
+          "Verdampfungstemperatur zu niedrig": "Verdampfungstemperatur zu niedrig",
+          "Verdampfungstemperatur zu hoch": "Verdampfungstemperatur zu hoch",
+          "W\u00e4rmepumpe nicht kompatibel": "W\u00e4rmepumpe nicht kompatibel",
+          "Regler EC hat keine Verbindung zum Erweiterungsmodul EM-HK": "Regler EC hat keine Verbindung zum Erweiterungsmodul EM-HK",
+          "Volumenstrom zu gering": "Volumenstrom zu gering",
+          "Spreizung LWT/R\u00fccklauf negativ / Vierwegeventil schaltet nach dem Abtauen nicht zur\u00fcck; nach 3 Warnungen verriegelt die Anlage)": "Spreizung LWT/R\u00fccklauf negativ / Vierwegeventil schaltet nach dem Abtauen nicht zur\u00fcck; nach 3 Warnungen verriegelt die Anlage)",
+          "Ventilator blockiert": "Ventilator blockiert",
+          "Drehzahl Ventilator zu niedrig": "Drehzahl Ventilator zu niedrig",
+          "Kommunikation Regler EC zu Steuerplatine K\u00e4ltesatz fehlerhaft": "Kommunikation Regler EC zu Steuerplatine K\u00e4ltesatz fehlerhaft",
+          "Au\u00dfenf\u00fchler (B1) unterbrochen": "Au\u00dfenf\u00fchler (B1) unterbrochen",
+          "Au\u00dfenf\u00fchler (B1) kurzgeschlossen": "Au\u00dfenf\u00fchler (B1) kurzgeschlossen",
+          "Weichenf\u00fchler (B2) unterbrochen": "Weichenf\u00fchler (B2) unterbrochen",
+          "Weichenf\u00fchler (B2) kurzgeschlossen": "Weichenf\u00fchler (B2) kurzgeschlossen",
+          "Warmwasserf\u00fchler (B3) unterbrochen": "Warmwasserf\u00fchler (B3) unterbrochen",
+          "Warmwasserf\u00fchler (B3) kurzgeschlossen": "Warmwasserf\u00fchler (B3) kurzgeschlossen",
+          "Vorlauff\u00fchler Verfl\u00fcssiger (B4) unterbrochen": "Vorlauff\u00fchler Verfl\u00fcssiger (B4) unterbrochen",
+          "Vorlauff\u00fchler Verfl\u00fcssiger (B4) kurzgeschlossen": "Vorlauff\u00fchler Verfl\u00fcssiger (B4) kurzgeschlossen",
+          "Vorlauff\u00fchler (B7) unterbrochen": "Vorlauff\u00fchler (B7) unterbrochen",
+          "Vorlauff\u00fchler (B7) kurzgeschlossen": "Vorlauff\u00fchler (B7) kurzgeschlossen",
+          "R\u00fccklauff\u00fchler (B9) unterbrochen": "R\u00fccklauff\u00fchler (B9) unterbrochen",
+          "R\u00fccklauff\u00fchler (B9) kurzgeschlossen": "R\u00fccklauff\u00fchler (B9) kurzgeschlossen",
+          "Pufferf\u00fchler (B11) unterbrochen": "Pufferf\u00fchler (B11) unterbrochen",
+          "Pufferf\u00fchler (B11) kurzgeschlossen": "Pufferf\u00fchler (B11) kurzgeschlossen",
+          "Mischerf\u00fchler regenerativ (B2.1) unterbrochen": "Mischerf\u00fchler regenerativ (B2.1) unterbrochen",
+          "Mischerf\u00fchler regenerativ (B2.1) kurzgeschlossen": "Mischerf\u00fchler regenerativ (B2.1) kurzgeschlossen",
+          "Vorlauff\u00fchler Zweiter Heizkreis (B6.2) unterbrochen": "Vorlauff\u00fchler Zweiter Heizkreis (B6.2) unterbrochen",
+          "Vorlauff\u00fchler Zweiter Heizkreis (B6.2) kurzgeschlossen": "Vorlauff\u00fchler Zweiter Heizkreis (B6.2) kurzgeschlossen",
+          "F\u00fchler (T1.2) unterbrochen": "F\u00fchler (T1.2) unterbrochen",
+          "F\u00fchler (T1.2) kurzgeschlossen": "F\u00fchler (T1.2) kurzgeschlossen",
+          "F\u00fchler (T2.2) unterbrochen": "F\u00fchler (T2.2) unterbrochen",
+          "F\u00fchler (T2.2) kurzgeschlossen": "F\u00fchler (T2.2) kurzgeschlossen",
+          "Analogeingang AE1 unterbrochen": "Analogeingang AE1 unterbrochen",
+          "Analogeingang AE1 kurzgeschlossen": "Analogeingang AE1 kurzgeschlossen",
+          "Analogeingang AE2 unterbrochen": "Analogeingang AE2 unterbrochen",
+          "Analogeingang AE2 kurzgeschlossen": "Analogeingang AE2 kurzgeschlossen",
+          "Analogeingang AE3 unterbrochen": "Analogeingang AE3 unterbrochen",
+          "Analogeingang AE3 kurzgeschlossen": "Analogeingang AE3 kurzgeschlossen",
+          "W\u00e4rmepumpe wird au\u00dferhalb der Einsatzgrenzen betrieben": "W\u00e4rmepumpe wird au\u00dferhalb der Einsatzgrenzen betrieben",
+          "maximale Abtauzeit \u00fcberschritten": "maximale Abtauzeit \u00fcberschritten",
+          "Kommunikation K\u00e4ltekreis fehlerhaft": "Kommunikation K\u00e4ltekreis fehlerhaft",
+          "Druckgastemperatur zu hoch": "Druckgastemperatur zu hoch",
+          "Stromaufnahme vom Inverter zu hoch": "Stromaufnahme vom Inverter zu hoch",
+          "Stromaufnahme zu hoch": "Stromaufnahme zu hoch",
+          "Gleichspannung am Inverter zu hoch": "Gleichspannung am Inverter zu hoch",
+          "Gleichspannung am Inverter zu niedrig": "Gleichspannung am Inverter zu niedrig",
+          "W\u00e4rmepumpe wird au\u00dferhalb vom zul\u00e4ssigen Spannungsbereich betrieben": "W\u00e4rmepumpe wird au\u00dferhalb vom zul\u00e4ssigen Spannungsbereich betrieben",
+          "Inverter ist \u00fcberhitzt": "Inverter ist \u00fcberhitzt",
+          "Stellung vom Verdichtermotor kann nicht bestimmt werden": "Stellung vom Verdichtermotor kann nicht bestimmt werden",
+          "Strom zwischen Inverter und Verdichter ist zu hoch": "Strom zwischen Inverter und Verdichter ist zu hoch",
+          "Stromaufnahme vom Verdichter zu hoch Zeit\u00fcberschreitung": "Stromaufnahme vom Verdichter zu hoch Zeit\u00fcberschreitung",
+          "Invertertemperatur zu hoch": "Invertertemperatur zu hoch",
+          "Spannung am Inverter zu gering": "Spannung am Inverter zu gering",
+          "Modbus-Konfigurationsfehler": "Modbus-Konfigurationsfehler",
+          "keine Modbus-Verbindung": "keine Modbus-Verbindung",
+          "Modbus-Kommunikation fehlerhaft": "Modbus-Kommunikation fehlerhaft",
+          "Elektronikfehler": "Elektronikfehler",
+          "Hochdruckschalter defekt": "Hochdruckschalter defekt",
+          "Hochdruckschalter passt nicht zur Konfiguration": "Hochdruckschalter passt nicht zur Konfiguration",
+          "Druckgastemperatur zu niedrig": "Druckgastemperatur zu niedrig",
+          "Invertertemperatur zu niedrig": "Invertertemperatur zu niedrig",
+          "Drosselspulentemperatur zu niedrig": "Drosselspulentemperatur zu niedrig",
+          "Verdichter Stromsensor Phase U Fehler": "Verdichter Stromsensor Phase U Fehler",
+          "Verdichter Stromsensor Phase V Fehler": "Verdichter Stromsensor Phase V Fehler",
+          "Verdichter Stromsensor Phase W Fehler Spannungsversorgung von Eingangsklemme": "Verdichter Stromsensor Phase W Fehler Spannungsversorgung von Eingangsklemme",
+          "Stromsensor Fehler": "Stromsensor Fehler",
+          "Inverter Temperatursensor Fehler": "Inverter Temperatursensor Fehler",
+          "Temperatursensor Fehler": "Temperatursensor Fehler",
+          "Druckgasf\u00fchler (DT)": "Druckgasf\u00fchler (DT)",
+          "keine Kommunikation zur Steuerplatine K\u00e4ltesatz": "keine Kommunikation zur Steuerplatine K\u00e4ltesatz",
+          "EEPROM-Speicher-Fehler": "EEPROM-Speicher-Fehler",
+          "W\u00e4rmepumpe wird au\u00dferhalb vom zul\u00e4ssigen Spannungsbereich betriebe": "W\u00e4rmepumpe wird au\u00dferhalb vom zul\u00e4ssigen Spannungsbereich betriebe",
+          "Phase zwischen Eingang und Verdichter unterbrochen": "Phase zwischen Eingang und Verdichter unterbrochen",
+          "Inverter \u00fcberhitzt": "Inverter \u00fcberhitzt",
+          "Konfigurationsfehler Verdichter": "Konfigurationsfehler Verdichter",
+          "Stromaufnahme vom Verdichter zu hoch": "Stromaufnahme vom Verdichter zu hoch",
+          "Verdichter Phase U \u00dcberspannung": "Verdichter Phase U \u00dcberspannung",
+          "Verdichter Phase V \u00dcberspannung": "Verdichter Phase V \u00dcberspannung",
+          "Verdichter Phase W \u00dcberspannung": "Verdichter Phase W \u00dcberspannung",
+          "Phasenausfall am Verdichter": "Phasenausfall am Verdichter",
+          "Verdichter blockiert": "Verdichter blockiert",
+          "Verdichter startet nicht": "Verdichter startet nicht",
+          "Unregelm\u00e4\u00dfige Spannungsversorgung vom Inverter": "Unregelm\u00e4\u00dfige Spannungsversorgung vom Inverter",
+          "Verdichter \u00fcberlastet": "Verdichter \u00fcberlastet",
+          "Temperatur am Druckgasf\u00fchler (DT) zu hoch": "Temperatur am Druckgasf\u00fchler (DT) zu hoch",
+          "Temperatur am Inverter": "Temperatur am Inverter",
+          "Spannung zu hoch": "Spannung zu hoch"
+        }
+      },
+      "Warnung": {
+        "name": "Warnung",
+        "value": {
+          "kein Fehler": "kein Fehler",
+          "K\u00e4ltemittelf\u00fchler Expansionsventil Eintritt (T1)": "K\u00e4ltemittelf\u00fchler Expansionsventil Eintritt (T1)",
+          "Luftansaugf\u00fchler (T2)": "Luftansaugf\u00fchler (T2)",
+          "W\u00e4rmetauscherf\u00fchler AG Austritt (T3)": "W\u00e4rmetauscherf\u00fchler AG Austritt (T3)",
+          "Verdichtersauggasf\u00fchler (T4)": "Verdichtersauggasf\u00fchler (T4)",
+          "EVI-Sauggasf\u00fchler (T5)": "EVI-Sauggasf\u00fchler (T5)",
+          "K\u00e4ltemittelf\u00fchler IG Austritt (T6)": "K\u00e4ltemittelf\u00fchler IG Austritt (T6)",
+          "\u00d6lsumpff\u00fchler (T7)": "\u00d6lsumpff\u00fchler (T7)",
+          "Expansionsventil EVI": "Expansionsventil EVI",
+          "Niederdrucksensor (P1)": "Niederdrucksensor (P1)",
+          "Hochdrucksensor (P2)": "Hochdrucksensor (P2)",
+          "Mitteldrucksensor (P3)": "Mitteldrucksensor (P3)",
+          "Expansionsventil K\u00fchlen defekt": "Expansionsventil K\u00fchlen defekt",
+          "keine Kommunikation zum Inverter": "keine Kommunikation zum Inverter",
+          "keine Kommunikation zum Au\u00dfenger\u00e4t": "keine Kommunikation zum Au\u00dfenger\u00e4t",
+          "Hochdruckschalter hat ausgel\u00f6st": "Hochdruckschalter hat ausgel\u00f6st",
+          "Inverter gesperrt, da in den letzten 10 Stunden 10 Fehler aufgetreten sind": "Inverter gesperrt, da in den letzten 10 Stunden 10 Fehler aufgetreten sind",
+          "EEPROM Speicher-Fehler": "EEPROM Speicher-Fehler",
+          "keine Modbus-Kommunikation zwischen Regler EC und Steuerplatine K\u00e4ltesatz": "keine Modbus-Kommunikation zwischen Regler EC und Steuerplatine K\u00e4ltesatz",
+          "durch Inverter-Alarm W\u00e4rmepumpe abgeschaltet": "durch Inverter-Alarm W\u00e4rmepumpe abgeschaltet",
+          "Verdichter passt nicht zur Konfiguration": "Verdichter passt nicht zur Konfiguration",
+          "Niederdruck-St\u00f6rung": "Niederdruck-St\u00f6rung",
+          "zu geringe \u00dcberhitzung": "zu geringe \u00dcberhitzung",
+          "zu hohe \u00dcberhitzung": "zu hohe \u00dcberhitzung",
+          "EVI zu hohe \u00dcberhitzung": "EVI zu hohe \u00dcberhitzung",
+          "K\u00e4ltemittelmenge zu niedrig": "K\u00e4ltemittelmenge zu niedrig",
+          "Hochdruck-St\u00f6rung": "Hochdruck-St\u00f6rung",
+          "Kondensationstemperatur zu niedrig": "Kondensationstemperatur zu niedrig",
+          "Kondensationstemperatur zu hoch": "Kondensationstemperatur zu hoch",
+          "Verdampfungstemperatur zu niedrig": "Verdampfungstemperatur zu niedrig",
+          "Verdampfungstemperatur zu hoch": "Verdampfungstemperatur zu hoch",
+          "W\u00e4rmepumpe nicht kompatibel": "W\u00e4rmepumpe nicht kompatibel",
+          "Regler EC hat keine Verbindung zum Erweiterungsmodul EM-HK": "Regler EC hat keine Verbindung zum Erweiterungsmodul EM-HK",
+          "Volumenstrom zu gering": "Volumenstrom zu gering",
+          "Spreizung LWT/R\u00fccklauf negativ / Vierwegeventil schaltet nach dem Abtauen nicht zur\u00fcck; nach 3 Warnungen verriegelt die Anlage)": "Spreizung LWT/R\u00fccklauf negativ / Vierwegeventil schaltet nach dem Abtauen nicht zur\u00fcck; nach 3 Warnungen verriegelt die Anlage)",
+          "Ventilator blockiert": "Ventilator blockiert",
+          "Drehzahl Ventilator zu niedrig": "Drehzahl Ventilator zu niedrig",
+          "Kommunikation Regler EC zu Steuerplatine K\u00e4ltesatz fehlerhaft": "Kommunikation Regler EC zu Steuerplatine K\u00e4ltesatz fehlerhaft",
+          "Au\u00dfenf\u00fchler (B1) unterbrochen": "Au\u00dfenf\u00fchler (B1) unterbrochen",
+          "Au\u00dfenf\u00fchler (B1) kurzgeschlossen": "Au\u00dfenf\u00fchler (B1) kurzgeschlossen",
+          "Weichenf\u00fchler (B2) unterbrochen": "Weichenf\u00fchler (B2) unterbrochen",
+          "Weichenf\u00fchler (B2) kurzgeschlossen": "Weichenf\u00fchler (B2) kurzgeschlossen",
+          "Warmwasserf\u00fchler (B3) unterbrochen": "Warmwasserf\u00fchler (B3) unterbrochen",
+          "Warmwasserf\u00fchler (B3) kurzgeschlossen": "Warmwasserf\u00fchler (B3) kurzgeschlossen",
+          "Vorlauff\u00fchler Verfl\u00fcssiger (B4) unterbrochen": "Vorlauff\u00fchler Verfl\u00fcssiger (B4) unterbrochen",
+          "Vorlauff\u00fchler Verfl\u00fcssiger (B4) kurzgeschlossen": "Vorlauff\u00fchler Verfl\u00fcssiger (B4) kurzgeschlossen",
+          "Vorlauff\u00fchler (B7) unterbrochen": "Vorlauff\u00fchler (B7) unterbrochen",
+          "Vorlauff\u00fchler (B7) kurzgeschlossen": "Vorlauff\u00fchler (B7) kurzgeschlossen",
+          "R\u00fccklauff\u00fchler (B9) unterbrochen": "R\u00fccklauff\u00fchler (B9) unterbrochen",
+          "R\u00fccklauff\u00fchler (B9) kurzgeschlossen": "R\u00fccklauff\u00fchler (B9) kurzgeschlossen",
+          "Pufferf\u00fchler (B11) unterbrochen": "Pufferf\u00fchler (B11) unterbrochen",
+          "Pufferf\u00fchler (B11) kurzgeschlossen": "Pufferf\u00fchler (B11) kurzgeschlossen",
+          "Mischerf\u00fchler regenerativ (B2.1) unterbrochen": "Mischerf\u00fchler regenerativ (B2.1) unterbrochen",
+          "Mischerf\u00fchler regenerativ (B2.1) kurzgeschlossen": "Mischerf\u00fchler regenerativ (B2.1) kurzgeschlossen",
+          "Vorlauff\u00fchler Zweiter Heizkreis (B6.2) unterbrochen": "Vorlauff\u00fchler Zweiter Heizkreis (B6.2) unterbrochen",
+          "Vorlauff\u00fchler Zweiter Heizkreis (B6.2) kurzgeschlossen": "Vorlauff\u00fchler Zweiter Heizkreis (B6.2) kurzgeschlossen",
+          "F\u00fchler (T1.2) unterbrochen": "F\u00fchler (T1.2) unterbrochen",
+          "F\u00fchler (T1.2) kurzgeschlossen": "F\u00fchler (T1.2) kurzgeschlossen",
+          "F\u00fchler (T2.2) unterbrochen": "F\u00fchler (T2.2) unterbrochen",
+          "F\u00fchler (T2.2) kurzgeschlossen": "F\u00fchler (T2.2) kurzgeschlossen",
+          "Analogeingang AE1 unterbrochen": "Analogeingang AE1 unterbrochen",
+          "Analogeingang AE1 kurzgeschlossen": "Analogeingang AE1 kurzgeschlossen",
+          "Analogeingang AE2 unterbrochen": "Analogeingang AE2 unterbrochen",
+          "Analogeingang AE2 kurzgeschlossen": "Analogeingang AE2 kurzgeschlossen",
+          "Analogeingang AE3 unterbrochen": "Analogeingang AE3 unterbrochen",
+          "Analogeingang AE3 kurzgeschlossen": "Analogeingang AE3 kurzgeschlossen",
+          "W\u00e4rmepumpe wird au\u00dferhalb der Einsatzgrenzen betrieben": "W\u00e4rmepumpe wird au\u00dferhalb der Einsatzgrenzen betrieben",
+          "maximale Abtauzeit \u00fcberschritten": "maximale Abtauzeit \u00fcberschritten",
+          "Kommunikation K\u00e4ltekreis fehlerhaft": "Kommunikation K\u00e4ltekreis fehlerhaft",
+          "Druckgastemperatur zu hoch": "Druckgastemperatur zu hoch",
+          "Stromaufnahme vom Inverter zu hoch": "Stromaufnahme vom Inverter zu hoch",
+          "Stromaufnahme zu hoch": "Stromaufnahme zu hoch",
+          "Gleichspannung am Inverter zu hoch": "Gleichspannung am Inverter zu hoch",
+          "Gleichspannung am Inverter zu niedrig": "Gleichspannung am Inverter zu niedrig",
+          "W\u00e4rmepumpe wird au\u00dferhalb vom zul\u00e4ssigen Spannungsbereich betrieben": "W\u00e4rmepumpe wird au\u00dferhalb vom zul\u00e4ssigen Spannungsbereich betrieben",
+          "Inverter ist \u00fcberhitzt": "Inverter ist \u00fcberhitzt",
+          "Stellung vom Verdichtermotor kann nicht bestimmt werden": "Stellung vom Verdichtermotor kann nicht bestimmt werden",
+          "Strom zwischen Inverter und Verdichter ist zu hoch": "Strom zwischen Inverter und Verdichter ist zu hoch",
+          "Stromaufnahme vom Verdichter zu hoch Zeit\u00fcberschreitung": "Stromaufnahme vom Verdichter zu hoch Zeit\u00fcberschreitung",
+          "Invertertemperatur zu hoch": "Invertertemperatur zu hoch",
+          "Spannung am Inverter zu gering": "Spannung am Inverter zu gering",
+          "Modbus-Konfigurationsfehler": "Modbus-Konfigurationsfehler",
+          "keine Modbus-Verbindung": "keine Modbus-Verbindung",
+          "Modbus-Kommunikation fehlerhaft": "Modbus-Kommunikation fehlerhaft",
+          "Elektronikfehler": "Elektronikfehler",
+          "Hochdruckschalter defekt": "Hochdruckschalter defekt",
+          "Hochdruckschalter passt nicht zur Konfiguration": "Hochdruckschalter passt nicht zur Konfiguration",
+          "Druckgastemperatur zu niedrig": "Druckgastemperatur zu niedrig",
+          "Invertertemperatur zu niedrig": "Invertertemperatur zu niedrig",
+          "Drosselspulentemperatur zu niedrig": "Drosselspulentemperatur zu niedrig",
+          "Verdichter Stromsensor Phase U Fehler": "Verdichter Stromsensor Phase U Fehler",
+          "Verdichter Stromsensor Phase V Fehler": "Verdichter Stromsensor Phase V Fehler",
+          "Verdichter Stromsensor Phase W Fehler Spannungsversorgung von Eingangsklemme": "Verdichter Stromsensor Phase W Fehler Spannungsversorgung von Eingangsklemme",
+          "Stromsensor Fehler": "Stromsensor Fehler",
+          "Inverter Temperatursensor Fehler": "Inverter Temperatursensor Fehler",
+          "Temperatursensor Fehler": "Temperatursensor Fehler",
+          "Druckgasf\u00fchler (DT)": "Druckgasf\u00fchler (DT)",
+          "keine Kommunikation zur Steuerplatine K\u00e4ltesatz": "keine Kommunikation zur Steuerplatine K\u00e4ltesatz",
+          "EEPROM-Speicher-Fehler": "EEPROM-Speicher-Fehler",
+          "W\u00e4rmepumpe wird au\u00dferhalb vom zul\u00e4ssigen Spannungsbereich betriebe": "W\u00e4rmepumpe wird au\u00dferhalb vom zul\u00e4ssigen Spannungsbereich betriebe",
+          "Phase zwischen Eingang und Verdichter unterbrochen": "Phase zwischen Eingang und Verdichter unterbrochen",
+          "Inverter \u00fcberhitzt": "Inverter \u00fcberhitzt",
+          "Konfigurationsfehler Verdichter": "Konfigurationsfehler Verdichter",
+          "Stromaufnahme vom Verdichter zu hoch": "Stromaufnahme vom Verdichter zu hoch",
+          "Verdichter Phase U \u00dcberspannung": "Verdichter Phase U \u00dcberspannung",
+          "Verdichter Phase V \u00dcberspannung": "Verdichter Phase V \u00dcberspannung",
+          "Verdichter Phase W \u00dcberspannung": "Verdichter Phase W \u00dcberspannung",
+          "Phasenausfall am Verdichter": "Phasenausfall am Verdichter",
+          "Verdichter blockiert": "Verdichter blockiert",
+          "Verdichter startet nicht": "Verdichter startet nicht",
+          "Unregelm\u00e4\u00dfige Spannungsversorgung vom Inverter": "Unregelm\u00e4\u00dfige Spannungsversorgung vom Inverter",
+          "Verdichter \u00fcberlastet": "Verdichter \u00fcberlastet",
+          "Temperatur am Druckgasf\u00fchler (DT) zu hoch": "Temperatur am Druckgasf\u00fchler (DT) zu hoch",
+          "Temperatur am Inverter": "Temperatur am Inverter",
+          "Spannung zu hoch": "Spannung zu hoch"
+        }
+      },
+      "Fehlerfrei": {
+        "name": "Fehlerfrei",
+        "value": {
+          "Fehler aktiv": "Fehler aktiv",
+          "St\u00f6rungsfreier Betrieb": "St\u00f6rungsfreier Betrieb"
+        }
+      },
+      "Betriebsanzeige": {
+        "name": "Betriebsanzeige",
+        "value": {
+          "undefiniert": "undefiniert",
+          "Relaistest": "Relaistest",
+          "Notaus": "Notaus",
+          "Diagnose": "Diagnose",
+          "Handbetrieb": "Handbetrieb",
+          "Handbetrieb Heizen": "Handbetrieb Heizen",
+          "Handbetrieb K\u00fchlen": "Handbetrieb K\u00fchlen",
+          "Manueller Abtaubetrieb": "Manueller Abtaubetrieb",
+          "Abtauen": "Abtauen",
+          "2. WEZ": "2. WEZ",
+          "EVU_SPERRE": "EVU_SPERRE",
+          "SG Tarif": "SG Tarif",
+          "SG Maximal": "SG Maximal",
+          "Tarifladung": "Tarifladung",
+          "Erh\u00f6hter Betrieb": "Erh\u00f6hter Betrieb",
+          "Standzeit": "Standzeit",
+          "Standby": "Standby",
+          "Sp\u00fclen": "Sp\u00fclen",
+          "Frostschutz": "Frostschutz",
+          "Heizbetrieb": "Heizbetrieb",
+          "Warmwasserbetrieb": "Warmwasserbetrieb",
+          "Legionellenschutz": "Legionellenschutz",
+          "Umschaltung HZ KU": "Umschaltung HZ KU",
+          "K\u00fchlbetrieb": "K\u00fchlbetrieb",
+          "Passive K\u00fchlung": "Passive K\u00fchlung",
+          "Sommerbetrieb": "Sommerbetrieb",
+          "Schwimmbadbetrieb": "Schwimmbadbetrieb",
+          "Urlaub": "Urlaub",
+          "Estrichprogramm": "Estrichprogramm",
+          "Gesperrt": "Gesperrt",
+          "Sperre AT": "Sperre AT",
+          "Sperre Sommer": "Sperre Sommer",
+          "Sperre Winter": "Sperre Winter",
+          "Einsatzgrenze": "Einsatzgrenze",
+          "HK Sperre": "HK Sperre",
+          "Absenkbetrieb": "Absenkbetrieb",
+          "Vorlauf regenerativ": "Vorlauf regenerativ",
+          "\u00d6lr\u00fcckf\u00fchrung": "\u00d6lr\u00fcckf\u00fchrung"
+        }
+      },
+      "Betrieb": {
+        "name": "Betrieb",
+        "value": {
+          "Undefiniert": "Undefiniert",
+          "Relaistest": "Relaistest",
+          "Notaus": "Notaus",
+          "Diagnose": "Diagnose",
+          "Handbetrieb": "Handbetrieb",
+          "Handbetrieb Heizen": "Handbetrieb Heizen",
+          "Handbetrieb K\u00fchlen": "Handbetrieb K\u00fchlen",
+          "Manueller Abtaubetrieb": "Manueller Abtaubetrieb",
+          "Abtauen": "Abtauen",
+          "WEZ2": "WEZ2",
+          "EVU_SPERRE": "EVU_SPERRE",
+          "SG Tarif": "SG Tarif",
+          "SG Maximal": "SG Maximal",
+          "Tarifladung": "Tarifladung",
+          "Erh\u00f6hter Betrieb": "Erh\u00f6hter Betrieb",
+          "Standzeit": "Standzeit",
+          "Standbybetrieb": "Standbybetrieb",
+          "Sp\u00fclbetrieb": "Sp\u00fclbetrieb",
+          "Frostschutz": "Frostschutz",
+          "Heizbetrieb": "Heizbetrieb",
+          "Warmwasserbetrieb": "Warmwasserbetrieb",
+          "Legionellenschutz": "Legionellenschutz",
+          "Umschaltung HZ KU": "Umschaltung HZ KU",
+          "K\u00fchlbetrieb": "K\u00fchlbetrieb",
+          "Passive K\u00fchlung": "Passive K\u00fchlung",
+          "Sommerbetrieb": "Sommerbetrieb",
+          "Schwimmbad": "Schwimmbad",
+          "Urlaub": "Urlaub",
+          "Estrich": "Estrich",
+          "Gesperrt": "Gesperrt",
+          "Sperre AT": "Sperre AT",
+          "Sperre Sommer": "Sperre Sommer",
+          "Sperre Winter": "Sperre Winter",
+          "Einsatzgrenze": "Einsatzgrenze",
+          "HK Sperre": "HK Sperre",
+          "Absenk": "Absenk",
+          "\u00d6lr\u00fcckf\u00fchrung": "\u00d6lr\u00fcckf\u00fchrung"
+        }
+      },
+      "St\u00f6rmeldung": {
+        "name": "St\u00f6rmeldung",
+        "value": {
+          "St\u00f6rung": "St\u00f6rung",
+          "St\u00f6rungsfrei": "St\u00f6rungsfrei"
+        }
+      },
+      "Leistungsanforderung": {
+        "name": "Leistungsanforderung"
+      },
+      "W\u00e4rmeleistung": {
+        "name": "W\u00e4rmeleistung",
+        "value": {
+          "power": "power",
+          "divider": "divider",
+          "x": "x",
+          "y": "y"
+        }
+      },
+      "Vorlauftemperatur": {
+        "name": "Vorlauftemperatur",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "R\u00fccklauftemperatur": {
+        "name": "R\u00fccklauftemperatur",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Verdampfungstemperatur": {
+        "name": "Verdampfungstemperatur",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Verdichtersauggastemp": {
+        "name": "Verdichtersauggastemp",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Weichentemperatur": {
+        "name": "Weichentemperatur"
+      },
+      "Anforderung(Vorlauf regenerativ)": {
+        "name": "Anforderung(Vorlauf regenerativ)"
+      },
+      "Puffertemperatur?": {
+        "name": "Puffertemperatur?"
+      },
+      "Vorlauftemperatur pr\u00e4zise(Summenvorlauf(B7))": {
+        "name": "Vorlauftemperatur pr\u00e4zise(Summenvorlauf(B7))",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Konfiguration ": {
+        "name": "Konfiguration ",
+        "value": {
+          "Ncht konfiguriert": "Ncht konfiguriert",
+          "Heizen": "Heizen",
+          "Heizen, K\u00fchlen": "Heizen, K\u00fchlen",
+          "Heizen, K\u00fchlen, Warmwasser": "Heizen, K\u00fchlen, Warmwasser",
+          "Heizen, Warmwasser": "Heizen, Warmwasser"
+        }
+      },
+      "Ruhemodus": {
+        "name": "Ruhemodus",
+        "value": {
+          "aus": "aus",
+          "80 %": "80 %",
+          "60 %": "60 %",
+          "40 %": "40 %"
+        }
+      },
+      "Pumpe Einschaltart": {
+        "name": "Pumpe Einschaltart"
+      },
+      "Sollwert Pumpe Leistung Heizen": {
+        "name": "Sollwert Pumpe Leistung Heizen",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider"
+        }
+      },
+      "Sollwert Pumpe Leistung K\u00fchlen": {
+        "name": "Sollwert Pumpe Leistung K\u00fchlen",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider"
+        }
+      },
+      "Sollwert Pumpe Leistung Warmwasser": {
+        "name": "Sollwert Pumpe Leistung Warmwasser",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider"
+        }
+      },
+      "Sollwert Pumpe Leistung Abtaubetrieb": {
+        "name": "Sollwert Pumpe Leistung Abtaubetrieb",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider"
+        }
+      },
+      "Sollwert Volumenstrom Heizen": {
+        "name": "Sollwert Volumenstrom Heizen",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider"
+        }
+      },
+      "Sollwert Volumenstrom K\u00fchlen": {
+        "name": "Sollwert Volumenstrom K\u00fchlen",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider"
+        }
+      },
+      "Sollwert Volumenstrom Warmwasser": {
+        "name": "Sollwert Volumenstrom Warmwasser",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider"
+        }
+      },
+      "Warmwassersolltemperatur": {
+        "name": "Warmwassersolltemperatur",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Warmwassertemperatur": {
+        "name": "Warmwassertemperatur",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "WW_Konfiguration": {
+        "name": "WW_Konfiguration",
+        "value": {
+          "aus": "aus",
+          "Umlenkventil": "Umlenkventil",
+          "Pumpe": "Pumpe"
+        }
+      },
+      "Raumsolltemperatur": {
+        "name": "Raumsolltemperatur",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumtemperatur": {
+        "name": "Raumtemperatur",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumfeuchte": {
+        "name": "Raumfeuchte"
+      },
+      "Vorlaufsolltemperatur": {
+        "name": "Vorlaufsolltemperatur",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "HZ_Vorlauftemperatur": {
+        "name": "HZ_Vorlauftemperatur",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Adr. 31106": {
+        "name": "Adr. 31106"
+      },
+      "HZ_Konfiguration": {
+        "name": "HZ_Konfiguration",
+        "value": {
+          "aus": "aus",
+          "Pumpenkreis": "Pumpenkreis",
+          "Mischkreis": "Mischkreis",
+          "Sollwert (Pumpe M1)": "Sollwert (Pumpe M1)"
+        }
+      },
+      "Anforderung Typ": {
+        "name": "Anforderung Typ",
+        "value": {
+          "aus": "aus",
+          "witterungsgef\u00fchrt": "witterungsgef\u00fchrt",
+          "konstant": "konstant"
+        }
+      },
+      "Heizen Konstanttemperatur": {
+        "name": "Heizen Konstanttemperatur",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Heizen Konstanttemp Absenk": {
+        "name": "Heizen Konstanttemp Absenk",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "K\u00fchlen Konstanttemperatur": {
+        "name": "K\u00fchlen Konstanttemperatur",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur2": {
+        "name": "Raumsolltemperatur2",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumtemperatur2": {
+        "name": "Raumtemperatur2",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumfeuchte2": {
+        "name": "Raumfeuchte2"
+      },
+      "Vorlaufsolltemperatur2": {
+        "name": "Vorlaufsolltemperatur2",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "HZ_Vorlauftemperatur2": {
+        "name": "HZ_Vorlauftemperatur2",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Adr. 311062": {
+        "name": "Adr. 311062"
+      },
+      "HZ_Konfiguration2": {
+        "name": "HZ_Konfiguration2",
+        "value": {
+          "aus": "aus",
+          "Pumpenkreis": "Pumpenkreis",
+          "Mischkreis": "Mischkreis",
+          "Sollwert (Pumpe M1)": "Sollwert (Pumpe M1)"
+        }
+      },
+      "Anforderung Typ2": {
+        "name": "Anforderung Typ2",
+        "value": {
+          "aus": "aus",
+          "witterungsgef\u00fchrt": "witterungsgef\u00fchrt",
+          "konstant": "konstant"
+        }
+      },
+      "Heizen Konstanttemperatur2": {
+        "name": "Heizen Konstanttemperatur2",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Heizen Konstanttemp Absenk2": {
+        "name": "Heizen Konstanttemp Absenk2",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "K\u00fchlen Konstanttemperatur2": {
+        "name": "K\u00fchlen Konstanttemperatur2",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur3": {
+        "name": "Raumsolltemperatur3",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumtemperatur3": {
+        "name": "Raumtemperatur3",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumfeuchte3": {
+        "name": "Raumfeuchte3"
+      },
+      "Vorlaufsolltemperatur3": {
+        "name": "Vorlaufsolltemperatur3",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "HZ_Vorlauftemperatur3": {
+        "name": "HZ_Vorlauftemperatur3",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Adr. 311063": {
+        "name": "Adr. 311063"
+      },
+      "HZ_Konfiguration3": {
+        "name": "HZ_Konfiguration3",
+        "value": {
+          "aus": "aus",
+          "Pumpenkreis": "Pumpenkreis",
+          "Mischkreis": "Mischkreis",
+          "Sollwert (Pumpe M1)": "Sollwert (Pumpe M1)"
+        }
+      },
+      "Anforderung Typ3": {
+        "name": "Anforderung Typ3",
+        "value": {
+          "aus": "aus",
+          "witterungsgef\u00fchrt": "witterungsgef\u00fchrt",
+          "konstant": "konstant"
+        }
+      },
+      "Heizen Konstanttemperatur3": {
+        "name": "Heizen Konstanttemperatur3",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Heizen Konstanttemp Absenk3": {
+        "name": "Heizen Konstanttemp Absenk3",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "K\u00fchlen Konstanttemperatur3": {
+        "name": "K\u00fchlen Konstanttemperatur3",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur4": {
+        "name": "Raumsolltemperatur4",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumtemperatur4": {
+        "name": "Raumtemperatur4",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumfeuchte4": {
+        "name": "Raumfeuchte4"
+      },
+      "Vorlaufsolltemperatur4": {
+        "name": "Vorlaufsolltemperatur4",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "HZ_Vorlauftemperatur4": {
+        "name": "HZ_Vorlauftemperatur4",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Adr. 311064": {
+        "name": "Adr. 311064"
+      },
+      "HZ_Konfiguration4": {
+        "name": "HZ_Konfiguration4",
+        "value": {
+          "aus": "aus",
+          "Pumpenkreis": "Pumpenkreis",
+          "Mischkreis": "Mischkreis",
+          "Sollwert (Pumpe M1)": "Sollwert (Pumpe M1)"
+        }
+      },
+      "Anforderung Typ4": {
+        "name": "Anforderung Typ4",
+        "value": {
+          "aus": "aus",
+          "witterungsgef\u00fchrt": "witterungsgef\u00fchrt",
+          "konstant": "konstant"
+        }
+      },
+      "Heizen Konstanttemperatur4": {
+        "name": "Heizen Konstanttemperatur4",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Heizen Konstanttemp Absenk4": {
+        "name": "Heizen Konstanttemp Absenk4",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "K\u00fchlen Konstanttemperatur4": {
+        "name": "K\u00fchlen Konstanttemperatur4",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur5": {
+        "name": "Raumsolltemperatur5",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumtemperatur5": {
+        "name": "Raumtemperatur5",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumfeuchte5": {
+        "name": "Raumfeuchte5"
+      },
+      "Vorlaufsolltemperatur5": {
+        "name": "Vorlaufsolltemperatur5",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "HZ_Vorlauftemperatur5": {
+        "name": "HZ_Vorlauftemperatur5",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Adr. 311065": {
+        "name": "Adr. 311065"
+      },
+      "HZ_Konfiguration5": {
+        "name": "HZ_Konfiguration5",
+        "value": {
+          "aus": "aus",
+          "Pumpenkreis": "Pumpenkreis",
+          "Mischkreis": "Mischkreis",
+          "Sollwert (Pumpe M1)": "Sollwert (Pumpe M1)"
+        }
+      },
+      "Anforderung Typ5": {
+        "name": "Anforderung Typ5",
+        "value": {
+          "aus": "aus",
+          "witterungsgef\u00fchrt": "witterungsgef\u00fchrt",
+          "konstant": "konstant"
+        }
+      },
+      "Heizen Konstanttemperatur5": {
+        "name": "Heizen Konstanttemperatur5",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Heizen Konstanttemp Absenk5": {
+        "name": "Heizen Konstanttemp Absenk5",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "K\u00fchlen Konstanttemperatur5": {
+        "name": "K\u00fchlen Konstanttemperatur5",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Status 2. WEZ": {
+        "name": "Status 2. WEZ",
+        "value": {
+          "aus": "aus",
+          "ein": "ein"
+        }
+      },
+      "Schaltspiele E-Heizung 1": {
+        "name": "Schaltspiele E-Heizung 1"
+      },
+      "Betriebsstunden E1": {
+        "name": "Betriebsstunden E1"
+      },
+      "Status E-Heizung 1": {
+        "name": "Status E-Heizung 1",
+        "value": {
+          "aus": "aus",
+          "ein": "ein"
+        }
+      },
+      "Status E-Heizung 2": {
+        "name": "Status E-Heizung 2",
+        "value": {
+          "aus": "aus",
+          "ein": "ein"
+        }
+      },
+      "Schaltspiele E-Heizung 2": {
+        "name": "Schaltspiele E-Heizung 2"
+      },
+      "Betriebsstunden E2": {
+        "name": "Betriebsstunden E2"
+      },
+      "W2_Konfiguration": {
+        "name": "W2_Konfiguration",
+        "value": {
+          "0": "0",
+          "1": "1"
+        }
+      },
+      "Gesamt Energie heute": {
+        "name": "Gesamt Energie heute",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Gesamt Energie gestern": {
+        "name": "Gesamt Energie gestern",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Gesamt Energie Monat": {
+        "name": "Gesamt Energie Monat",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Gesamt Energie Jahr": {
+        "name": "Gesamt Energie Jahr",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Heizen Energie heute": {
+        "name": "Heizen Energie heute",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Heizen Energie gestern": {
+        "name": "Heizen Energie gestern",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Heizen Energie Monat": {
+        "name": "Heizen Energie Monat",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Heizen Energie Jahr": {
+        "name": "Heizen Energie Jahr",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Warmwasser Energie heute": {
+        "name": "Warmwasser Energie heute",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Warmwasser Energie gestern": {
+        "name": "Warmwasser Energie gestern",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Warmwasser Energie Monat": {
+        "name": "Warmwasser Energie Monat",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Warmwasser Energie Jahr": {
+        "name": "Warmwasser Energie Jahr",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "K\u00fchlen Energie heute": {
+        "name": "K\u00fchlen Energie heute",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "K\u00fchlen Energie gestern": {
+        "name": "K\u00fchlen Energie gestern",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "K\u00fchlen Energie Monat": {
+        "name": "K\u00fchlen Energie Monat",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "K\u00fchlen Energie Jahr": {
+        "name": "K\u00fchlen Energie Jahr",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Abtauen Energie heute": {
+        "name": "Abtauen Energie heute",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Abtauen Energie gestern": {
+        "name": "Abtauen Energie gestern",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Abtauen Energie Monat": {
+        "name": "Abtauen Energie Monat",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Abtauen Energie Jahr": {
+        "name": "Abtauen Energie Jahr",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Gesamt Energie II heute": {
+        "name": "Gesamt Energie II heute",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Gesamt Energie II gestern": {
+        "name": "Gesamt Energie II gestern",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Gesamt Energie II Monat": {
+        "name": "Gesamt Energie II Monat",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Gesamt Energie II Jahr": {
+        "name": "Gesamt Energie II Jahr",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Elektr. Energie heute": {
+        "name": "Elektr. Energie heute",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Elektr. Energie gestern": {
+        "name": "Elektr. Energie gestern",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Elektr. Energie Monat": {
+        "name": "Elektr. Energie Monat",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Elektr. Energie Jahr": {
+        "name": "Elektr. Energie Jahr",
+        "value": {
+          "energy": "energy",
+          "divider": "divider"
+        }
+      },
+      "Adr. 36801": {
+        "name": "Adr. 36801"
+      },
+      "SG-Ready 1": {
+        "name": "SG-Ready 1"
+      },
+      "SG-Ready 2": {
+        "name": "SG-Ready 2"
+      },
+      "Ausgang H1.2": {
+        "name": "Ausgang H1.2"
+      },
+      "Ausgang H1.3": {
+        "name": "Ausgang H1.3"
+      },
+      "Ausgang H1.4": {
+        "name": "Ausgang H1.4"
+      },
+      "Ausgang H1.5": {
+        "name": "Ausgang H1.5"
+      },
+      "Eingang DE1": {
+        "name": "Eingang DE1",
+        "value": {
+          "aus": "aus",
+          "ein": "ein"
+        }
+      },
+      "Eingang DE2": {
+        "name": "Eingang DE2",
+        "value": {
+          "aus": "aus",
+          "ein": "ein"
+        }
+      },
+      "Konf. Eingang SGR1": {
+        "name": "Konf. Eingang SGR1",
+        "value": {
+          "SG Ready": "SG Ready",
+          "EVU-Sperre:": "EVU-Sperre:",
+          "Erh\u00f6hter Betrieb": "Erh\u00f6hter Betrieb",
+          "HK-Sperre": "HK-Sperre",
+          "Umschaltung Hz/K\u00fc:": "Umschaltung Hz/K\u00fc:",
+          "Ruhemodus": "Ruhemodus",
+          "Not-Aus:": "Not-Aus:",
+          "System Standby:": "System Standby:",
+          "Erzeugersperre HZ:": "Erzeugersperre HZ:",
+          "Erzeugersperre WW:": "Erzeugersperre WW:",
+          "Erzeugersperre HZ und WW:": "Erzeugersperre HZ und WW:",
+          "Warmwasser Standby:": "Warmwasser Standby:",
+          "Warmwasser Absenk:": "Warmwasser Absenk:",
+          "Warmwasser Normal:": "Warmwasser Normal:",
+          "Warmwasser PUSH:": "Warmwasser PUSH:",
+          "Taupunktw\u00e4chter": "Taupunktw\u00e4chter",
+          "Heizkreis \u2026 Standby:": "Heizkreis \u2026 Standby:",
+          "Heizkreis \u2026 Absenk:": "Heizkreis \u2026 Absenk:",
+          "Heizkreis \u2026 Normal:": "Heizkreis \u2026 Normal:",
+          "Heizkreis \u2026 Komfort:": "Heizkreis \u2026 Komfort:",
+          "2.WEZ": "2.WEZ",
+          "Sperre Verdichter:": "Sperre Verdichter:",
+          "AUS": "AUS"
+        }
+      },
+      "Konf. Eingang SGR2": {
+        "name": "Konf. Eingang SGR2",
+        "value": {
+          "SG Ready": "SG Ready",
+          "EVU-Sperre:": "EVU-Sperre:",
+          "Erh\u00f6hter Betrieb": "Erh\u00f6hter Betrieb",
+          "HK-Sperre": "HK-Sperre",
+          "Umschaltung Hz/K\u00fc:": "Umschaltung Hz/K\u00fc:",
+          "Ruhemodus": "Ruhemodus",
+          "Not-Aus:": "Not-Aus:",
+          "System Standby:": "System Standby:",
+          "Erzeugersperre HZ:": "Erzeugersperre HZ:",
+          "Erzeugersperre WW:": "Erzeugersperre WW:",
+          "Erzeugersperre HZ und WW:": "Erzeugersperre HZ und WW:",
+          "Warmwasser Standby:": "Warmwasser Standby:",
+          "Warmwasser Absenk:": "Warmwasser Absenk:",
+          "Warmwasser Normal:": "Warmwasser Normal:",
+          "Warmwasser PUSH:": "Warmwasser PUSH:",
+          "Taupunktw\u00e4chter": "Taupunktw\u00e4chter",
+          "Heizkreis \u2026 Standby:": "Heizkreis \u2026 Standby:",
+          "Heizkreis \u2026 Absenk:": "Heizkreis \u2026 Absenk:",
+          "Heizkreis \u2026 Normal:": "Heizkreis \u2026 Normal:",
+          "Heizkreis \u2026 Komfort:": "Heizkreis \u2026 Komfort:",
+          "2.WEZ": "2.WEZ",
+          "Sperre Verdichter:": "Sperre Verdichter:",
+          "AUS": "AUS"
+        }
+      },
+      "Konf. Ausgang H1.2": {
+        "name": "Konf. Ausgang H1.2",
+        "value": {
+          "0": "0",
+          "1": "1",
+          "2": "2",
+          "3": "3",
+          "4": "4",
+          "5": "5",
+          "6": "6",
+          "7": "7",
+          "65535": "65535"
+        }
+      },
+      "Konf. Ausgang  H1.3": {
+        "name": "Konf. Ausgang  H1.3",
+        "value": {
+          "0": "0",
+          "1": "1",
+          "2": "2",
+          "3": "3",
+          "4": "4",
+          "5": "5",
+          "6": "6",
+          "7": "7",
+          "65535": "65535"
+        }
+      },
+      "Konf. Ausgang  H1.4": {
+        "name": "Konf. Ausgang  H1.4",
+        "value": {
+          "0": "0",
+          "1": "1",
+          "2": "2",
+          "3": "3",
+          "4": "4",
+          "5": "5",
+          "6": "6",
+          "7": "7",
+          "65535": "65535"
+        }
+      },
+      "Konf. Ausgang  H1.5": {
+        "name": "Konf. Ausgang  H1.5",
+        "value": {
+          "0": "0",
+          "1": "1",
+          "2": "2",
+          "3": "3",
+          "4": "4",
+          "5": "5",
+          "6": "6",
+          "7": "7",
+          "65535": "65535"
+        }
+      },
+      "Konf. Eingang DE1": {
+        "name": "Konf. Eingang DE1",
+        "value": {
+          "SG Ready": "SG Ready",
+          "EVU-Sperre:": "EVU-Sperre:",
+          "Erh\u00f6hter Betrieb": "Erh\u00f6hter Betrieb",
+          "HK-Sperre": "HK-Sperre",
+          "Umschaltung Hz/K\u00fc:": "Umschaltung Hz/K\u00fc:",
+          "Ruhemodus": "Ruhemodus",
+          "Not-Aus:": "Not-Aus:",
+          "System Standby:": "System Standby:",
+          "Erzeugersperre HZ:": "Erzeugersperre HZ:",
+          "Erzeugersperre WW:": "Erzeugersperre WW:",
+          "Erzeugersperre HZ und WW:": "Erzeugersperre HZ und WW:",
+          "Warmwasser Standby:": "Warmwasser Standby:",
+          "Warmwasser Absenk:": "Warmwasser Absenk:",
+          "Warmwasser Normal:": "Warmwasser Normal:",
+          "Warmwasser PUSH:": "Warmwasser PUSH:",
+          "Taupunktw\u00e4chter": "Taupunktw\u00e4chter",
+          "Heizkreis \u2026 Standby:": "Heizkreis \u2026 Standby:",
+          "Heizkreis \u2026 Absenk:": "Heizkreis \u2026 Absenk:",
+          "Heizkreis \u2026 Normal:": "Heizkreis \u2026 Normal:",
+          "Heizkreis \u2026 Komfort:": "Heizkreis \u2026 Komfort:",
+          "2.WEZ": "2.WEZ",
+          "Sperre Verdichter:": "Sperre Verdichter:",
+          "AUS": "AUS"
+        }
+      },
+      "Konf. Eingang DE2": {
+        "name": "Konf. Eingang DE2",
+        "value": {
+          "SG Ready": "SG Ready",
+          "EVU-Sperre:": "EVU-Sperre:",
+          "Erh\u00f6hter Betrieb": "Erh\u00f6hter Betrieb",
+          "HK-Sperre": "HK-Sperre",
+          "Umschaltung Hz/K\u00fc:": "Umschaltung Hz/K\u00fc:",
+          "Ruhemodus": "Ruhemodus",
+          "Not-Aus:": "Not-Aus:",
+          "System Standby:": "System Standby:",
+          "Erzeugersperre HZ:": "Erzeugersperre HZ:",
+          "Erzeugersperre WW:": "Erzeugersperre WW:",
+          "Erzeugersperre HZ und WW:": "Erzeugersperre HZ und WW:",
+          "Warmwasser Standby:": "Warmwasser Standby:",
+          "Warmwasser Absenk:": "Warmwasser Absenk:",
+          "Warmwasser Normal:": "Warmwasser Normal:",
+          "Warmwasser PUSH:": "Warmwasser PUSH:",
+          "Taupunktw\u00e4chter": "Taupunktw\u00e4chter",
+          "Heizkreis \u2026 Standby:": "Heizkreis \u2026 Standby:",
+          "Heizkreis \u2026 Absenk:": "Heizkreis \u2026 Absenk:",
+          "Heizkreis \u2026 Normal:": "Heizkreis \u2026 Normal:",
+          "Heizkreis \u2026 Komfort:": "Heizkreis \u2026 Komfort:",
+          "2.WEZ": "2.WEZ",
+          "Sperre Verdichter:": "Sperre Verdichter:",
+          "AUS": "AUS"
+        }
+      }
+    },
+    "number": {
+      "Warmwasser Normal": {
+        "name": "Warmwasser Normal",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Warmwasser Absenk": {
+        "name": "Warmwasser Absenk",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "SG Ready Anhebung": {
+        "name": "SG Ready Anhebung",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur Komfort": {
+        "name": "Raumsolltemperatur Komfort",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur Normal": {
+        "name": "Raumsolltemperatur Normal",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur Absenk": {
+        "name": "Raumsolltemperatur Absenk",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Heizkennlinie": {
+        "name": "Heizkennlinie",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider"
+        }
+      },
+      "Sommer Winter Umschaltung": {
+        "name": "Sommer Winter Umschaltung",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur Komfort2": {
+        "name": "Raumsolltemperatur Komfort2",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur Normal2": {
+        "name": "Raumsolltemperatur Normal2",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur Absenk2": {
+        "name": "Raumsolltemperatur Absenk2",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Heizkennlinie2": {
+        "name": "Heizkennlinie2",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider"
+        }
+      },
+      "Sommer Winter Umschaltung2": {
+        "name": "Sommer Winter Umschaltung2",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur Komfort3": {
+        "name": "Raumsolltemperatur Komfort3",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur Normal3": {
+        "name": "Raumsolltemperatur Normal3",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur Absenk3": {
+        "name": "Raumsolltemperatur Absenk3",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Heizkennlinie3": {
+        "name": "Heizkennlinie3",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider"
+        }
+      },
+      "Sommer Winter Umschaltung3": {
+        "name": "Sommer Winter Umschaltung3",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur Komfort4": {
+        "name": "Raumsolltemperatur Komfort4",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur Normal4": {
+        "name": "Raumsolltemperatur Normal4",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur Absenk4": {
+        "name": "Raumsolltemperatur Absenk4",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Heizkennlinie4": {
+        "name": "Heizkennlinie4",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider"
+        }
+      },
+      "Sommer Winter Umschaltung4": {
+        "name": "Sommer Winter Umschaltung4",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur Komfort5": {
+        "name": "Raumsolltemperatur Komfort5",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur Normal5": {
+        "name": "Raumsolltemperatur Normal5",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Raumsolltemperatur Absenk5": {
+        "name": "Raumsolltemperatur Absenk5",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Heizkennlinie5": {
+        "name": "Heizkennlinie5",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider"
+        }
+      },
+      "Sommer Winter Umschaltung5": {
+        "name": "Sommer Winter Umschaltung5",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Grenztemperatur": {
+        "name": "Grenztemperatur",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Bivalenztemperatur": {
+        "name": "Bivalenztemperatur",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      },
+      "Bivalenztemperatur WW": {
+        "name": "Bivalenztemperatur WW",
+        "value": {
+          "min": "min",
+          "max": "max",
+          "step": "step",
+          "divider": "divider",
+          "temperature": "temperature"
+        }
+      }
+    },
+    "select": {
+      "Systembetriebsart": {
+        "name": "Systembetriebsart",
+        "value": {
+          "Automatik": "Automatik",
+          "Heizen": "Heizen",
+          "K\u00fchlen": "K\u00fchlen",
+          "Sommer": "Sommer",
+          "Standby": "Standby",
+          "2.WEZ": "2.WEZ"
+        }
+      },
+      "Warmwasser Push": {
+        "name": "Warmwasser Push",
+        "value": {
+          "AUS": "AUS",
+          "5Minuten": "5Minuten",
+          "10Minuten": "10Minuten",
+          "15Minuten": "15Minuten",
+          "20Minuten": "20Minuten",
+          "25Minuten": "25Minuten",
+          "30Minuten": "30Minuten",
+          "35Minuten": "35Minuten",
+          "40Minuten": "40Minuten",
+          "45Minuten": "45Minuten",
+          "50Minuten": "50Minuten",
+          "55Minuten": "55Minuten",
+          "60Minuten": "60Minuten",
+          "65Minuten": "65Minuten",
+          "70Minuten": "70Minuten",
+          "75Minuten": "75Minuten",
+          "80Minuten": "80Minuten",
+          "85Minuten": "85Minuten",
+          "90Minuten": "90Minuten",
+          "95Minuten": "95Minuten",
+          "100Minuten": "100Minuten",
+          "105Minuten": "105Minuten",
+          "110Minuten": "110Minuten",
+          "115Minuten": "115Minuten",
+          "120Minuten": "120Minuten",
+          "125Minuten": "125Minuten",
+          "130Minuten": "130Minuten",
+          "135Minuten": "135Minuten",
+          "140Minuten": "140Minuten",
+          "145Minuten": "145Minuten",
+          "150Minuten": "150Minuten",
+          "155Minuten": "155Minuten",
+          "160Minuten": "160Minuten",
+          "165Minuten": "165Minuten",
+          "170Minuten": "170Minuten",
+          "175Minuten": "175Minuten",
+          "180Minuten": "180Minuten",
+          "185Minuten": "185Minuten",
+          "190Minuten": "190Minuten",
+          "195Minuten": "195Minuten",
+          "200Minuten": "200Minuten",
+          "205Minuten": "205Minuten",
+          "210Minuten": "210Minuten",
+          "215Minuten": "215Minuten",
+          "220Minuten": "220Minuten",
+          "225Minuten": "225Minuten",
+          "230Minuten": "230Minuten",
+          "235Minuten": "235Minuten"
+        }
+      },
+      "Betriebsart": {
+        "name": "Betriebsart",
+        "value": {
+          "Automatik": "Automatik",
+          "Komfort": "Komfort",
+          "Normal": "Normal",
+          "Absenkbetrieb": "Absenkbetrieb",
+          "Standby": "Standby"
+        }
+      },
+      "Pause / Party": {
+        "name": "Pause / Party",
+        "value": {
+          "Pause 12.0h": "Pause 12.0h",
+          "Pause 11.5h": "Pause 11.5h",
+          "Pause 11.0h": "Pause 11.0h",
+          "Pause 10.5h": "Pause 10.5h",
+          "Pause 10.0h": "Pause 10.0h",
+          "Pause 9.5h": "Pause 9.5h",
+          "Pause 9.0h": "Pause 9.0h",
+          "Pause 8.5h": "Pause 8.5h",
+          "Pause 8.0h": "Pause 8.0h",
+          "Pause 7.5h": "Pause 7.5h",
+          "Pause 7.0h": "Pause 7.0h",
+          "Pause 6.5h": "Pause 6.5h",
+          "Pause 6.0h": "Pause 6.0h",
+          "Pause 5.5h": "Pause 5.5h",
+          "Pause 5.0h": "Pause 5.0h",
+          "Pause 4.5h": "Pause 4.5h",
+          "Pause 4.0h": "Pause 4.0h",
+          "Pause 3.5h": "Pause 3.5h",
+          "Pause 3.0h": "Pause 3.0h",
+          "Pause 2.5h": "Pause 2.5h",
+          "Pause 2.0h": "Pause 2.0h",
+          "Pause 1.5h": "Pause 1.5h",
+          "Pause 1.0h": "Pause 1.0h",
+          "Pause 0.5h": "Pause 0.5h",
+          "Automatik": "Automatik",
+          "Party 0.5h": "Party 0.5h",
+          "Party 1.0h": "Party 1.0h",
+          "Party 1.5h": "Party 1.5h",
+          "Party 2.0h": "Party 2.0h",
+          "Party 2.5h": "Party 2.5h",
+          "Party 3.0h": "Party 3.0h",
+          "Party 3.5h": "Party 3.5h",
+          "Party 4.0h": "Party 4.0h",
+          "Party 4.5h": "Party 4.5h",
+          "Party 5.0h": "Party 5.0h",
+          "Party 5.5h": "Party 5.5h",
+          "Party 6.0h": "Party 6.0h",
+          "Party 6.5h": "Party 6.5h",
+          "Party 7.0h": "Party 7.0h",
+          "Party 7.5h": "Party 7.5h",
+          "Party 8.0h": "Party 8.0h",
+          "Party 8.5h": "Party 8.5h",
+          "Party 9.0h": "Party 9.0h",
+          "Party 9.5h": "Party 9.5h",
+          "Party 10.0h": "Party 10.0h",
+          "Party 10.5h": "Party 10.5h",
+          "Party 11.0h": "Party 11.0h",
+          "Party 11.5h": "Party 11.5h",
+          "Party 12.0h": "Party 12.0h"
+        }
+      },
+      "Betriebsart2": {
+        "name": "Betriebsart2",
+        "value": {
+          "Automatik": "Automatik",
+          "Komfort": "Komfort",
+          "Normal": "Normal",
+          "Absenkbetrieb": "Absenkbetrieb",
+          "Standby": "Standby"
+        }
+      },
+      "Pause / Party2": {
+        "name": "Pause / Party2",
+        "value": {
+          "Pause 12.0h": "Pause 12.0h",
+          "Pause 11.5h": "Pause 11.5h",
+          "Pause 11.0h": "Pause 11.0h",
+          "Pause 10.5h": "Pause 10.5h",
+          "Pause 10.0h": "Pause 10.0h",
+          "Pause 9.5h": "Pause 9.5h",
+          "Pause 9.0h": "Pause 9.0h",
+          "Pause 8.5h": "Pause 8.5h",
+          "Pause 8.0h": "Pause 8.0h",
+          "Pause 7.5h": "Pause 7.5h",
+          "Pause 7.0h": "Pause 7.0h",
+          "Pause 6.5h": "Pause 6.5h",
+          "Pause 6.0h": "Pause 6.0h",
+          "Pause 5.5h": "Pause 5.5h",
+          "Pause 5.0h": "Pause 5.0h",
+          "Pause 4.5h": "Pause 4.5h",
+          "Pause 4.0h": "Pause 4.0h",
+          "Pause 3.5h": "Pause 3.5h",
+          "Pause 3.0h": "Pause 3.0h",
+          "Pause 2.5h": "Pause 2.5h",
+          "Pause 2.0h": "Pause 2.0h",
+          "Pause 1.5h": "Pause 1.5h",
+          "Pause 1.0h": "Pause 1.0h",
+          "Pause 0.5h": "Pause 0.5h",
+          "Automatik": "Automatik",
+          "Party 0.5h": "Party 0.5h",
+          "Party 1.0h": "Party 1.0h",
+          "Party 1.5h": "Party 1.5h",
+          "Party 2.0h": "Party 2.0h",
+          "Party 2.5h": "Party 2.5h",
+          "Party 3.0h": "Party 3.0h",
+          "Party 3.5h": "Party 3.5h",
+          "Party 4.0h": "Party 4.0h",
+          "Party 4.5h": "Party 4.5h",
+          "Party 5.0h": "Party 5.0h",
+          "Party 5.5h": "Party 5.5h",
+          "Party 6.0h": "Party 6.0h",
+          "Party 6.5h": "Party 6.5h",
+          "Party 7.0h": "Party 7.0h",
+          "Party 7.5h": "Party 7.5h",
+          "Party 8.0h": "Party 8.0h",
+          "Party 8.5h": "Party 8.5h",
+          "Party 9.0h": "Party 9.0h",
+          "Party 9.5h": "Party 9.5h",
+          "Party 10.0h": "Party 10.0h",
+          "Party 10.5h": "Party 10.5h",
+          "Party 11.0h": "Party 11.0h",
+          "Party 11.5h": "Party 11.5h",
+          "Party 12.0h": "Party 12.0h"
+        }
+      },
+      "Betriebsart3": {
+        "name": "Betriebsart3",
+        "value": {
+          "Automatik": "Automatik",
+          "Komfort": "Komfort",
+          "Normal": "Normal",
+          "Absenkbetrieb": "Absenkbetrieb",
+          "Standby": "Standby"
+        }
+      },
+      "Pause / Party3": {
+        "name": "Pause / Party3",
+        "value": {
+          "Pause 12.0h": "Pause 12.0h",
+          "Pause 11.5h": "Pause 11.5h",
+          "Pause 11.0h": "Pause 11.0h",
+          "Pause 10.5h": "Pause 10.5h",
+          "Pause 10.0h": "Pause 10.0h",
+          "Pause 9.5h": "Pause 9.5h",
+          "Pause 9.0h": "Pause 9.0h",
+          "Pause 8.5h": "Pause 8.5h",
+          "Pause 8.0h": "Pause 8.0h",
+          "Pause 7.5h": "Pause 7.5h",
+          "Pause 7.0h": "Pause 7.0h",
+          "Pause 6.5h": "Pause 6.5h",
+          "Pause 6.0h": "Pause 6.0h",
+          "Pause 5.5h": "Pause 5.5h",
+          "Pause 5.0h": "Pause 5.0h",
+          "Pause 4.5h": "Pause 4.5h",
+          "Pause 4.0h": "Pause 4.0h",
+          "Pause 3.5h": "Pause 3.5h",
+          "Pause 3.0h": "Pause 3.0h",
+          "Pause 2.5h": "Pause 2.5h",
+          "Pause 2.0h": "Pause 2.0h",
+          "Pause 1.5h": "Pause 1.5h",
+          "Pause 1.0h": "Pause 1.0h",
+          "Pause 0.5h": "Pause 0.5h",
+          "Automatik": "Automatik",
+          "Party 0.5h": "Party 0.5h",
+          "Party 1.0h": "Party 1.0h",
+          "Party 1.5h": "Party 1.5h",
+          "Party 2.0h": "Party 2.0h",
+          "Party 2.5h": "Party 2.5h",
+          "Party 3.0h": "Party 3.0h",
+          "Party 3.5h": "Party 3.5h",
+          "Party 4.0h": "Party 4.0h",
+          "Party 4.5h": "Party 4.5h",
+          "Party 5.0h": "Party 5.0h",
+          "Party 5.5h": "Party 5.5h",
+          "Party 6.0h": "Party 6.0h",
+          "Party 6.5h": "Party 6.5h",
+          "Party 7.0h": "Party 7.0h",
+          "Party 7.5h": "Party 7.5h",
+          "Party 8.0h": "Party 8.0h",
+          "Party 8.5h": "Party 8.5h",
+          "Party 9.0h": "Party 9.0h",
+          "Party 9.5h": "Party 9.5h",
+          "Party 10.0h": "Party 10.0h",
+          "Party 10.5h": "Party 10.5h",
+          "Party 11.0h": "Party 11.0h",
+          "Party 11.5h": "Party 11.5h",
+          "Party 12.0h": "Party 12.0h"
+        }
+      },
+      "Betriebsart4": {
+        "name": "Betriebsart4",
+        "value": {
+          "Automatik": "Automatik",
+          "Komfort": "Komfort",
+          "Normal": "Normal",
+          "Absenkbetrieb": "Absenkbetrieb",
+          "Standby": "Standby"
+        }
+      },
+      "Pause / Party4": {
+        "name": "Pause / Party4",
+        "value": {
+          "Pause 12.0h": "Pause 12.0h",
+          "Pause 11.5h": "Pause 11.5h",
+          "Pause 11.0h": "Pause 11.0h",
+          "Pause 10.5h": "Pause 10.5h",
+          "Pause 10.0h": "Pause 10.0h",
+          "Pause 9.5h": "Pause 9.5h",
+          "Pause 9.0h": "Pause 9.0h",
+          "Pause 8.5h": "Pause 8.5h",
+          "Pause 8.0h": "Pause 8.0h",
+          "Pause 7.5h": "Pause 7.5h",
+          "Pause 7.0h": "Pause 7.0h",
+          "Pause 6.5h": "Pause 6.5h",
+          "Pause 6.0h": "Pause 6.0h",
+          "Pause 5.5h": "Pause 5.5h",
+          "Pause 5.0h": "Pause 5.0h",
+          "Pause 4.5h": "Pause 4.5h",
+          "Pause 4.0h": "Pause 4.0h",
+          "Pause 3.5h": "Pause 3.5h",
+          "Pause 3.0h": "Pause 3.0h",
+          "Pause 2.5h": "Pause 2.5h",
+          "Pause 2.0h": "Pause 2.0h",
+          "Pause 1.5h": "Pause 1.5h",
+          "Pause 1.0h": "Pause 1.0h",
+          "Pause 0.5h": "Pause 0.5h",
+          "Automatik": "Automatik",
+          "Party 0.5h": "Party 0.5h",
+          "Party 1.0h": "Party 1.0h",
+          "Party 1.5h": "Party 1.5h",
+          "Party 2.0h": "Party 2.0h",
+          "Party 2.5h": "Party 2.5h",
+          "Party 3.0h": "Party 3.0h",
+          "Party 3.5h": "Party 3.5h",
+          "Party 4.0h": "Party 4.0h",
+          "Party 4.5h": "Party 4.5h",
+          "Party 5.0h": "Party 5.0h",
+          "Party 5.5h": "Party 5.5h",
+          "Party 6.0h": "Party 6.0h",
+          "Party 6.5h": "Party 6.5h",
+          "Party 7.0h": "Party 7.0h",
+          "Party 7.5h": "Party 7.5h",
+          "Party 8.0h": "Party 8.0h",
+          "Party 8.5h": "Party 8.5h",
+          "Party 9.0h": "Party 9.0h",
+          "Party 9.5h": "Party 9.5h",
+          "Party 10.0h": "Party 10.0h",
+          "Party 10.5h": "Party 10.5h",
+          "Party 11.0h": "Party 11.0h",
+          "Party 11.5h": "Party 11.5h",
+          "Party 12.0h": "Party 12.0h"
+        }
+      },
+      "Betriebsart5": {
+        "name": "Betriebsart5",
+        "value": {
+          "Automatik": "Automatik",
+          "Komfort": "Komfort",
+          "Normal": "Normal",
+          "Absenkbetrieb": "Absenkbetrieb",
+          "Standby": "Standby"
+        }
+      },
+      "Pause / Party5": {
+        "name": "Pause / Party5",
+        "value": {
+          "Pause 12.0h": "Pause 12.0h",
+          "Pause 11.5h": "Pause 11.5h",
+          "Pause 11.0h": "Pause 11.0h",
+          "Pause 10.5h": "Pause 10.5h",
+          "Pause 10.0h": "Pause 10.0h",
+          "Pause 9.5h": "Pause 9.5h",
+          "Pause 9.0h": "Pause 9.0h",
+          "Pause 8.5h": "Pause 8.5h",
+          "Pause 8.0h": "Pause 8.0h",
+          "Pause 7.5h": "Pause 7.5h",
+          "Pause 7.0h": "Pause 7.0h",
+          "Pause 6.5h": "Pause 6.5h",
+          "Pause 6.0h": "Pause 6.0h",
+          "Pause 5.5h": "Pause 5.5h",
+          "Pause 5.0h": "Pause 5.0h",
+          "Pause 4.5h": "Pause 4.5h",
+          "Pause 4.0h": "Pause 4.0h",
+          "Pause 3.5h": "Pause 3.5h",
+          "Pause 3.0h": "Pause 3.0h",
+          "Pause 2.5h": "Pause 2.5h",
+          "Pause 2.0h": "Pause 2.0h",
+          "Pause 1.5h": "Pause 1.5h",
+          "Pause 1.0h": "Pause 1.0h",
+          "Pause 0.5h": "Pause 0.5h",
+          "Automatik": "Automatik",
+          "Party 0.5h": "Party 0.5h",
+          "Party 1.0h": "Party 1.0h",
+          "Party 1.5h": "Party 1.5h",
+          "Party 2.0h": "Party 2.0h",
+          "Party 2.5h": "Party 2.5h",
+          "Party 3.0h": "Party 3.0h",
+          "Party 3.5h": "Party 3.5h",
+          "Party 4.0h": "Party 4.0h",
+          "Party 4.5h": "Party 4.5h",
+          "Party 5.0h": "Party 5.0h",
+          "Party 5.5h": "Party 5.5h",
+          "Party 6.0h": "Party 6.0h",
+          "Party 6.5h": "Party 6.5h",
+          "Party 7.0h": "Party 7.0h",
+          "Party 7.5h": "Party 7.5h",
+          "Party 8.0h": "Party 8.0h",
+          "Party 8.5h": "Party 8.5h",
+          "Party 9.0h": "Party 9.0h",
+          "Party 9.5h": "Party 9.5h",
+          "Party 10.0h": "Party 10.0h",
+          "Party 10.5h": "Party 10.5h",
+          "Party 11.0h": "Party 11.0h",
+          "Party 11.5h": "Party 11.5h",
+          "Party 12.0h": "Party 12.0h"
         }
       }
     }
   }
+}

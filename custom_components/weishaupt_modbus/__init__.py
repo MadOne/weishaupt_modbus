@@ -1,22 +1,26 @@
 """init."""
 
+import json
 import warnings
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
 from homeassistant.const import CONF_PREFIX
+from homeassistant.core import HomeAssistant
 
 from .const import (
-    CONST,
     CONF_DEVICE_POSTFIX,
-    CONF_KENNFELD_FILE,
     CONF_HK2,
     CONF_HK3,
     CONF_HK4,
     CONF_HK5,
+    CONF_KENNFELD_FILE,
     CONF_NAME_DEVICE_PREFIX,
     CONF_NAME_TOPIC_PREFIX,
+    CONST,
+    TYPES,
 )
+from .hpconst import DEVICELISTS
+from .items import ModbusItem, StatusItem
 from .modbusobject import ModbusAPI
 
 PLATFORMS: list[str] = [
@@ -37,6 +41,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     mbapi = ModbusAPI(entry)
     await mbapi.connect()
     entry.runtime_data = mbapi
+
+    if True:
+        create_string_json()
 
     # This creates each HA object for each platform your device requires.
     # It's done by calling the `async_setup_entry` function in each platform module.
@@ -93,3 +100,58 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             warnings.warn("KeyError: " + str(CONST.DOMAIN))
 
     return unload_ok
+
+
+def create_string_json():
+    file = open("newstrings.json", "w")
+    item: ModbusItem = None
+    myStatusItem: StatusItem = None
+    myEntity = {}
+    myJson = {}
+    mySensors = {}
+    myNumbers = {}
+    mySelects = {}
+
+    DEVICELIST = []
+    for devicelist in DEVICELISTS:
+        DEVICELIST = DEVICELIST + devicelist
+
+    for item in DEVICELIST:
+        match item.type:
+            case TYPES.SENSOR | TYPES.NUMBER_RO | TYPES.SENSOR_CALC:
+                mySensor = {}
+                mySensor["name"] = item.name
+                if item.resultlist is not None:
+                    myValues = {}
+                    for myStatusItem in item.resultlist:
+                        myValues[myStatusItem.text] = myStatusItem.text
+                    mySensor["value"] = myValues.copy()
+                mySensors[item.name] = mySensor.copy()
+            case TYPES.NUMBER:
+                myNumber = {}
+                myNumber["name"] = item.name
+                if item.resultlist is not None:
+                    myValues = {}
+                    for myStatusItem in item.resultlist:
+                        myValues[myStatusItem.text] = myStatusItem.text
+                    myNumber["value"] = myValues.copy()
+                myNumbers[item.name] = myNumber.copy()
+            case TYPES.SELECT:
+                mySelect = {}
+                mySelect["name"] = item.name
+                if item.resultlist is not None:
+                    myValues = {}
+                    for myStatusItem in item.resultlist:
+                        myValues[myStatusItem.text] = myStatusItem.text
+                    mySelect["value"] = myValues.copy()
+                mySelects[item.name] = mySelect.copy()
+    myEntity["sensor"] = mySensors
+    myEntity["number"] = myNumbers
+    myEntity["select"] = mySelects
+    myJson["entity"] = myEntity
+    file = open(
+        "config/custom_components/weishaupt_modbus/newstrings.json",
+        "w",
+        encoding="UTF-8",
+    )
+    file.write(json.dumps(myJson, indent=4))

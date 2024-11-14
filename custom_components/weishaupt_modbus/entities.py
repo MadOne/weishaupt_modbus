@@ -71,16 +71,6 @@ async def build_entity_list(
     stored in hpconst.py so far, will be provided by an external file in future
     """
 
-    file = open("newstrings.json", "w")
-    mbitem: ModbusItem = None
-    file.write('{\n "entity": {\n')
-    for mbitem in modbusitems:
-        if mbitem.type == TYPES.SENSOR:
-            file.write(
-                '"' + mbitem.name + '": {\n"name":' + '"' + mbitem.name + '"' + "},"
-            )
-    file.write("}}")
-
     for index, item in enumerate(modbusitems):
         if item.type == item_type:
             if (
