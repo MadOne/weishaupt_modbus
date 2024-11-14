@@ -368,7 +368,7 @@ WW_PUSH = [
 ]
 # Fill WW_PUSH with values for every 5 Minutes
 for i in range(5, 240, 5):
-    WW_PUSH.append(StatusItem(i, str(i) + "Minuten"))  # noqa: PERF401
+    WW_PUSH.append(StatusItem(i, str(i) + " Minuten"))  # noqa: PERF401
 
 W2_STATUS = [
     StatusItem(0, "aus"),
