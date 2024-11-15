@@ -65,6 +65,7 @@ class ModbusItem:
     _device = None
     _state = None
     _is_invalid = False
+    _translation_key: str = ""
 
     def __init__(
         self,
@@ -73,6 +74,7 @@ class ModbusItem:
         mformat: FormatConstants,
         mtype: TypeConstants,
         device: DeviceConstants,
+        translation_key: str = None,
         resultlist=None,
     ) -> None:
         """Initialise ModbusItem."""
@@ -84,6 +86,7 @@ class ModbusItem:
         self._resultlist = resultlist
         self._state = None
         self._is_invalid = False
+        self._translation_key = translation_key
 
     @property
     def is_invalid(self) -> bool:
@@ -111,7 +114,7 @@ class ModbusItem:
 
     @state.setter
     def state(self, val):
-        """set the state of the item from modbus"""
+        """Set the state of the item from modbus."""
         self._state = val
 
     @property
@@ -143,6 +146,16 @@ class ModbusItem:
     def device(self, val: DeviceConstants):
         """Return device."""
         self._device = val
+
+    @property
+    def translation_key(self) -> str:
+        """Return translation_key."""
+        return self._translation_key
+
+    @translation_key.setter
+    def translation_key(self, val: str) -> None:
+        """Set translation_key."""
+        self._translation_key = val
 
     @property
     def resultlist(self):

@@ -637,177 +637,181 @@ RANGE_CALCPOWER = [
 ##############################################################################################################################
 
 # fmt: off
-MODBUS_SYS_ITEMS = [
-    ModbusItem( 30001, "Aussentemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.SYS, TEMPRANGE_STD),
-    ModbusItem( 30002, "Luftansaugtemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.SYS, TEMPRANGE_STD),
-    ModbusItem( 30003, "Fehler", FORMATS.STATUS, TYPES.SENSOR, DEVICES.SYS, SYS_FEHLER),
-    ModbusItem( 30004, "Warnung", FORMATS.STATUS, TYPES.SENSOR, DEVICES.SYS, SYS_FEHLER), # same codes as for warnings
-    ModbusItem( 30005, "Fehlerfrei", FORMATS.STATUS, TYPES.SENSOR, DEVICES.SYS, SYS_FEHLERFREI),
-    ModbusItem( 30006, "Betriebsanzeige", FORMATS.STATUS, TYPES.SENSOR, DEVICES.SYS, SYS_BETRIEBSANZEIGE),
-    ModbusItem( 40001,  "Systembetriebsart", FORMATS.STATUS, TYPES.SELECT, DEVICES.SYS, SYS_BETRIEBSART),
+MODBUS_SYS_ITEMS: list[ModbusItem] = [
+    ModbusItem( address=30001, name="Aussentemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.SENSOR, device=DEVICES.SYS, resultlist=TEMPRANGE_STD, translation_key="aussentemp"),
+    ModbusItem( address=30002, name="Luftansaugtemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.SENSOR, device=DEVICES.SYS, resultlist=TEMPRANGE_STD, translation_key="luftansautgemp"),
+    ModbusItem( address=30003, name="Fehler", mformat=FORMATS.STATUS, mtype=TYPES.SENSOR, device=DEVICES.SYS, resultlist=SYS_FEHLER, translation_key="fehler"),
+    ModbusItem( address=30004, name="Warnung", mformat=FORMATS.STATUS, mtype=TYPES.SENSOR, device=DEVICES.SYS, resultlist=SYS_FEHLER, translation_key="warnung"), # same codes as for warnings
+    ModbusItem( address=30005, name="Fehlerfrei", mformat=FORMATS.STATUS, mtype=TYPES.SENSOR, device=DEVICES.SYS, resultlist=SYS_FEHLERFREI, translation_key="fehlerfrei"),
+    ModbusItem( address=30006, name="Betriebsanzeige", mformat=FORMATS.STATUS, mtype=TYPES.SENSOR, device=DEVICES.SYS, resultlist=SYS_BETRIEBSANZEIGE, translation_key="betriebsanzeige"),
+    ModbusItem( address=40001,  name="Systembetriebsart", mformat=FORMATS.STATUS, mtype=TYPES.SELECT, device=DEVICES.SYS, resultlist=SYS_BETRIEBSART, translation_key="systembetriebsart"),
 ] # noqa: E501
 
-MODBUS_WP_ITEMS = [
-    ModbusItem( 33101, "Betrieb", FORMATS.STATUS, TYPES.SENSOR, DEVICES.WP, HP_BETRIEB),
-    ModbusItem( 33102, "Störmeldung", FORMATS.STATUS, TYPES.SENSOR, DEVICES.WP, HP_STOERMELDUNG),
-    ModbusItem( 33103, "Leistungsanforderung", FORMATS.PERCENTAGE, TYPES.SENSOR, DEVICES.WP),
-    ModbusItem( 33103, "Wärmeleistung", FORMATS.POWER, TYPES.SENSOR_CALC, DEVICES.WP, RANGE_CALCPOWER),
-    ModbusItem( 33104, "Vorlauftemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WP, TEMPRANGE_STD),
-    ModbusItem( 33105, "Rücklauftemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR,  DEVICES.WP, TEMPRANGE_STD),
-    ModbusItem( 33106, "Verdampfungstemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WP, TEMPRANGE_STD),
-    ModbusItem( 33107, "Verdichtersauggastemp", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WP, TEMPRANGE_STD),
-    ModbusItem( 33108, "Weichentemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WP),
-    ModbusItem( 33109, "Anforderung(Vorlauf regenerativ)", FORMATS.PERCENTAGE, TYPES.SENSOR, DEVICES.WP),
-    ModbusItem( 33110, "Puffertemperatur?", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.WP),
-    ModbusItem( 33111, "Vorlauftemperatur präzise(Summenvorlauf(B7))", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WP, TEMPRANGE_STD),
+MODBUS_WP_ITEMS: list[ModbusItem] = [
+    ModbusItem( address=33101, name="Betrieb", mformat=FORMATS.STATUS, mtype=TYPES.SENSOR, device=DEVICES.WP, resultlist=HP_BETRIEB, translation_key="wp_betrieb"),
+    ModbusItem( address=33102, name="Störmeldung", mformat=FORMATS.STATUS, mtype=TYPES.SENSOR, device=DEVICES.WP, resultlist=HP_STOERMELDUNG, translation_key="wp_stoermeldung"),
+    ModbusItem( address=33103, name="Leistungsanforderung", mformat=FORMATS.PERCENTAGE, mtype=TYPES.SENSOR, device=DEVICES.WP, translation_key="leistungsanforderung"),
+    ModbusItem( address=33103, name="Wärmeleistung", mformat=FORMATS.POWER, mtype=TYPES.SENSOR_CALC, device=DEVICES.WP, resultlist=RANGE_CALCPOWER, translation_key="waermeleistung"),
+    ModbusItem( address=33104, name="Vorlauftemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.SENSOR, device=DEVICES.WP, resultlist=TEMPRANGE_STD, translation_key="vl_temp"),
+    ModbusItem( address=33105, name="Rücklauftemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.SENSOR,  device=DEVICES.WP, resultlist=TEMPRANGE_STD, translation_key="rl_temp"),
+    ModbusItem( address=33106, name="Verdampfungstemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.SENSOR, device=DEVICES.WP, resultlist=TEMPRANGE_STD, translation_key="verdampfungs_temp"),
+    ModbusItem( address=33107, name="Verdichtersauggastemp", mformat=FORMATS.TEMPERATUR, mtype=TYPES.SENSOR, device=DEVICES.WP, resultlist=TEMPRANGE_STD, translation_key="verdichter_ansaug_gas_temp"),
+    ModbusItem( address=33108, name="Weichentemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.SENSOR, device=DEVICES.WP, translation_key="weichen_temp"),
+    ModbusItem( address=33109, name="Anforderung(Vorlauf regenerativ)", mformat=FORMATS.PERCENTAGE, mtype=TYPES.SENSOR, device=DEVICES.WP, translation_key="anforderung_vl_regenerativ"),
+    ModbusItem( address=33110, name="Puffertemperatur?", mformat=FORMATS.UNKNOWN, mtype=TYPES.SENSOR, device=DEVICES.WP, translation_key="puffer_temp"),
+    ModbusItem( address=33111, name="Vorlauftemperatur präzise(Summenvorlauf(B7))", mformat=FORMATS.TEMPERATUR, mtype=TYPES.SENSOR, device=DEVICES.WP, resultlist=TEMPRANGE_STD, translation_key="vl_praeziese_summenvorlauf_b7"),
 
-    ModbusItem( 43101, "Konfiguration ", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.WP, HP_KONFIGURATION),
-    ModbusItem( 43102, "Ruhemodus", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.WP, HP_RUHEMODUS),
-    ModbusItem( 43103, "Pumpe Einschaltart", FORMATS.NUMBER, TYPES.NUMBER_RO, DEVICES.WP ),
-    ModbusItem( 43104, "Sollwert Pumpe Leistung Heizen", FORMATS.PERCENTAGE, TYPES.NUMBER_RO, DEVICES.WP, RANGE_PERCENTAGE),
-    ModbusItem( 43105, "Sollwert Pumpe Leistung Kühlen", FORMATS.PERCENTAGE, TYPES.NUMBER_RO, DEVICES.WP, RANGE_PERCENTAGE),
-    ModbusItem( 43106, "Sollwert Pumpe Leistung Warmwasser", FORMATS.PERCENTAGE, TYPES.NUMBER_RO, DEVICES.WP, RANGE_PERCENTAGE),
-    ModbusItem( 43107, "Sollwert Pumpe Leistung Abtaubetrieb", FORMATS.PERCENTAGE, TYPES.NUMBER_RO, DEVICES.WP, RANGE_PERCENTAGE),
-    ModbusItem( 43108, "Sollwert Volumenstrom Heizen", FORMATS.VOLUMENSTROM, TYPES.NUMBER_RO, DEVICES.WP, RANGE_FLOWRATE),
-    ModbusItem( 43109, "Sollwert Volumenstrom Kühlen", FORMATS.VOLUMENSTROM, TYPES.NUMBER_RO,  DEVICES.WP, RANGE_FLOWRATE),
-    ModbusItem( 43110, "Sollwert Volumenstrom Warmwasser", FORMATS.VOLUMENSTROM, TYPES.NUMBER_RO, DEVICES.WP, RANGE_FLOWRATE),
+    ModbusItem( address=43101, name="Konfiguration ", mformat=FORMATS.STATUS, mtype=TYPES.NUMBER_RO, device=DEVICES.WP, resultlist=HP_KONFIGURATION, translation_key="wp_konf"),
+    ModbusItem( address=43102, name="Ruhemodus", mformat=FORMATS.STATUS, mtype=TYPES.NUMBER_RO, device=DEVICES.WP, resultlist=HP_RUHEMODUS, translation_key="ruhemodus"),
+    ModbusItem( address=43103, name="Pumpe Einschaltart", mformat=FORMATS.NUMBER, mtype=TYPES.NUMBER_RO, device=DEVICES.WP, translation_key="pumpe_einschaltart"),
+    ModbusItem( address=43104, name="Sollwert Pumpe Leistung Heizen", mformat=FORMATS.PERCENTAGE, mtype=TYPES.NUMBER_RO, device=DEVICES.WP, resultlist=RANGE_PERCENTAGE, translation_key="sollwert_pumpe_leistung_heizen"),
+    ModbusItem( address=43105, name="Sollwert Pumpe Leistung Kühlen", mformat=FORMATS.PERCENTAGE, mtype=TYPES.NUMBER_RO, device=DEVICES.WP, resultlist=RANGE_PERCENTAGE, translation_key="sollwert_pumpe_leistung_kuehlen"),
+    ModbusItem( address=43106, name="Sollwert Pumpe Leistung Warmwasser", mformat=FORMATS.PERCENTAGE, mtype=TYPES.NUMBER_RO, device=DEVICES.WP, resultlist=RANGE_PERCENTAGE, translation_key="sollwert_pumpe_leitung_ww"),
+    ModbusItem( address=43107, name="Sollwert Pumpe Leistung Abtaubetrieb", mformat=FORMATS.PERCENTAGE, mtype=TYPES.NUMBER_RO, device=DEVICES.WP, resultlist=RANGE_PERCENTAGE, translation_key="sollwert_pumpe_leistung_abtau"),
+    ModbusItem( address=43108, name="Sollwert Volumenstrom Heizen", mformat=FORMATS.VOLUMENSTROM, mtype=TYPES.NUMBER_RO, device=DEVICES.WP, resultlist=RANGE_FLOWRATE, translation_key="soll_volumenstrom_heizen"),
+    ModbusItem( address=43109, name="Sollwert Volumenstrom Kühlen", mformat=FORMATS.VOLUMENSTROM, mtype=TYPES.NUMBER_RO,  device=DEVICES.WP, resultlist=RANGE_FLOWRATE, translation_key="soll_volumenstrom_kuehlen"),
+    ModbusItem( address=43110, name="Sollwert Volumenstrom Warmwasser", mformat=FORMATS.VOLUMENSTROM, mtype=TYPES.NUMBER_RO, device=DEVICES.WP, resultlist=RANGE_FLOWRATE, translation_key="soll_volumenstrom_ww"),
 ] # noqa: E501
 
 MODBUS_HZ_ITEMS = [
-    ModbusItem( 31101, "Raumsolltemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ, TEMPRANGE_ROOM),
-    ModbusItem( 31102, "Raumtemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ, TEMPRANGE_ROOM),
-    ModbusItem( 31103, "Raumfeuchte", FORMATS.PERCENTAGE, TYPES.SENSOR, DEVICES.HZ),
-    ModbusItem( 31104, "Vorlaufsolltemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ, TEMPRANGE_STD),
-    ModbusItem( 31105, "HZ_Vorlauftemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.HZ, TEMPRANGE_STD),
-    ModbusItem( 31106, "Adr. 31106", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.HZ),
-    ModbusItem( 41101, "HZ_Konfiguration", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.HZ, HZ_KONFIGURATION),
-    ModbusItem( 41102, "Anforderung Typ", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.HZ, HZ_ANFORDERUNG),
-    ModbusItem( 41103, "Betriebsart", FORMATS.STATUS, TYPES.SELECT, DEVICES.HZ, HZ_BETRIEBSART),
-    ModbusItem( 41104, "Pause / Party", FORMATS.STATUS, TYPES.SELECT, DEVICES.HZ, HZ_PARTY_PAUSE),
-    ModbusItem( 41105, "Raumsolltemperatur Komfort", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.HZ, TEMPRANGE_ROOM),
-    ModbusItem( 41106, "Raumsolltemperatur Normal", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.HZ, TEMPRANGE_ROOM),
-    ModbusItem( 41107, "Raumsolltemperatur Absenk", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.HZ, TEMPRANGE_ROOM),
-    ModbusItem( 41108, "Heizkennlinie", FORMATS.KENNLINIE, TYPES.NUMBER, DEVICES.HZ, RANGE_HZKENNLINIE),
-    ModbusItem( 41109, "Sommer Winter Umschaltung", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.HZ, TEMPRANGE_ROOM),
-    ModbusItem( 41110, "Heizen Konstanttemperatur", FORMATS.TEMPERATUR, TYPES.NUMBER_RO, DEVICES.HZ, TEMPRANGE_ROOM),
-    ModbusItem( 41111, "Heizen Konstanttemp Absenk", FORMATS.TEMPERATUR, TYPES.NUMBER_RO, DEVICES.HZ, TEMPRANGE_ROOM),
-    ModbusItem( 41112, "Kühlen Konstanttemperatur", FORMATS.TEMPERATUR, TYPES.NUMBER_RO, DEVICES.HZ, TEMPRANGE_ROOM),
+    ModbusItem( address=31101, name="Raumsolltemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.SENSOR, device=DEVICES.HZ, resultlist=TEMPRANGE_ROOM, translation_key="raum_soll_temp"),
+    ModbusItem( address=31102, name="Raumtemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.SENSOR, device=DEVICES.HZ, resultlist=TEMPRANGE_ROOM, translation_key="raum_temp"),
+    ModbusItem( address=31103, name="Raumfeuchte", mformat=FORMATS.PERCENTAGE, mtype=TYPES.SENSOR, device=DEVICES.HZ, translation_key="raum_feuchte"),
+    ModbusItem( address=31104, name="Vorlaufsolltemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.SENSOR, device=DEVICES.HZ, resultlist=TEMPRANGE_STD, translation_key="vl_temp"),
+    ModbusItem( address=31105, name="HZ_Vorlauftemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.SENSOR, device=DEVICES.HZ, resultlist=TEMPRANGE_STD, translation_key="hz_vl_temp"),
+    ModbusItem( address=31106, name="Adr. 31106", mformat=FORMATS.UNKNOWN, mtype=TYPES.SENSOR, device=DEVICES.HZ, translation_key="adr31106"),
+    ModbusItem( address=41101, name="HZ_Konfiguration", mformat=FORMATS.STATUS, mtype=TYPES.NUMBER_RO, device=DEVICES.HZ, resultlist=HZ_KONFIGURATION, translation_key="hz_konf"),
+    ModbusItem( address=41102, name="Anforderung Typ", mformat=FORMATS.STATUS, mtype=TYPES.NUMBER_RO, device=DEVICES.HZ, resultlist=HZ_ANFORDERUNG, translation_key="anf_typ"),
+    ModbusItem( address=41103, name="Betriebsart", mformat=FORMATS.STATUS, mtype=TYPES.SELECT, device=DEVICES.HZ, resultlist=HZ_BETRIEBSART, translation_key="hz_betriebsart"),
+    ModbusItem( address=41104, name="Pause / Party", mformat=FORMATS.STATUS, mtype=TYPES.SELECT, device=DEVICES.HZ, resultlist=HZ_PARTY_PAUSE, translation_key="party_pause"),
+    ModbusItem( address=41105, name="Raumsolltemperatur Komfort", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER, device=DEVICES.HZ, resultlist=TEMPRANGE_ROOM, translation_key="raum_soll_temp_komf"),
+    ModbusItem( address=41106, name="Raumsolltemperatur Normal", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER, device=DEVICES.HZ, resultlist=TEMPRANGE_ROOM, translation_key="raum_soll_temp_normal"),
+    ModbusItem( address=41107, name="Raumsolltemperatur Absenk", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER, device=DEVICES.HZ, resultlist=TEMPRANGE_ROOM, translation_key="raum_soll_temp_absenk"),
+    ModbusItem( address=41108, name="Heizkennlinie", mformat=FORMATS.KENNLINIE, mtype=TYPES.NUMBER, device=DEVICES.HZ, resultlist=RANGE_HZKENNLINIE, translation_key="heizkennlinie"),
+    ModbusItem( address=41109, name="Sommer Winter Umschaltung", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER, device=DEVICES.HZ, resultlist=TEMPRANGE_ROOM, translation_key="so_wi_umschalt"),
+    ModbusItem( address=41110, name="Heizen Konstanttemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER_RO, device=DEVICES.HZ, resultlist=TEMPRANGE_ROOM, translation_key="heiz_konstanttemp"),
+    ModbusItem( address=41111, name="Heizen Konstanttemp Absenk", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER_RO, device=DEVICES.HZ, resultlist=TEMPRANGE_ROOM, translation_key="heiz_konstanttemp_absenk"),
+    ModbusItem( address=41112, name="Kühlen Konstanttemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER_RO, device=DEVICES.HZ, resultlist=TEMPRANGE_ROOM, translation_key="kuehl_konstanttemp"),
 ] # noqa: E501
 
 # buils other Heizkreis Itemlists
-MODBUS_HZ2_ITEMS = []
-for index, item in enumerate(MODBUS_HZ_ITEMS):
-    mbi = copy.deepcopy(item)
+MODBUS_HZ2_ITEMS: list = []
+for index, item in enumerate(iterable=MODBUS_HZ_ITEMS):
+    mbi = copy.deepcopy(x=item)
     mbi.address = item.address+100
     mbi.name = item.name + "2"
+    mbi.translation_key = item.translation_key + "2"
     mbi.device = DEVICES.HZ2
     MODBUS_HZ2_ITEMS.append(mbi)  # noqa: PERF401
 
 # buils other Heizkreis Itemlists
-MODBUS_HZ3_ITEMS = []
-for index, item in enumerate(MODBUS_HZ_ITEMS):
-    mbi = copy.deepcopy(item)
+MODBUS_HZ3_ITEMS: list = []
+for index, item in enumerate(iterable=MODBUS_HZ_ITEMS):
+    mbi = copy.deepcopy(x=item)
     mbi.address = item.address+200
     mbi.name = item.name + "3"
+    mbi.translation_key = item.translation_key + "3"
     mbi.device = DEVICES.HZ3
     MODBUS_HZ3_ITEMS.append(mbi)  # noqa: PERF401
 
 # buils other Heizkreis Itemlists
-MODBUS_HZ4_ITEMS = []
-for index, item in enumerate(MODBUS_HZ_ITEMS):
-    mbi = copy.deepcopy(item)
+MODBUS_HZ4_ITEMS: list = []
+for index, item in enumerate(iterable=MODBUS_HZ_ITEMS):
+    mbi = copy.deepcopy(x=item)
     mbi.address = item.address+300
     mbi.name = item.name + "4"
+    mbi.translation_key = item.translation_key + "4"
     mbi.device = DEVICES.HZ4
     MODBUS_HZ4_ITEMS.append(mbi)  # noqa: PERF401
 
 # buils other Heizkreis Itemlists
-MODBUS_HZ5_ITEMS = []
-for index, item in enumerate(MODBUS_HZ_ITEMS):
-    mbi = copy.deepcopy(item)
+MODBUS_HZ5_ITEMS: list = []
+for index, item in enumerate(iterable=MODBUS_HZ_ITEMS):
+    mbi: ModbusItem = copy.deepcopy(x=item)
     mbi.address = item.address+400
     mbi.name = item.name + "5"
+    mbi.translation_key = item.translation_key + "5"
     mbi.device = DEVICES.HZ5
     MODBUS_HZ5_ITEMS.append(mbi)  # noqa: PERF401
 
-MODBUS_WW_ITEMS = [
-    ModbusItem( 32101, "Warmwassersolltemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WW, TEMPRANGE_WATER),
-    ModbusItem( 32102, "Warmwassertemperatur", FORMATS.TEMPERATUR, TYPES.SENSOR, DEVICES.WW, TEMPRANGE_WATER),
-    ModbusItem( 42101, "WW_Konfiguration", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.WW, WW_KONFIGURATION),
-    ModbusItem( 42102, "Warmwasser Push", FORMATS.STATUS, TYPES.SELECT, DEVICES.WW, WW_PUSH),
-    ModbusItem( 42103, "Warmwasser Normal", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.WW, TEMPRANGE_WATER),
-    ModbusItem( 42104, "Warmwasser Absenk", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.WW, TEMPRANGE_WATER),
-    ModbusItem( 42105, "SG Ready Anhebung", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.WW, TEMPRANGE_SGREADY),
+MODBUS_WW_ITEMS: list[ModbusItem] = [
+    ModbusItem( address=32101, name="Warmwassersolltemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.SENSOR, device=DEVICES.WW, resultlist=TEMPRANGE_WATER, translation_key="ww_soll_temp"),
+    ModbusItem( address=32102, name="Warmwassertemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.SENSOR, device=DEVICES.WW, resultlist=TEMPRANGE_WATER, translation_key="ww_temp"),
+    ModbusItem( address=42101, name="WW_Konfiguration", mformat=FORMATS.STATUS, mtype=TYPES.NUMBER_RO, device=DEVICES.WW, resultlist=WW_KONFIGURATION, translation_key="ww_konf"),
+    ModbusItem( address=42102, name="Warmwasser Push", mformat=FORMATS.STATUS, mtype=TYPES.SELECT, device=DEVICES.WW, resultlist=WW_PUSH, translation_key="ww_push"),
+    ModbusItem( address=42103, name="Warmwasser Normal", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER, device=DEVICES.WW, resultlist=TEMPRANGE_WATER, translation_key="ww_normal"),
+    ModbusItem( address=42104, name="Warmwasser Absenk", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER, device=DEVICES.WW, resultlist=TEMPRANGE_WATER, translation_key="ww_absenk"),
+    ModbusItem( address=42105, name="SG Ready Anhebung", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER, device=DEVICES.WW, resultlist=TEMPRANGE_SGREADY, translation_key="sgr_anhebung"),
 ] # noqa: E501
 
-MODBUS_W2_ITEMS = [
-    ModbusItem( 34101, "Status 2. WEZ", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS),
-    ModbusItem( 34102, "Schaltspiele E-Heizung 1", FORMATS.NUMBER, TYPES.SENSOR, DEVICES.W2),
-    ModbusItem( 34103, "Betriebsstunden E1", FORMATS.TIME_H, TYPES.SENSOR, DEVICES.W2),
-    ModbusItem( 34104, "Status E-Heizung 1", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS),
-    ModbusItem( 34105, "Status E-Heizung 2", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_STATUS),
-    ModbusItem( 34106, "Schaltspiele E-Heizung 2", FORMATS.NUMBER, TYPES.SENSOR, DEVICES.W2),
-    ModbusItem( 34107, "Betriebsstunden E2", FORMATS.TIME_H, TYPES.SENSOR, DEVICES.W2),
-    ModbusItem( 44101, "W2_Konfiguration", FORMATS.STATUS, TYPES.SENSOR, DEVICES.W2, W2_KONFIG),
-    ModbusItem( 44102, "Grenztemperatur", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.W2, TEMPRANGE_BIVALENZ),
-    ModbusItem( 44103, "Bivalenztemperatur", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.W2, TEMPRANGE_BIVALENZ),
-    ModbusItem( 44104, "Bivalenztemperatur WW", FORMATS.TEMPERATUR, TYPES.NUMBER, DEVICES.W2, TEMPRANGE_BIVALENZ),
+MODBUS_W2_ITEMS: list[ModbusItem] = [
+    ModbusItem( address=34101, name="Status 2. WEZ", mformat=FORMATS.STATUS, mtype=TYPES.SENSOR, device=DEVICES.W2, resultlist=W2_STATUS, translation_key="status_2_wez"),
+    ModbusItem( address=34102, name="Schaltspiele E-Heizung 1", mformat=FORMATS.NUMBER, mtype=TYPES.SENSOR, device=DEVICES.W2, translation_key="schaltsp_e1"),
+    ModbusItem( address=34103, name="Betriebsstunden E1", mformat=FORMATS.TIME_H, mtype=TYPES.SENSOR, device=DEVICES.W2, translation_key="betriebss_e1"),
+    ModbusItem( address=34104, name="Status E-Heizung 1", mformat=FORMATS.STATUS, mtype=TYPES.SENSOR, device=DEVICES.W2, resultlist=W2_STATUS, translation_key="status_e1"),
+    ModbusItem( address=34105, name="Status E-Heizung 2", mformat=FORMATS.STATUS, mtype=TYPES.SENSOR, device=DEVICES.W2, resultlist=W2_STATUS, translation_key="status_e2"),
+    ModbusItem( address=34106, name="Schaltspiele E-Heizung 2", mformat=FORMATS.NUMBER, mtype=TYPES.SENSOR, device=DEVICES.W2, translation_key="schaltsp_e2"),
+    ModbusItem( address=34107, name="Betriebsstunden E2", mformat=FORMATS.TIME_H, mtype=TYPES.SENSOR, device=DEVICES.W2, translation_key="betriebss_e2"),
+    ModbusItem( address=44101, name="W2_Konfiguration", mformat=FORMATS.STATUS, mtype=TYPES.SENSOR, device=DEVICES.W2, resultlist=W2_KONFIG, translation_key="w2_konf"),
+    ModbusItem( address=44102, name="Grenztemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER, device=DEVICES.W2, resultlist=TEMPRANGE_BIVALENZ, translation_key="grenztemp"),
+    ModbusItem( address=44103, name="Bivalenztemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER, device=DEVICES.W2, resultlist=TEMPRANGE_BIVALENZ, translation_key="bivalenztemp"),
+    ModbusItem( address=44104, name="Bivalenztemperatur WW", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER, device=DEVICES.W2, resultlist=TEMPRANGE_BIVALENZ, translation_key="bivalenztemp_ww"),
 ] # noqa: E501
 
-MODBUS_ST_ITEMS = [
-    ModbusItem( 36101, "Gesamt Energie heute", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36102, "Gesamt Energie gestern", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36103, "Gesamt Energie Monat", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36104, "Gesamt Energie Jahr", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36201, "Heizen Energie heute", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36202, "Heizen Energie gestern", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36203, "Heizen Energie Monat", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36204, "Heizen Energie Jahr", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36301, "Warmwasser Energie heute", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36302, "Warmwasser Energie gestern", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36303, "Warmwasser Energie Monat", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36304, "Warmwasser Energie Jahr", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36401, "Kühlen Energie heute", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36402, "Kühlen Energie gestern", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36403, "Kühlen Energie Monat", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36404, "Kühlen Energie Jahr", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36501, "Abtauen Energie heute", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36502, "Abtauen Energie gestern", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36503, "Abtauen Energie Monat", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36504, "Abtauen Energie Jahr", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36601, "Gesamt Energie II heute", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36602, "Gesamt Energie II gestern", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36603, "Gesamt Energie II Monat", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36604, "Gesamt Energie II Jahr", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36701, "Elektr. Energie heute", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36702, "Elektr. Energie gestern", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36703, "Elektr. Energie Monat", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36704, "Elektr. Energie Jahr", FORMATS.ENERGY, TYPES.SENSOR, DEVICES.ST, RANGE_ENERGY),
-    ModbusItem( 36801, "Adr. 36801", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.ST),
+MODBUS_ST_ITEMS: list[ModbusItem] = [
+    ModbusItem( address=36101, name="Gesamt Energie heute", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ges_energie_heute"),
+    ModbusItem( address=36102, name="Gesamt Energie gestern", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ges_energie_gestern"),
+    ModbusItem( address=36103, name="Gesamt Energie Monat", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ges_energie_monat"),
+    ModbusItem( address=36104, name="Gesamt Energie Jahr", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ges_energie_jahr"),
+    ModbusItem( address=36201, name="Heizen Energie heute", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="heiz_energie_heute"),
+    ModbusItem( address=36202, name="Heizen Energie gestern", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="heiz_energie_getern"),
+    ModbusItem( address=36203, name="Heizen Energie Monat", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="heiz_energie_monat"),
+    ModbusItem( address=36204, name="Heizen Energie Jahr", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="heiz_energie_jahr"),
+    ModbusItem( address=36301, name="Warmwasser Energie heute", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ww_energie_heute"),
+    ModbusItem( address=36302, name="Warmwasser Energie gestern", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ww_energie_gestern"),
+    ModbusItem( address=36303, name="Warmwasser Energie Monat", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ww_energie_monat"),
+    ModbusItem( address=36304, name="Warmwasser Energie Jahr", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ww_energie_jahr"),
+    ModbusItem( address=36401, name="Kühlen Energie heute", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="kuehl_energie_heute"),
+    ModbusItem( address=36402, name="Kühlen Energie gestern", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="kuehl_energie_gestern"),
+    ModbusItem( address=36403, name="Kühlen Energie Monat", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="kuehl_energie_monat"),
+    ModbusItem( address=36404, name="Kühlen Energie Jahr", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="kuehl_energie_jahr"),
+    ModbusItem( address=36501, name="Abtauen Energie heute", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="abtau_energie_heute"),
+    ModbusItem( address=36502, name="Abtauen Energie gestern", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY,translation_key="abtau_energie_gester"),
+    ModbusItem( address=36503, name="Abtauen Energie Monat", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="abtau_energie_monat"),
+    ModbusItem( address=36504, name="Abtauen Energie Jahr", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="abtau_energie_jahr"),
+    ModbusItem( address=36601, name="Gesamt Energie II heute", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ges_energie_2_heute"),
+    ModbusItem( address=36602, name="Gesamt Energie II gestern", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ges_energie_2_gestern"),
+    ModbusItem( address=36603, name="Gesamt Energie II Monat", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ges_energie_2_monat"),
+    ModbusItem( address=36604, name="Gesamt Energie II Jahr", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ges_energie_2_Jahr"),
+    ModbusItem( address=36701, name="Elektr. Energie heute", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="el_energie_heute"),
+    ModbusItem( address=36702, name="Elektr. Energie gestern", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="el_energie_gestern"),
+    ModbusItem( address=36703, name="Elektr. Energie Monat", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="el_energie_monat"),
+    ModbusItem( address=36704, name="Elektr. Energie Jahr", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="el_energie_jahr"),
+    ModbusItem( address=36801, name="Adr. 36801", mformat=FORMATS.UNKNOWN, mtype=TYPES.SENSOR, device=DEVICES.ST, translation_key="adr36801"),
 ] # noqa: E501
 
 
-MODBUS_IO_ITEMS = [
-    ModbusItem( 35101, "SG-Ready 1", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
-    ModbusItem( 35102, "SG-Ready 2", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
-    ModbusItem( 35103, "Ausgang H1.2", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
-    ModbusItem( 35104, "Ausgang H1.3", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
-    ModbusItem( 35105, "Ausgang H1.4", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
-    ModbusItem( 35106, "Ausgang H1.5", FORMATS.UNKNOWN, TYPES.SENSOR, DEVICES.IO),
-    ModbusItem( 35107, "Eingang DE1", FORMATS.STATUS, TYPES.SENSOR, DEVICES.IO, W2_STATUS),
-    ModbusItem( 35108, "Eingang DE2", FORMATS.STATUS, TYPES.SENSOR, DEVICES.IO, W2_STATUS),
+MODBUS_IO_ITEMS: list[ModbusItem] = [
+    ModbusItem( address=35101, name="SG-Ready 1", mformat=FORMATS.UNKNOWN, mtype=TYPES.SENSOR, device=DEVICES.IO, translation_key="sgr1"),
+    ModbusItem( address=35102, name="SG-Ready 2", mformat=FORMATS.UNKNOWN, mtype=TYPES.SENSOR, device=DEVICES.IO, translation_key="sgr2"),
+    ModbusItem( address=35103, name="Ausgang H1.2", mformat=FORMATS.UNKNOWN, mtype=TYPES.SENSOR, device=DEVICES.IO, translation_key="ausg_h12"),
+    ModbusItem( address=35104, name="Ausgang H1.3", mformat=FORMATS.UNKNOWN, mtype=TYPES.SENSOR, device=DEVICES.IO, translation_key="ausg_h13"),
+    ModbusItem( address=35105, name="Ausgang H1.4", mformat=FORMATS.UNKNOWN, mtype=TYPES.SENSOR, device=DEVICES.IO, translation_key="ausg_h14"),
+    ModbusItem( address=35106, name="Ausgang H1.5", mformat=FORMATS.UNKNOWN, mtype=TYPES.SENSOR, device=DEVICES.IO, translation_key="ausg_h15"),
+    ModbusItem( address=35107, name="Eingang DE1", mformat=FORMATS.STATUS, mtype=TYPES.SENSOR, device=DEVICES.IO, resultlist=W2_STATUS, translation_key="eing_de1"),
+    ModbusItem( address=35108, name="Eingang DE2", mformat=FORMATS.STATUS, mtype=TYPES.SENSOR, device=DEVICES.IO, resultlist=W2_STATUS, translation_key="eing_de2"),
 
-    ModbusItem( 45101, "Konf. Eingang SGR1", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG_IN),
-    ModbusItem( 45102, "Konf. Eingang SGR2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG_IN),
-    ModbusItem( 45103, "Konf. Ausgang H1.2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
-    ModbusItem( 45104, "Konf. Ausgang  H1.3", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
-    ModbusItem( 45105, "Konf. Ausgang  H1.4", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
-    ModbusItem( 45106, "Konf. Ausgang  H1.5", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG),
-    ModbusItem( 45107, "Konf. Eingang DE1", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG_IN),
-    ModbusItem( 45108, "Konf. Eingang DE2", FORMATS.STATUS, TYPES.NUMBER_RO, DEVICES.IO, resultlist=IO_KONFIG_IN),
+    ModbusItem( address=45101, name="Konf. Eingang SGR1", mformat=FORMATS.STATUS, mtype=TYPES.NUMBER_RO, device=DEVICES.IO, resultlist=IO_KONFIG_IN, translation_key="konf_eing_sgr1"),
+    ModbusItem( address=45102, name="Konf. Eingang SGR2", mformat=FORMATS.STATUS, mtype=TYPES.NUMBER_RO, device=DEVICES.IO, resultlist=IO_KONFIG_IN, translation_key="konf_eing_sgr2"),
+    ModbusItem( address=45103, name="Konf. Ausgang H1.2", mformat=FORMATS.STATUS, mtype=TYPES.NUMBER_RO, device=DEVICES.IO, resultlist=IO_KONFIG, translation_key="konf_ausg_h12"),
+    ModbusItem( address=45104, name="Konf. Ausgang  H1.3", mformat=FORMATS.STATUS, mtype=TYPES.NUMBER_RO, device=DEVICES.IO, resultlist=IO_KONFIG, translation_key="konf_ausg_h13"),
+    ModbusItem( address=45105, name="Konf. Ausgang  H1.4", mformat=FORMATS.STATUS, mtype=TYPES.NUMBER_RO, device=DEVICES.IO, resultlist=IO_KONFIG, translation_key="konf_ausg_h14"),
+    ModbusItem( address=45106, name="Konf. Ausgang  H1.5", mformat=FORMATS.STATUS, mtype=TYPES.NUMBER_RO, device=DEVICES.IO, resultlist=IO_KONFIG, translation_key="konf_ausg_h15"),
+    ModbusItem( address=45107, name="Konf. Eingang DE1", mformat=FORMATS.STATUS, mtype=TYPES.NUMBER_RO, device=DEVICES.IO, resultlist=IO_KONFIG_IN, translation_key="konf_eing_de1"),
+    ModbusItem( address=45108, name="Konf. Eingang DE2", mformat=FORMATS.STATUS, mtype=TYPES.NUMBER_RO, device=DEVICES.IO, resultlist=IO_KONFIG_IN, translation_key="konf_eing_de2"),
 ] # noqa: E501
 
-DEVICELISTS = [
+DEVICELISTS: list = [
     MODBUS_SYS_ITEMS,
     MODBUS_WP_ITEMS,
     MODBUS_WW_ITEMS,

@@ -129,7 +129,9 @@ def create_string_json():
                     for myStatusItem in item.resultlist:
                         myValues[myStatusItem.text] = myStatusItem.text
                     mySensor["value"] = myValues.copy()
-                mySensors[item.name] = mySensor.copy()
+                    print(mySensor)
+                    print("\n")
+                mySensors[item.translation_key] = mySensor.copy()
             case TYPES.NUMBER:
                 myNumber = {}
                 myNumber["name"] = item.name
@@ -138,7 +140,7 @@ def create_string_json():
                     for myStatusItem in item.resultlist:
                         myValues[myStatusItem.text] = myStatusItem.text
                     myNumber["value"] = myValues.copy()
-                myNumbers[item.name] = myNumber.copy()
+                myNumbers[item.translation_key] = myNumber.copy()
             case TYPES.SELECT:
                 mySelect = {}
                 mySelect["name"] = item.name
@@ -147,7 +149,8 @@ def create_string_json():
                     for myStatusItem in item.resultlist:
                         myValues[myStatusItem.text] = myStatusItem.text
                     mySelect["value"] = myValues.copy()
-                mySelects[item.name] = mySelect.copy()
+                mySelects[item.translation_key] = mySelect.copy()
+                print(item.translation_key)
     myEntity["sensor"] = mySensors
     myEntity["number"] = myNumbers
     myEntity["select"] = mySelects

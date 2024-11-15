@@ -143,7 +143,7 @@ class MyEntity(Entity):
         """Initialize the entity."""
         self._config_entry = config_entry
         self._modbus_item = modbus_item
-        self._attr_translation_key = self._modbus_item.name
+        self._attr_translation_key = self._modbus_item.translation_key
         dev_postfix = ""
         dev_postfix = "_" + self._config_entry.data[CONF_DEVICE_POSTFIX]
 
