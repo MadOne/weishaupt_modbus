@@ -541,7 +541,7 @@
             },
             "anf_typ": {
                 "name": "Anforderung Typ",
-                "value": {
+                "state": {
                     "aus": "aus",
                     "konstant": "konstant",
                     "witterungsgeführt": "witterungsgeführt"
@@ -549,7 +549,7 @@
             },
             "anf_typ2": {
                 "name": "Anforderung Typ2",
-                "value": {
+                "state": {
                     "aus": "aus",
                     "konstant": "konstant",
                     "witterungsgeführt": "witterungsgeführt"
@@ -557,7 +557,7 @@
             },
             "anf_typ3": {
                 "name": "Anforderung Typ3",
-                "value": {
+                "state": {
                     "aus": "aus",
                     "konstant": "konstant",
                     "witterungsgeführt": "witterungsgeführt"
@@ -565,7 +565,7 @@
             },
             "anf_typ4": {
                 "name": "Anforderung Typ4",
-                "value": {
+                "state": {
                     "aus": "aus",
                     "konstant": "konstant",
                     "witterungsgeführt": "witterungsgeführt"
@@ -573,7 +573,7 @@
             },
             "anf_typ5": {
                 "name": "Anforderung Typ5",
-                "value": {
+                "state": {
                     "aus": "aus",
                     "konstant": "konstant",
                     "witterungsgeführt": "witterungsgeführt"
@@ -599,7 +599,7 @@
             },
             "betriebsanzeige": {
                 "name": "Betriebsanzeige",
-                "value": {
+                "state": {
                     "2. WEZ": "2. WEZ",
                     "Absenkbetrieb": "Absenkbetrieb",
                     "Abtauen": "Abtauen",
@@ -648,14 +648,14 @@
             },
             "eing_de1": {
                 "name": "Eingang DE1",
-                "value": {
+                "state": {
                     "aus": "aus",
                     "ein": "ein"
                 }
             },
             "eing_de2": {
                 "name": "Eingang DE2",
-                "value": {
+                "state": {
                     "aus": "aus",
                     "ein": "ein"
                 }
@@ -674,7 +674,7 @@
             },
             "fehler": {
                 "name": "Fehler",
-                "value": {
+                "state": {
                     "Analogeingang AE1 kurzgeschlossen": "Analogeingang AE1 kurzgeschlossen",
                     "Analogeingang AE1 unterbrochen": "Analogeingang AE1 unterbrochen",
                     "Analogeingang AE2 kurzgeschlossen": "Analogeingang AE2 kurzgeschlossen",
@@ -794,7 +794,7 @@
             },
             "fehlerfrei": {
                 "name": "Fehlerfrei",
-                "value": {
+                "state": {
                     "Fehler aktiv": "Fehler aktiv",
                     "Störungsfreier Betrieb": "Störungsfreier Betrieb"
                 }
@@ -867,7 +867,7 @@
             },
             "hz_konf": {
                 "name": "HZ_Konfiguration",
-                "value": {
+                "state": {
                     "Mischkreis": "Mischkreis",
                     "Pumpenkreis": "Pumpenkreis",
                     "Sollwert (Pumpe M1)": "Sollwert (Pumpe M1)",
@@ -876,7 +876,7 @@
             },
             "hz_konf2": {
                 "name": "HZ_Konfiguration2",
-                "value": {
+                "state": {
                     "Mischkreis": "Mischkreis",
                     "Pumpenkreis": "Pumpenkreis",
                     "Sollwert (Pumpe M1)": "Sollwert (Pumpe M1)",
@@ -885,7 +885,7 @@
             },
             "hz_konf3": {
                 "name": "HZ_Konfiguration3",
-                "value": {
+                "state": {
                     "Mischkreis": "Mischkreis",
                     "Pumpenkreis": "Pumpenkreis",
                     "Sollwert (Pumpe M1)": "Sollwert (Pumpe M1)",
@@ -894,7 +894,7 @@
             },
             "hz_konf4": {
                 "name": "HZ_Konfiguration4",
-                "value": {
+                "state": {
                     "Mischkreis": "Mischkreis",
                     "Pumpenkreis": "Pumpenkreis",
                     "Sollwert (Pumpe M1)": "Sollwert (Pumpe M1)",
@@ -903,7 +903,7 @@
             },
             "hz_konf5": {
                 "name": "HZ_Konfiguration5",
-                "value": {
+                "state": {
                     "Mischkreis": "Mischkreis",
                     "Pumpenkreis": "Pumpenkreis",
                     "Sollwert (Pumpe M1)": "Sollwert (Pumpe M1)",
@@ -927,7 +927,7 @@
             },
             "konf_ausg_h12": {
                 "name": "Konf. Ausgang H1.2",
-                "value": {
+                "state": {
                     "0": "0",
                     "1": "1",
                     "2": "2",
@@ -941,7 +941,7 @@
             },
             "konf_ausg_h13": {
                 "name": "Konf. Ausgang  H1.3",
-                "value": {
+                "state": {
                     "0": "0",
                     "1": "1",
                     "2": "2",
@@ -955,7 +955,7 @@
             },
             "konf_ausg_h14": {
                 "name": "Konf. Ausgang  H1.4",
-                "value": {
+                "state": {
                     "0": "0",
                     "1": "1",
                     "2": "2",
@@ -969,7 +969,7 @@
             },
             "konf_ausg_h15": {
                 "name": "Konf. Ausgang  H1.5",
-                "value": {
+                "state": {
                     "0": "0",
                     "1": "1",
                     "2": "2",
@@ -983,7 +983,7 @@
             },
             "konf_eing_de1": {
                 "name": "Konf. Eingang DE1",
-                "value": {
+                "state": {
                     "2.WEZ": "2.WEZ",
                     "AUS": "AUS",
                     "EVU-Sperre:": "EVU-Sperre:",
@@ -1011,7 +1011,7 @@
             },
             "konf_eing_de2": {
                 "name": "Konf. Eingang DE2",
-                "value": {
+                "state": {
                     "2.WEZ": "2.WEZ",
                     "AUS": "AUS",
                     "EVU-Sperre:": "EVU-Sperre:",
@@ -1039,7 +1039,7 @@
             },
             "konf_eing_sgr1": {
                 "name": "Konf. Eingang SGR1",
-                "value": {
+                "state": {
                     "2.WEZ": "2.WEZ",
                     "AUS": "AUS",
                     "EVU-Sperre:": "EVU-Sperre:",
@@ -1067,7 +1067,7 @@
             },
             "konf_eing_sgr2": {
                 "name": "Konf. Eingang SGR2",
-                "value": {
+                "state": {
                     "2.WEZ": "2.WEZ",
                     "AUS": "AUS",
                     "EVU-Sperre:": "EVU-Sperre:",
@@ -1182,7 +1182,7 @@
             },
             "ruhemodus": {
                 "name": "Ruhemodus",
-                "value": {
+                "state": {
                     "40 %": "40 %",
                     "60 %": "60 %",
                     "80 %": "80 %",
@@ -1224,21 +1224,21 @@
             },
             "status_2_wez": {
                 "name": "Status 2. WEZ",
-                "value": {
+                "state": {
                     "aus": "aus",
                     "ein": "ein"
                 }
             },
             "status_e1": {
                 "name": "Status E-Heizung 1",
-                "value": {
+                "state": {
                     "aus": "aus",
                     "ein": "ein"
                 }
             },
             "status_e2": {
                 "name": "Status E-Heizung 2",
-                "value": {
+                "state": {
                     "aus": "aus",
                     "ein": "ein"
                 }
@@ -1269,7 +1269,7 @@
             },
             "w2_konf": {
                 "name": "W2_Konfiguration",
-                "value": {
+                "state": {
                     "0": "0",
                     "1": "1"
                 }
@@ -1279,7 +1279,7 @@
             },
             "warnung": {
                 "name": "Warnung",
-                "value": {
+                "state": {
                     "Analogeingang AE1 kurzgeschlossen": "Analogeingang AE1 kurzgeschlossen",
                     "Analogeingang AE1 unterbrochen": "Analogeingang AE1 unterbrochen",
                     "Analogeingang AE2 kurzgeschlossen": "Analogeingang AE2 kurzgeschlossen",
@@ -1402,7 +1402,7 @@
             },
             "wp_betrieb": {
                 "name": "Betrieb",
-                "value": {
+                "state": {
                     "Absenk": "Absenk",
                     "Abtauen": "Abtauen",
                     "Diagnose": "Diagnose",
@@ -1444,7 +1444,7 @@
             },
             "wp_konf": {
                 "name": "Konfiguration ",
-                "value": {
+                "state": {
                     "Heizen": "Heizen",
                     "Heizen, Kühlen": "Heizen, Kühlen",
                     "Heizen, Kühlen, Warmwasser": "Heizen, Kühlen, Warmwasser",
@@ -1454,7 +1454,7 @@
             },
             "wp_stoermeldung": {
                 "name": "Störmeldung",
-                "value": {
+                "state": {
                     "Störung": "Störung",
                     "Störungsfrei": "Störungsfrei"
                 }
@@ -1473,7 +1473,7 @@
             },
             "ww_konf": {
                 "name": "WW_Konfiguration",
-                "value": {
+                "state": {
                     "Pumpe": "Pumpe",
                     "Umlenkventil": "Umlenkventil",
                     "aus": "aus"

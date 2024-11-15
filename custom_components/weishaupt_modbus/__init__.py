@@ -129,7 +129,7 @@ def create_string_json():
                         myValues = {}
                         for myStatusItem in item.resultlist:
                             myValues[myStatusItem.text] = myStatusItem.text
-                        mySensor["value"] = myValues.copy()
+                        mySensor["state"] = myValues.copy()
                 mySensors[item.translation_key] = mySensor.copy()
             case TYPES.NUMBER:
                 myNumber = {}
