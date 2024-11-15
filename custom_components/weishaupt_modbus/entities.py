@@ -1,5 +1,7 @@
 """Build entitiy List and Update Coordinator."""
 
+import logging
+
 from homeassistant.components.number import NumberEntity
 from homeassistant.components.select import SelectEntity
 from homeassistant.components.sensor import (
@@ -32,9 +34,12 @@ from .coordinator import MyCoordinator
 from .const import DEVICES
 from .hpconst import reverse_device_list
 
+logging.basicConfig()
+log = logging.getLogger(__name__)
 
 async def check_available(modbus_item: ModbusItem, config_entry: ConfigEntry) -> bool:
     """function checks if item is valid and available"""
+    log.debug("Check if item %s is available ..", modbus_item.name)
     if config_entry.data[CONF_HK2] is False:
         if modbus_item.device is DEVICES.HZ2:
             return False
@@ -55,6 +60,7 @@ async def check_available(modbus_item: ModbusItem, config_entry: ConfigEntry) ->
     mbo = ModbusObject(_modbus_api, modbus_item)
     _useless = await mbo.value
     if modbus_item.is_invalid is False:
+        log.debug("Check availability item %s successful ..", modbus_item.name)
         return True
     return False
 
@@ -84,7 +90,8 @@ async def build_entity_list(
                     # here the entities are created with the parameters provided
                     # by the ModbusItem object
                     case TYPES.SENSOR | TYPES.NUMBER_RO:
-                        entries.append(
+                       log.debug("Add item %s to entity list ..", modbusitems[index].name)
+                       entries.append(
                             MySensorEntity(
                                 config_entry, modbusitems[index], coordinator, index
                             )
@@ -92,6 +99,7 @@ async def build_entity_list(
                     case TYPES.SENSOR_CALC:
                         pwrmap = PowerMap(config_entry)
                         await pwrmap.initialize()
+                        log.debug("Add item %s to entity list ..", modbusitems[index].name)
                         entries.append(
                             MyCalcSensorEntity(
                                 config_entry,
