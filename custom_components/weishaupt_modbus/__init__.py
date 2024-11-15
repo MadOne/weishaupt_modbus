@@ -135,19 +135,21 @@ def create_string_json():
                 myNumber = {}
                 myNumber["name"] = item.name
                 if item.resultlist is not None:
-                    myValues = {}
-                    for myStatusItem in item.resultlist:
-                        myValues[myStatusItem.text] = myStatusItem.text
-                    myNumber["value"] = myValues.copy()
+                    if item.format is FORMATS.STATUS:
+                        myValues = {}
+                        for myStatusItem in item.resultlist:
+                            myValues[myStatusItem.text] = myStatusItem.text
+                        myNumber["value"] = myValues.copy()
                 myNumbers[item.translation_key] = myNumber.copy()
             case TYPES.SELECT:
                 mySelect = {}
                 mySelect["name"] = item.name
                 if item.resultlist is not None:
-                    myValues = {}
-                    for myStatusItem in item.resultlist:
-                        myValues[myStatusItem.text] = myStatusItem.text
-                    mySelect["value"] = myValues.copy()
+                    if item.format is FORMATS.STATUS:
+                        myValues = {}
+                        for myStatusItem in item.resultlist:
+                            myValues[myStatusItem.text] = myStatusItem.text
+                        mySelect["value"] = myValues.copy()
                 mySelects[item.translation_key] = mySelect.copy()
     myEntity["sensor"] = mySensors
     myEntity["number"] = myNumbers

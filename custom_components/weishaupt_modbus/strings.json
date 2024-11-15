@@ -29,309 +29,97 @@
     "entity": {
         "number": {
             "bivalenztemp": {
-                "name": "Bivalenztemperatur",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Bivalenztemperatur"
             },
             "bivalenztemp_ww": {
-                "name": "Bivalenztemperatur WW",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Bivalenztemperatur WW"
             },
             "grenztemp": {
-                "name": "Grenztemperatur",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Grenztemperatur"
             },
             "heizkennlinie": {
-                "name": "Heizkennlinie",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step"
-                }
+                "name": "Heizkennlinie"
             },
             "heizkennlinie2": {
-                "name": "Heizkennlinie2",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step"
-                }
+                "name": "Heizkennlinie2"
             },
             "heizkennlinie3": {
-                "name": "Heizkennlinie3",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step"
-                }
+                "name": "Heizkennlinie3"
             },
             "heizkennlinie4": {
-                "name": "Heizkennlinie4",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step"
-                }
+                "name": "Heizkennlinie4"
             },
             "heizkennlinie5": {
-                "name": "Heizkennlinie5",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step"
-                }
+                "name": "Heizkennlinie5"
             },
             "raum_soll_temp_absenk": {
-                "name": "Raumsolltemperatur Absenk",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur Absenk"
             },
             "raum_soll_temp_absenk2": {
-                "name": "Raumsolltemperatur Absenk2",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur Absenk2"
             },
             "raum_soll_temp_absenk3": {
-                "name": "Raumsolltemperatur Absenk3",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur Absenk3"
             },
             "raum_soll_temp_absenk4": {
-                "name": "Raumsolltemperatur Absenk4",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur Absenk4"
             },
             "raum_soll_temp_absenk5": {
-                "name": "Raumsolltemperatur Absenk5",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur Absenk5"
             },
             "raum_soll_temp_komf": {
-                "name": "Raumsolltemperatur Komfort",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur Komfort"
             },
             "raum_soll_temp_komf2": {
-                "name": "Raumsolltemperatur Komfort2",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur Komfort2"
             },
             "raum_soll_temp_komf3": {
-                "name": "Raumsolltemperatur Komfort3",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur Komfort3"
             },
             "raum_soll_temp_komf4": {
-                "name": "Raumsolltemperatur Komfort4",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur Komfort4"
             },
             "raum_soll_temp_komf5": {
-                "name": "Raumsolltemperatur Komfort5",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur Komfort5"
             },
             "raum_soll_temp_normal": {
-                "name": "Raumsolltemperatur Normal",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur Normal"
             },
             "raum_soll_temp_normal2": {
-                "name": "Raumsolltemperatur Normal2",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur Normal2"
             },
             "raum_soll_temp_normal3": {
-                "name": "Raumsolltemperatur Normal3",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur Normal3"
             },
             "raum_soll_temp_normal4": {
-                "name": "Raumsolltemperatur Normal4",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur Normal4"
             },
             "raum_soll_temp_normal5": {
-                "name": "Raumsolltemperatur Normal5",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur Normal5"
             },
             "sgr_anhebung": {
-                "name": "SG Ready Anhebung",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "SG Ready Anhebung"
             },
             "so_wi_umschalt": {
-                "name": "Sommer Winter Umschaltung",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Sommer Winter Umschaltung"
             },
             "so_wi_umschalt2": {
-                "name": "Sommer Winter Umschaltung2",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Sommer Winter Umschaltung2"
             },
             "so_wi_umschalt3": {
-                "name": "Sommer Winter Umschaltung3",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Sommer Winter Umschaltung3"
             },
             "so_wi_umschalt4": {
-                "name": "Sommer Winter Umschaltung4",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Sommer Winter Umschaltung4"
             },
             "so_wi_umschalt5": {
-                "name": "Sommer Winter Umschaltung5",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Sommer Winter Umschaltung5"
             },
             "ww_absenk": {
-                "name": "Warmwasser Absenk",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Warmwasser Absenk"
             },
             "ww_normal": {
-                "name": "Warmwasser Normal",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Warmwasser Normal"
             }
         },
         "select": {
