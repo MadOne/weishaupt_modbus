@@ -1050,13 +1050,6 @@
                   "Störungsfreier Betrieb": "Störungsfreier Betrieb"
               }
           },
-          "ges_energie_2_Jahr": {
-              "name": "Gesamt Energie II Jahr",
-              "value": {
-                  "divider": "divider",
-                  "energy": "energy"
-              }
-          },
           "ges_energie_2_gestern": {
               "name": "Gesamt Energie II gestern",
               "value": {
@@ -1066,6 +1059,13 @@
           },
           "ges_energie_2_heute": {
               "name": "Gesamt Energie II heute",
+              "value": {
+                  "divider": "divider",
+                  "energy": "energy"
+              }
+          },
+          "ges_energie_2_jahr": {
+              "name": "Gesamt Energie II Jahr",
               "value": {
                   "divider": "divider",
                   "energy": "energy"

@@ -782,7 +782,7 @@ MODBUS_ST_ITEMS: list[ModbusItem] = [
     ModbusItem( address=36601, name="Gesamt Energie II heute", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ges_energie_2_heute"),
     ModbusItem( address=36602, name="Gesamt Energie II gestern", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ges_energie_2_gestern"),
     ModbusItem( address=36603, name="Gesamt Energie II Monat", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ges_energie_2_monat"),
-    ModbusItem( address=36604, name="Gesamt Energie II Jahr", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ges_energie_2_Jahr"),
+    ModbusItem( address=36604, name="Gesamt Energie II Jahr", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="ges_energie_2_jahr"),
     ModbusItem( address=36701, name="Elektr. Energie heute", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="el_energie_heute"),
     ModbusItem( address=36702, name="Elektr. Energie gestern", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="el_energie_gestern"),
     ModbusItem( address=36703, name="Elektr. Energie Monat", mformat=FORMATS.ENERGY, mtype=TYPES.SENSOR, device=DEVICES.ST, resultlist=RANGE_ENERGY, translation_key="el_energie_monat"),
