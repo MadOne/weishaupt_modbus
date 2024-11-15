@@ -3,6 +3,8 @@
 import json
 import warnings
 
+from attr import asdict
+
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PREFIX
 from homeassistant.core import HomeAssistant
@@ -17,6 +19,7 @@ from .const import (
     CONF_NAME_DEVICE_PREFIX,
     CONF_NAME_TOPIC_PREFIX,
     CONST,
+    DEVICES,
     TYPES,
 )
 from .hpconst import DEVICELISTS
@@ -103,7 +106,6 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 
 def create_string_json():
-    file = open("newstrings.json", "w")
     item: ModbusItem = None
     myStatusItem: StatusItem = None
     myEntity = {}
@@ -112,6 +114,7 @@ def create_string_json():
     myNumbers = {}
     mySelects = {}
 
+    # generate list of all mbitems
     DEVICELIST = []
     for devicelist in DEVICELISTS:
         DEVICELIST = DEVICELIST + devicelist
@@ -149,9 +152,18 @@ def create_string_json():
     myEntity["number"] = myNumbers
     myEntity["select"] = mySelects
     myJson["entity"] = myEntity
-    file = open(
-        "config/custom_components/weishaupt_modbus/newstrings.json",
-        "w",
-        encoding="UTF-8",
-    )
-    file.write(json.dumps(myJson, indent=4))
+
+    # iterate over all devices in order to create a translation. TODO
+    for key, value in asdict(DEVICES).items():
+        ...
+
+    # load strings.json into string
+    with open("config/custom_components/weishaupt_modbus/strings.json", "r") as file:
+        data = file.read()
+    # create dict from json
+    data_dict = json.loads(data)
+    # overwrite entiy dict
+    data_dict["entity"] = myEntity
+    # write whole json to file again
+    with open("config/custom_components/weishaupt_modbus/strings.json", "w") as file:
+        file.write(json.dumps(data_dict, indent=4, sort_keys=True))
