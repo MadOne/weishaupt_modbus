@@ -629,6 +629,19 @@ RANGE_CALCPOWER = [
     StatusItem(33104, "y"),
 ]
 
+RANGES: list[list[StatusItem]] = [
+    RANGE_PERCENTAGE,
+    TEMPRANGE_ROOM,
+    TEMPRANGE_WATER,
+    TEMPRANGE_SGREADY,
+    TEMPRANGE_BIVALENZ,
+    TEMPRANGE_STD,
+    RANGE_HZKENNLINIE,
+    TIMERANGE_WWPUSH,
+    RANGE_FLOWRATE,
+    RANGE_ENERGY,
+    RANGE_CALCPOWER,
+]
 # pylint: disable=line-too-long
 
 ##############################################################################################################################

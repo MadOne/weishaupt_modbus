@@ -722,32 +722,16 @@
         },
         "sensor": {
             "abtau_energie_gester": {
-                "name": "Abtauen Energie gestern",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Abtauen Energie gestern"
             },
             "abtau_energie_heute": {
-                "name": "Abtauen Energie heute",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Abtauen Energie heute"
             },
             "abtau_energie_jahr": {
-                "name": "Abtauen Energie Jahr",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Abtauen Energie Jahr"
             },
             "abtau_energie_monat": {
-                "name": "Abtauen Energie Monat",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Abtauen Energie Monat"
             },
             "adr31106": {
                 "name": "Adr. 31106"
@@ -823,14 +807,7 @@
                 "name": "Ausgang H1.5"
             },
             "aussentemp": {
-                "name": "Aussentemperatur",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Aussentemperatur"
             },
             "betriebsanzeige": {
                 "name": "Betriebsanzeige",
@@ -896,32 +873,16 @@
                 }
             },
             "el_energie_gestern": {
-                "name": "Elektr. Energie gestern",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Elektr. Energie gestern"
             },
             "el_energie_heute": {
-                "name": "Elektr. Energie heute",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Elektr. Energie heute"
             },
             "el_energie_jahr": {
-                "name": "Elektr. Energie Jahr",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Elektr. Energie Jahr"
             },
             "el_energie_monat": {
-                "name": "Elektr. Energie Monat",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Elektr. Energie Monat"
             },
             "fehler": {
                 "name": "Fehler",
@@ -1051,188 +1012,70 @@
                 }
             },
             "ges_energie_2_gestern": {
-                "name": "Gesamt Energie II gestern",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Gesamt Energie II gestern"
             },
             "ges_energie_2_heute": {
-                "name": "Gesamt Energie II heute",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Gesamt Energie II heute"
             },
             "ges_energie_2_jahr": {
-                "name": "Gesamt Energie II Jahr",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Gesamt Energie II Jahr"
             },
             "ges_energie_2_monat": {
-                "name": "Gesamt Energie II Monat",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Gesamt Energie II Monat"
             },
             "ges_energie_gestern": {
-                "name": "Gesamt Energie gestern",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Gesamt Energie gestern"
             },
             "ges_energie_heute": {
-                "name": "Gesamt Energie heute",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Gesamt Energie heute"
             },
             "ges_energie_jahr": {
-                "name": "Gesamt Energie Jahr",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Gesamt Energie Jahr"
             },
             "ges_energie_monat": {
-                "name": "Gesamt Energie Monat",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Gesamt Energie Monat"
             },
             "heiz_energie_getern": {
-                "name": "Heizen Energie gestern",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Heizen Energie gestern"
             },
             "heiz_energie_heute": {
-                "name": "Heizen Energie heute",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Heizen Energie heute"
             },
             "heiz_energie_jahr": {
-                "name": "Heizen Energie Jahr",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Heizen Energie Jahr"
             },
             "heiz_energie_monat": {
-                "name": "Heizen Energie Monat",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Heizen Energie Monat"
             },
             "heiz_konstanttemp": {
-                "name": "Heizen Konstanttemperatur",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Heizen Konstanttemperatur"
             },
             "heiz_konstanttemp2": {
-                "name": "Heizen Konstanttemperatur2",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Heizen Konstanttemperatur2"
             },
             "heiz_konstanttemp3": {
-                "name": "Heizen Konstanttemperatur3",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Heizen Konstanttemperatur3"
             },
             "heiz_konstanttemp4": {
-                "name": "Heizen Konstanttemperatur4",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Heizen Konstanttemperatur4"
             },
             "heiz_konstanttemp5": {
-                "name": "Heizen Konstanttemperatur5",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Heizen Konstanttemperatur5"
             },
             "heiz_konstanttemp_absenk": {
-                "name": "Heizen Konstanttemp Absenk",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Heizen Konstanttemp Absenk"
             },
             "heiz_konstanttemp_absenk2": {
-                "name": "Heizen Konstanttemp Absenk2",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Heizen Konstanttemp Absenk2"
             },
             "heiz_konstanttemp_absenk3": {
-                "name": "Heizen Konstanttemp Absenk3",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Heizen Konstanttemp Absenk3"
             },
             "heiz_konstanttemp_absenk4": {
-                "name": "Heizen Konstanttemp Absenk4",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Heizen Konstanttemp Absenk4"
             },
             "heiz_konstanttemp_absenk5": {
-                "name": "Heizen Konstanttemp Absenk5",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Heizen Konstanttemp Absenk5"
             },
             "hz_konf": {
                 "name": "HZ_Konfiguration",
@@ -1280,54 +1123,19 @@
                 }
             },
             "hz_vl_temp": {
-                "name": "HZ_Vorlauftemperatur",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "HZ_Vorlauftemperatur"
             },
             "hz_vl_temp2": {
-                "name": "HZ_Vorlauftemperatur2",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "HZ_Vorlauftemperatur2"
             },
             "hz_vl_temp3": {
-                "name": "HZ_Vorlauftemperatur3",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "HZ_Vorlauftemperatur3"
             },
             "hz_vl_temp4": {
-                "name": "HZ_Vorlauftemperatur4",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "HZ_Vorlauftemperatur4"
             },
             "hz_vl_temp5": {
-                "name": "HZ_Vorlauftemperatur5",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "HZ_Vorlauftemperatur5"
             },
             "konf_ausg_h12": {
                 "name": "Konf. Ausgang H1.2",
@@ -1498,95 +1306,37 @@
                 }
             },
             "kuehl_energie_gestern": {
-                "name": "Kühlen Energie gestern",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Kühlen Energie gestern"
             },
             "kuehl_energie_heute": {
-                "name": "Kühlen Energie heute",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Kühlen Energie heute"
             },
             "kuehl_energie_jahr": {
-                "name": "Kühlen Energie Jahr",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Kühlen Energie Jahr"
             },
             "kuehl_energie_monat": {
-                "name": "Kühlen Energie Monat",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Kühlen Energie Monat"
             },
             "kuehl_konstanttemp": {
-                "name": "Kühlen Konstanttemperatur",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Kühlen Konstanttemperatur"
             },
             "kuehl_konstanttemp2": {
-                "name": "Kühlen Konstanttemperatur2",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Kühlen Konstanttemperatur2"
             },
             "kuehl_konstanttemp3": {
-                "name": "Kühlen Konstanttemperatur3",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Kühlen Konstanttemperatur3"
             },
             "kuehl_konstanttemp4": {
-                "name": "Kühlen Konstanttemperatur4",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Kühlen Konstanttemperatur4"
             },
             "kuehl_konstanttemp5": {
-                "name": "Kühlen Konstanttemperatur5",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Kühlen Konstanttemperatur5"
             },
             "leistungsanforderung": {
                 "name": "Leistungsanforderung"
             },
             "luftansautgemp": {
-                "name": "Luftansaugtemperatur",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Luftansaugtemperatur"
             },
             "puffer_temp": {
                 "name": "Puffertemperatur?"
@@ -1610,114 +1360,37 @@
                 "name": "Raumfeuchte5"
             },
             "raum_soll_temp": {
-                "name": "Raumsolltemperatur",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur"
             },
             "raum_soll_temp2": {
-                "name": "Raumsolltemperatur2",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur2"
             },
             "raum_soll_temp3": {
-                "name": "Raumsolltemperatur3",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur3"
             },
             "raum_soll_temp4": {
-                "name": "Raumsolltemperatur4",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur4"
             },
             "raum_soll_temp5": {
-                "name": "Raumsolltemperatur5",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumsolltemperatur5"
             },
             "raum_temp": {
-                "name": "Raumtemperatur",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumtemperatur"
             },
             "raum_temp2": {
-                "name": "Raumtemperatur2",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumtemperatur2"
             },
             "raum_temp3": {
-                "name": "Raumtemperatur3",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumtemperatur3"
             },
             "raum_temp4": {
-                "name": "Raumtemperatur4",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumtemperatur4"
             },
             "raum_temp5": {
-                "name": "Raumtemperatur5",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Raumtemperatur5"
             },
             "rl_temp": {
-                "name": "Rücklauftemperatur",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Rücklauftemperatur"
             },
             "ruhemodus": {
                 "name": "Ruhemodus",
@@ -1741,67 +1414,25 @@
                 "name": "SG-Ready 2"
             },
             "soll_volumenstrom_heizen": {
-                "name": "Sollwert Volumenstrom Heizen",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step"
-                }
+                "name": "Sollwert Volumenstrom Heizen"
             },
             "soll_volumenstrom_kuehlen": {
-                "name": "Sollwert Volumenstrom Kühlen",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step"
-                }
+                "name": "Sollwert Volumenstrom Kühlen"
             },
             "soll_volumenstrom_ww": {
-                "name": "Sollwert Volumenstrom Warmwasser",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step"
-                }
+                "name": "Sollwert Volumenstrom Warmwasser"
             },
             "sollwert_pumpe_leistung_abtau": {
-                "name": "Sollwert Pumpe Leistung Abtaubetrieb",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step"
-                }
+                "name": "Sollwert Pumpe Leistung Abtaubetrieb"
             },
             "sollwert_pumpe_leistung_heizen": {
-                "name": "Sollwert Pumpe Leistung Heizen",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step"
-                }
+                "name": "Sollwert Pumpe Leistung Heizen"
             },
             "sollwert_pumpe_leistung_kuehlen": {
-                "name": "Sollwert Pumpe Leistung Kühlen",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step"
-                }
+                "name": "Sollwert Pumpe Leistung Kühlen"
             },
             "sollwert_pumpe_leitung_ww": {
-                "name": "Sollwert Pumpe Leistung Warmwasser",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step"
-                }
+                "name": "Sollwert Pumpe Leistung Warmwasser"
             },
             "status_2_wez": {
                 "name": "Status 2. WEZ",
@@ -1825,84 +1456,28 @@
                 }
             },
             "verdampfungs_temp": {
-                "name": "Verdampfungstemperatur",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Verdampfungstemperatur"
             },
             "verdichter_ansaug_gas_temp": {
-                "name": "Verdichtersauggastemp",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Verdichtersauggastemp"
             },
             "vl_praeziese_summenvorlauf_b7": {
-                "name": "Vorlauftemperatur präzise(Summenvorlauf(B7))",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Vorlauftemperatur präzise(Summenvorlauf(B7))"
             },
             "vl_temp": {
-                "name": "Vorlaufsolltemperatur",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Vorlaufsolltemperatur"
             },
             "vl_temp2": {
-                "name": "Vorlaufsolltemperatur2",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Vorlaufsolltemperatur2"
             },
             "vl_temp3": {
-                "name": "Vorlaufsolltemperatur3",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Vorlaufsolltemperatur3"
             },
             "vl_temp4": {
-                "name": "Vorlaufsolltemperatur4",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Vorlaufsolltemperatur4"
             },
             "vl_temp5": {
-                "name": "Vorlaufsolltemperatur5",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Vorlaufsolltemperatur5"
             },
             "w2_konf": {
                 "name": "W2_Konfiguration",
@@ -1912,13 +1487,7 @@
                 }
             },
             "waermeleistung": {
-                "name": "Wärmeleistung",
-                "value": {
-                    "divider": "divider",
-                    "power": "power",
-                    "x": "x",
-                    "y": "y"
-                }
+                "name": "Wärmeleistung"
             },
             "warnung": {
                 "name": "Warnung",
@@ -2103,32 +1672,16 @@
                 }
             },
             "ww_energie_gestern": {
-                "name": "Warmwasser Energie gestern",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Warmwasser Energie gestern"
             },
             "ww_energie_heute": {
-                "name": "Warmwasser Energie heute",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Warmwasser Energie heute"
             },
             "ww_energie_jahr": {
-                "name": "Warmwasser Energie Jahr",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Warmwasser Energie Jahr"
             },
             "ww_energie_monat": {
-                "name": "Warmwasser Energie Monat",
-                "value": {
-                    "divider": "divider",
-                    "energy": "energy"
-                }
+                "name": "Warmwasser Energie Monat"
             },
             "ww_konf": {
                 "name": "WW_Konfiguration",
@@ -2139,24 +1692,10 @@
                 }
             },
             "ww_soll_temp": {
-                "name": "Warmwassersolltemperatur",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Warmwassersolltemperatur"
             },
             "ww_temp": {
-                "name": "Warmwassertemperatur",
-                "value": {
-                    "divider": "divider",
-                    "max": "max",
-                    "min": "min",
-                    "step": "step",
-                    "temperature": "temperature"
-                }
+                "name": "Warmwassertemperatur"
             }
         }
     },

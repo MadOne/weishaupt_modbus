@@ -19,10 +19,10 @@ from .const import (
     CONF_NAME_DEVICE_PREFIX,
     CONF_NAME_TOPIC_PREFIX,
     CONST,
-    DEVICES,
+    FORMATS,
     TYPES,
 )
-from .hpconst import DEVICELISTS
+from .hpconst import DEVICELISTS, RANGES
 from .items import ModbusItem, StatusItem
 from .modbusobject import ModbusAPI
 
@@ -125,12 +125,11 @@ def create_string_json():
                 mySensor = {}
                 mySensor["name"] = item.name
                 if item.resultlist is not None:
-                    myValues = {}
-                    for myStatusItem in item.resultlist:
-                        myValues[myStatusItem.text] = myStatusItem.text
-                    mySensor["value"] = myValues.copy()
-                    print(mySensor)
-                    print("\n")
+                    if item.format is FORMATS.STATUS:
+                        myValues = {}
+                        for myStatusItem in item.resultlist:
+                            myValues[myStatusItem.text] = myStatusItem.text
+                        mySensor["value"] = myValues.copy()
                 mySensors[item.translation_key] = mySensor.copy()
             case TYPES.NUMBER:
                 myNumber = {}
@@ -150,7 +149,6 @@ def create_string_json():
                         myValues[myStatusItem.text] = myStatusItem.text
                     mySelect["value"] = myValues.copy()
                 mySelects[item.translation_key] = mySelect.copy()
-                print(item.translation_key)
     myEntity["sensor"] = mySensors
     myEntity["number"] = myNumbers
     myEntity["select"] = mySelects
