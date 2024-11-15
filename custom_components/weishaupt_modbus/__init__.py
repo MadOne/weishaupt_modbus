@@ -154,16 +154,24 @@ def create_string_json():
     myJson["entity"] = myEntity
 
     # iterate over all devices in order to create a translation. TODO
-    for key, value in asdict(DEVICES).items():
-        ...
+    # for key, value in asdict(DEVICES).items():
+    #    ...
 
     # load strings.json into string
-    with open("config/custom_components/weishaupt_modbus/strings.json", "r") as file:
+    with open(
+        "config/custom_components/weishaupt_modbus/strings.json",
+        "r",
+        # encoding="utf-8",
+    ) as file:
         data = file.read()
     # create dict from json
     data_dict = json.loads(data)
     # overwrite entiy dict
     data_dict["entity"] = myEntity
     # write whole json to file again
-    with open("config/custom_components/weishaupt_modbus/strings.json", "w") as file:
-        file.write(json.dumps(data_dict, indent=4, sort_keys=True))
+    with open(
+        "config/custom_components/weishaupt_modbus/strings.json",
+        "w",
+        # encoding="utf-8",
+    ) as file:
+        file.write(json.dumps(data_dict, indent=4, sort_keys=True, ensure_ascii=False))
