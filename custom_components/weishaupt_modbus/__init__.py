@@ -128,7 +128,7 @@ def create_string_json():
                     if item.format is FORMATS.STATUS:
                         myValues = {}
                         for myStatusItem in item.resultlist:
-                            myValues[myStatusItem.text] = myStatusItem.text
+                            myValues[myStatusItem.translation_key] = myStatusItem.text
                         mySensor["state"] = myValues.copy()
                 mySensors[item.translation_key] = mySensor.copy()
             case TYPES.NUMBER:
@@ -138,7 +138,7 @@ def create_string_json():
                     if item.format is FORMATS.STATUS:
                         myValues = {}
                         for myStatusItem in item.resultlist:
-                            myValues[myStatusItem.text] = myStatusItem.text
+                            myValues[myStatusItem.translation_key] = myStatusItem.text
                         myNumber["value"] = myValues.copy()
                 myNumbers[item.translation_key] = myNumber.copy()
             case TYPES.SELECT:
@@ -148,7 +148,7 @@ def create_string_json():
                     if item.format is FORMATS.STATUS:
                         myValues = {}
                         for myStatusItem in item.resultlist:
-                            myValues[myStatusItem.text] = myStatusItem.text
+                            myValues[myStatusItem.translation_key] = myStatusItem.text
                         mySelect["value"] = myValues.copy()
                 mySelects[item.translation_key] = mySelect.copy()
     myEntity["sensor"] = mySensors
@@ -177,4 +177,4 @@ def create_string_json():
         "w",
         # encoding="utf-8",
     ) as file:
-        file.write(json.dumps(data_dict, indent=4, sort_keys=True, ensure_ascii=False))
+        file.write(json.dumps(data_dict, indent=4, sort_keys=False, ensure_ascii=False))

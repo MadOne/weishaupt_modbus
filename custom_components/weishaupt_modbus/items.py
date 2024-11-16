@@ -12,12 +12,20 @@ class StatusItem:
     _number = None
     _text = None
     _description = None
+    _translation_key: str = ""
 
-    def __init__(self, number: int, text: str, description: str = None) -> None:
+    def __init__(
+        self,
+        number: int,
+        text: str,
+        translation_key: str = None,
+        description: str = None,
+    ) -> None:
         """Initialise StatusItem."""
         self._number = number
         self._text = text
         self._description = description
+        self._translation_key = translation_key
 
     @property
     def number(self) -> int:
@@ -46,6 +54,16 @@ class StatusItem:
     @description.setter
     def description(self, value: str) -> None:
         self._description = value
+
+    @property
+    def translation_key(self) -> str:
+        """Return translation_key."""
+        return self._translation_key
+
+    @translation_key.setter
+    def translation_key(self, val: str) -> None:
+        """Set translation_key."""
+        self._translation_key = val
 
 
 class ModbusItem:
