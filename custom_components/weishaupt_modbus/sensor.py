@@ -17,10 +17,8 @@ log = logging.getLogger(__name__)
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    # config: ConfigType,
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
-    #    discovery_info: DiscoveryInfoType | None = None,
 ) -> None:
     """Set up the sensor platform."""
     _modbus_api = config_entry.runtime_data
