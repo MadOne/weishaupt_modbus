@@ -441,7 +441,7 @@
                 "name": "Vorlauftemperatur präzise(Summenvorlauf(B7))"
             },
             "wp_konf": {
-                "name": "Konfiguration ",
+                "name": "Konfiguration",
                 "state": {
                     "null": "Heizen, Warmwasser"
                 }
@@ -1134,7 +1134,7 @@
         "select": {
             "systembetriebsart": {
                 "name": "Systembetriebsart",
-                "states": {
+                "state": {
                     "sys_betriebsart_automatik": "Automatik",
                     "sys_betriebsart_heizen": "Heizen",
                     "sys_betriebsart_kuehlen": "Kühlen",
@@ -1145,7 +1145,7 @@
             },
             "ww_push": {
                 "name": "Warmwasser Push",
-                "states": {
+                "state": {
                     "ww_push_aus": "AUS",
                     "ww_push_5": "5Minuten",
                     "ww_push_10": "10Minuten",
@@ -1198,7 +1198,7 @@
             },
             "hz_betriebsart": {
                 "name": "Betriebsart",
-                "states": {
+                "state": {
                     "hz_betriebsart_auto": "Automatik",
                     "hz_betriebsat_komfort": "Komfort",
                     "hz_betriebsart_normal": "Normal",
@@ -1208,7 +1208,7 @@
             },
             "party_pause": {
                 "name": "Pause / Party",
-                "states": {
+                "state": {
                     "hz_pause_12": "Pause 12.0h",
                     "hz_pause_11_5": "Pause 11.5h",
                     "hz_pause_11": "Pause 11.0h",
@@ -1262,7 +1262,7 @@
             },
             "hz_betriebsart2": {
                 "name": "Betriebsart2",
-                "states": {
+                "state": {
                     "hz_betriebsart_auto": "Automatik",
                     "hz_betriebsat_komfort": "Komfort",
                     "hz_betriebsart_normal": "Normal",
@@ -1272,7 +1272,7 @@
             },
             "party_pause2": {
                 "name": "Pause / Party2",
-                "states": {
+                "state": {
                     "hz_pause_12": "Pause 12.0h",
                     "hz_pause_11_5": "Pause 11.5h",
                     "hz_pause_11": "Pause 11.0h",
@@ -1326,7 +1326,7 @@
             },
             "hz_betriebsart3": {
                 "name": "Betriebsart3",
-                "states": {
+                "state": {
                     "hz_betriebsart_auto": "Automatik",
                     "hz_betriebsat_komfort": "Komfort",
                     "hz_betriebsart_normal": "Normal",
@@ -1336,7 +1336,7 @@
             },
             "party_pause3": {
                 "name": "Pause / Party3",
-                "states": {
+                "state": {
                     "hz_pause_12": "Pause 12.0h",
                     "hz_pause_11_5": "Pause 11.5h",
                     "hz_pause_11": "Pause 11.0h",
@@ -1390,7 +1390,7 @@
             },
             "hz_betriebsart4": {
                 "name": "Betriebsart4",
-                "states": {
+                "state": {
                     "hz_betriebsart_auto": "Automatik",
                     "hz_betriebsat_komfort": "Komfort",
                     "hz_betriebsart_normal": "Normal",
@@ -1400,7 +1400,7 @@
             },
             "party_pause4": {
                 "name": "Pause / Party4",
-                "states": {
+                "state": {
                     "hz_pause_12": "Pause 12.0h",
                     "hz_pause_11_5": "Pause 11.5h",
                     "hz_pause_11": "Pause 11.0h",
@@ -1454,7 +1454,7 @@
             },
             "hz_betriebsart5": {
                 "name": "Betriebsart5",
-                "states": {
+                "state": {
                     "hz_betriebsart_auto": "Automatik",
                     "hz_betriebsat_komfort": "Komfort",
                     "hz_betriebsart_normal": "Normal",
@@ -1464,7 +1464,7 @@
             },
             "party_pause5": {
                 "name": "Pause / Party5",
-                "states": {
+                "state": {
                     "hz_pause_12": "Pause 12.0h",
                     "hz_pause_11_5": "Pause 11.5h",
                     "hz_pause_11": "Pause 11.0h",

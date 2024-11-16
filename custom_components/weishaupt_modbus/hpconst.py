@@ -805,7 +805,7 @@ MODBUS_WP_ITEMS: list[ModbusItem] = [
     ModbusItem( address=33110, name="Puffertemperatur?", mformat=FORMATS.UNKNOWN, mtype=TYPES.SENSOR, device=DEVICES.WP, translation_key="puffer_temp"),
     ModbusItem( address=33111, name="Vorlauftemperatur präzise(Summenvorlauf(B7))", mformat=FORMATS.TEMPERATUR, mtype=TYPES.SENSOR, device=DEVICES.WP, resultlist=TEMPRANGE_STD, translation_key="vl_praeziese_summenvorlauf_b7"),
 
-    ModbusItem( address=43101, name="Konfiguration ", mformat=FORMATS.STATUS, mtype=TYPES.NUMBER_RO, device=DEVICES.WP, resultlist=HP_KONFIGURATION, translation_key="wp_konf"),
+    ModbusItem( address=43101, name="Konfiguration", mformat=FORMATS.STATUS, mtype=TYPES.NUMBER_RO, device=DEVICES.WP, resultlist=HP_KONFIGURATION, translation_key="wp_konf"),
     ModbusItem( address=43102, name="Ruhemodus", mformat=FORMATS.STATUS, mtype=TYPES.NUMBER_RO, device=DEVICES.WP, resultlist=HP_RUHEMODUS, translation_key="ruhemodus"),
     ModbusItem( address=43103, name="Pumpe Einschaltart", mformat=FORMATS.NUMBER, mtype=TYPES.NUMBER_RO, device=DEVICES.WP, translation_key="pumpe_einschaltart"),
     ModbusItem( address=43104, name="Sollwert Pumpe Leistung Heizen", mformat=FORMATS.PERCENTAGE, mtype=TYPES.NUMBER_RO, device=DEVICES.WP, resultlist=RANGE_PERCENTAGE, translation_key="sollwert_pumpe_leistung_heizen"),

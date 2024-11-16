@@ -149,7 +149,7 @@ def create_string_json():
                         myValues = {}
                         for myStatusItem in item.resultlist:
                             myValues[myStatusItem.translation_key] = myStatusItem.text
-                        mySelect["states"] = myValues.copy()
+                        mySelect["state"] = myValues.copy()
                 mySelects[item.translation_key] = mySelect.copy()
     myEntity["sensor"] = mySensors
     myEntity["number"] = myNumbers
