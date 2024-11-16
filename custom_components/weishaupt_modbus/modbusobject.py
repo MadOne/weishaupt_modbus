@@ -19,8 +19,8 @@ from .const import TYPES, FORMATS
 from .items import ModbusItem
 
 logging.basicConfig()
-log = logging.getLogger()
-log.setLevel(logging.WARNING)
+log = logging.getLogger(__name__)
+#log.setLevel(logging.WARNING)
 
 
 class ModbusAPI:
@@ -119,9 +119,9 @@ class ModbusObject:
             case -32768:
                 # No Sensor installed, remove it from the list
                 self._modbus_item.is_invalid = True
-            # case 32768:
+            case 32768:
             # This seems to be zero, should be allowed
-            # self._modbus_item.is_invalid = True
+                self._modbus_item.is_invalid = True
             case _:
                 self._modbus_item.is_invalid = False
 
@@ -149,6 +149,7 @@ class ModbusObject:
                 match self._modbus_item.type:
                     case TYPES.SENSOR | TYPES.SENSOR_CALC:
                         # Sensor entities are read-only
+                        log.debug("Reading item %s ..", self._modbus_item.name)
 
                         mbr = await self._modbus_client.read_input_registers(
                             self._modbus_item.address, slave=1
@@ -156,6 +157,7 @@ class ModbusObject:
                         if len(mbr.registers) > 0:
                             val = mbr.registers[0]
                             self.check_valid(val)
+                            log.debug("Item %s val=%d and invalid = %s", self._modbus_item.name, val , self._modbus_item.is_invalid)
                     case TYPES.SELECT | TYPES.NUMBER | TYPES.NUMBER_RO:
                         mbr = await self._modbus_client.read_holding_registers(
                             self._modbus_item.address, slave=1

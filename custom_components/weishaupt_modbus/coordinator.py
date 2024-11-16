@@ -137,6 +137,17 @@ class MyCoordinator(DataUpdateCoordinator):
                             TEMPRANGE_STD,
                         )
                         r2 = await self.get_value(item_x)
+                        if r2 is None:
+                            # use Aussentemperatur if Luftansaugtemperatur not available
+                            item_x = ModbusItem(
+                                item.get_number_from_text("x2"),
+                                "x2",
+                                FORMATS.TEMPERATUR,
+                                TYPES.SENSOR_CALC,
+                                DEVICES.SYS,
+                                TEMPRANGE_STD,
+                            )
+                            r2 = await self.get_value(item_x)
                         item_y = ModbusItem(
                             item.get_number_from_text("y"),
                             "y",

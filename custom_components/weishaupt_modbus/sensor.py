@@ -1,6 +1,7 @@
 """Setting uop my sensor entities."""
-
 from __future__ import annotations
+
+import logging
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
@@ -11,6 +12,8 @@ from .hpconst import DEVICELISTS
 from .entities import build_entity_list
 from .coordinator import MyCoordinator
 
+logging.basicConfig()
+log = logging.getLogger(__name__)
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -33,6 +36,7 @@ async def async_setup_entry(
             entries, config_entry, device, TYPES.SENSOR_CALC, coordinator
         )
 
+        log.debug("Adding sensor entries to entity list ..")
         entries = await build_entity_list(
             entries, config_entry, device, TYPES.SENSOR, coordinator
         )

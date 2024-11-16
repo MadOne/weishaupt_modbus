@@ -13,8 +13,8 @@
             "Heizkreis 3" : "Enable 3rd heating circuit",
             "Heizkreis 4" : "Enable 4th heating circuit",
             "Heizkreis 5" : "Enable 5th heating circuit",
-            "Name-Device-Prefix" : "Name Device Prefix",
-            "Name-Topic-Prefix" : "Name Topic Prefix"
+            "Name-Device-Prefix" : "Add device prefix to entity name",
+            "Name-Topic-Prefix" : "Add topic prefix to entity name"
 
           }
         }

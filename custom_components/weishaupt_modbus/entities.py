@@ -1,5 +1,7 @@
 """Build entitiy List and Update Coordinator."""
 
+import logging
+
 from homeassistant.components.number import NumberEntity
 from homeassistant.components.select import SelectEntity
 from homeassistant.components.sensor import (
@@ -32,9 +34,13 @@ from .coordinator import MyCoordinator
 from .const import DEVICES
 from .hpconst import reverse_device_list
 
+logging.basicConfig()
+log = logging.getLogger(__name__)
+
 
 async def check_available(modbus_item: ModbusItem, config_entry: ConfigEntry) -> bool:
     """function checks if item is valid and available"""
+    log.debug("Check if item %s is available ..", modbus_item.name)
     if config_entry.data[CONF_HK2] is False:
         if modbus_item.device is DEVICES.HZ2:
             return False
@@ -55,6 +61,7 @@ async def check_available(modbus_item: ModbusItem, config_entry: ConfigEntry) ->
     mbo = ModbusObject(_modbus_api, modbus_item)
     _useless = await mbo.value
     if modbus_item.is_invalid is False:
+        log.debug("Check availability item %s successful ..", modbus_item.name)
         return True
     return False
 
@@ -84,6 +91,9 @@ async def build_entity_list(
                     # here the entities are created with the parameters provided
                     # by the ModbusItem object
                     case TYPES.SENSOR | TYPES.NUMBER_RO:
+                        log.debug(
+                            "Add item %s to entity list ..", modbusitems[index].name
+                        )
                         entries.append(
                             MySensorEntity(
                                 config_entry, modbusitems[index], coordinator, index
@@ -92,6 +102,9 @@ async def build_entity_list(
                     case TYPES.SENSOR_CALC:
                         pwrmap = PowerMap(config_entry)
                         await pwrmap.initialize()
+                        log.debug(
+                            "Add item %s to entity list ..", modbusitems[index].name
+                        )
                         entries.append(
                             MyCalcSensorEntity(
                                 config_entry,
@@ -209,7 +222,7 @@ class MyEntity:
                 return -99.9
             case 32768:
                 # Dont know. seems to be zero..
-                return 0.0
+                return None
             case range(-500, 5000):
                 # Valid Temperatur range
                 return int(val) / self._divider
@@ -355,8 +368,14 @@ class MyCalcSensorEntity(MySensorEntity):
             return None
 
         val_0 = self.calc_percentage(val[0])
-        val_x = self.calc_temperature(val[1]) / 10
-        val_y = self.calc_temperature(val[2]) / 10
+        val_x = self.calc_temperature(val[1])
+        if val_x is None:
+            return None
+        val_x = val_x / 10
+        val_y = self.calc_temperature(val[2])
+        if val_y is None:
+            return None
+        val_y = val_y / 10
 
         match self._modbus_item.format:
             case FORMATS.POWER:
