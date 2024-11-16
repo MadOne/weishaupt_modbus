@@ -364,17 +364,17 @@ HZ_PARTY_PAUSE: list[StatusItem] = [
 ]
 
 WW_KONFIGURATION: list[StatusItem] = [
-    StatusItem(number=0, text="aus"),
-    StatusItem(number=1, text="Umlenkventil"),
-    StatusItem(number=2, text="Pumpe"),
+    StatusItem(number=0, text="aus", translation_key="ww_konf_aus"),
+    StatusItem(number=1, text="Umlenkventil", translation_key="ww_konf_umlenkventil"),
+    StatusItem(number=2, text="Pumpe", translation_key="ww_konf_pumpe"),
 ]
 
 HP_KONFIGURATION: list[StatusItem] = [
-    StatusItem(number=0, text="Ncht konfiguriert"),
-    StatusItem(number=1, text="Heizen"),
-    StatusItem(number=2, text="Heizen, Kühlen"),
-    StatusItem(number=3, text="Heizen, Kühlen, Warmwasser"),
-    StatusItem(number=4, text="Heizen, Warmwasser"),
+    StatusItem(number=0, text="Nicht konfiguriert", translation_key="hp_konf_0"),
+    StatusItem(number=1, text="Heizen", translation_key="hp_conf_1"),
+    StatusItem(number=2, text="Heizen, Kühlen", translation_key="hp_conf_2"),
+    StatusItem(number=3, text="Heizen, Kühlen", translation_key="hp_conf_3"),
+    StatusItem(number=4, text="Heizen, Warmwasser", translation_key="hp_conf_4"),
 ]
 
 WW_PUSH: list[StatusItem] = [
@@ -456,12 +456,17 @@ IO_KONFIG_IN: list[StatusItem] = [
         description="Wärmepumpe, Elektroheizung und Pumpe aus.",
         translation_key="io_konf_in_6",
     ),
-    StatusItem(number=7, text="System Standby:", description="Standby"),
+    StatusItem(
+        number=7,
+        text="System Standby:",
+        description="Standby",
+        translation_key="io_konf_in_7",
+    ),
     StatusItem(
         number=8,
         text="Erzeugersperre HZ:",
         description="Heizkreis durch Wärmepumpe gesperrt.",
-        translation_key="io_konf_in_7",
+        translation_key="io_konf_in_8",
     ),
     StatusItem(
         number=9,

@@ -177,4 +177,4 @@ def create_string_json():
         "w",
         # encoding="utf-8",
     ) as file:
-        file.write(json.dumps(data_dict, indent=4, sort_keys=False, ensure_ascii=False))
+        file.write(json.dumps(data_dict, indent=4, sort_keys=True, ensure_ascii=False))
