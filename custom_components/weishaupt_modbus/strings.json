@@ -26,6 +26,20 @@
             }
         }
     },
+    "device": {
+        "System": {"name": "System"},
+        "Wärmepumpe": {"name": "Heat pump"},
+        "Warmwasser": {"name": "Hot water"},
+        "Heizkreis": {"name": "Heating circuit"},
+        "Heizkreis2": {"name": "Heating circuit2"},
+        "Heizkreis3": {"name": "Heating circuit3"},
+        "Heizkreis4": {"name": "Heating circuit4"},
+        "Heizkreis5": {"name": "Heating circuit5"},
+        "2. Wärmeerzeuger": {"name": "2nd heat source"},
+        "Statistik": {"name": "Statistics"},
+        "Unknown": {"name": "Unknown"},
+        "Eingänge/Ausgänge": {"name": "Input/output"}
+    },
     "entity": {
         "number": {
             "bivalenztemp": {
@@ -124,13 +138,13 @@
         },
         "select": {
             "hz_betriebsart": {
-                "name": "Betriebsart",
+                "name": "Operation mode",
                 "state": {
-                    "hz_betriebsart_absenk": "Absenkbetrieb",
-                    "hz_betriebsart_auto": "Automatik",
+                    "hz_betriebsart_absenk": "Lowering mode",
+                    "hz_betriebsart_auto": "Automatic",
                     "hz_betriebsart_normal": "Normal",
                     "hz_betriebsart_standy": "Standby",
-                    "hz_betriebsat_komfort": "Komfort"
+                    "hz_betriebsat_komfort": "Comfort"
                 }
             },
             "hz_betriebsart2": {

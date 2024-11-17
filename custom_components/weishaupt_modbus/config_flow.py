@@ -1,5 +1,7 @@
 """Config flow."""
 
+# from os import walk
+
 from typing import Any
 
 import voluptuous as vol
@@ -24,6 +26,19 @@ from .const import (
     CONF_NAME_TOPIC_PREFIX,
 )
 
+# KENNFELDER = [
+#    "generic",
+# ]
+#
+# filelist = []
+#
+# for dirpath, dirnames, filenames in walk("."):
+#    filelist.extend(filenames)
+#
+# for index, item in enumerate(filelist):
+#    if item.__contains__("kennfeld.json"):
+#        KENNFELDER.append(item)
+
 # DATA_SCHEMA = vol.Schema({("host"): str, ("port"): cv.port})
 # The caption comes from strings.json / translations/en.json.
 # strings.json can be processed into en.json with some HA commands.
@@ -41,6 +56,9 @@ DATA_SCHEMA = vol.Schema(
         vol.Optional(CONF_HK5, default=False): bool,
         vol.Optional(CONF_NAME_DEVICE_PREFIX, default=False): bool,
         vol.Optional(CONF_NAME_TOPIC_PREFIX, default=False): bool,
+        #       vol.Optional("Kennfeld", default="weishaupt_wbb12_kennfeld.json"): vol.In(
+        #           KENNFELDER
+        #       ),
     }
 )
 
@@ -56,6 +74,9 @@ SCHEMA_OPTIONS_FLOW = vol.Schema(
         vol.Optional(CONF_HK5, default=False): bool,
         vol.Optional(CONF_NAME_DEVICE_PREFIX, default=False): bool,
         vol.Optional(CONF_NAME_TOPIC_PREFIX, default=False): bool,
+        #        vol.Optional("Kennfeld", default="weishaupt_wbb12_kennfeld.json"): vol.In(
+        #            KENNFELDER
+        #        ),
     }
 )
 
