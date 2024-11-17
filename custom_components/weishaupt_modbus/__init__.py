@@ -123,7 +123,7 @@ def create_string_json():
         match item.type:
             case TYPES.SENSOR | TYPES.NUMBER_RO | TYPES.SENSOR_CALC:
                 mySensor = {}
-                mySensor["name"] = item.name
+                mySensor["name"] = "{name_prefix}" + item.name
                 if item.resultlist is not None:
                     if item.format is FORMATS.STATUS:
                         myValues = {}
@@ -133,7 +133,7 @@ def create_string_json():
                 mySensors[item.translation_key] = mySensor.copy()
             case TYPES.NUMBER:
                 myNumber = {}
-                myNumber["name"] = item.name
+                myNumber["name"] = "{name_prefix}" + item.name
                 if item.resultlist is not None:
                     if item.format is FORMATS.STATUS:
                         myValues = {}
@@ -143,7 +143,7 @@ def create_string_json():
                 myNumbers[item.translation_key] = myNumber.copy()
             case TYPES.SELECT:
                 mySelect = {}
-                mySelect["name"] = item.name
+                mySelect["name"] = "{name_prefix}" + item.name
                 if item.resultlist is not None:
                     if item.format is FORMATS.STATUS:
                         myValues = {}

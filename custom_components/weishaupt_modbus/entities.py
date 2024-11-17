@@ -143,7 +143,7 @@ class MyEntity(Entity):
         """Initialize the entity."""
         self._config_entry = config_entry
         self._modbus_item = modbus_item
-        self._attr_translation_key = self._modbus_item.translation_key
+
         dev_postfix = ""
         dev_postfix = "_" + self._config_entry.data[CONF_DEVICE_POSTFIX]
 
@@ -164,6 +164,10 @@ class MyEntity(Entity):
             name_topic_prefix = ""
 
         name_prefix = name_topic_prefix + name_device_prefix
+
+        self._attr_translation_key = self._modbus_item.translation_key
+        self._attr_translation_placeholders = {"prefix": name_prefix}
+
         # self._attr_name = name_prefix + self._modbus_item.name
         self._attr_unique_id = dev_prefix + self._modbus_item.name + dev_postfix
         self._dev_device = self._modbus_item.device + dev_postfix
