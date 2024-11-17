@@ -172,10 +172,10 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
                     CONF_DEVICE_POSTFIX,
                     default=reconfigure_entry.data[CONF_DEVICE_POSTFIX],
                 ): str,
+                # vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
                 vol.Optional(
-                    CONF_KENNFELD_FILE,
-                    default=reconfigure_entry.data[CONF_KENNFELD_FILE],
-                ): str,
+                    CONF_KENNFELD_FILE, default="weishaupt_wbb_kennfeld.json"
+                ): vol.In(KENNFELDER),
                 vol.Optional(CONF_HK2, default=reconfigure_entry.data[CONF_HK2]): bool,
                 vol.Optional(CONF_HK3, default=reconfigure_entry.data[CONF_HK3]): bool,
                 vol.Optional(CONF_HK4, default=reconfigure_entry.data[CONF_HK4]): bool,
