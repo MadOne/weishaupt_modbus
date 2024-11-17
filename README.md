@@ -36,6 +36,8 @@ This is how it might look:
 
 ## Installation
 
+[![Start Config Flow](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start?domain=weishaupt_modbus)
+
 ### HACS (manually add Repository)
 
 Add this repository to HACS.
@@ -100,3 +102,4 @@ Option 1 is the savest but Option 2 enables you to connect to the heatpump from 
 # Disclaimer
 The developers of this integration are not affiliated with Weishaupt. They have created the integration as open source in their spare time on the basis of publicly accessible information. 
 The use of the integration is at the user's own risk and responsibility. The developers are not liable for any damages arising from the use of the integration.
+

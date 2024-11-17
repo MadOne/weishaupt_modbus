@@ -3,6 +3,7 @@
 import copy
 
 from homeassistant.components.sensor import SensorDeviceClass
+from homeassistant.const import UnitOfTime
 
 from .const import FORMATS, TYPES, DEVICES
 from .items import ModbusItem, StatusItem
@@ -384,7 +385,7 @@ for i in range(5, 240, 5):
     WW_PUSH.append(
         StatusItem(
             number=i,
-            text=str(object=i) + "Minuten",
+            text=str(object=i) + " " + UnitOfTime.MINUTES,
             translation_key="ww_push_" + str(object=i),
         ),
     )  # noqa: PERF401
@@ -757,11 +758,12 @@ RANGE_ENERGY: list[StatusItem] = [
     StatusItem(number=1, text="divider"),
 ]
 
-RANGE_CALCPOWER: list[StatusItem] = [
-    StatusItem(number=-1, text=SensorDeviceClass.POWER),
-    StatusItem(number=1, text="divider"),
-    StatusItem(number=30002, text="x"),
-    StatusItem(number=33104, text="y"),
+RANGE_CALCPOWER = [
+    StatusItem(-1, SensorDeviceClass.POWER),
+    StatusItem(1, "divider"),
+    StatusItem(30002, "x"),
+    StatusItem(33104, "y"),
+    StatusItem(30001, "x2"),
 ]
 
 RANGES: list[list[StatusItem]] = [

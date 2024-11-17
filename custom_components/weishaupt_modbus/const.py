@@ -48,7 +48,7 @@ class FormatConstants:
     NUMBER = ""
     STATUS = "Status"
     VOLUMENSTROM = UnitOfVolumeFlowRate.CUBIC_METERS_PER_HOUR
-    KENNLINIE = "Stg."
+    KENNLINIE = " "  # has to be different from NUMBER we'd have to separate unit strings and format...
     TIME_MIN = UnitOfTime.MINUTES
     TIME_H = UnitOfTime.HOURS
     UNKNOWN = "?"
