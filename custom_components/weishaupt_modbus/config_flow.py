@@ -1,5 +1,7 @@
 """Config flow."""
 
+from os import walk
+
 from typing import Any
 
 import voluptuous as vol
@@ -24,6 +26,22 @@ from .const import (
     CONF_NAME_TOPIC_PREFIX,
 )
 
+KENNFELDER = []
+
+filelist = []
+
+filepath = "config/custom_components/" + CONST.DOMAIN
+
+for dirpath, dirnames, filenames in walk(filepath):
+    filelist.extend(filenames)
+
+for index, item in enumerate(filelist):
+    if item.__contains__("kennfeld.json"):
+        KENNFELDER.append(item)
+
+if len(KENNFELDER) < 1:
+    KENNFELDER.append("weishaupt_wbb_kennfeld.json")
+
 # DATA_SCHEMA = vol.Schema({("host"): str, ("port"): cv.port})
 # The caption comes from strings.json / translations/en.json.
 # strings.json can be processed into en.json with some HA commands.
@@ -34,7 +52,10 @@ DATA_SCHEMA = vol.Schema(
         vol.Optional(CONF_PORT, default="502"): cv.port,
         vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
         vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
-        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
+        #        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
+        vol.Optional(CONF_KENNFELD_FILE, default="weishaupt_wbb_kennfeld.json"): vol.In(
+            KENNFELDER
+        ),
         vol.Optional(CONF_HK2, default=False): bool,
         vol.Optional(CONF_HK3, default=False): bool,
         vol.Optional(CONF_HK4, default=False): bool,
@@ -49,7 +70,10 @@ SCHEMA_OPTIONS_FLOW = vol.Schema(
         vol.Optional(CONF_PORT, default="502"): cv.port,
         vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
         vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
-        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
+        #        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
+        vol.Optional(CONF_KENNFELD_FILE, default="weishaupt_wbb_kennfeld.json"): vol.In(
+            KENNFELDER
+        ),
         vol.Optional(CONF_HK2, default=False): bool,
         vol.Optional(CONF_HK3, default=False): bool,
         vol.Optional(CONF_HK4, default=False): bool,
@@ -148,10 +172,10 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
                     CONF_DEVICE_POSTFIX,
                     default=reconfigure_entry.data[CONF_DEVICE_POSTFIX],
                 ): str,
+                # vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
                 vol.Optional(
-                    CONF_KENNFELD_FILE,
-                    default=reconfigure_entry.data[CONF_KENNFELD_FILE],
-                ): str,
+                    CONF_KENNFELD_FILE, default="weishaupt_wbb_kennfeld.json"
+                ): vol.In(KENNFELDER),
                 vol.Optional(CONF_HK2, default=reconfigure_entry.data[CONF_HK2]): bool,
                 vol.Optional(CONF_HK3, default=reconfigure_entry.data[CONF_HK3]): bool,
                 vol.Optional(CONF_HK4, default=reconfigure_entry.data[CONF_HK4]): bool,

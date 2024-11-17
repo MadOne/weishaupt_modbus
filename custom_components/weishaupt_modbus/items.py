@@ -12,12 +12,20 @@ class StatusItem:
     _number = None
     _text = None
     _description = None
+    _translation_key: str = ""
 
-    def __init__(self, number: int, text: str, description: str = None) -> None:
+    def __init__(
+        self,
+        number: int,
+        text: str,
+        translation_key: str = None,
+        description: str = None,
+    ) -> None:
         """Initialise StatusItem."""
         self._number = number
         self._text = text
         self._description = description
+        self._translation_key = translation_key
 
     @property
     def number(self) -> int:
@@ -47,6 +55,16 @@ class StatusItem:
     def description(self, value: str) -> None:
         self._description = value
 
+    @property
+    def translation_key(self) -> str:
+        """Return translation_key."""
+        return self._translation_key
+
+    @translation_key.setter
+    def translation_key(self, val: str) -> None:
+        """Set translation_key."""
+        self._translation_key = val
+
 
 class ModbusItem:
     """class Modbus item, consisting of address, name,
@@ -65,6 +83,7 @@ class ModbusItem:
     _device = None
     _state = None
     _is_invalid = False
+    _translation_key: str = ""
 
     def __init__(
         self,
@@ -73,6 +92,7 @@ class ModbusItem:
         mformat: FormatConstants,
         mtype: TypeConstants,
         device: DeviceConstants,
+        translation_key: str = None,
         resultlist=None,
     ) -> None:
         """Initialise ModbusItem."""
@@ -84,6 +104,7 @@ class ModbusItem:
         self._resultlist = resultlist
         self._state = None
         self._is_invalid = False
+        self._translation_key = translation_key
 
     @property
     def is_invalid(self) -> bool:
@@ -111,7 +132,7 @@ class ModbusItem:
 
     @state.setter
     def state(self, val):
-        """set the state of the item from modbus"""
+        """Set the state of the item from modbus."""
         self._state = val
 
     @property
@@ -145,6 +166,16 @@ class ModbusItem:
         self._device = val
 
     @property
+    def translation_key(self) -> str:
+        """Return translation_key."""
+        return self._translation_key
+
+    @translation_key.setter
+    def translation_key(self, val: str) -> None:
+        """Set translation_key."""
+        self._translation_key = val
+
+    @property
     def resultlist(self):
         """Return resultlist."""
         return self._resultlist
@@ -164,5 +195,23 @@ class ModbusItem:
             return None
         for _useless, item in enumerate(self._resultlist):
             if val == item.text:
+                return item.number
+        return -1
+
+    def get_translation_key_from_number(self, val: int) -> str:
+        """Get errortext from coresponding number."""
+        if self._resultlist is None:
+            return None
+        for _useless, item in enumerate(self._resultlist):
+            if val == item.number:
+                return item.translation_key
+        return "unbekannt <" + str(val) + ">"
+
+    def get_number_from_translation_key(self, val: str) -> int:
+        """Get number of coresponding errortext."""
+        if self._resultlist is None:
+            return None
+        for _useless, item in enumerate(self._resultlist):
+            if val == item.translation_key:
                 return item.number
         return -1

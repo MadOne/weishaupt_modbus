@@ -154,6 +154,27 @@ class ModbusObject:
                         mbr = await self._modbus_client.read_input_registers(
                             self._modbus_item.address, slave=1
                         )
+                        if mbr.isError():
+                            myexception_code: ExceptionResponse = mbr
+                            if myexception_code.exception_code == 2:
+                                self._modbus_item.is_invalid = True
+                            else:
+                                warnings.warn(
+                                    "Received Modbus library error: "
+                                    + str(mbr)
+                                    + "in item: "
+                                    + str(self._modbus_item.name)
+                                )
+                            return None
+                        if isinstance(mbr, ExceptionResponse):
+                            warnings.warn(
+                                "Received ModbusException: "
+                                + str(mbr)
+                                + " from library in item: "
+                                + str(self._modbus_item.name)
+                            )
+                            return None
+                            # THIS IS NOT A PYTHON EXCEPTION, but a valid modbus message
                         if len(mbr.registers) > 0:
                             val = mbr.registers[0]
                             self.check_valid(val)
@@ -162,6 +183,27 @@ class ModbusObject:
                         mbr = await self._modbus_client.read_holding_registers(
                             self._modbus_item.address, slave=1
                         )
+                        if mbr.isError():
+                            myexception_code: ExceptionResponse = mbr
+                            if myexception_code.exception_code == 2:
+                                self._modbus_item.is_invalid = True
+                            else:
+                                warnings.warn(
+                                    "Received Modbus library error: "
+                                    + str(mbr)
+                                    + "in item: "
+                                    + str(self._modbus_item.name)
+                                )
+                            return None
+                        if isinstance(mbr, ExceptionResponse):
+                            warnings.warn(
+                                "Received ModbusException: "
+                                + str(mbr)
+                                + " from library in item: "
+                                + str(self._modbus_item.name)
+                            )
+                            return None
+                            # THIS IS NOT A PYTHON EXCEPTION, but a valid modbus message
                         if len(mbr.registers) > 0:
                             val = mbr.registers[0]
                             self.check_valid(val)

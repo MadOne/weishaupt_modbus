@@ -1,22 +1,29 @@
 """init."""
 
+import json
 import warnings
 
+from attr import asdict
+
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
 from homeassistant.const import CONF_PREFIX
+from homeassistant.core import HomeAssistant
 
 from .const import (
-    CONST,
     CONF_DEVICE_POSTFIX,
-    CONF_KENNFELD_FILE,
     CONF_HK2,
     CONF_HK3,
     CONF_HK4,
     CONF_HK5,
+    CONF_KENNFELD_FILE,
     CONF_NAME_DEVICE_PREFIX,
     CONF_NAME_TOPIC_PREFIX,
+    CONST,
+    FORMATS,
+    TYPES,
 )
+from .hpconst import DEVICELISTS, RANGES
+from .items import ModbusItem, StatusItem
 from .modbusobject import ModbusAPI
 
 PLATFORMS: list[str] = [
@@ -37,6 +44,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     mbapi = ModbusAPI(entry)
     await mbapi.connect()
     entry.runtime_data = mbapi
+
+    # This is used to generate a strings.json file from hpconst.py
+    if False:
+        create_string_json()
 
     # This creates each HA object for each platform your device requires.
     # It's done by calling the `async_setup_entry` function in each platform module.
@@ -93,3 +104,78 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             warnings.warn("KeyError: " + str(CONST.DOMAIN))
 
     return unload_ok
+
+
+def create_string_json():
+    item: ModbusItem = None
+    myStatusItem: StatusItem = None
+    myEntity = {}
+    myJson = {}
+    mySensors = {}
+    myNumbers = {}
+    mySelects = {}
+
+    # generate list of all mbitems
+    DEVICELIST = []
+    for devicelist in DEVICELISTS:
+        DEVICELIST = DEVICELIST + devicelist
+
+    for item in DEVICELIST:
+        match item.type:
+            case TYPES.SENSOR | TYPES.NUMBER_RO | TYPES.SENSOR_CALC:
+                mySensor = {}
+                mySensor["name"] = "{prefix}" + item.name
+                if item.resultlist is not None:
+                    if item.format is FORMATS.STATUS:
+                        myValues = {}
+                        for myStatusItem in item.resultlist:
+                            myValues[myStatusItem.translation_key] = myStatusItem.text
+                        mySensor["state"] = myValues.copy()
+                mySensors[item.translation_key] = mySensor.copy()
+            case TYPES.NUMBER:
+                myNumber = {}
+                myNumber["name"] = "{prefix}" + item.name
+                if item.resultlist is not None:
+                    if item.format is FORMATS.STATUS:
+                        myValues = {}
+                        for myStatusItem in item.resultlist:
+                            myValues[myStatusItem.translation_key] = myStatusItem.text
+                        myNumber["value"] = myValues.copy()
+                myNumbers[item.translation_key] = myNumber.copy()
+            case TYPES.SELECT:
+                mySelect = {}
+                mySelect["name"] = "{prefix}" + item.name
+                if item.resultlist is not None:
+                    if item.format is FORMATS.STATUS:
+                        myValues = {}
+                        for myStatusItem in item.resultlist:
+                            myValues[myStatusItem.translation_key] = myStatusItem.text
+                        mySelect["state"] = myValues.copy()
+                mySelects[item.translation_key] = mySelect.copy()
+    myEntity["sensor"] = mySensors
+    myEntity["number"] = myNumbers
+    myEntity["select"] = mySelects
+    myJson["entity"] = myEntity
+
+    # iterate over all devices in order to create a translation. TODO
+    # for key, value in asdict(DEVICES).items():
+    #    ...
+
+    # load strings.json into string
+    with open(
+        "config/custom_components/weishaupt_modbus/strings.json",
+        "r",
+        # encoding="utf-8",
+    ) as file:
+        data = file.read()
+    # create dict from json
+    data_dict = json.loads(data)
+    # overwrite entiy dict
+    data_dict["entity"] = myEntity
+    # write whole json to file again
+    with open(
+        "config/custom_components/weishaupt_modbus/strings.json",
+        "w",
+        # encoding="utf-8",
+    ) as file:
+        file.write(json.dumps(data_dict, indent=4, sort_keys=True, ensure_ascii=False))
