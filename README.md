@@ -1,6 +1,8 @@
 This is the successor of the integration from MadOne.
 MadOne and OStrama are working together on this version.
 
+https://my.home-assistant.io/
+
 # With version 1.0.0 we consolidate both versions. 
 # In this version this will have the following impact:
 (For updates from 1.0.0 to newer versions, this procedure is not longer needed.)
