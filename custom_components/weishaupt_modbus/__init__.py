@@ -45,7 +45,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await mbapi.connect()
     entry.runtime_data = mbapi
 
-    if True:
+    # This is used to generate a strings.json file from hpconst.py
+    if False:
         create_string_json()
 
     # This creates each HA object for each platform your device requires.
