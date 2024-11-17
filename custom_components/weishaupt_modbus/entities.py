@@ -270,7 +270,8 @@ class MyEntity(Entity):
         """Build the device info."""
         return {
             "identifiers": {(CONST.DOMAIN, self._dev_device)},
-            "name": self._dev_device,
+            # "name": self._dev_device,
+            "translation_key": self._dev_device,
             "sw_version": "Device_SW_Version",
             "model": "Device_model",
             "manufacturer": "Weishaupt",
@@ -309,6 +310,39 @@ class MySensorEntity(CoordinatorEntity, SensorEntity, MyEntity):
     def device_info(self) -> DeviceInfo:
         """Return device info."""
         return MyEntity.my_device_info(self)
+
+    def _device_class_name_helper(
+        self,
+        component_translations: dict[str, str],
+    ) -> str | None:
+        """Return a decorated translated name of the entity based on its device class."""
+        name = super()._device_class_name_helper(component_translations)
+
+        if name is None:
+            return name
+
+        dev_postfix = ""
+        dev_postfix = "_" + self._config_entry.data[CONF_DEVICE_POSTFIX]
+
+        if dev_postfix == "_":
+            dev_postfix = ""
+
+        dev_prefix = CONST.DEF_PREFIX
+        dev_prefix = self._config_entry.data[CONF_PREFIX]
+
+        if self._config_entry.data[CONF_NAME_DEVICE_PREFIX]:
+            name_device_prefix = self._config_entry.data[CONF_PREFIX] + "_"
+        else:
+            name_device_prefix = ""
+
+        if self._config_entry.data[CONF_NAME_TOPIC_PREFIX]:
+            name_topic_prefix = reverse_device_list[self._modbus_item.device] + "_"
+        else:
+            name_topic_prefix = ""
+
+        complete_name = name_topic_prefix + name + name_device_prefix
+
+        return complete_name
 
 
 class MyCalcSensorEntity(MySensorEntity):

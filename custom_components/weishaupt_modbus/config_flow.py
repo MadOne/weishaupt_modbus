@@ -1,6 +1,6 @@
 """Config flow."""
 
-# from os import walk
+from os import walk
 
 from typing import Any
 
@@ -26,18 +26,21 @@ from .const import (
     CONF_NAME_TOPIC_PREFIX,
 )
 
-# KENNFELDER = [
-#    "generic",
-# ]
-#
-# filelist = []
-#
-# for dirpath, dirnames, filenames in walk("."):
-#    filelist.extend(filenames)
-#
-# for index, item in enumerate(filelist):
-#    if item.__contains__("kennfeld.json"):
-#        KENNFELDER.append(item)
+KENNFELDER = []
+
+filelist = []
+
+filepath = "config/custom_components/" + CONST.DOMAIN
+
+for dirpath, dirnames, filenames in walk(filepath):
+    filelist.extend(filenames)
+
+for index, item in enumerate(filelist):
+    if item.__contains__("kennfeld.json"):
+        KENNFELDER.append(item)
+
+if len(KENNFELDER) < 1:
+    KENNFELDER.append("weishaupt_wbb_kennfeld.json")
 
 # DATA_SCHEMA = vol.Schema({("host"): str, ("port"): cv.port})
 # The caption comes from strings.json / translations/en.json.
@@ -49,16 +52,16 @@ DATA_SCHEMA = vol.Schema(
         vol.Optional(CONF_PORT, default="502"): cv.port,
         vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
         vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
-        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
+        #        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
+        vol.Optional(CONF_KENNFELD_FILE, default="weishaupt_wbb_kennfeld.json"): vol.In(
+            KENNFELDER
+        ),
         vol.Optional(CONF_HK2, default=False): bool,
         vol.Optional(CONF_HK3, default=False): bool,
         vol.Optional(CONF_HK4, default=False): bool,
         vol.Optional(CONF_HK5, default=False): bool,
         vol.Optional(CONF_NAME_DEVICE_PREFIX, default=False): bool,
         vol.Optional(CONF_NAME_TOPIC_PREFIX, default=False): bool,
-        #       vol.Optional("Kennfeld", default="weishaupt_wbb12_kennfeld.json"): vol.In(
-        #           KENNFELDER
-        #       ),
     }
 )
 
@@ -67,16 +70,16 @@ SCHEMA_OPTIONS_FLOW = vol.Schema(
         vol.Optional(CONF_PORT, default="502"): cv.port,
         vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
         vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
-        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
+        #        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
+        vol.Optional(CONF_KENNFELD_FILE, default="weishaupt_wbb_kennfeld.json"): vol.In(
+            KENNFELDER
+        ),
         vol.Optional(CONF_HK2, default=False): bool,
         vol.Optional(CONF_HK3, default=False): bool,
         vol.Optional(CONF_HK4, default=False): bool,
         vol.Optional(CONF_HK5, default=False): bool,
         vol.Optional(CONF_NAME_DEVICE_PREFIX, default=False): bool,
         vol.Optional(CONF_NAME_TOPIC_PREFIX, default=False): bool,
-        #        vol.Optional("Kennfeld", default="weishaupt_wbb12_kennfeld.json"): vol.In(
-        #            KENNFELDER
-        #        ),
     }
 )
 
