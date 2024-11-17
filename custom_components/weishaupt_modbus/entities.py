@@ -129,7 +129,7 @@ class MyEntity(Entity):
     _config_entry = None
     _modbus_item = None
     _divider = 1
-    # _attr_name = ""
+    # _attr_name = None
     _attr_unique_id = ""
     _attr_should_poll = True
     _attr_translation_key = ""
@@ -168,7 +168,7 @@ class MyEntity(Entity):
         self._attr_translation_key = self._modbus_item.translation_key
         self._attr_translation_placeholders = {"prefix": name_prefix}
 
-        # self._attr_name = name_prefix + self._modbus_item.name
+        # self._attr_name = None  # name_prefix + self._modbus_item.name
         self._attr_unique_id = dev_prefix + self._modbus_item.name + dev_postfix
         self._dev_device = self._modbus_item.device + dev_postfix
         self._modbus_api = modbus_api
@@ -310,39 +310,6 @@ class MySensorEntity(CoordinatorEntity, SensorEntity, MyEntity):
     def device_info(self) -> DeviceInfo:
         """Return device info."""
         return MyEntity.my_device_info(self)
-
-    def _device_class_name_helper(
-        self,
-        component_translations: dict[str, str],
-    ) -> str | None:
-        """Return a decorated translated name of the entity based on its device class."""
-        name = super()._device_class_name_helper(component_translations)
-
-        if name is None:
-            return name
-
-        dev_postfix = ""
-        dev_postfix = "_" + self._config_entry.data[CONF_DEVICE_POSTFIX]
-
-        if dev_postfix == "_":
-            dev_postfix = ""
-
-        dev_prefix = CONST.DEF_PREFIX
-        dev_prefix = self._config_entry.data[CONF_PREFIX]
-
-        if self._config_entry.data[CONF_NAME_DEVICE_PREFIX]:
-            name_device_prefix = self._config_entry.data[CONF_PREFIX] + "_"
-        else:
-            name_device_prefix = ""
-
-        if self._config_entry.data[CONF_NAME_TOPIC_PREFIX]:
-            name_topic_prefix = reverse_device_list[self._modbus_item.device] + "_"
-        else:
-            name_topic_prefix = ""
-
-        complete_name = name_topic_prefix + name + name_device_prefix
-
-        return complete_name
 
 
 class MyCalcSensorEntity(MySensorEntity):
