@@ -8,7 +8,7 @@ import numpy as np
 from numpy.polynomial import Chebyshev
 # from scipy.interpolate import CubicSpline
 
-from .const import CONF_KENNFELD_FILE
+from .const import CONF_KENNFELD_FILE, CONST
 
 
 class PowerMap:
@@ -82,9 +82,13 @@ class PowerMap:
 
     async def initialize(self):
         try:
-            async with aiofiles.open(
-                self._config_entry.data[CONF_KENNFELD_FILE], "r", encoding="utf-8"
-            ) as openfile:
+            filepath = (
+                "config/custom_components/"
+                + CONST.DOMAIN
+                + "/"
+                + self._config_entry.data[CONF_KENNFELD_FILE]
+            )
+            async with aiofiles.open(filepath, "r", encoding="utf-8") as openfile:
                 raw_block = await openfile.read()
                 json_object = json.loads(raw_block)
                 self.known_x = json_object["known_x"]
@@ -96,9 +100,7 @@ class PowerMap:
                 "known_y": self.known_y,
                 "known_t": self.known_t,
             }
-            async with aiofiles.open(
-                self._config_entry.data[CONF_KENNFELD_FILE], "w", encoding="utf-8"
-            ) as outfile:
+            async with aiofiles.open(filepath, "w", encoding="utf-8") as outfile:
                 raw_block = json.dumps(kennfeld)
                 await outfile.write(raw_block)
         # else:

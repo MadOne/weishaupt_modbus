@@ -336,8 +336,7 @@ class MySensorEntity(CoordinatorEntity, SensorEntity, MyEntity):
         else:
             name_topic_prefix = ""
 
-        name_prefix = name_topic_prefix + name_device_prefix
-        complete_name = name_prefix + name
+        complete_name = name_topic_prefix + name + name_device_prefix
 
         return complete_name
 
