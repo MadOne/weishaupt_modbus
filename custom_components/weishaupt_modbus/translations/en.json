@@ -27,18 +27,18 @@
         }
     },
     "device": {
-        "dev_system": {"name": "{prefix}System"},
-        "dev_waermepumpe": {"name": "{prefix}Heat pump"},
-        "dev_warmwasser": {"name": "{prefix}Hot water"},
-        "dev_heizkreis": {"name": "{prefix}Heating circuit"},
-        "dev_heizkreis2": {"name": "{prefix}Heating circuit2"},
-        "dev_heizkreis3": {"name": "{prefix}Heating circuit3"},
-        "dev_heizkreis4": {"name": "{prefix}Heating circuit4"},
-        "dev_heizkreis5": {"name": "{prefix}Heating circuit5"},
-        "dev_waermeerzeuger2": {"name": "{prefix}2nd heat source"},
-        "dev_statistik": {"name": "{prefix}Statistics"},
-        "dev_unknown": {"name": "{prefix}Unknown"},
-        "dev_ein_aus": {"name": "{prefix}Input/output"}
+        "dev_system": {"name": "System"},
+        "dev_waermepumpe": {"name": "Heat pump"},
+        "dev_warmwasser": {"name": "Hot water"},
+        "dev_heizkreis": {"name": "Heating circuit"},
+        "dev_heizkreis2": {"name": "Heating circuit2"},
+        "dev_heizkreis3": {"name": "Heating circuit3"},
+        "dev_heizkreis4": {"name": "Heating circuit4"},
+        "dev_heizkreis5": {"name": "Heating circuit5"},
+        "dev_waermeerzeuger2": {"name": "2nd heat source"},
+        "dev_statistik": {"name": "Statistics"},
+        "dev_unknown": {"name": "Unknown"},
+        "dev_ein_aus": {"name": "Input/output"}
     },
     "entity": {
         "number": {

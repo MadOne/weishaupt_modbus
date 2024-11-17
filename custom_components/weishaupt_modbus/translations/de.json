@@ -27,18 +27,18 @@
         }
     },
     "device": {
-        "dev_system": {"name": "{prefix}System"},
-        "dev_waermepumpe": {"name": "{prefix}Wärmepumpe"},
-        "dev_warmwasser": {"name": "{prefix}Warmwasser"},
-        "dev_heizkreis": {"name": "{prefix}Heizkreis"},
-        "dev_heizkreis2": {"name": "{prefix}Heizkreis2"},
-        "dev_heizkreis3": {"name": "{prefix}Heizkreis3"},
-        "dev_heizkreis4": {"name": "{prefix}Heizkreis4"},
-        "dev_heizkreis5": {"name": "{prefix}Heizkreis5"},
-        "dev_waermeerzeuger2": {"name": "{prefix}2. Wärmeerzeuger"},
-        "dev_statistik": {"name": "{prefix}Statistik"},
-        "dev_unknown": {"name": "{prefix}Unknown"},
-        "dev_ein_aus": {"name": "{prefix}Eingänge/Ausgänge"}
+        "dev_system": {"name": "System"},
+        "dev_waermepumpe": {"name": "Wärmepumpe"},
+        "dev_warmwasser": {"name": "Warmwasser"},
+        "dev_heizkreis": {"name": "Heizkreis"},
+        "dev_heizkreis2": {"name": "Heizkreis2"},
+        "dev_heizkreis3": {"name": "Heizkreis3"},
+        "dev_heizkreis4": {"name": "Heizkreis4"},
+        "dev_heizkreis5": {"name": "Heizkreis5"},
+        "dev_waermeerzeuger2": {"name": "2. Wärmeerzeuger"},
+        "dev_statistik": {"name": "Statistik"},
+        "dev_unknown": {"name": "Unknown"},
+        "dev_ein_aus": {"name": "Eingänge/Ausgänge"}
     },
     "entity": {
         "number": {
