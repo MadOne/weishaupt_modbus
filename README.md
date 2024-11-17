@@ -1,8 +1,6 @@
 This is the successor of the integration from MadOne.
 MadOne and OStrama are working together on this version.
 
-[![Start Config Flow](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start?domain=weishaupt_modbus)
-
 # With version 1.0.0 we consolidate both versions. 
 # In this version this will have the following impact:
 (For updates from 1.0.0 to newer versions, this procedure is not longer needed.)
@@ -37,6 +35,8 @@ This is how it might look:
 ![image](https://github.com/user-attachments/assets/00e7b8fa-1779-428d-9361-7c66e228c2c6)
 
 ## Installation
+
+[![Start Config Flow](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start?domain=weishaupt_modbus)
 
 ### HACS (manually add Repository)
 
