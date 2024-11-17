@@ -197,3 +197,21 @@ class ModbusItem:
             if val == item.text:
                 return item.number
         return -1
+
+    def get_translation_key_from_number(self, val: int) -> str:
+        """Get errortext from coresponding number."""
+        if self._resultlist is None:
+            return None
+        for _useless, item in enumerate(self._resultlist):
+            if val == item.number:
+                return item.translation_key
+        return "unbekannt <" + str(val) + ">"
+
+    def get_number_from_translation_key(self, val: str) -> int:
+        """Get number of coresponding errortext."""
+        if self._resultlist is None:
+            return None
+        for _useless, item in enumerate(self._resultlist):
+            if val == item.translation_key:
+                return item.number
+        return -1
