@@ -27,18 +27,18 @@
         }
     },
     "device": {
-        "System": {"name": "System"},
-        "Wärmepumpe": {"name": "Heat pump"},
-        "Warmwasser": {"name": "Hot water"},
-        "Heizkreis": {"name": "Heating circuit"},
-        "Heizkreis2": {"name": "Heating circuit2"},
-        "Heizkreis3": {"name": "Heating circuit3"},
-        "Heizkreis4": {"name": "Heating circuit4"},
-        "Heizkreis5": {"name": "Heating circuit5"},
-        "2. Wärmeerzeuger": {"name": "2nd heat source"},
-        "Statistik": {"name": "Statistics"},
-        "Unknown": {"name": "Unknown"},
-        "Eingänge/Ausgänge": {"name": "Input/output"}
+        "dev_system": {"name": "System"},
+        "dev_waermepumpe": {"name": "Heat pump"},
+        "dev_warmwasser": {"name": "Hot water"},
+        "dev_heizkreis": {"name": "Heating circuit"},
+        "dev_heizkreis2": {"name": "Heating circuit2"},
+        "dev_heizkreis3": {"name": "Heating circuit3"},
+        "dev_heizkreis4": {"name": "Heating circuit4"},
+        "dev_heizkreis5": {"name": "Heating circuit5"},
+        "dev_waermeerzeuger2": {"name": "2nd heat source"},
+        "dev_statistik": {"name": "Statistics"},
+        "dev_unknown": {"name": "Unknown"},
+        "dev_ein_aus": {"name": "Input/output"}
     },
     "entity": {
         "number": {

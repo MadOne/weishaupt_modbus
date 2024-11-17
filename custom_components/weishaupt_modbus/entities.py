@@ -266,7 +266,8 @@ class MyEntity(Entity):
         """Build the device info."""
         return {
             "identifiers": {(CONST.DOMAIN, self._dev_device)},
-            "name": self._dev_device,
+            # "name": self._dev_device,
+            "translation_key": self._dev_device,
             "sw_version": "Device_SW_Version",
             "model": "Device_model",
             "manufacturer": "Weishaupt",
