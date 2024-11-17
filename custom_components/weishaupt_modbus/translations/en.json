@@ -868,7 +868,7 @@
                 "name": "Heating energy month"
             },
             "heiz_konstanttemp": {
-                "name": "Heating constant temperature "
+                "name": "Heating constant temperature"
             },
             "heiz_konstanttemp2": {
                 "name": "Heating constant temperature 2"
@@ -1138,7 +1138,7 @@
                 "name": "Cooling energy month"
             },
             "kuehl_konstanttemp": {
-                "name": "Cooling constant temperature "
+                "name": "Cooling constant temperature"
             },
             "kuehl_konstanttemp2": {
                 "name": "Cooling constant temperature 2"
