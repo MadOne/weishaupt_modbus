@@ -7,20 +7,19 @@ from homeassistant.components.sensor import SensorDeviceClass
 from .const import FORMATS, TYPES, DEVICES
 from .items import ModbusItem, StatusItem
 
-
 reverse_device_list: dict[str, str] = {
-    "System": "SYS",
-    "Wärmepumpe": "WP",
-    "Warmwasser": "WW",
-    "Heizkreis": "HZ",
-    "Heizkreis2": "HZ2",
-    "Heizkreis3": "HZ3",
-    "Heizkreis4": "HZ4",
-    "Heizkreis5": "HZ5",
-    "2. Wärmeerzeuger": "W2",
-    "Statistik": "ST",
-    "Unbekannt": "UK",
-    "Eingänge/Ausgänge": "IO",
+    "dev_system": "SYS",
+    "dev_waermepumpe": "WP",
+    "dev_warmwasser": "WW",
+    "dev_heizkreis": "HZ",
+    "dev_heizkreis2": "HZ2",
+    "dev_heizkreis3": "HZ3",
+    "dev_heizkreis4": "HZ4",
+    "dev_heizkreis5": "HZ5",
+    "dev_waermeerzeuger2": "W2",
+    "dev_statistik": "ST",
+    "dev_unknown": "UK",
+    "dev_ein_aus": "IO",
 }
 
 ################################################################################
