@@ -903,9 +903,11 @@ MODBUS_W2_ITEMS: list[ModbusItem] = [
     ModbusItem( address=34106, name="Schaltspiele E-Heizung 2", mformat=FORMATS.NUMBER, mtype=TYPES.SENSOR, device=DEVICES.W2, translation_key="schaltsp_e2"),
     ModbusItem( address=34107, name="Betriebsstunden E2", mformat=FORMATS.TIME_H, mtype=TYPES.SENSOR, device=DEVICES.W2, translation_key="betriebss_e2"),
     ModbusItem( address=44101, name="W2_Konfiguration", mformat=FORMATS.STATUS, mtype=TYPES.SENSOR, device=DEVICES.W2, resultlist=W2_KONFIG, translation_key="w2_konf"),
-    ModbusItem( address=44102, name="Grenztemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER, device=DEVICES.W2, resultlist=TEMPRANGE_BIVALENZ, translation_key="grenztemp"),
-    ModbusItem( address=44103, name="Bivalenztemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER, device=DEVICES.W2, resultlist=TEMPRANGE_BIVALENZ, translation_key="bivalenztemp"),
-    ModbusItem( address=44104, name="Bivalenztemperatur WW", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER, device=DEVICES.W2, resultlist=TEMPRANGE_BIVALENZ, translation_key="bivalenztemp_ww"),
+    ModbusItem( address=44102, name="Adr. 44102", mformat=FORMATS.UNKNOWN, mtype=TYPES.SENSOR, device=DEVICES.W2, translation_key="adr44102"),
+    ModbusItem( address=44103, name="Adr. 44103", mformat=FORMATS.UNKNOWN, mtype=TYPES.SENSOR, device=DEVICES.W2, translation_key="adr44103"),
+    ModbusItem( address=44104, name="Grenztemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER, device=DEVICES.W2, resultlist=TEMPRANGE_BIVALENZ, translation_key="grenztemp"),
+    ModbusItem( address=44105, name="Bivalenztemperatur", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER, device=DEVICES.W2, resultlist=TEMPRANGE_BIVALENZ, translation_key="bivalenztemp"),
+    ModbusItem( address=44106, name="Bivalenztemperatur WW", mformat=FORMATS.TEMPERATUR, mtype=TYPES.NUMBER, device=DEVICES.W2, resultlist=TEMPRANGE_BIVALENZ, translation_key="bivalenztemp_ww"),
 ] # noqa: E501
 
 MODBUS_ST_ITEMS: list[ModbusItem] = [

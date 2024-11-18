@@ -577,6 +577,12 @@
             "adr36801": {
                 "name": "{prefix}Adr. 36801"
             },
+            "adr44102": {
+                "name": "{prefix}Adr. 44102"
+            },
+            "adr44103": {
+                "name": "{prefix}Adr. 44103"
+            },
             "anf_typ": {
                 "name": "{prefix}Anforderung Typ",
                 "state": {
