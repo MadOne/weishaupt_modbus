@@ -3,8 +3,6 @@
 import json
 import warnings
 
-from attr import asdict
-
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PREFIX
 from homeassistant.core import HomeAssistant
@@ -22,7 +20,7 @@ from .const import (
     FORMATS,
     TYPES,
 )
-from .hpconst import DEVICELISTS, RANGES
+from .hpconst import DEVICELISTS
 from .items import ModbusItem, StatusItem
 from .modbusobject import ModbusAPI
 
@@ -46,8 +44,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     entry.runtime_data = mbapi
 
     # This is used to generate a strings.json file from hpconst.py
-    if False:
-        create_string_json()
+    # create_string_json()
 
     # This creates each HA object for each platform your device requires.
     # It's done by calling the `async_setup_entry` function in each platform module.
@@ -106,7 +103,8 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     return unload_ok
 
 
-def create_string_json():
+def create_string_json() -> None:
+    """Create strings.json from hpconst.py."""
     item: ModbusItem = None
     myStatusItem: StatusItem = None
     myEntity = {}
@@ -163,7 +161,7 @@ def create_string_json():
 
     # load strings.json into string
     with open(
-        "config/custom_components/weishaupt_modbus/strings.json",
+        file="config/custom_components/weishaupt_modbus/strings.json",
         encoding="utf-8",
     ) as file:
         data = file.read()
@@ -173,8 +171,8 @@ def create_string_json():
     data_dict["entity"] = myEntity
     # write whole json to file again
     with open(
-        "config/custom_components/weishaupt_modbus/strings.json",
-        "w",
+        file="config/custom_components/weishaupt_modbus/strings.json",
+        mode="w",
         encoding="utf-8",
     ) as file:
         file.write(json.dumps(data_dict, indent=4, sort_keys=True, ensure_ascii=False))
