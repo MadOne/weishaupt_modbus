@@ -384,11 +384,11 @@ class MyCalcSensorEntity(MySensorEntity):
 
         match self._modbus_item.format:
             case FORMATS.POWER:
-                return self.calc_power(val_0, val_x, val_y)
+                return round(self.calc_power(val_0, val_x, val_y))
             case _:
                 if val_0 is None:
                     return None
-                return val_0 / self._divider
+                return round(val_0 / self._divider)
 
     @property
     def device_info(self) -> DeviceInfo:
