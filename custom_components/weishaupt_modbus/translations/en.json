@@ -27,18 +27,42 @@
         }
     },
     "device": {
-        "dev_system": {"name": "System"},
-        "dev_waermepumpe": {"name": "Heat pump"},
-        "dev_warmwasser": {"name": "Hot water"},
-        "dev_heizkreis": {"name": "Heating circuit"},
-        "dev_heizkreis2": {"name": "Heating circuit2"},
-        "dev_heizkreis3": {"name": "Heating circuit3"},
-        "dev_heizkreis4": {"name": "Heating circuit4"},
-        "dev_heizkreis5": {"name": "Heating circuit5"},
-        "dev_waermeerzeuger2": {"name": "2nd heat source"},
-        "dev_statistik": {"name": "Statistics"},
-        "dev_unknown": {"name": "Unknown"},
-        "dev_ein_aus": {"name": "Input/output"}
+        "dev_system": {
+            "name": "System"
+        },
+        "dev_waermepumpe": {
+            "name": "Heat pump"
+        },
+        "dev_warmwasser": {
+            "name": "Hot water"
+        },
+        "dev_heizkreis": {
+            "name": "Heating circuit"
+        },
+        "dev_heizkreis2": {
+            "name": "Heating circuit2"
+        },
+        "dev_heizkreis3": {
+            "name": "Heating circuit3"
+        },
+        "dev_heizkreis4": {
+            "name": "Heating circuit4"
+        },
+        "dev_heizkreis5": {
+            "name": "Heating circuit5"
+        },
+        "dev_waermeerzeuger2": {
+            "name": "2nd heat source"
+        },
+        "dev_statistik": {
+            "name": "Statistics"
+        },
+        "dev_unknown": {
+            "name": "Unknown"
+        },
+        "dev_ein_aus": {
+            "name": "Input/output"
+        }
     },
     "entity": {
         "number": {
@@ -1017,112 +1041,112 @@
                 "name": "{prefix}Conf. Input DE1",
                 "state": {
                     "io_konf_in_0": "SG Ready",
-                    "io_konf_in_1": "EVU block:",
-                    "io_konf_in_10": "Producer block HZ and WW:",
-                    "io_konf_in_11": "Hot water standby:",
-                    "io_konf_in_12": "Hot water lowering:",
-                    "io_konf_in_13": "Hot water normal:",
-                    "io_konf_in_14": "Hot water PUSH:",
+                    "io_konf_in_1": "EVU block",
+                    "io_konf_in_10": "Producer block HZ and WW",
+                    "io_konf_in_11": "Hot water standby",
+                    "io_konf_in_12": "Hot water lowering",
+                    "io_konf_in_13": "Hot water normal",
+                    "io_konf_in_14": "Hot water PUSH",
                     "io_konf_in_15": "Dew point monitor",
-                    "io_konf_in_16": "Heating circuit ... Standby:",
-                    "io_konf_in_17": "Heating circuit ... lowering:",
-                    "io_konf_in_18": "Heating circuit ... normal:",
-                    "io_konf_in_19": "Heating circuit ... comfort:",
+                    "io_konf_in_16": "Heating circuit ... Standby",
+                    "io_konf_in_17": "Heating circuit ... lowering",
+                    "io_konf_in_18": "Heating circuit ... normal",
+                    "io_konf_in_19": "Heating circuit ... comfort",
                     "io_konf_in_2": "Increased operation",
                     "io_konf_in_20": "2nd heat source",
-                    "io_konf_in_21": "Lock compressor:",
+                    "io_konf_in_21": "Lock compressor",
                     "io_konf_in_3": "HK block",
-                    "io_konf_in_4": "Hz/cooling changeover:",
+                    "io_konf_in_4": "Hz/cooling changeover",
                     "io_konf_in_5": "Sleep mode",
-                    "io_konf_in_6": "Emergency stop:",
+                    "io_konf_in_6": "Emergency stop",
                     "io_konf_in_65535": "OFF",
-                    "io_konf_in_7": "System standby:",
-                    "io_konf_in_8": "Producer lock HZ:",
-                    "io_konf_in_9": "Producer block WW:"
+                    "io_konf_in_7": "System standby",
+                    "io_konf_in_8": "Producer lock HZ",
+                    "io_konf_in_9": "Producer block WW"
                 }
             },
             "konf_eing_de2": {
                 "name": "{prefix}Conf. Input DE2",
                 "state": {
                     "io_konf_in_0": "SG Ready",
-                    "io_konf_in_1": "EVU block:",
-                    "io_konf_in_10": "Producer block HZ and WW:",
-                    "io_konf_in_11": "Hot water standby:",
-                    "io_konf_in_12": "Hot water lowering:",
-                    "io_konf_in_13": "Hot water normal:",
-                    "io_konf_in_14": "Hot water PUSH:",
+                    "io_konf_in_1": "EVU block",
+                    "io_konf_in_10": "Producer block HZ and WW",
+                    "io_konf_in_11": "Hot water standby",
+                    "io_konf_in_12": "Hot water lowering",
+                    "io_konf_in_13": "Hot water normal",
+                    "io_konf_in_14": "Hot water PUSH",
                     "io_konf_in_15": "Dew point monitor",
-                    "io_konf_in_16": "Heating circuit ... Standby:",
-                    "io_konf_in_17": "Heating circuit ... lowering:",
-                    "io_konf_in_18": "Heating circuit ... normal:",
-                    "io_konf_in_19": "Heating circuit ... comfort:",
+                    "io_konf_in_16": "Heating circuit ... Standby",
+                    "io_konf_in_17": "Heating circuit ... lowering",
+                    "io_konf_in_18": "Heating circuit ... normal",
+                    "io_konf_in_19": "Heating circuit ... comfort",
                     "io_konf_in_2": "Increased operation",
                     "io_konf_in_20": "2nd heat source",
-                    "io_konf_in_21": "Lock compressor:",
+                    "io_konf_in_21": "Lock compressor",
                     "io_konf_in_3": "HK block",
-                    "io_konf_in_4": "Hz/cooling changeover:",
+                    "io_konf_in_4": "Hz/cooling changeover",
                     "io_konf_in_5": "Sleep mode",
-                    "io_konf_in_6": "Emergency stop:",
+                    "io_konf_in_6": "Emergency stop",
                     "io_konf_in_65535": "OFF",
-                    "io_konf_in_7": "System standby:",
-                    "io_konf_in_8": "Producer lock HZ:",
-                    "io_konf_in_9": "Producer block WW:"
+                    "io_konf_in_7": "System standby",
+                    "io_konf_in_8": "Producer lock HZ",
+                    "io_konf_in_9": "Producer block WW"
                 }
             },
             "konf_eing_sgr1": {
                 "name": "{prefix}Conf. Input SGR1",
                 "state": {
                     "io_konf_in_0": "SG Ready",
-                    "io_konf_in_1": "EVU block:",
-                    "io_konf_in_10": "Producer block HZ and WW:",
-                    "io_konf_in_11": "Hot water standby:",
-                    "io_konf_in_12": "Hot water lowering:",
-                    "io_konf_in_13": "Hot water normal:",
-                    "io_konf_in_14": "Hot water PUSH:",
+                    "io_konf_in_1": "EVU block",
+                    "io_konf_in_10": "Producer block HZ and WW",
+                    "io_konf_in_11": "Hot water standby",
+                    "io_konf_in_12": "Hot water lowering",
+                    "io_konf_in_13": "Hot water normal",
+                    "io_konf_in_14": "Hot water PUSH",
                     "io_konf_in_15": "Dew point monitor",
-                    "io_konf_in_16": "Heating circuit ... Standby:",
-                    "io_konf_in_17": "Heating circuit ... lowering:",
-                    "io_konf_in_18": "Heating circuit ... normal:",
-                    "io_konf_in_19": "Heating circuit ... comfort:",
+                    "io_konf_in_16": "Heating circuit ... Standby",
+                    "io_konf_in_17": "Heating circuit ... lowering",
+                    "io_konf_in_18": "Heating circuit ... normal",
+                    "io_konf_in_19": "Heating circuit ... comfort",
                     "io_konf_in_2": "Increased operation",
                     "io_konf_in_20": "2nd heat source",
-                    "io_konf_in_21": "Lock compressor:",
+                    "io_konf_in_21": "Lock compressor",
                     "io_konf_in_3": "HK block",
-                    "io_konf_in_4": "Hz/cooling changeover:",
+                    "io_konf_in_4": "Hz/cooling changeover",
                     "io_konf_in_5": "Sleep mode",
-                    "io_konf_in_6": "Emergency stop:",
+                    "io_konf_in_6": "Emergency stop",
                     "io_konf_in_65535": "OFF",
-                    "io_konf_in_7": "System standby:",
-                    "io_konf_in_8": "Producer lock HZ:",
-                    "io_konf_in_9": "Producer block WW:"
+                    "io_konf_in_7": "System standby",
+                    "io_konf_in_8": "Producer lock HZ",
+                    "io_konf_in_9": "Producer block WW"
                 }
             },
             "konf_eing_sgr2": {
                 "name": "{prefix}Conf. Input SGR2",
                 "state": {
                     "io_konf_in_0": "SG Ready",
-                    "io_konf_in_1": "EVU block:",
-                    "io_konf_in_10": "Producer block HZ and WW:",
-                    "io_konf_in_11": "Hot water standby:",
-                    "io_konf_in_12": "Hot water lowering:",
-                    "io_konf_in_13": "Hot water normal:",
-                    "io_konf_in_14": "Hot water PUSH:",
+                    "io_konf_in_1": "EVU block",
+                    "io_konf_in_10": "Producer block HZ and WW",
+                    "io_konf_in_11": "Hot water standby",
+                    "io_konf_in_12": "Hot water lowering",
+                    "io_konf_in_13": "Hot water normal",
+                    "io_konf_in_14": "Hot water PUSH",
                     "io_konf_in_15": "Dew point monitor",
-                    "io_konf_in_16": "Heating circuit ... Standby:",
-                    "io_konf_in_17": "Heating circuit ... lowering:",
-                    "io_konf_in_18": "Heating circuit ... normal:",
-                    "io_konf_in_19": "Heating circuit ... comfort:",
+                    "io_konf_in_16": "Heating circuit ... Standby",
+                    "io_konf_in_17": "Heating circuit ... lowering",
+                    "io_konf_in_18": "Heating circuit ... normal",
+                    "io_konf_in_19": "Heating circuit ... comfort",
                     "io_konf_in_2": "Increased operation",
                     "io_konf_in_20": "2nd heat source",
-                    "io_konf_in_21": "Lock compressor:",
+                    "io_konf_in_21": "Lock compressor",
                     "io_konf_in_3": "HK block",
-                    "io_konf_in_4": "Hz/cooling changeover:",
+                    "io_konf_in_4": "Hz/cooling changeover",
                     "io_konf_in_5": "Sleep mode",
-                    "io_konf_in_6": "Emergency stop:",
+                    "io_konf_in_6": "Emergency stop",
                     "io_konf_in_65535": "OFF",
-                    "io_konf_in_7": "System standby:",
-                    "io_konf_in_8": "Producer lock HZ:",
-                    "io_konf_in_9": "Producer block WW:"
+                    "io_konf_in_7": "System standby",
+                    "io_konf_in_8": "Producer lock HZ",
+                    "io_konf_in_9": "Producer block WW"
                 }
             },
             "kuehl_energie_yesterday": {
