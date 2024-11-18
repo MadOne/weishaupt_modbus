@@ -578,10 +578,18 @@
                 "name": "{prefix}Adr. 36801"
             },
             "adr44102": {
-                "name": "{prefix}Adr. 44102"
+                "name": "{prefix}Configuration EP1",
+                "state": {
+                    "w2_konf_0": "enabled",
+                    "w2_konf_1": "OFF"
+                }
             },
             "adr44103": {
-                "name": "{prefix}Adr. 44103"
+                "name": "{prefix}Configuration EP2",
+                "state": {
+                    "w2_konf_0": "enabled",
+                    "w2_konf_1": "OFF"
+                }
             },
             "anf_typ": {
                 "name": "{prefix}Request type",
