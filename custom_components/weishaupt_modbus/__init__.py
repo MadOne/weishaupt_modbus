@@ -164,8 +164,7 @@ def create_string_json():
     # load strings.json into string
     with open(
         "config/custom_components/weishaupt_modbus/strings.json",
-        "r",
-        # encoding="utf-8",
+        encoding="utf-8",
     ) as file:
         data = file.read()
     # create dict from json
@@ -176,6 +175,6 @@ def create_string_json():
     with open(
         "config/custom_components/weishaupt_modbus/strings.json",
         "w",
-        # encoding="utf-8",
+        encoding="utf-8",
     ) as file:
         file.write(json.dumps(data_dict, indent=4, sort_keys=True, ensure_ascii=False))
