@@ -9,7 +9,7 @@ from numpy.polynomial import Chebyshev
 # from scipy.interpolate import CubicSpline
 
 from .const import CONF_KENNFELD_FILE, CONST
-
+from . import MyConfigEntry
 
 class PowerMap:
     """Power map class."""
@@ -75,7 +75,7 @@ class PowerMap:
 
     _config_entry = None
 
-    def __init__(self, config_entry) -> None:
+    def __init__(self, config_entry: MyConfigEntry) -> None:
         """Initialise the PowerMap class."""
         # try to load values from json file
         self._config_entry = config_entry
@@ -83,7 +83,8 @@ class PowerMap:
     async def initialize(self):
         try:
             filepath = (
-                "config/custom_components/"
+                _config_entry.runtiime_data.config_path 
+                + "/custom_components/"
                 + CONST.DOMAIN
                 + "/"
                 + self._config_entry.data[CONF_KENNFELD_FILE]
