@@ -1,6 +1,12 @@
 This is the successor of the integration from MadOne.
 MadOne and OStrama are working together on this version.
 
+# New in Version 1.0.2:
+- Translations: Currently German and English is supported. Please contact us if you want to contribute further languages.
+- Power Map files are now moved into the integration's folder "<config-dir>/custom_components/weishaupt_modbus". 
+  At setup or at configuration one of the existing files or a generic file called "weishaupt_wbb_kennfeld.json" can be choosen
+- Several bugfixes etc.
+  
 # With version 1.0.0 we consolidate both versions. 
 # In this version this will have the following impact:
 (For updates from 1.0.0 to newer versions, this procedure is not longer needed.)
