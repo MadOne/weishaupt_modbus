@@ -30,12 +30,13 @@ from .hpconst import reverse_device_list
 from .items import ModbusItem
 from .kennfeld import PowerMap
 from .modbusobject import ModbusAPI, ModbusObject
+from . import MyConfigEntry
 
 logging.basicConfig()
 log = logging.getLogger(__name__)
 
 
-async def check_available(modbus_item: ModbusItem, config_entry: ConfigEntry) -> bool:
+async def check_available(modbus_item: ModbusItem, config_entry: MyConfigEntry) -> bool:
     """function checks if item is valid and available"""
     log.debug("Check if item %s is available ..", modbus_item.name)
     if config_entry.data[CONF_HK2] is False:
@@ -54,7 +55,7 @@ async def check_available(modbus_item: ModbusItem, config_entry: ConfigEntry) ->
         if modbus_item.device is DEVICES.HZ5:
             return False
 
-    _modbus_api = config_entry.runtime_data
+    _modbus_api = config_entry.runtime_data.modbus_api
     mbo = ModbusObject(_modbus_api, modbus_item)
     _useless = await mbo.value
     if modbus_item.is_invalid is False:
@@ -65,7 +66,7 @@ async def check_available(modbus_item: ModbusItem, config_entry: ConfigEntry) ->
 
 async def build_entity_list(
     entries,
-    config_entry,
+    config_entry: MyConfigEntry,
     modbusitems: ModbusItem,
     item_type,
     coordinator: MyCoordinator,
@@ -151,7 +152,7 @@ class MyEntity(Entity):
     _modbus_api = None
 
     def __init__(
-        self, config_entry, modbus_item: ModbusItem, modbus_api: ModbusAPI
+        self, config_entry: MyConfigEntry, modbus_item: ModbusItem, modbus_api: ModbusAPI
     ) -> None:
         """Initialize the entity."""
         self._config_entry = config_entry
@@ -304,7 +305,7 @@ class MySensorEntity(CoordinatorEntity, SensorEntity, MyEntity):
 
     def __init__(
         self,
-        config_entry: ConfigEntry,
+        config_entry: MyConfigEntry,
         modbus_item: ModbusItem,
         coordinator: MyCoordinator,
         idx,
@@ -337,7 +338,7 @@ class MyCalcSensorEntity(MySensorEntity):
 
     def __init__(
         self,
-        config_entry: ConfigEntry,
+        config_entry: MyConfigEntry,
         modbus_item: ModbusItem,
         coordinator: MyCoordinator,
         idx,
@@ -409,7 +410,7 @@ class MyNumberEntity(CoordinatorEntity, NumberEntity, MyEntity):
 
     def __init__(
         self,
-        config_entry: ConfigEntry,
+        config_entry: MyConfigEntry,
         modbus_item: ModbusItem,
         coordinator: MyCoordinator,
         idx,
@@ -451,7 +452,7 @@ class MySelectEntity(CoordinatorEntity, SelectEntity, MyEntity):
 
     def __init__(
         self,
-        config_entry: ConfigEntry,
+        config_entry: MyConfigEntry,
         modbus_item: ModbusItem,
         coordinator: MyCoordinator,
         idx,
