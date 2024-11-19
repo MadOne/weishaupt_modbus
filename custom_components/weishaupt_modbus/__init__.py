@@ -24,6 +24,13 @@ from .hpconst import DEVICELISTS
 from .items import ModbusItem, StatusItem
 from .modbusobject import ModbusAPI
 
+type MyConfigEntry = ConfigEntry[MyData]
+
+@dataclass
+class MyData:
+    modbus_api: ModbusAPI
+    config_dir: str
+
 PLATFORMS: list[str] = [
     "number",
     "select",
@@ -34,15 +41,16 @@ PLATFORMS: list[str] = [
 
 # Return boolean to indicate that initialization was successful.
 # return True
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+async def async_setup_entry(hass: HomeAssistant, entry: MyConfigEntry) -> bool:
     """Set up entry."""
     # Store an instance of the "connecting" class that does the work of speaking
     # with your actual devices.
     # hass.data.setdefault(DOMAIN, {})[entry.entry_id] = hub.Hub(hass, entry.data["host"])
     mbapi = ModbusAPI(entry)
     await mbapi.connect()
-    entry.runtime_data = mbapi
+    entry.runtime_data = MyData(mbapi,hass.config.config_dir)
 
+    
     # This is used to generate a strings.json file from hpconst.py
     # create_string_json()
 
