@@ -26,62 +26,24 @@ from .const import (
     CONF_NAME_TOPIC_PREFIX,
 )
 
-KENNFELDER = []
+def build_kennfeld_list(config_dir: str):
+    kennfelder = []
+    filelist = []
+    
+    filepath = config_dir + "/custom_components/" + CONST.DOMAIN
 
-filelist = []
+    for dirpath, dirnames, filenames in walk(filepath):
+        filelist.extend(filenames)
 
-filepath = "config/custom_components/" + CONST.DOMAIN
+    for index, item in enumerate(filelist):
+        if item.__contains__("kennfeld.json"):
+            kennfelder.append(item)
 
-for dirpath, dirnames, filenames in walk(filepath):
-    filelist.extend(filenames)
-
-for index, item in enumerate(filelist):
-    if item.__contains__("kennfeld.json"):
-        KENNFELDER.append(item)
-
-if len(KENNFELDER) < 1:
-    KENNFELDER.append("weishaupt_wbb_kennfeld.json")
-
-# DATA_SCHEMA = vol.Schema({("host"): str, ("port"): cv.port})
-# The caption comes from strings.json / translations/en.json.
-# strings.json can be processed into en.json with some HA commands.
-# did not find out how this works yet.
-DATA_SCHEMA = vol.Schema(
-    {
-        vol.Required(CONF_HOST): str,
-        vol.Optional(CONF_PORT, default="502"): cv.port,
-        vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
-        vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
-        #        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
-        vol.Optional(CONF_KENNFELD_FILE, default="weishaupt_wbb_kennfeld.json"): vol.In(
-            KENNFELDER
-        ),
-        vol.Optional(CONF_HK2, default=False): bool,
-        vol.Optional(CONF_HK3, default=False): bool,
-        vol.Optional(CONF_HK4, default=False): bool,
-        vol.Optional(CONF_HK5, default=False): bool,
-        vol.Optional(CONF_NAME_DEVICE_PREFIX, default=False): bool,
-        vol.Optional(CONF_NAME_TOPIC_PREFIX, default=False): bool,
-    }
-)
-
-SCHEMA_OPTIONS_FLOW = vol.Schema(
-    {
-        vol.Optional(CONF_PORT, default="502"): cv.port,
-        vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
-        vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
-        #        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
-        vol.Optional(CONF_KENNFELD_FILE, default="weishaupt_wbb_kennfeld.json"): vol.In(
-            KENNFELDER
-        ),
-        vol.Optional(CONF_HK2, default=False): bool,
-        vol.Optional(CONF_HK3, default=False): bool,
-        vol.Optional(CONF_HK4, default=False): bool,
-        vol.Optional(CONF_HK5, default=False): bool,
-        vol.Optional(CONF_NAME_DEVICE_PREFIX, default=False): bool,
-        vol.Optional(CONF_NAME_TOPIC_PREFIX, default=False): bool,
-    }
-)
+    if len(kennfelder) < 1:
+        kennfelder.append("weishaupt_wbb_kennfeld.json")
+    
+    return kennfelder
+    
 
 
 async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
@@ -114,7 +76,7 @@ async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
 
 class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
     """Class config flow."""
-
+  
     VERSION = 4
     # Pick one of the available connection classes in homeassistant/config_entries.py
     # This tells HA if it should be asking for updates, or it'll be notified of updates
@@ -130,6 +92,31 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
         # and when that has some validated input, it calls `async_create_entry` to
         # actually create the HA config entry. Note the "title" value is returned by
         # `validate_input` above.
+
+        # DATA_SCHEMA = vol.Schema({("host"): str, ("port"): cv.port})
+        # The caption comes from strings.json / translations/en.json.
+        # strings.json can be processed into en.json with some HA commands.
+        # did not find out how this works yet.
+        DATA_SCHEMA = vol.Schema(
+            {
+                vol.Required(CONF_HOST): str,
+                vol.Optional(CONF_PORT, default="502"): cv.port,
+                vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
+                vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
+                #        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
+                vol.Optional(CONF_KENNFELD_FILE, default="weishaupt_wbb_kennfeld.json"): vol.In(
+                    build_kennfeld_list(self.hass.config.config_dir)
+                ),
+                vol.Optional(CONF_HK2, default=False): bool,
+                vol.Optional(CONF_HK3, default=False): bool,
+                vol.Optional(CONF_HK4, default=False): bool,
+                vol.Optional(CONF_HK5, default=False): bool,
+                vol.Optional(CONF_NAME_DEVICE_PREFIX, default=False): bool,
+                vol.Optional(CONF_NAME_TOPIC_PREFIX, default=False): bool,
+            }
+        )
+        
+        
         errors = {}
         info = None
         if user_input is not None:
@@ -175,7 +162,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
                 # vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
                 vol.Optional(
                     CONF_KENNFELD_FILE, default="weishaupt_wbb_kennfeld.json"
-                ): vol.In(KENNFELDER),
+                ): vol.In(build_kennfeld_list(self.hass.config.config_dir),
                 vol.Optional(CONF_HK2, default=reconfigure_entry.data[CONF_HK2]): bool,
                 vol.Optional(CONF_HK3, default=reconfigure_entry.data[CONF_HK3]): bool,
                 vol.Optional(CONF_HK4, default=reconfigure_entry.data[CONF_HK4]): bool,
@@ -218,6 +205,25 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
         self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:
         """Manage the options."""
+
+        SCHEMA_OPTIONS_FLOW = vol.Schema(
+        {
+            vol.Optional(CONF_PORT, default="502"): cv.port,
+            vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
+            vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
+            #        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
+            vol.Optional(CONF_KENNFELD_FILE, default="weishaupt_wbb_kennfeld.json"): vol.In(
+                build_kennfeld_list(self.hass.config.config_dir
+            ),
+            vol.Optional(CONF_HK2, default=False): bool,
+            vol.Optional(CONF_HK3, default=False): bool,
+            vol.Optional(CONF_HK4, default=False): bool,
+            vol.Optional(CONF_HK5, default=False): bool,
+            vol.Optional(CONF_NAME_DEVICE_PREFIX, default=False): bool,
+            vol.Optional(CONF_NAME_TOPIC_PREFIX, default=False): bool,
+        }
+        )        
+        
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
 
