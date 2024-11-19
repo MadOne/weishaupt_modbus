@@ -9,7 +9,6 @@ from pymodbus import ModbusException
 from homeassistant.helpers.update_coordinator import (
     DataUpdateCoordinator,
 )
-from homeassistant.config_entries import ConfigEntry
 
 from .const import (
     CONST,
@@ -23,6 +22,7 @@ from .const import (
 from .hpconst import DEVICES, TEMPRANGE_STD
 from .items import ModbusItem
 from .modbusobject import ModbusObject, ModbusAPI
+from .configentry import MyConfigEntry
 
 logging.basicConfig()
 _LOGGER = logging.getLogger(__name__)
@@ -37,7 +37,7 @@ class MyCoordinator(DataUpdateCoordinator):
         hass,
         my_api: ModbusAPI,
         modbusitems: ModbusItem,
-        p_config_entry: ConfigEntry,
+        p_config_entry: MyConfigEntry,
     ):
         """Initialize my coordinator."""
         super().__init__(

@@ -7,17 +7,17 @@ from .const import TYPES
 from .hpconst import DEVICELISTS
 from .entities import build_entity_list
 from .coordinator import MyCoordinator
-from . import MyConfigEntry
+from .configentry import MyConfigEntry
 
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    config_entry: ConfigEntry,
+    config_entry: MyConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Select entry setup."""
     _modbus_api = config_entry.runtime_data.modbus_api
-    
+
     entries = []
 
     for _useless, device in enumerate(DEVICELISTS):

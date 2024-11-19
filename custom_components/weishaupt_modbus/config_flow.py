@@ -1,19 +1,18 @@
 """Config flow."""
 
-from os import walk
+from aiofiles.os import scandir
 
 from typing import Any
 
 import voluptuous as vol
 
 from homeassistant import config_entries, exceptions
+from homeassistant.core import HomeAssistant
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_PREFIX
-from homeassistant.core import HomeAssistant, callback
 from homeassistant.data_entry_flow import FlowResult
 import homeassistant.helpers.config_validation as cv
-# from homeassistant.config_entries import ConfigFlowResult
 
-# from . import wp
+
 from .const import (
     CONST,
     CONF_DEVICE_POSTFIX,
@@ -26,27 +25,30 @@ from .const import (
     CONF_NAME_TOPIC_PREFIX,
 )
 
-def build_kennfeld_list(config_dir: str):
+
+async def build_kennfeld_list(hass: HomeAssistant):
+    """browses integration directory for kennfeld files"""
     kennfelder = []
     filelist = []
-    
-    filepath = config_dir + "/custom_components/" + CONST.DOMAIN
 
-    for dirpath, dirnames, filenames in walk(filepath):
-        filelist.extend(filenames)
+    filepath = hass.config.config_dir + "/custom_components/" + CONST.DOMAIN
 
-    for index, item in enumerate(filelist):
-        if item.__contains__("kennfeld.json"):
-            kennfelder.append(item)
+    dir_iterator = await scandir(filepath)
+
+    for filename in dir_iterator:
+        filelist.append(filename)
+
+    for _useless, item in enumerate(filelist):
+        if item.name.__contains__("kennfeld.json"):
+            kennfelder.append(item.name)
 
     if len(kennfelder) < 1:
         kennfelder.append("weishaupt_wbb_kennfeld.json")
-    
+
     return kennfelder
-    
 
 
-async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
+async def validate_input(data: dict) -> dict[str, Any]:
     """Validate the input."""
     # Validate the data can be used to set up a connection.
 
@@ -76,7 +78,7 @@ async def validate_input(hass: HomeAssistant, data: dict) -> dict[str, Any]:
 
 class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
     """Class config flow."""
-  
+
     VERSION = 4
     # Pick one of the available connection classes in homeassistant/config_entries.py
     # This tells HA if it should be asking for updates, or it'll be notified of updates
@@ -97,16 +99,16 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
         # The caption comes from strings.json / translations/en.json.
         # strings.json can be processed into en.json with some HA commands.
         # did not find out how this works yet.
-        DATA_SCHEMA = vol.Schema(
+        data_schema = vol.Schema(
             {
                 vol.Required(CONF_HOST): str,
                 vol.Optional(CONF_PORT, default="502"): cv.port,
                 vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
                 vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
                 #        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
-                vol.Optional(CONF_KENNFELD_FILE, default="weishaupt_wbb_kennfeld.json"): vol.In(
-                    build_kennfeld_list(self.hass.config.config_dir)
-                ),
+                vol.Optional(
+                    CONF_KENNFELD_FILE, default="weishaupt_wbb_kennfeld.json"
+                ): vol.In(await build_kennfeld_list(self.hass)),
                 vol.Optional(CONF_HK2, default=False): bool,
                 vol.Optional(CONF_HK3, default=False): bool,
                 vol.Optional(CONF_HK4, default=False): bool,
@@ -115,13 +117,12 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
                 vol.Optional(CONF_NAME_TOPIC_PREFIX, default=False): bool,
             }
         )
-        
-        
+
         errors = {}
         info = None
         if user_input is not None:
             try:
-                info = await validate_input(self.hass, user_input)
+                info = await validate_input(user_input)
 
                 return self.async_create_entry(title=info["title"], data=user_input)
 
@@ -130,7 +131,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
 
         # If there is no user input or there were errors, show the form again, including any errors that were found with the input.
         return self.async_show_form(
-            step_id="user", data_schema=DATA_SCHEMA, errors=errors
+            step_id="user", data_schema=data_schema, errors=errors
         )
 
     async def async_step_reconfigure(
@@ -139,13 +140,13 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
         """Trigger a reconfiguration flow."""
         errors: dict[str, str] = {}
         reconfigure_entry = self._get_reconfigure_entry()
-        myhostname = reconfigure_entry.data[CONF_HOST]
-        # await self.async_set_unique_id(username)
+
         if user_input:
             return self.async_update_reload_and_abort(
                 reconfigure_entry, data_updates=user_input
             )
-        SCHEMA_RECONFIGURE = vol.Schema(
+
+        schema_reconfigure = vol.Schema(
             {
                 vol.Required(CONF_HOST, default=reconfigure_entry.data[CONF_HOST]): str,
                 vol.Optional(
@@ -161,8 +162,9 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
                 ): str,
                 # vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
                 vol.Optional(
-                    CONF_KENNFELD_FILE, default="weishaupt_wbb_kennfeld.json"
-                ): vol.In(build_kennfeld_list(self.hass.config.config_dir),
+                    CONF_KENNFELD_FILE,
+                    default=reconfigure_entry.data[CONF_KENNFELD_FILE],
+                ): vol.In(await build_kennfeld_list(self.hass)),
                 vol.Optional(CONF_HK2, default=reconfigure_entry.data[CONF_HK2]): bool,
                 vol.Optional(CONF_HK3, default=reconfigure_entry.data[CONF_HK3]): bool,
                 vol.Optional(CONF_HK4, default=reconfigure_entry.data[CONF_HK4]): bool,
@@ -180,7 +182,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
 
         return self.async_show_form(
             step_id="reconfigure",
-            data_schema=SCHEMA_RECONFIGURE,
+            data_schema=schema_reconfigure,
             errors=errors,
             description_placeholders={
                 CONF_HOST: "myhostname",
@@ -197,6 +199,8 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
 
 
 class OptionsFlowHandler(config_entries.OptionsFlow):
+    """options flow handler"""
+
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
         """Initialize options flow."""
         self.config_entry = config_entry
@@ -206,28 +210,28 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
     ) -> FlowResult:
         """Manage the options."""
 
-        SCHEMA_OPTIONS_FLOW = vol.Schema(
-        {
-            vol.Optional(CONF_PORT, default="502"): cv.port,
-            vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
-            vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
-            #        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
-            vol.Optional(CONF_KENNFELD_FILE, default="weishaupt_wbb_kennfeld.json"): vol.In(
-                build_kennfeld_list(self.hass.config.config_dir
-            ),
-            vol.Optional(CONF_HK2, default=False): bool,
-            vol.Optional(CONF_HK3, default=False): bool,
-            vol.Optional(CONF_HK4, default=False): bool,
-            vol.Optional(CONF_HK5, default=False): bool,
-            vol.Optional(CONF_NAME_DEVICE_PREFIX, default=False): bool,
-            vol.Optional(CONF_NAME_TOPIC_PREFIX, default=False): bool,
-        }
-        )        
-        
+        schema_options_flow = vol.Schema(
+            {
+                vol.Optional(CONF_PORT, default="502"): cv.port,
+                vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
+                vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
+                #        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
+                vol.Optional(
+                    CONF_KENNFELD_FILE, default="weishaupt_wbb_kennfeld.json"
+                ): vol.In(await build_kennfeld_list(self.hass)),
+                vol.Optional(CONF_HK2, default=False): bool,
+                vol.Optional(CONF_HK3, default=False): bool,
+                vol.Optional(CONF_HK4, default=False): bool,
+                vol.Optional(CONF_HK5, default=False): bool,
+                vol.Optional(CONF_NAME_DEVICE_PREFIX, default=False): bool,
+                vol.Optional(CONF_NAME_TOPIC_PREFIX, default=False): bool,
+            }
+        )
+
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
 
-        return self.async_show_form(step_id="init", data_schema=SCHEMA_OPTIONS_FLOW)
+        return self.async_show_form(step_id="init", data_schema=schema_options_flow)
 
 
 class InvalidHost(exceptions.HomeAssistantError):

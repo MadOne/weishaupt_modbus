@@ -12,17 +12,16 @@ import warnings
 from pymodbus import ExceptionResponse, ModbusException
 from pymodbus.client import AsyncModbusTcpClient
 
-from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_PORT
 
 from .const import TYPES, FORMATS
 from .items import ModbusItem
 
-from . import MyConfigEntry
+from .configentry import MyConfigEntry
 
 logging.basicConfig()
 log = logging.getLogger(__name__)
-#log.setLevel(logging.WARNING)
+# log.setLevel(logging.WARNING)
 
 
 class ModbusAPI:
@@ -122,7 +121,7 @@ class ModbusObject:
                 # No Sensor installed, remove it from the list
                 self._modbus_item.is_invalid = True
             case 32768:
-            # This seems to be zero, should be allowed
+                # This seems to be zero, should be allowed
                 self._modbus_item.is_invalid = True
             case _:
                 self._modbus_item.is_invalid = False
@@ -180,7 +179,12 @@ class ModbusObject:
                         if len(mbr.registers) > 0:
                             val = mbr.registers[0]
                             self.check_valid(val)
-                            log.debug("Item %s val=%d and invalid = %s", self._modbus_item.name, val , self._modbus_item.is_invalid)
+                            log.debug(
+                                "Item %s val=%d and invalid = %s",
+                                self._modbus_item.name,
+                                val,
+                                self._modbus_item.is_invalid,
+                            )
                     case TYPES.SELECT | TYPES.NUMBER | TYPES.NUMBER_RO:
                         mbr = await self._modbus_client.read_holding_registers(
                             self._modbus_item.address, slave=1

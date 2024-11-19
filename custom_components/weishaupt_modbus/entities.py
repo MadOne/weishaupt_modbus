@@ -5,11 +5,10 @@ import logging
 from homeassistant.components.number import NumberEntity
 from homeassistant.components.select import SelectEntity
 from homeassistant.components.sensor import SensorEntity, SensorStateClass
-from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PORT, CONF_PREFIX
 from homeassistant.core import callback
 from homeassistant.helpers.device_registry import DeviceInfo
-from homeassistant.helpers.entity import Entity, EntityDescription
+from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import (
@@ -30,7 +29,7 @@ from .hpconst import reverse_device_list
 from .items import ModbusItem
 from .kennfeld import PowerMap
 from .modbusobject import ModbusAPI, ModbusObject
-from . import MyConfigEntry
+from .configentry import MyConfigEntry
 
 logging.basicConfig()
 log = logging.getLogger(__name__)
@@ -152,7 +151,10 @@ class MyEntity(Entity):
     _modbus_api = None
 
     def __init__(
-        self, config_entry: MyConfigEntry, modbus_item: ModbusItem, modbus_api: ModbusAPI
+        self,
+        config_entry: MyConfigEntry,
+        modbus_item: ModbusItem,
+        modbus_api: ModbusAPI,
     ) -> None:
         """Initialize the entity."""
         self._config_entry = config_entry

@@ -23,13 +23,7 @@ from .const import (
 from .hpconst import DEVICELISTS
 from .items import ModbusItem, StatusItem
 from .modbusobject import ModbusAPI
-
-type MyConfigEntry = ConfigEntry[MyData]
-
-@dataclass
-class MyData:
-    modbus_api: ModbusAPI
-    config_dir: str
+from .configentry import MyConfigEntry, MyData
 
 PLATFORMS: list[str] = [
     "number",
@@ -48,9 +42,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: MyConfigEntry) -> bool:
     # hass.data.setdefault(DOMAIN, {})[entry.entry_id] = hub.Hub(hass, entry.data["host"])
     mbapi = ModbusAPI(entry)
     await mbapi.connect()
-    entry.runtime_data = MyData(mbapi,hass.config.config_dir)
+    entry.runtime_data = MyData(mbapi, hass.config.config_dir, hass)
 
-    
     # This is used to generate a strings.json file from hpconst.py
     # create_string_json()
 
@@ -60,8 +53,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: MyConfigEntry) -> bool:
     return True
 
 
-async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry):
+async def async_migrate_entry(hass: HomeAssistant, config_entry: MyConfigEntry):
     """Migrate old entry."""
+
+    new_data = {**config_entry.data}
+
     if config_entry.version > 3:
         # This means the user has downgraded from a future version
         return False
@@ -69,7 +65,6 @@ async def async_migrate_entry(hass: HomeAssistant, config_entry: ConfigEntry):
     # to ensure all update paths we have to check every version to not overwrite existing entries
     if config_entry.version < 4:
         warnings.warn("Old Version detected")
-        new_data = {**config_entry.data}
 
     if config_entry.version < 2:
         warnings.warn("Version <2 detected")
@@ -100,7 +95,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     # This is called when an entry/configured device is to be removed. The class
     # needs to unload itself, and remove callbacks. See the classes for further
     # details
-    entry.runtime_data.close()
+    entry.runtime_data.modbus_api.close()
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
     if unload_ok:
         try:
