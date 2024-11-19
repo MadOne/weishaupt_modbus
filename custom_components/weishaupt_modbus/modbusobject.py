@@ -18,6 +18,8 @@ from homeassistant.const import CONF_HOST, CONF_PORT
 from .const import TYPES, FORMATS
 from .items import ModbusItem
 
+from . import MyConfigEntry
+
 logging.basicConfig()
 log = logging.getLogger(__name__)
 #log.setLevel(logging.WARNING)
@@ -30,11 +32,11 @@ class ModbusAPI:
     _port = None
     _modbus_client = None
 
-    def __init__(self, config_entry: ConfigEntry) -> None:
+    def __init__(self, config_entry: MyConfigEntry) -> None:
         """Construct ModbusClient.
 
         :param config_entry: HASS config entry
-        :type config_entry: ConfigEntry
+        :type config_entry: MyConfigEntry
         :param modbus_item: definition of modbus item
         :type modbus_item: ModbusItem
         """
@@ -88,10 +90,10 @@ class ModbusObject:
     _data_format = None
 
     def __init__(self, modbus_api: ModbusAPI, modbus_item: ModbusItem) -> None:
-        """Construct ModbusClient.
+        """Construct ModbusObject.
 
-        :param config_entry: HASS config entry
-        :type config_entry: ConfigEntry
+        :param modbus_api: The modbus API
+        :type modbus_api: ModbusAPI
         :param modbus_item: definition of modbus item
         :type modbus_item: ModbusItem
         """
