@@ -257,7 +257,7 @@ class MyEntity(Entity):
             case FORMATS.PERCENTAGE:
                 return self.calc_percentage(val)
             case FORMATS.STATUS:
-                return self._modbus_item.get_translation_key_from_number(val)
+                return self._modbus_item.get_text_from_number(val) #translation_key_from_number(val)
             case FORMATS.UNKNOWN:
                 return int(val)
             case _:
@@ -269,7 +269,7 @@ class MyEntity(Entity):
         match self._modbus_item.format:
             # logically, this belongs to the ModbusItem, but doing it here
             case FORMATS.STATUS:
-                val = self._modbus_item.get_number_from_translation_key(value)
+                val = self._modbus_item.get_number_from_text(val) #translation_key(value)
             case _:
                 val = value * self._divider
         return val
@@ -286,8 +286,8 @@ class MyEntity(Entity):
         """Build the device info."""
         return {
             "identifiers": {(CONST.DOMAIN, self._dev_device)},
-            # "name": self._dev_device,
-            "translation_key": self._dev_device,
+            "name": self._dev_device,
+            # "translation_key": self._dev_device,
             "sw_version": "Device_SW_Version",
             "model": "Device_model",
             "manufacturer": "Weishaupt",
@@ -468,7 +468,7 @@ class MySelectEntity(CoordinatorEntity, SelectEntity, MyEntity):
         # option list build from the status list of the ModbusItem
         self.options = []
         for _useless, item in enumerate(self._modbus_item._resultlist):
-            self.options.append(item.translation_key)
+            self.options.append(item.text) #translation_key)
 
     async def async_select_option(self, option: str) -> None:
         # the synching is done by the ModbusObject of the entity
