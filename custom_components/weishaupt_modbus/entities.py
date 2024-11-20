@@ -181,10 +181,10 @@ class MyEntity(Entity):
 
         name_prefix = name_topic_prefix + name_device_prefix
 
-        self._attr_translation_key = self._modbus_item.translation_key
-        self._attr_translation_placeholders = {"prefix": name_prefix}
+        # self._attr_translation_key = self._modbus_item.translation_key
+        # self._attr_translation_placeholders = {"prefix": name_prefix}
 
-        # self._attr_name = None  # name_prefix + self._modbus_item.name
+        self._attr_name = name_prefix + self._modbus_item.name
         self._attr_unique_id = dev_prefix + self._modbus_item.name + dev_postfix
         self._dev_device = self._modbus_item.device + dev_postfix
         self._modbus_api = modbus_api
