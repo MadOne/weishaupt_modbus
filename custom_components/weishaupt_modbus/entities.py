@@ -142,11 +142,11 @@ class MyEntity(Entity):
     _config_entry = None
     _modbus_item = None
     _divider = 1
-    # _attr_name = None
+    _attr_name = None
     _attr_unique_id = ""
     _attr_should_poll = True
-    _attr_translation_key = ""
-    _attr_has_entity_name = True
+    # _attr_translation_key = ""
+    # _attr_has_entity_name = True
     _dev_device = ""
     _modbus_api = None
 
