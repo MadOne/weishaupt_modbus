@@ -1,5 +1,5 @@
-This is the successor of the integration from MadOne.
-MadOne and OStrama are working together on this version.
+# 1.0.3:
+- Quickfix for name issue of devices
 
 # New in Version 1.0.2:
 - Translations (not yet enabled due to naming issue..): Currently German and English is supported. Please contact us if you want to contribute further languages.
