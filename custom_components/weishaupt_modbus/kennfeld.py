@@ -1,8 +1,8 @@
 """Kennfeld."""
 
+import logging
 import json
 import aiofiles
-import logging
 
 import numpy as np
 from numpy.polynomial import Chebyshev
