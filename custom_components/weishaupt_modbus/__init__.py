@@ -16,6 +16,7 @@ from .const import (
     CONF_KENNFELD_FILE,
     CONF_NAME_DEVICE_PREFIX,
     CONF_NAME_TOPIC_PREFIX,
+    CONF_NAME_OLD_NAMESTYLE,
     CONST,
     FORMATS,
     TYPES,
@@ -58,7 +59,7 @@ async def async_migrate_entry(hass: HomeAssistant, config_entry: MyConfigEntry):
 
     new_data = {**config_entry.data}
 
-    if config_entry.version > 3:
+    if config_entry.version > 4:
         # This means the user has downgraded from a future version
         return False
 
@@ -86,6 +87,16 @@ async def async_migrate_entry(hass: HomeAssistant, config_entry: MyConfigEntry):
             config_entry, data=new_data, minor_version=1, version=4
         )
         warnings.warn("Config entries updated to version 4")
+    if config_entry.version < 5:
+        warnings.warn("Version <5 detected")
+        new_data[CONF_NAME_OLD_NAMESTYLE] = True
+
+        hass.config_entries.async_update_entry(
+            config_entry, data=new_data, minor_version=1, version=5
+        )
+        warnings.warn(
+            "Config entries updated to version 5 - using old namestyle, reinitialize integration, if new namestyle should be used"
+        )
 
     return True
 

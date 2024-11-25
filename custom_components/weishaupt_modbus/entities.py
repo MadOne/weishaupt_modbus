@@ -10,6 +10,8 @@ from homeassistant.core import callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from homeassistant.helpers.typing import UNDEFINED, UndefinedType
+
 
 from .const import (
     CONF_DEVICE_POSTFIX,
@@ -19,6 +21,7 @@ from .const import (
     CONF_HK5,
     CONF_NAME_DEVICE_PREFIX,
     CONF_NAME_TOPIC_PREFIX,
+    CONF_NAME_OLD_NAMESTYLE,
     CONST,
     DEVICES,
     FORMATS,
@@ -142,11 +145,11 @@ class MyEntity(Entity):
     _config_entry = None
     _modbus_item = None
     _divider = 1
-    _attr_name = None
+    # _attr_name = None
     _attr_unique_id = ""
     _attr_should_poll = True
-    # _attr_translation_key = ""
-    # _attr_has_entity_name = True
+    _attr_translation_key = ""
+    _attr_has_entity_name = True
     _dev_device = ""
     _modbus_api = None
 
@@ -181,12 +184,13 @@ class MyEntity(Entity):
 
         name_prefix = name_topic_prefix + name_device_prefix
 
-        # self._attr_translation_key = self._modbus_item.translation_key
-        # self._attr_translation_placeholders = {"prefix": name_prefix}
+        self._attr_translation_key = self._modbus_item.translation_key
+        self._attr_translation_placeholders = {"prefix": name_prefix}
+        self._dev_translation_placeholders = {"postfix": dev_postfix}
 
-        self._attr_name = name_prefix + self._modbus_item.name
+        # self._attr_name = name_prefix + self._modbus_item.name
         self._attr_unique_id = dev_prefix + self._modbus_item.name + dev_postfix
-        self._dev_device = self._modbus_item.device + dev_postfix
+        self._dev_device = self._modbus_item.device  #  + dev_postfix
         self._modbus_api = modbus_api
 
         if self._modbus_item._format != FORMATS.STATUS:
@@ -257,7 +261,7 @@ class MyEntity(Entity):
             case FORMATS.PERCENTAGE:
                 return self.calc_percentage(val)
             case FORMATS.STATUS:
-                return self._modbus_item.get_text_from_number(val) #translation_key_from_number(val)
+                return self._modbus_item.get_translation_key_from_number(val)
             case FORMATS.UNKNOWN:
                 return int(val)
             case _:
@@ -269,7 +273,7 @@ class MyEntity(Entity):
         match self._modbus_item.format:
             # logically, this belongs to the ModbusItem, but doing it here
             case FORMATS.STATUS:
-                val = self._modbus_item.get_number_from_text(val) #translation_key(value)
+                val = self._modbus_item.translation_key(value)
             case _:
                 val = value * self._divider
         return val
@@ -286,8 +290,9 @@ class MyEntity(Entity):
         """Build the device info."""
         return {
             "identifiers": {(CONST.DOMAIN, self._dev_device)},
-            "name": self._dev_device,
-            # "translation_key": self._dev_device,
+            # "name": self._dev_device,
+            "translation_key": self._dev_device,
+            "translation_placeholders": self._dev_translation_placeholders,
             "sw_version": "Device_SW_Version",
             "model": "Device_model",
             "manufacturer": "Weishaupt",
@@ -315,6 +320,9 @@ class MySensorEntity(CoordinatorEntity, SensorEntity, MyEntity):
         super().__init__(coordinator, context=idx)
         self.idx = idx
         MyEntity.__init__(self, config_entry, modbus_item, coordinator._modbus_api)
+        if config_entry.data[CONF_NAME_OLD_NAMESTYLE]:
+            self._attr_has_entity_name = False
+            self._attr_name = self._substitute_name_placeholders(self._modbus_item.name)
 
     @callback
     def _handle_coordinator_update(self) -> None:
@@ -347,6 +355,9 @@ class MyCalcSensorEntity(MySensorEntity):
         pwrmap: PowerMap,
     ) -> None:
         MySensorEntity.__init__(self, config_entry, modbus_item, coordinator, idx)
+        if config_entry.data[CONF_NAME_OLD_NAMESTYLE]:
+            self._attr_has_entity_name = False
+            self._attr_name = self._substitute_name_placeholders(self._modbus_item.name)
         self.my_map = pwrmap
 
     @callback
@@ -420,6 +431,9 @@ class MyNumberEntity(CoordinatorEntity, NumberEntity, MyEntity):
         super().__init__(coordinator, context=idx)
         self._idx = idx
         MyEntity.__init__(self, config_entry, modbus_item, coordinator._modbus_api)
+        if config_entry.data[CONF_NAME_OLD_NAMESTYLE]:
+            self._attr_has_entity_name = False
+            self._attr_name = self._substitute_name_placeholders(self._modbus_item.name)
 
         if self._modbus_item.resultlist is not None:
             self._attr_native_min_value = self._modbus_item.get_number_from_text("min")
@@ -462,13 +476,17 @@ class MySelectEntity(CoordinatorEntity, SelectEntity, MyEntity):
         super().__init__(coordinator, context=idx)
         self._idx = idx
         MyEntity.__init__(self, config_entry, modbus_item, coordinator._modbus_api)
+        if config_entry.data[CONF_NAME_OLD_NAMESTYLE]:
+            self._attr_has_entity_name = False
+            self._attr_name = self._substitute_name_placeholders(self._modbus_item.name)
+
         self.async_internal_will_remove_from_hass_port = self._config_entry.data[
             CONF_PORT
         ]
         # option list build from the status list of the ModbusItem
         self.options = []
         for _useless, item in enumerate(self._modbus_item._resultlist):
-            self.options.append(item.text) #translation_key)
+            self.options.append(item.text)  # translation_key)
 
     async def async_select_option(self, option: str) -> None:
         # the synching is done by the ModbusObject of the entity

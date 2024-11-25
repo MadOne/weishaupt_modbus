@@ -23,6 +23,7 @@ from .const import (
     CONF_HK5,
     CONF_NAME_DEVICE_PREFIX,
     CONF_NAME_TOPIC_PREFIX,
+    CONF_NAME_OLD_NAMESTYLE,
 )
 
 
@@ -79,7 +80,7 @@ async def validate_input(data: dict) -> dict[str, Any]:
 class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
     """Class config flow."""
 
-    VERSION = 4
+    VERSION = 5
     # Pick one of the available connection classes in homeassistant/config_entries.py
     # This tells HA if it should be asking for updates, or it'll be notified of updates
     # automatically. This example uses PUSH, as the dummy hub will notify HA of
@@ -104,6 +105,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
                 vol.Required(CONF_HOST): str,
                 vol.Optional(CONF_PORT, default="502"): cv.port,
                 vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
+                vol.Optional(CONF_NAME_OLD_NAMESTYLE, default=False): bool,
                 vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
                 #        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
                 vol.Optional(
@@ -155,6 +157,11 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
                 vol.Optional(
                     CONF_PREFIX, default=reconfigure_entry.data[CONF_PREFIX]
                 ): str,
+                # use old namestyle without device prefix when true
+                vol.Optional(
+                    CONF_NAME_OLD_NAMESTYLE,
+                    default=reconfigure_entry.data[CONF_NAME_OLD_NAMESTYLE],
+                ): bool,
                 # reconfigure of device postfix leads to duplicated devices
                 vol.Optional(
                     CONF_DEVICE_POSTFIX,
@@ -214,6 +221,8 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
             {
                 vol.Optional(CONF_PORT, default="502"): cv.port,
                 vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
+                # use old namestyle without device prefix when true
+                vol.Optional(CONF_NAME_OLD_NAMESTYLE, default=False): bool,
                 vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
                 #        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
                 vol.Optional(
