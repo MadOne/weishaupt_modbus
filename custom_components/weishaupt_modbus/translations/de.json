@@ -28,40 +28,40 @@
     },
     "device": {
         "dev_system": {
-            "name": "System{postfix}"
+            "name": "WH System{postfix}"
         },
         "dev_waermepumpe": {
-            "name": "Wärmepumpe{postfix}"
+            "name": "WH Wärmepumpe{postfix}"
         },
         "dev_warmwasser": {
-            "name": "Warmwasser{postfix}"
+            "name": "WH Warmwasser{postfix}"
         },
         "dev_heizkreis": {
-            "name": "Heizkreis{postfix}"
+            "name": "WH Heizkreis{postfix}"
         },
         "dev_heizkreis2": {
-            "name": "Heizkreis2{postfix}"
+            "name": "WH Heizkreis2{postfix}"
         },
         "dev_heizkreis3": {
-            "name": "Heizkreis3{postfix}"
+            "name": "WH Heizkreis3{postfix}"
         },
         "dev_heizkreis4": {
-            "name": "Heizkreis4{postfix}"
+            "name": "WH Heizkreis4{postfix}"
         },
         "dev_heizkreis5": {
-            "name": "Heizkreis5{postfix}"
+            "name": "WH Heizkreis5{postfix}"
         },
         "dev_waermeerzeuger2": {
-            "name": "2. Wärmeerzeuger{postfix}"
+            "name": "WH 2. Wärmeerzeuger{postfix}"
         },
         "dev_statistik": {
-            "name": "Statistik{postfix}"
+            "name": "WH Statistik{postfix}"
         },
         "dev_unknown": {
-            "name": "Unknown{postfix}"
+            "name": "WH Unknown{postfix}"
         },
         "dev_ein_aus": {
-            "name": "Eingänge/Ausgänge{postfix}"
+            "name": "WH Eingänge/Ausgänge{postfix}"
         }
     },
     "entity": {
