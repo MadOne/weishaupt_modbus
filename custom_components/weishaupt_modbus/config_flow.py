@@ -107,7 +107,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
                 vol.Optional(CONF_PORT, default="502"): cv.port,
                 vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
                 vol.Optional(CONF_NAME_OLD_NAMESTYLE, default=False): bool,
-                vol.Optional(CONF_CONVERT_NAMES, default=False): bool,
+                #vol.Optional(CONF_CONVERT_NAMES, default=False): bool,
                 vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
                 #        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
                 vol.Optional(
@@ -164,10 +164,10 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
                     CONF_NAME_OLD_NAMESTYLE,
                     default=reconfigure_entry.data[CONF_NAME_OLD_NAMESTYLE],
                 ): bool,
-                vol.Optional(
-                    CONF_CONVERT_NAMES,
-                    default=reconfigure_entry.data[CONF_CONVERT_NAMES],
-                ): bool,
+                #vol.Optional(
+                #    CONF_CONVERT_NAMES,
+                ##    default=reconfigure_entry.data[CONF_CONVERT_NAMES],
+                #): bool,
                 # reconfigure of device postfix leads to duplicated devices
                 vol.Optional(
                     CONF_DEVICE_POSTFIX,
