@@ -1,11 +1,14 @@
 """init."""
 
 import json
-import warnings
+import logging
+import aiofiles
+
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PREFIX
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import entity_registry as er
 
 from .const import (
     CONF_DEVICE_POSTFIX,
@@ -17,14 +20,19 @@ from .const import (
     CONF_NAME_DEVICE_PREFIX,
     CONF_NAME_TOPIC_PREFIX,
     CONF_NAME_OLD_NAMESTYLE,
+    CONF_CONVERT_NAMES,
     CONST,
     FORMATS,
     TYPES,
+    name_list,
 )
 from .hpconst import DEVICELISTS
 from .items import ModbusItem, StatusItem
 from .modbusobject import ModbusAPI
 from .configentry import MyConfigEntry, MyData
+
+logging.basicConfig()
+log = logging.getLogger(__name__)
 
 PLATFORMS: list[str] = [
     "number",
@@ -45,12 +53,71 @@ async def async_setup_entry(hass: HomeAssistant, entry: MyConfigEntry) -> bool:
     await mbapi.connect()
     entry.runtime_data = MyData(mbapi, hass.config.config_dir, hass)
 
+    filepath = (
+        entry.runtime_data.config_dir
+        + "/custom_components/"
+        + CONST.DOMAIN
+        + "/"
+        + "name_list.json"
+    )
+
     # This is used to generate a strings.json file from hpconst.py
     # create_string_json()
 
     # This creates each HA object for each platform your device requires.
     # It's done by calling the `async_setup_entry` function in each platform module.
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+
+    log.info("Init done")
+
+    if entry.data[CONF_NAME_OLD_NAMESTYLE] is False:
+        async with aiofiles.open(filepath, "w", encoding="utf-8") as outfile:
+            raw_block = json.dumps(name_list)
+            await outfile.write(raw_block)
+            log.info(
+                "Writing name_list file %s with generic content successful",
+                filepath,
+            )
+
+    if entry.data[CONF_CONVERT_NAMES]:
+        registry = er.async_get(entry.runtime_data.hass)
+
+        async with aiofiles.open(filepath, "r", encoding="utf-8") as openfile:
+            raw_block = await openfile.read()
+            json_object = json.loads(raw_block)
+            n_list = json_object
+        for _useless, item in enumerate(n_list):
+            log.info(
+                "UID:%s platform:%s old_name:%s new_name:%s new_uid:%s",
+                item["uid"],
+                item["platform"],
+                item["old_id"],
+                item["new_id"],
+                item["new_uid"],
+            )
+
+            # n_entity_id = registry.entities.get_entity_id(
+            #    (item["platform"], CONST.DOMAIN, item["uid"])
+            # )
+
+            try:
+                await registry.async_remove(item["new_id"])
+            except:
+                log.warning("Entity %s could not be deleted", item["new_id"])
+
+            try:
+                await registry._async_update_entity(
+                    item["old_id"],
+                    new_entity_id=item["new_id"],
+                    new_unique_id=item["new_uid"],
+                )
+            except:
+                log.warning(
+                    "Entity %s could not be renamed to %s",
+                    item["old_id"],
+                    item["new_id"],
+                )
+
     return True
 
 
@@ -65,37 +132,41 @@ async def async_migrate_entry(hass: HomeAssistant, config_entry: MyConfigEntry):
 
     # to ensure all update paths we have to check every version to not overwrite existing entries
     if config_entry.version < 4:
-        warnings.warn("Old Version detected")
+        log.warning("Old Version detected")
 
     if config_entry.version < 2:
-        warnings.warn("Version <2 detected")
+        log.warning("Version <2 detected")
         new_data[CONF_PREFIX] = CONST.DEF_PREFIX
         new_data[CONF_DEVICE_POSTFIX] = ""
         new_data[CONF_KENNFELD_FILE] = CONST.DEF_KENNFELDFILE
     if config_entry.version < 3:
-        warnings.warn("Version <3 detected")
+        log.warning("Version <3 detected")
         new_data[CONF_HK2] = False
         new_data[CONF_HK3] = False
         new_data[CONF_HK4] = False
         new_data[CONF_HK5] = False
     if config_entry.version < 4:
-        warnings.warn("Version <4 detected")
+        log.warning("Version <4 detected")
         new_data[CONF_NAME_DEVICE_PREFIX] = False
         new_data[CONF_NAME_TOPIC_PREFIX] = False
 
         hass.config_entries.async_update_entry(
             config_entry, data=new_data, minor_version=1, version=4
         )
-        warnings.warn("Config entries updated to version 4")
+        log.warning("Config entries updated to version 4")
     if config_entry.version < 5:
-        warnings.warn("Version <5 detected")
+        log.warning("Version <5 detected")
         new_data[CONF_NAME_OLD_NAMESTYLE] = True
 
+    if config_entry.version < 6:
+        log.warning("Version <6 detected")
+        new_data[CONF_CONVERT_NAMES] = False
+
         hass.config_entries.async_update_entry(
-            config_entry, data=new_data, minor_version=1, version=5
+            config_entry, data=new_data, minor_version=1, version=6
         )
-        warnings.warn(
-            "Config entries updated to version 5 - using old namestyle, reinitialize integration, if new namestyle should be used"
+        log.warning(
+            "Config entries updated to version 6 - using old namestyle, reinitialize integration, if new namestyle should be used"
         )
 
     return True
@@ -110,9 +181,9 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
     if unload_ok:
         try:
-            hass.data[CONST.DOMAIN].pop(entry.entry_id)
+            hass.data[entry.data[CONF_PREFIX]].pop(entry.entry_id)
         except KeyError:
-            warnings.warn("KeyError: " + str(CONST.DOMAIN))
+            log.warning("KeyError: " + str(entry.data[CONF_PREFIX]))
 
     return unload_ok
 

@@ -21,6 +21,9 @@ CONF_HK5 = "Heizkreis 5"
 CONF_NAME_DEVICE_PREFIX = "Name-Device-Prefix"
 CONF_NAME_TOPIC_PREFIX = "Name-Topic-Prefix"
 CONF_NAME_OLD_NAMESTYLE = "Old-Namestyle"
+CONF_CONVERT_NAMES = "Convert Names"
+
+name_list = []
 
 
 @dataclass(frozen=True)
