@@ -79,44 +79,44 @@ async def async_setup_entry(hass: HomeAssistant, entry: MyConfigEntry) -> bool:
                 filepath,
             )
 
-    if entry.data[CONF_CONVERT_NAMES]:
-        registry = er.async_get(entry.runtime_data.hass)
+  #  if entry.data[CONF_CONVERT_NAMES]:
+  #      registry = er.async_get(entry.runtime_data.hass)
 
-        async with aiofiles.open(filepath, "r", encoding="utf-8") as openfile:
-            raw_block = await openfile.read()
-            json_object = json.loads(raw_block)
-            n_list = json_object
-        for _useless, item in enumerate(n_list):
-            log.info(
-                "UID:%s platform:%s old_name:%s new_name:%s new_uid:%s",
-                item["uid"],
-                item["platform"],
-                item["old_id"],
-                item["new_id"],
-                item["new_uid"],
-            )
+  #      async with aiofiles.open(filepath, "r", encoding="utf-8") as openfile:
+  #          raw_block = await openfile.read()
+  #          json_object = json.loads(raw_block)
+  #          n_list = json_object
+  #      for _useless, item in enumerate(n_list):
+  #          log.info(
+  #              "UID:%s platform:%s old_name:%s new_name:%s new_uid:%s",
+  #              item["uid"],
+  #              item["platform"],
+  #              item["old_id"],
+  #              item["new_id"],
+  #              item["new_uid"],
+  #          )
 
             # n_entity_id = registry.entities.get_entity_id(
             #    (item["platform"], CONST.DOMAIN, item["uid"])
             # )
 
-            try:
-                await registry.async_remove(item["new_id"])
-            except:
-                log.warning("Entity %s could not be deleted", item["new_id"])
+   #         try:
+   #             await registry.async_remove(item["new_id"])
+   #         except:
+   #             log.warning("Entity %s could not be deleted", item["new_id"])
 
-            try:
-                await registry._async_update_entity(
-                    item["old_id"],
-                    new_entity_id=item["new_id"],
-                    new_unique_id=item["new_uid"],
-                )
-            except:
-                log.warning(
-                    "Entity %s could not be renamed to %s",
-                    item["old_id"],
-                    item["new_id"],
-                )
+#            try:
+#                await registry._async_update_entity(
+#                    item["old_id"],
+#                    new_entity_id=item["new_id"],
+#                    new_unique_id=item["new_uid"],
+#                )
+#            except:
+#                log.warning(
+#                    "Entity %s could not be renamed to %s",
+#                    item["old_id"],
+#                    item["new_id"],
+#                )
 
     return True
 
@@ -158,16 +158,16 @@ async def async_migrate_entry(hass: HomeAssistant, config_entry: MyConfigEntry):
         log.warning("Version <5 detected")
         new_data[CONF_NAME_OLD_NAMESTYLE] = True
 
-    if config_entry.version < 6:
-        log.warning("Version <6 detected")
-        new_data[CONF_CONVERT_NAMES] = False
+    #if config_entry.version < 6:
+    #    log.warning("Version <6 detected")
+    #    new_data[CONF_CONVERT_NAMES] = False
 
-        hass.config_entries.async_update_entry(
-            config_entry, data=new_data, minor_version=1, version=6
-        )
-        log.warning(
-            "Config entries updated to version 6 - using old namestyle, reinitialize integration, if new namestyle should be used"
-        )
+        #hass.config_entries.async_update_entry(
+         #   config_entry, data=new_data, minor_version=1, version=6
+        #)
+        #log.warning(
+        #    "Config entries updated to version 6 - using old namestyle, reinitialize integration, if new namestyle should be used"
+        #)
 
     return True
 
