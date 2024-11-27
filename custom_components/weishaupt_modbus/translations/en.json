@@ -64,7 +64,6 @@
             "name": "WH Hot water{postfix}"
         }
     },
-    },
     "entity": {
         "number": {
             "bivalenztemp": {
