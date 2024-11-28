@@ -30,15 +30,13 @@ async def async_setup_entry(
     for _useless, device in enumerate(DEVICELISTS):
         coordinator = MyCoordinator(hass, _modbus_api, device, config_entry)
         await coordinator.async_config_entry_first_refresh()
-
+        log.debug("Adding entries to entity list ..")
         entries = await build_entity_list(
             entries, config_entry, device, TYPES.NUMBER_RO, coordinator
         )
         entries = await build_entity_list(
             entries, config_entry, device, TYPES.SENSOR_CALC, coordinator
         )
-
-        log.debug("Adding sensor entries to entity list ..")
         entries = await build_entity_list(
             entries, config_entry, device, TYPES.SENSOR, coordinator
         )
