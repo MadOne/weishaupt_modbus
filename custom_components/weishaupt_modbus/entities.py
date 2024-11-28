@@ -175,10 +175,10 @@ class MyEntity(Entity):
         if dev_postfix == "_":
             dev_postfix = ""
 
-        if config_entry.data[CONF_NAME_OLD_NAMESTYLE]:
-            dev_prefix = self._config_entry.data[CONF_PREFIX]
-        else:
-            dev_prefix = CONST.DEF_PREFIX
+        #if config_entry.data[CONF_NAME_OLD_NAMESTYLE]:
+        dev_prefix = self._config_entry.data[CONF_PREFIX]
+        #else:
+        #    dev_prefix = CONST.DEF_PREFIX
 
         if self._config_entry.data[CONF_NAME_DEVICE_PREFIX]:
             name_device_prefix = self._config_entry.data[CONF_PREFIX] + "_"
