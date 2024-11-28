@@ -53,6 +53,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: MyConfigEntry) -> bool:
     await mbapi.connect()
     entry.runtime_data = MyData(mbapi, hass.config.config_dir, hass)
 
+# see https://community.home-assistant.io/t/config-flow-how-to-update-an-existing-entity/522442/8
+    entry.async_on_unload(entry.add_update_listener(update_listener))    
+
+
+    
     filepath = (
         entry.runtime_data.config_dir
         + "/custom_components/"
@@ -120,6 +125,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: MyConfigEntry) -> bool:
 
     return True
 
+async def update_listener(hass: HomeAssistant, entry: ConfigEntry) -> None:
+    """Update listener."""
+    await hass.config_entries.async_reload(entry.entry_id)  # list of entry_ids created for file
 
 async def async_migrate_entry(hass: HomeAssistant, config_entry: MyConfigEntry):
     """Migrate old entry."""
