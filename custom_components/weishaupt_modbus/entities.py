@@ -34,6 +34,7 @@ from .items import ModbusItem
 from .kennfeld import PowerMap
 from .modbusobject import ModbusAPI, ModbusObject
 from .configentry import MyConfigEntry
+from .migrate_helpers import create_new_unique_id
 
 logging.basicConfig()
 log = logging.getLogger(__name__)
@@ -171,10 +172,10 @@ class MyEntity(Entity):
         if dev_postfix == "_":
             dev_postfix = ""
 
-        if config_entry.data[CONF_NAME_OLD_NAMESTYLE]:
-            dev_prefix = self._config_entry.data[CONF_PREFIX]
-        else:
-            dev_prefix = CONST.DEF_PREFIX
+        # if config_entry.data[CONF_NAME_OLD_NAMESTYLE]:
+        dev_prefix = self._config_entry.data[CONF_PREFIX]
+        # else:
+        #    dev_prefix = CONST.DEF_PREFIX
 
         if self._config_entry.data[CONF_NAME_DEVICE_PREFIX]:
             name_device_prefix = dev_prefix + "_"
@@ -192,8 +193,12 @@ class MyEntity(Entity):
         self._attr_translation_placeholders = {"prefix": name_prefix}
         self._dev_translation_placeholders = {"postfix": dev_postfix}
 
-        # self._attr_name = name_prefix + self._modbus_item.name
-        self._attr_unique_id = dev_prefix + self._modbus_item.name + dev_postfix
+        self._attr_name = name_prefix + self._modbus_item.name
+        self._attr_unique_id = create_new_unique_id(
+            self._config_entry, self._modbus_item
+        )
+
+        # dev_prefix + self._modbus_item.name + dev_postfix
         self._dev_device = self._modbus_item.device  #  + dev_postfix
         self._modbus_api = modbus_api
 
@@ -304,53 +309,55 @@ class MyEntity(Entity):
 
     def handle_naming(self, platform: str, config_entry: MyConfigEntry):
         """Update Names"""
-        if config_entry.data[CONF_NAME_OLD_NAMESTYLE]:
-            self._attr_has_entity_name = False
-            self._attr_name = self._substitute_name_placeholders(self._modbus_item.name)
-        else:
-            registry = er.async_get(config_entry.runtime_data.hass)
-            n_entity_id = registry.entities.get_entity_id(
-                (platform, CONST.DOMAIN, self._attr_unique_id)
-            )
+        # if config_entry.data[CONF_NAME_OLD_NAMESTYLE]:
+        # self._attr_has_entity_name = False
+        # self._attr_name = self._substitute_name_placeholders(self._modbus_item.name)
+        # else:
+        #    registry = er.async_get(config_entry.runtime_data.hass)
+        #    n_entity_id = registry.entities.get_entity_id(
+        #        (platform, CONST.DOMAIN, self._attr_unique_id)
+        #    )
 
-            # happens when the intergation is first created or updated, a restart is necessary to get a value not None
-            if n_entity_id is None:
-                return
-            
-            o_entity_id = (
-                platform
-                + "."
-                + slugify(self._substitute_name_placeholders(self._modbus_item.name))
-            )
+        # happens when the intergation is first created or updated, a restart is necessary to get a value not None
+        #   if n_entity_id is None:
+        #      return
 
-            # entity IDs are already converted
-            if o_entity_id == n_entity_id:
-                return
-            
-            n_uid = str(
-                CONST.DOMAIN
-                # + self._substitute_name_placeholders(self._modbus_item.name)
-                + self._modbus_item.name
-            )
+        #  o_entity_id = (
+        #     platform
+        #    + "."
+        #   + slugify(self._substitute_name_placeholders(self._modbus_item.name))
+        # )
 
-            name_entry = {
-                "uid": self._attr_unique_id,
-                "platform": platform,
-                "old_id": o_entity_id,
-                "new_id": n_entity_id,
-                "new_uid": n_uid,
-            }
+        # entity IDs are already converted
+        # if o_entity_id == n_entity_id:
+        #    return
 
-            log.info(
-                "Init UID:%s, platform:%s old ID:%s new ID:%s new UID:%s",
-                self._attr_unique_id,
-                platform,
-                o_entity_id,
-                n_entity_id,
-                n_uid
-            )
-            
-            name_list.append(name_entry)
+        # n_uid = str(
+        #      CONST.DOMAIN
+        # + self._substitute_name_placeholders(self._modbus_item.name)
+        #       + self._modbus_item.name
+        #    )
+
+    #     name_entry = {
+    #          "uid": self._attr_unique_id,
+    #           "platform": platform,
+    #            "old_id": o_entity_id,
+
+
+#             "new_id": n_entity_id,
+#              "new_uid": n_uid,
+#           }
+#
+#         log.info(
+#              "Init UID:%s, platform:%s old ID:%s new ID:%s new UID:%s",
+#               self._attr_unique_id,
+# platform,
+# o_entity_id,
+#  n_entity_id,
+#   n_uid
+# )
+
+# name_list.append(name_entry)
 
 
 class MySensorEntity(CoordinatorEntity, SensorEntity, MyEntity):

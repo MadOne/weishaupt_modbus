@@ -1,7 +1,7 @@
 """init."""
 
 # https://github.com/mvdwetering/yamaha_ynca/blob/d3fa53a07bf3b04903aced4ff90d7ec2e07b8a83/custom_components/yamaha_ynca/migrations.py#L142
-#def migrate_v2_to_v3(hass: HomeAssistant, config_entry: ConfigEntry):
+# def migrate_v2_to_v3(hass: HomeAssistant, config_entry: ConfigEntry):
 #    # Scene entities are replaced by Button entities
 #    # (scenes limited to a single devics seem a bit weird)
 #    # cleanup the scene entities so the user does not have to
@@ -20,13 +20,13 @@
 # https://community.home-assistant.io/t/config-flow-how-to-update-an-existing-entity/522442/4
 
 
-#async def async_setup_entry(
+# async def async_setup_entry(
 #    hass: HomeAssistant, config_entry: AcmedaConfigEntry
-#) -> bool:
-    """Set up Rollease Acmeda Automate hub from a config entry."""
+# ) -> bool:
+#    """Set up Rollease Acmeda Automate hub from a config entry."""
 #    await _migrate_unique_ids(hass, config_entry)
 
-#async def _migrate_unique_ids(hass: HomeAssistant, entry: AcmedaConfigEntry) -> None:
+# async def _migrate_unique_ids(hass: HomeAssistant, entry: AcmedaConfigEntry) -> None:
 #    """Migrate pre-config flow unique ids."""
 #    entity_registry = er.async_get(hass)
 #    registry_entries = er.async_entries_for_config_entry(
@@ -51,7 +51,7 @@
 
 
 # https://github.com/home-assistant/core/blob/f41bc98fe2dad97e3008a6f5d955808900800d90/homeassistant/components/tibber/sensor.py#L314
-#async def async_setup_entry(
+# async def async_setup_entry(
 #        # migrate
 #        old_id = home.info["viewer"]["home"]["meteringPointData"]["consumptionEan"]
 #        if old_id is None:
@@ -73,18 +73,12 @@
 #                device_entry.id, new_identifiers={(TIBBER_DOMAIN, home.home_id)}
 #            )
 
-
-
-
 import json
 import logging
-import aiofiles
-
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PREFIX
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers import entity_registry as er
 
 from .const import (
     CONF_DEVICE_POSTFIX,
@@ -95,17 +89,28 @@ from .const import (
     CONF_KENNFELD_FILE,
     CONF_NAME_DEVICE_PREFIX,
     CONF_NAME_TOPIC_PREFIX,
-    CONF_NAME_OLD_NAMESTYLE,
-    CONF_CONVERT_NAMES,
     CONST,
     FORMATS,
     TYPES,
-    name_list,
 )
-from .hpconst import DEVICELISTS
+from .hpconst import (
+    DEVICELISTS,
+    MODBUS_HZ_ITEMS,
+    MODBUS_SYS_ITEMS,
+    MODBUS_ST_ITEMS,
+    MODBUS_WP_ITEMS,
+    MODBUS_WW_ITEMS,
+    MODBUS_W2_ITEMS,
+    MODBUS_IO_ITEMS,
+    MODBUS_HZ2_ITEMS,
+    MODBUS_HZ3_ITEMS,
+    MODBUS_HZ4_ITEMS,
+    MODBUS_HZ5_ITEMS,
+)
 from .items import ModbusItem, StatusItem
 from .modbusobject import ModbusAPI
 from .configentry import MyConfigEntry, MyData
+from .migrate_helpers import migrate_entities
 
 logging.basicConfig()
 log = logging.getLogger(__name__)
@@ -129,18 +134,20 @@ async def async_setup_entry(hass: HomeAssistant, entry: MyConfigEntry) -> bool:
     await mbapi.connect()
     entry.runtime_data = MyData(mbapi, hass.config.config_dir, hass)
 
-# see https://community.home-assistant.io/t/config-flow-how-to-update-an-existing-entity/522442/8
-    entry.async_on_unload(entry.add_update_listener(update_listener))    
+    migrate_entities(entry, MODBUS_SYS_ITEMS)
+    migrate_entities(entry, MODBUS_HZ_ITEMS)
+    migrate_entities(entry, MODBUS_HZ2_ITEMS)
+    migrate_entities(entry, MODBUS_HZ3_ITEMS)
+    migrate_entities(entry, MODBUS_HZ4_ITEMS)
+    migrate_entities(entry, MODBUS_HZ5_ITEMS)
+    migrate_entities(entry, MODBUS_WP_ITEMS)
+    migrate_entities(entry, MODBUS_WW_ITEMS)
+    migrate_entities(entry, MODBUS_W2_ITEMS)
+    migrate_entities(entry, MODBUS_IO_ITEMS)
+    migrate_entities(entry, MODBUS_ST_ITEMS)
 
-
-    
-    filepath = (
-        entry.runtime_data.config_dir
-        + "/custom_components/"
-        + CONST.DOMAIN
-        + "/"
-        + "name_list.json"
-    )
+    # see https://community.home-assistant.io/t/config-flow-how-to-update-an-existing-entity/522442/8
+    entry.async_on_unload(entry.add_update_listener(update_listener))
 
     # This is used to generate a strings.json file from hpconst.py
     # create_string_json()
@@ -151,61 +158,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: MyConfigEntry) -> bool:
 
     log.info("Init done")
 
-    if entry.data[CONF_NAME_OLD_NAMESTYLE] is False:
-        if len(name_list) > 1:
-            async with aiofiles.open(filepath, "w", encoding="utf-8") as outfile:
-                raw_block = json.dumps(name_list)
-                await outfile.write(raw_block)
-                log.info(
-                    "Writing name_list file %s with %s lines of generic content successful",
-                    filepath,
-                    str(len(name_list)),
-                )
-
-  #  if entry.data[CONF_CONVERT_NAMES]:
-  #      registry = er.async_get(entry.runtime_data.hass)
-
-  #      async with aiofiles.open(filepath, "r", encoding="utf-8") as openfile:
-  #          raw_block = await openfile.read()
-  #          json_object = json.loads(raw_block)
-  #          n_list = json_object
-  #      for _useless, item in enumerate(n_list):
-  #          log.info(
-  #              "UID:%s platform:%s old_name:%s new_name:%s new_uid:%s",
-  #              item["uid"],
-  #              item["platform"],
-  #              item["old_id"],
-  #              item["new_id"],
-  #              item["new_uid"],
-  #          )
-
-            # n_entity_id = registry.entities.get_entity_id(
-            #    (item["platform"], CONST.DOMAIN, item["uid"])
-            # )
-
-   #         try:
-   #             await registry.async_remove(item["new_id"])
-   #         except:
-   #             log.warning("Entity %s could not be deleted", item["new_id"])
-
-#            try:
-#                await registry._async_update_entity(
-#                    item["old_id"],
-#                    new_entity_id=item["new_id"],
-#                    new_unique_id=item["new_uid"],
-#                )
-#            except:
-#                log.warning(
-#                    "Entity %s could not be renamed to %s",
-#                    item["old_id"],
-#                    item["new_id"],
-#                )
-
     return True
+
 
 async def update_listener(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Update listener."""
-    await hass.config_entries.async_reload(entry.entry_id)  # list of entry_ids created for file
+    await hass.config_entries.async_reload(
+        entry.entry_id
+    )  # list of entry_ids created for file
+
 
 async def async_migrate_entry(hass: HomeAssistant, config_entry: MyConfigEntry):
     """Migrate old entry."""
@@ -242,18 +203,18 @@ async def async_migrate_entry(hass: HomeAssistant, config_entry: MyConfigEntry):
         log.warning("Config entries updated to version 4")
     if config_entry.version < 5:
         log.warning("Version <5 detected")
-        new_data[CONF_NAME_OLD_NAMESTYLE] = True
+    #   new_data[CONF_NAME_OLD_NAMESTYLE] = True
 
-    #if config_entry.version < 6:
-    #    log.warning("Version <6 detected")
-    #    new_data[CONF_CONVERT_NAMES] = False
+    if config_entry.version < 6:
+        log.warning("Version <6 detected")
+    #     new_data[CONF_CONVERT_NAMES] = False
 
-        #hass.config_entries.async_update_entry(
-         #   config_entry, data=new_data, minor_version=1, version=6
-        #)
-        #log.warning(
-        #    "Config entries updated to version 6 - using old namestyle, reinitialize integration, if new namestyle should be used"
-        #)
+    hass.config_entries.async_update_entry(
+        config_entry, data=new_data, minor_version=1, version=6
+    )
+    log.warning(
+        "Config entries updated to version 6 - using old namestyle, reinitialize integration, if new namestyle should be used"
+    )
 
     return True
 
