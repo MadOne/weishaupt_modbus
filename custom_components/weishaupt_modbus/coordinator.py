@@ -2,7 +2,6 @@
 
 import logging
 import asyncio
-import warnings
 
 from pymodbus import ModbusException
 
@@ -26,8 +25,6 @@ from .configentry import MyConfigEntry
 
 logging.basicConfig()
 _LOGGER = logging.getLogger(__name__)
-_LOGGER.setLevel(logging.WARNING)
-
 
 class MyCoordinator(DataUpdateCoordinator):
     """My custom coordinator."""
@@ -65,6 +62,7 @@ class MyCoordinator(DataUpdateCoordinator):
             modbus_item.state = None
         modbus_item.state = await mbo.value
         return modbus_item.state
+        # return modbusitem.state = None if mbo is None else modbus_item.state = await mbo.value
 
     async def get_value_a(self, modbus_item: ModbusItem):
         """Read a value from the modbus."""
@@ -176,4 +174,4 @@ class MyCoordinator(DataUpdateCoordinator):
                 listening_idx = set(self.async_contexts())
                 return await self.fetch_data(listening_idx)
             except ModbusException:
-                warnings.warn("connection to the heatpump failed")
+                log.warning("connection to the heatpump failed")
