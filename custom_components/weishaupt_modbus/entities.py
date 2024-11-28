@@ -170,14 +170,15 @@ class MyEntity(Entity):
         self._config_entry = config_entry
         self._modbus_item = modbus_item
 
-        dev_postfix = ""
         dev_postfix = "_" + self._config_entry.data[CONF_DEVICE_POSTFIX]
 
         if dev_postfix == "_":
             dev_postfix = ""
 
-        dev_prefix = CONST.DEF_PREFIX
-        dev_prefix = self._config_entry.data[CONF_PREFIX]
+        if config_entry.data[CONF_NAME_OLD_NAMESTYLE]:
+            dev_prefix = self._config_entry.data[CONF_PREFIX]
+        else:
+            dev_prefix = CONST.DEF_PREFIX
 
         if self._config_entry.data[CONF_NAME_DEVICE_PREFIX]:
             name_device_prefix = self._config_entry.data[CONF_PREFIX] + "_"
