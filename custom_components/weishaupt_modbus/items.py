@@ -182,6 +182,8 @@ class ModbusItem:
 
     def get_text_from_number(self, val: int) -> str:
         """Get errortext from coresponding number."""
+        if val is None:
+            return None
         if self._resultlist is None:
             return None
         for _useless, item in enumerate(self._resultlist):
@@ -200,6 +202,8 @@ class ModbusItem:
 
     def get_translation_key_from_number(self, val: int) -> str:
         """Get errortext from coresponding number."""
+        if val is None:
+            return None
         if self._resultlist is None:
             return None
         for _useless, item in enumerate(self._resultlist):
@@ -209,6 +213,8 @@ class ModbusItem:
 
     def get_number_from_translation_key(self, val: str) -> int:
         """Get number of coresponding errortext."""
+        if val is None:
+            return None
         if self._resultlist is None:
             return None
         for _useless, item in enumerate(self._resultlist):
