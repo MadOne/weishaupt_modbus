@@ -203,6 +203,17 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
         )
 
 
+# https://community.home-assistant.io/t/config-flow-how-to-update-an-existing-entity/522442/8
+
+    async def async_end(self):
+        """Finalization of the ConfigEntry creation"""
+        log.info(
+            "Recreating entry %s due to configuration change",
+            self.config_entry.entry_id,
+        )
+        self.hass.config_entries.async_update_entry(self.config_entry, data=self._infos)
+        return self.async_create_entry(title=None, data=None)
+
 class InvalidHost(exceptions.HomeAssistantError):
     """Error to indicate there is an invalid hostname."""
 
