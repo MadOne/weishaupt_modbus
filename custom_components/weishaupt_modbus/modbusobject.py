@@ -3,41 +3,31 @@
 A Modbus object that contains a Modbus item and communicates with the Modbus.
 It contains a ModbusClient for setting and getting Modbus register values
 """
-# import warnings
-
 import asyncio
 import logging
-import warnings
 
 from pymodbus import ExceptionResponse, ModbusException
 from pymodbus.client import AsyncModbusTcpClient
 
 from homeassistant.const import CONF_HOST, CONF_PORT
 
-from .const import TYPES, FORMATS
-from .items import ModbusItem
-
 from .configentry import MyConfigEntry
+from .const import FORMATS, TYPES
+from .items import ModbusItem
 
 logging.basicConfig()
 log = logging.getLogger(__name__)
-# log.setLevel(logging.WARNING)
-
 
 class ModbusAPI:
-    """ModbusAPI class."""
-
-    _ip = None
-    _port = None
-    _modbus_client = None
-
+    """
+    ModbusAPI class that provides a connection to the modbus,
+    which is used by the ModbusItems.
+    """
     def __init__(self, config_entry: MyConfigEntry) -> None:
-        """Construct ModbusClient.
+        """Construct ModbusAPI.
 
         :param config_entry: HASS config entry
         :type config_entry: MyConfigEntry
-        :param modbus_item: definition of modbus item
-        :type modbus_item: ModbusItem
         """
         self._ip = config_entry.data[CONF_HOST]
         self._port = config_entry.data[CONF_PORT]
@@ -55,22 +45,21 @@ class ModbusAPI:
                     return self._modbus_client.connected
                 else:
                     await asyncio.sleep(1)
-            warnings.warn("Connection to heatpump succeeded")
+            log.info("Connection to heatpump succeeded")
 
         except ModbusException:
-            warnings.warn("Connection to heatpump failed")
+            log.warning("Connection to heatpump failed")
             return None
         return self._modbus_client.connected
 
     def close(self):
         """Close modbus connection."""
         try:
-            # await self._modbus_client.close()
             self._modbus_client.close()
         except ModbusException:
-            warnings.warn("Closing connection to heatpump failed")
+            log.warning("Closing connection to heatpump failed")
             return False
-        warnings.warn("Connection to heatpump closed")
+        log.info("Connection to heatpump closed")
         return True
 
     def get_device(self):
@@ -84,10 +73,6 @@ class ModbusObject:
     A Modbus object that contains a Modbus item and communicates with the Modbus.
     It contains a ModbusClient for setting and getting Modbus register values
     """
-
-    _modbus_item = None
-    _data_format = None
-
     def __init__(self, modbus_api: ModbusAPI, modbus_item: ModbusItem) -> None:
         """Construct ModbusObject.
 
@@ -99,44 +84,99 @@ class ModbusObject:
         self._modbus_item = modbus_item
         self._modbus_client = modbus_api.get_device()
 
-    def check_valid(self, val):
-        """Checks if item is available and valid"""
+    def check_valid(self, val) -> int:
+        """Check if item is available and valid."""
         match self._modbus_item.format:
             case FORMATS.TEMPERATUR:
-                self.check_temperature(val)
-                return
+                return self.check_temperature(val)
             case FORMATS.PERCENTAGE:
-                self.check_percentage(val)
-                return
+                return self.check_percentage(val)
             case FORMATS.STATUS:
-                self.check_status(val)
-                return
+                return self.check_status(val)
             case _:
                 self._modbus_item.is_invalid = False
+                return None
 
-    def check_temperature(self, val):
-        """Checks availability of temperature item"""
+    def check_temperature(self, val) -> int:
+        """Check availability of temperature item and translate 
+        return value to valid int
+
+        :param val: The value from the modbus
+        :type val: int"""
         match val:
             case -32768:
                 # No Sensor installed, remove it from the list
                 self._modbus_item.is_invalid = True
+                return None
             case 32768:
                 # This seems to be zero, should be allowed
                 self._modbus_item.is_invalid = True
-            case _:
+                return None
+            case -32767:
+                # Sensor broken set return value to -99.9 to inform user
                 self._modbus_item.is_invalid = False
+                return -999
+            case _:
+                # Temperature Sensor seems to be Einerkomplement
+                if val > 32768:
+                    val = val - 65536
+                self._modbus_item.is_invalid = False
+                return val
 
-    def check_percentage(self, val):
-        """Checks availability of percentage item"""
+    def check_percentage(self, val) -> int:
+        """Check availability of percentage item and translate 
+        return value to valid int
+
+        :param val: The value from the modbus
+        :type val: int"""
         if val == 65535:
             self._modbus_item.is_invalid = True
+            return None
         else:
             self._modbus_item.is_invalid = False
+            return val
 
-    def check_status(self, val):
-        """Checks general availability of item"""
-        _useless = val
+    def check_status(self, val) -> int:
+        """Check general availability of item."""
         self._modbus_item.is_invalid = False
+        return val
+
+    def validate_modbus_answer(self, mbr) -> int:
+        """Check if there's a valid answer from modbus and
+        translate it to a valid int depending from type
+        :param mbr: The modbus response
+        :type mbr: modbus response"""
+        val = None
+        if mbr.isError():
+            myexception_code: ExceptionResponse = mbr
+            if myexception_code.exception_code == 2:
+                self._modbus_item.is_invalid = True
+            else:
+                log.warning(
+                   "Received Modbus library error: "
+                   + str(mbr)
+                   + "in item: "
+                   + str(self._modbus_item.name)
+                )
+            return None
+        if isinstance(mbr, ExceptionResponse):
+            log.warning(
+               "Received ModbusException: "
+               + str(mbr)
+               + " from library in item: "
+               + str(self._modbus_item.name)
+            )
+            return None
+            # THIS IS NOT A PYTHON EXCEPTION, but a valid modbus message
+        if len(mbr.registers) > 0:
+            val = self.check_valid(mbr.registers[0])
+            log.debug(
+                   "Item %s val=%d and invalid = %s",
+                   self._modbus_item.name,
+                   val,
+                   self._modbus_item.is_invalid,
+            )
+            return val
 
     @property
     async def value(self):
@@ -155,107 +195,36 @@ class ModbusObject:
                         mbr = await self._modbus_client.read_input_registers(
                             self._modbus_item.address, slave=1
                         )
-                        if mbr.isError():
-                            myexception_code: ExceptionResponse = mbr
-                            if myexception_code.exception_code == 2:
-                                self._modbus_item.is_invalid = True
-                            else:
-                                warnings.warn(
-                                    "Received Modbus library error: "
-                                    + str(mbr)
-                                    + "in item: "
-                                    + str(self._modbus_item.name)
-                                )
-                            return None
-                        if isinstance(mbr, ExceptionResponse):
-                            warnings.warn(
-                                "Received ModbusException: "
-                                + str(mbr)
-                                + " from library in item: "
-                                + str(self._modbus_item.name)
-                            )
-                            return None
-                            # THIS IS NOT A PYTHON EXCEPTION, but a valid modbus message
-                        if len(mbr.registers) > 0:
-                            val = mbr.registers[0]
-                            self.check_valid(val)
-                            log.debug(
-                                "Item %s val=%d and invalid = %s",
-                                self._modbus_item.name,
-                                val,
-                                self._modbus_item.is_invalid,
-                            )
+                        return self.validate_modbus_answer(mbr)
                     case TYPES.SELECT | TYPES.NUMBER | TYPES.NUMBER_RO:
                         mbr = await self._modbus_client.read_holding_registers(
                             self._modbus_item.address, slave=1
                         )
-                        if mbr.isError():
-                            myexception_code: ExceptionResponse = mbr
-                            if myexception_code.exception_code == 2:
-                                self._modbus_item.is_invalid = True
-                            else:
-                                warnings.warn(
-                                    "Received Modbus library error: "
-                                    + str(mbr)
-                                    + "in item: "
-                                    + str(self._modbus_item.name)
-                                )
-                            return None
-                        if isinstance(mbr, ExceptionResponse):
-                            warnings.warn(
-                                "Received ModbusException: "
-                                + str(mbr)
-                                + " from library in item: "
-                                + str(self._modbus_item.name)
-                            )
-                            return None
-                            # THIS IS NOT A PYTHON EXCEPTION, but a valid modbus message
-                        if len(mbr.registers) > 0:
-                            val = mbr.registers[0]
-                            self.check_valid(val)
+                        return self.validate_modbus_answer(mbr)
                     case _:
                         val = None
-                        warnings.warn(
+                        log.warning(
                             "Unknown Sensor type: "
                             + str(self._modbus_item.type)
                             + "in "
                             + str(self._modbus_item.name)
                         )
             except ModbusException as exc:
-                warnings.warn(
-                    "Received ModbusException: "
+                log.warning(
+                    "ModbusException: Reading "
                     + str(exc)
                     + "in item: "
                     + str(self._modbus_item.name)
+                    + " failed"
                 )
                 return None
-            if mbr.isError():
-                myexception_code: ExceptionResponse = mbr
-                if myexception_code.exception_code == 2:
-                    self._modbus_item.is_invalid = True
-                else:
-                    warnings.warn(
-                        "Received Modbus library error: "
-                        + str(mbr)
-                        + "in item: "
-                        + str(self._modbus_item.name)
-                    )
-                return None
-            if isinstance(mbr, ExceptionResponse):
-                warnings.warn(
-                    "Received ModbusException: "
-                    + str(mbr)
-                    + " from library in item: "
-                    + str(self._modbus_item.name)
-                )
-                return None
-                # THIS IS NOT A PYTHON EXCEPTION, but a valid modbus message
-
-        return val
 
     # @value.setter
     async def setvalue(self, value) -> None:
-        """Set the value of the modbus register, does nothing when not R/W."""
+        """Set the value of the modbus register, does nothing when not R/W.
+
+        :param val: The value to write to the modbus
+        :type val: int"""
         if self._modbus_client is None:
             return None
         try:
@@ -268,8 +237,8 @@ class ModbusObject:
                         self._modbus_item.address, int(value), slave=1
                     )
         except ModbusException:
-            warnings.warn(
-                "Writing "
+            log.warning(
+                "ModbusException: Writing "
                 + str(value)
                 + " to "
                 + str(self._modbus_item.name)
