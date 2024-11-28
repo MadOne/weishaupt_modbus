@@ -62,7 +62,6 @@ class MyCoordinator(DataUpdateCoordinator):
             modbus_item.state = None
         modbus_item.state = await mbo.value
         return modbus_item.state
-        # return modbusitem.state = None if mbo is None else modbus_item.state = await mbo.value
 
     async def get_value_a(self, modbus_item: ModbusItem):
         """Read a value from the modbus."""
