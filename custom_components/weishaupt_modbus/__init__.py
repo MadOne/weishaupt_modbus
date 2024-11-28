@@ -19,6 +19,63 @@
 
 # https://community.home-assistant.io/t/config-flow-how-to-update-an-existing-entity/522442/4
 
+
+#async def async_setup_entry(
+#    hass: HomeAssistant, config_entry: AcmedaConfigEntry
+#) -> bool:
+    """Set up Rollease Acmeda Automate hub from a config entry."""
+#    await _migrate_unique_ids(hass, config_entry)
+
+#async def _migrate_unique_ids(hass: HomeAssistant, entry: AcmedaConfigEntry) -> None:
+#    """Migrate pre-config flow unique ids."""
+#    entity_registry = er.async_get(hass)
+#    registry_entries = er.async_entries_for_config_entry(
+#        entity_registry, entry.entry_id
+#    )
+#    for reg_entry in registry_entries:
+#        if isinstance(reg_entry.unique_id, int):  # type: ignore[unreachable]
+#            entity_registry.async_update_entity(  # type: ignore[unreachable]
+#                reg_entry.entity_id, new_unique_id=str(reg_entry.unique_id)
+#            )
+
+#    # Fix non-string unique_id for device trackers
+#    # Can be removed in 2025.1
+#    entity_registry = er.async_get(hass)
+#    for device_key in tado.data["mobile_device"]:
+#        if entity_id := entity_registry.async_get_entity_id(
+#            DEVICE_TRACKER_DOMAIN, DOMAIN, device_key
+#        ):
+#            entity_registry.async_update_entity(
+#                entity_id, new_unique_id=str(device_key)
+#            )
+
+
+# https://github.com/home-assistant/core/blob/f41bc98fe2dad97e3008a6f5d955808900800d90/homeassistant/components/tibber/sensor.py#L314
+#async def async_setup_entry(
+#        # migrate
+#        old_id = home.info["viewer"]["home"]["meteringPointData"]["consumptionEan"]
+#        if old_id is None:
+#            continue
+#        # migrate to new device ids
+#        old_entity_id = entity_registry.async_get_entity_id(
+#            "sensor", TIBBER_DOMAIN, old_id
+#        )
+#        if old_entity_id is not None:
+#            entity_registry.async_update_entity(
+#                old_entity_id, new_unique_id=home.home_id
+#            )
+#        # migrate to new device ids
+#        device_entry = device_registry.async_get_device(
+#            identifiers={(TIBBER_DOMAIN, old_id)}
+#        )
+#        if device_entry and entry.entry_id in device_entry.config_entries:
+#            device_registry.async_update_device(
+#                device_entry.id, new_identifiers={(TIBBER_DOMAIN, home.home_id)}
+#            )
+
+
+
+
 import json
 import logging
 import aiofiles
@@ -95,13 +152,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: MyConfigEntry) -> bool:
     log.info("Init done")
 
     if entry.data[CONF_NAME_OLD_NAMESTYLE] is False:
-        async with aiofiles.open(filepath, "w", encoding="utf-8") as outfile:
-            raw_block = json.dumps(name_list)
-            await outfile.write(raw_block)
-            log.info(
-                "Writing name_list file %s with generic content successful",
-                filepath,
-            )
+        if len(name_list) > 1:
+            async with aiofiles.open(filepath, "w", encoding="utf-8") as outfile:
+                raw_block = json.dumps(name_list)
+                await outfile.write(raw_block)
+                log.info(
+                    "Writing name_list file %s with %s lines of generic content successful",
+                    filepath,
+                    str(len(name_list)),
+                )
 
   #  if entry.data[CONF_CONVERT_NAMES]:
   #      registry = er.async_get(entry.runtime_data.hass)
