@@ -84,7 +84,7 @@ async def build_entity_list(
     type of list is defined by the ModbusItem's type flag
     so the app only holds one list of entities that is build from a list of ModbusItem
     stored in hpconst.py so far, will be provided by an external file in future
-    
+
     :param config_entry: HASS config entry
     :type config_entry: MyConfigEntry
     :param modbus_item: definition of modbus item
@@ -96,19 +96,14 @@ async def build_entity_list(
     """
     for index, item in enumerate(modbusitems):
         if item.type == item_type:
-            if (
-                await check_available(item, config_entry=config_entry)
-                is True
-            ):
+            if await check_available(item, config_entry=config_entry) is True:
                 log.debug("Add item %s to entity list ..", item.name)
                 match item_type:
                     # here the entities are created with the parameters provided
                     # by the ModbusItem object
                     case TYPES.SENSOR | TYPES.NUMBER_RO:
                         entries.append(
-                            MySensorEntity(
-                                config_entry, item, coordinator, index
-                            )
+                            MySensorEntity(config_entry, item, coordinator, index)
                         )
                     case TYPES.SENSOR_CALC:
                         pwrmap = PowerMap(config_entry)
@@ -124,15 +119,11 @@ async def build_entity_list(
                         )
                     case TYPES.SELECT:
                         entries.append(
-                            MySelectEntity(
-                                config_entry, item, coordinator, index
-                            )
+                            MySelectEntity(config_entry, item, coordinator, index)
                         )
                     case TYPES.NUMBER:
                         entries.append(
-                            MyNumberEntity(
-                                config_entry, item, coordinator, index
-                            )
+                            MyNumberEntity(config_entry, item, coordinator, index)
                         )
 
     return entries
@@ -175,9 +166,9 @@ class MyEntity(Entity):
         if dev_postfix == "_":
             dev_postfix = ""
 
-        #if config_entry.data[CONF_NAME_OLD_NAMESTYLE]:
+        # if config_entry.data[CONF_NAME_OLD_NAMESTYLE]:
         dev_prefix = self._config_entry.data[CONF_PREFIX]
-        #else:
+        # else:
         #    dev_prefix = CONST.DEF_PREFIX
 
         if self._config_entry.data[CONF_NAME_DEVICE_PREFIX]:
@@ -229,20 +220,20 @@ class MyEntity(Entity):
 
     def translate_val(self, val) -> float:
         """Translate modbus value into sensful format."""
-        if self._api_item.format == FORMATS.STATUS:
+        if self._modbus_item.format == FORMATS.STATUS:
             return self._modbus_item.get_translation_key_from_number(val)
         else:
-            if value is None:
+            if val is None:
                 return None
-            return value / self._divider
+            return val / self._divider
 
     def retranslate_val(self, value) -> int:
         """Re-translate modbus value into sensful format."""
-        if self._api_item.format == FORMATS.STATUS:
-            return self._api_item.get_number_from_translation_key(value)
+        if self._modbus_item.format == FORMATS.STATUS:
+            return self._modbus_item.get_number_from_translation_key(value)
         else:
             return int(value * self._divider)
-    
+
     async def set_translate_val(self, value) -> None:
         """Translate and writes a value to the modbus."""
         val = self.retranslate_val(value)
@@ -354,13 +345,14 @@ class MyCalcSensorEntity(MySensorEntity):
         val_x = val[1] / 10
         val_y = val[2] / 10
 
-        match self._api_item.format:
+        match self._modbus_item.format:
             case FORMATS.POWER:
                 return round(self.calc_power(val_0, val_x, val_y))
             case _:
                 if val_0 is None:
                     return None
                 return val_0
+
 
 class MyNumberEntity(CoordinatorEntity, NumberEntity, MyEntity):
     """class that represents a sensor entity derived from Sensorentity
@@ -426,7 +418,7 @@ class MySelectEntity(CoordinatorEntity, SelectEntity, MyEntity):
         coordinator: MyCoordinator,
         idx,
     ) -> None:
-        """Initialze MySelectEntity."""        
+        """Initialze MySelectEntity."""
         super().__init__(coordinator, context=idx)
         self._idx = idx
         MyEntity.__init__(self, config_entry, modbus_item, coordinator._modbus_api)
