@@ -1,15 +1,11 @@
 """Config flow."""
 
-from aiofiles.os import scandir
-
 from typing import Any
-
 import voluptuous as vol
-
+from aiofiles.os import scandir
 from homeassistant import config_entries, exceptions
 from homeassistant.core import HomeAssistant
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_PREFIX
-from homeassistant.data_entry_flow import FlowResult
 import homeassistant.helpers.config_validation as cv
 
 
@@ -23,8 +19,6 @@ from .const import (
     CONF_HK5,
     CONF_NAME_DEVICE_PREFIX,
     CONF_NAME_TOPIC_PREFIX,
-    CONF_NAME_OLD_NAMESTYLE,
-    CONF_CONVERT_NAMES,
 )
 
 
@@ -81,7 +75,7 @@ async def validate_input(data: dict) -> dict[str, Any]:
 class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
     """Class config flow."""
 
-    VERSION = 5 #6
+    VERSION = 4  # 6
     # Pick one of the available connection classes in homeassistant/config_entries.py
     # This tells HA if it should be asking for updates, or it'll be notified of updates
     # automatically. This example uses PUSH, as the dummy hub will notify HA of
@@ -106,8 +100,6 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
                 vol.Required(CONF_HOST): str,
                 vol.Optional(CONF_PORT, default="502"): cv.port,
                 vol.Optional(CONF_PREFIX, default=CONST.DEF_PREFIX): str,
-                vol.Optional(CONF_NAME_OLD_NAMESTYLE, default=False): bool,
-                #vol.Optional(CONF_CONVERT_NAMES, default=False): bool,
                 vol.Optional(CONF_DEVICE_POSTFIX, default=""): str,
                 #        vol.Optional(CONF_KENNFELD_FILE, default=CONST.DEF_KENNFELDFILE): str,
                 vol.Optional(
@@ -159,15 +151,6 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
                 vol.Optional(
                     CONF_PREFIX, default=reconfigure_entry.data[CONF_PREFIX]
                 ): str,
-                # use old namestyle without device prefix when true
-                vol.Optional(
-                    CONF_NAME_OLD_NAMESTYLE,
-                    default=reconfigure_entry.data[CONF_NAME_OLD_NAMESTYLE],
-                ): bool,
-                #vol.Optional(
-                #    CONF_CONVERT_NAMES,
-                ##    default=reconfigure_entry.data[CONF_CONVERT_NAMES],
-                #): bool,
                 # reconfigure of device postfix leads to duplicated devices
                 vol.Optional(
                     CONF_DEVICE_POSTFIX,
@@ -202,17 +185,6 @@ class ConfigFlow(config_entries.ConfigFlow, domain=CONST.DOMAIN):
             },
         )
 
-
-# https://community.home-assistant.io/t/config-flow-how-to-update-an-existing-entity/522442/8
-
-    async def async_end(self):
-        """Finalization of the ConfigEntry creation"""
-        log.info(
-            "Recreating entry %s due to configuration change",
-            self.config_entry.entry_id,
-        )
-        self.hass.config_entries.async_update_entry(self.config_entry, data=self._infos)
-        return self.async_create_entry(title=None, data=None)
 
 class InvalidHost(exceptions.HomeAssistantError):
     """Error to indicate there is an invalid hostname."""

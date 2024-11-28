@@ -34,7 +34,7 @@ from .items import ModbusItem
 from .kennfeld import PowerMap
 from .modbusobject import ModbusAPI, ModbusObject
 from .configentry import MyConfigEntry
-from .migrate_helpers import create_new_unique_id
+from .migrate_helpers import create_unique_id
 
 logging.basicConfig()
 log = logging.getLogger(__name__)
@@ -193,10 +193,8 @@ class MyEntity(Entity):
         self._attr_translation_placeholders = {"prefix": name_prefix}
         self._dev_translation_placeholders = {"postfix": dev_postfix}
 
-        self._attr_name = name_prefix + self._modbus_item.name
-        self._attr_unique_id = create_new_unique_id(
-            self._config_entry, self._modbus_item
-        )
+        # self._attr_name = name_prefix + self._modbus_item.name
+        self._attr_unique_id = create_unique_id(self._config_entry, self._modbus_item)
 
         # dev_prefix + self._modbus_item.name + dev_postfix
         self._dev_device = self._modbus_item.device  #  + dev_postfix
@@ -307,58 +305,6 @@ class MyEntity(Entity):
             "manufacturer": "Weishaupt",
         }
 
-    def handle_naming(self, platform: str, config_entry: MyConfigEntry):
-        """Update Names"""
-        # if config_entry.data[CONF_NAME_OLD_NAMESTYLE]:
-        # self._attr_has_entity_name = False
-        # self._attr_name = self._substitute_name_placeholders(self._modbus_item.name)
-        # else:
-        #    registry = er.async_get(config_entry.runtime_data.hass)
-        #    n_entity_id = registry.entities.get_entity_id(
-        #        (platform, CONST.DOMAIN, self._attr_unique_id)
-        #    )
-
-        # happens when the intergation is first created or updated, a restart is necessary to get a value not None
-        #   if n_entity_id is None:
-        #      return
-
-        #  o_entity_id = (
-        #     platform
-        #    + "."
-        #   + slugify(self._substitute_name_placeholders(self._modbus_item.name))
-        # )
-
-        # entity IDs are already converted
-        # if o_entity_id == n_entity_id:
-        #    return
-
-        # n_uid = str(
-        #      CONST.DOMAIN
-        # + self._substitute_name_placeholders(self._modbus_item.name)
-        #       + self._modbus_item.name
-        #    )
-
-    #     name_entry = {
-    #          "uid": self._attr_unique_id,
-    #           "platform": platform,
-    #            "old_id": o_entity_id,
-
-
-#             "new_id": n_entity_id,
-#              "new_uid": n_uid,
-#           }
-#
-#         log.info(
-#              "Init UID:%s, platform:%s old ID:%s new ID:%s new UID:%s",
-#               self._attr_unique_id,
-# platform,
-# o_entity_id,
-#  n_entity_id,
-#   n_uid
-# )
-
-# name_list.append(name_entry)
-
 
 class MySensorEntity(CoordinatorEntity, SensorEntity, MyEntity):
     """Class that represents a sensor entity.
@@ -382,7 +328,6 @@ class MySensorEntity(CoordinatorEntity, SensorEntity, MyEntity):
         super().__init__(coordinator, context=idx)
         self.idx = idx
         MyEntity.__init__(self, config_entry, modbus_item, coordinator._modbus_api)
-        self.handle_naming("sensor", config_entry)
 
     @callback
     def _handle_coordinator_update(self) -> None:
@@ -415,9 +360,6 @@ class MyCalcSensorEntity(MySensorEntity):
         pwrmap: PowerMap,
     ) -> None:
         MySensorEntity.__init__(self, config_entry, modbus_item, coordinator, idx)
-        if config_entry.data[CONF_NAME_OLD_NAMESTYLE]:
-            self._attr_has_entity_name = False
-            self._attr_name = self._substitute_name_placeholders(self._modbus_item.name)
         self.my_map = pwrmap
 
     @callback
@@ -491,7 +433,6 @@ class MyNumberEntity(CoordinatorEntity, NumberEntity, MyEntity):
         super().__init__(coordinator, context=idx)
         self._idx = idx
         MyEntity.__init__(self, config_entry, modbus_item, coordinator._modbus_api)
-        self.handle_naming("number", config_entry)
 
         if self._modbus_item.resultlist is not None:
             self._attr_native_min_value = self._modbus_item.get_number_from_text("min")
@@ -534,7 +475,6 @@ class MySelectEntity(CoordinatorEntity, SelectEntity, MyEntity):
         super().__init__(coordinator, context=idx)
         self._idx = idx
         MyEntity.__init__(self, config_entry, modbus_item, coordinator._modbus_api)
-        self.handle_naming("select", config_entry)
 
         self.async_internal_will_remove_from_hass_port = self._config_entry.data[
             CONF_PORT

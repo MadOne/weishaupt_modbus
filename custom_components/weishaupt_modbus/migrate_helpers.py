@@ -1,3 +1,5 @@
+"""Helpers for entity migration"""
+
 import logging
 
 from homeassistant.util import slugify
@@ -18,7 +20,9 @@ from .configentry import MyConfigEntry
 logging.basicConfig()
 log = logging.getLogger(__name__)
 
+
 def create_old_id(config_entry: MyConfigEntry, modbus_item: ModbusItem):
+    """created an entity ID according to old style"""
     if config_entry.data[CONF_NAME_DEVICE_PREFIX]:
         name_device_prefix = config_entry.data[CONF_PREFIX] + "_"
     else:
@@ -34,31 +38,10 @@ def create_old_id(config_entry: MyConfigEntry, modbus_item: ModbusItem):
     return slugify(entity_name)
 
 
-def create_new_id(config_entry: MyConfigEntry, modbus_item: ModbusItem):
-    dev_postfix = "_" + config_entry.data[CONF_DEVICE_POSTFIX]
-    if dev_postfix == "_":
-        dev_postfix = ""
-
-    device_name = modbus_item.device + dev_postfix
-
-    if config_entry.data[CONF_NAME_DEVICE_PREFIX]:
-        name_device_prefix = CONST.DEF_PREFIX + "_"
-    else:
-        name_device_prefix = ""
-
-    if config_entry.data[CONF_NAME_TOPIC_PREFIX]:
-        name_topic_prefix = reverse_device_list[modbus_item.device] + "_"
-    else:
-        name_topic_prefix = ""
-
-    entity_name = name_topic_prefix + name_device_prefix + modbus_item.name
-
-    return slugify(device_name + "_" + entity_name)
-
-
 def create_new_entity_id(
     config_entry: MyConfigEntry, modbus_item: ModbusItem, platform: str
 ):
+    """created an entity ID according to new style"""
     dev_postfix = "_" + config_entry.data[CONF_DEVICE_POSTFIX]
     if dev_postfix == "_":
         dev_postfix = ""
@@ -80,30 +63,14 @@ def create_new_entity_id(
     return str(platform + "." + slugify(device_name + "_" + entity_name))
 
 
-def create_old_unique_id(
-    config_entry: MyConfigEntry, modbus_item: ModbusItem, platform: str
-):
+def create_unique_id(config_entry: MyConfigEntry, modbus_item: ModbusItem):
+    """created an UID according to old style"""
     dev_postfix = "_" + config_entry.data[CONF_DEVICE_POSTFIX]
 
     if dev_postfix == "_":
         dev_postfix = ""
 
     return str(config_entry.data[CONF_PREFIX] + modbus_item.name + dev_postfix)
-
-
-def create_new_unique_id(config_entry: MyConfigEntry, modbus_item: ModbusItem):
-    dev_postfix = "_" + config_entry.data[CONF_DEVICE_POSTFIX]
-
-    if dev_postfix == "_":
-        dev_postfix = ""
-
-    dev_postfix = "_" + config_entry.data[CONF_DEVICE_POSTFIX]
-    if dev_postfix == "_":
-        dev_postfix = ""
-
-    device_name = modbus_item.device + dev_postfix
-
-    return slugify(CONST.DOMAIN + device_name + modbus_item.translation_key)
 
 
 def migrate_entities(
@@ -132,30 +99,27 @@ def migrate_entities(
                 platform = "number"
 
         old_id = create_old_id(config_entry, item)
+        old_uid = create_unique_id(config_entry, item)
         new_entity_id = create_new_entity_id(config_entry, item, platform)
-        old_uid = create_old_unique_id(config_entry, item, platform)
-        new_uid = create_new_unique_id(config_entry, item)
-
         old_entity_id = entity_registry.async_get_entity_id(
             platform, CONST.DOMAIN, old_uid
         )
-        # old_entity_id = entity_registry.entities.get_entity_id((platform, CONST.DOMAIN, old_uid))
+
+        if new_entity_id == old_entity_id:
+            log.info("already migrated")
+            return
 
         if old_entity_id is not None:
             entity_registry.async_update_entity(
-                old_entity_id,  # platform + "." + old_id,
-                # new_unique_id=old_uid,  # )
-                # entity_registry.async_update_entity(
-                #    old_entity_id,
+                old_entity_id,
                 new_entity_id=new_entity_id,
             )
 
-        log.info(
-            "Init UID:%s, platform:%s old ID:%s --> %s new ID:%s new UID:%s",
-            old_uid,
-            platform,
-            old_id,
-            old_entity_id,
-            new_entity_id,
-            new_uid,
-        )
+            log.info(
+                "Init UID:%s, platform:%s old ID:%s --> %s new ID:%s",
+                old_uid,
+                platform,
+                old_id,
+                old_entity_id,
+                new_entity_id,
+            )

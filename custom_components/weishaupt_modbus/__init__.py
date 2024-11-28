@@ -173,9 +173,9 @@ async def async_migrate_entry(hass: HomeAssistant, config_entry: MyConfigEntry):
 
     new_data = {**config_entry.data}
 
-    if config_entry.version > 4:
+    if config_entry.version > 3:
         # This means the user has downgraded from a future version
-        return False
+        return True
 
     # to ensure all update paths we have to check every version to not overwrite existing entries
     if config_entry.version < 4:
@@ -201,19 +201,9 @@ async def async_migrate_entry(hass: HomeAssistant, config_entry: MyConfigEntry):
             config_entry, data=new_data, minor_version=1, version=4
         )
         log.warning("Config entries updated to version 4")
-    if config_entry.version < 5:
-        log.warning("Version <5 detected")
-    #   new_data[CONF_NAME_OLD_NAMESTYLE] = True
-
-    if config_entry.version < 6:
-        log.warning("Version <6 detected")
-    #     new_data[CONF_CONVERT_NAMES] = False
 
     hass.config_entries.async_update_entry(
         config_entry, data=new_data, minor_version=1, version=6
-    )
-    log.warning(
-        "Config entries updated to version 6 - using old namestyle, reinitialize integration, if new namestyle should be used"
     )
 
     return True
