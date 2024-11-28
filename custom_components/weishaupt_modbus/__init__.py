@@ -1,5 +1,24 @@
 """init."""
 
+# https://github.com/mvdwetering/yamaha_ynca/blob/d3fa53a07bf3b04903aced4ff90d7ec2e07b8a83/custom_components/yamaha_ynca/migrations.py#L142
+#def migrate_v2_to_v3(hass: HomeAssistant, config_entry: ConfigEntry):
+#    # Scene entities are replaced by Button entities
+#    # (scenes limited to a single devics seem a bit weird)
+#    # cleanup the scene entities so the user does not have to
+#    registry = entity_registry.async_get(hass)
+#    entities = entity_registry.async_entries_for_config_entry(
+#        registry, config_entry.entry_id
+#    )
+#    for entity in entities:
+#        if entity.domain == Platform.SCENE:
+#            registry.async_remove(entity.entity_id)
+#
+#    config_entry.version = 3
+#    hass.config_entries.async_update_entry(config_entry, data=config_entry.data)
+
+
+# https://community.home-assistant.io/t/config-flow-how-to-update-an-existing-entity/522442/4
+
 import json
 import logging
 import aiofiles
