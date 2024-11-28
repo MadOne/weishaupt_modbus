@@ -313,18 +313,20 @@ class MyEntity(Entity):
                 (platform, CONST.DOMAIN, self._attr_unique_id)
             )
 
+            # happens when the intergation is first created or updated, a restart is necessary to get a value not None
+            if n_entity_id is None:
+                return
+            
             o_entity_id = (
                 platform
                 + "."
                 + slugify(self._substitute_name_placeholders(self._modbus_item.name))
             )
-            log.info(
-                "Init UID:%s, new ID:%s old ID:%s",
-                self._attr_unique_id,
-                n_entity_id,
-                o_entity_id,
-            )
 
+            # entity IDs are already converted
+            if o_entity_id == n_entity_id:
+                return
+            
             n_uid = str(
                 CONST.DOMAIN
                 # + self._substitute_name_placeholders(self._modbus_item.name)
@@ -339,6 +341,15 @@ class MyEntity(Entity):
                 "new_uid": n_uid,
             }
 
+            log.info(
+                "Init UID:%s, platform:%s old ID:%s new ID:%s new UID:%s",
+                self._attr_unique_id,
+                platform,
+                o_entity_id,
+                n_entity_id,
+                n_uid
+            )
+            
             name_list.append(name_entry)
 
 
